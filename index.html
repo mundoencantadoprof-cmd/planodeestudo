@@ -674,7 +674,8 @@ function bindCompra(body,j){
     if(PE.funcoes){g.disabled=true;g.textContent='Abrindo o Mercado Pago...';
       pagarMercadoPago(item,d).then(function(r){if(r.jaLiberado)return liberarPacote(j,user.email);location.href=r.url})
         .catch(function(e){console.warn('pagamento automático indisponível',e);g.textContent='Gerando o pedido...';  /* sem o servidor: segue com Pix e link, conferidos no painel */
-          novoPedido(p).then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});mostrarPagamento(p)})
+          novoPedido(p).catch(function(e2){if(!PE.mercadoPago)throw e2;console.warn('pedido não gravado',e2)}) /* com o link do Mercado Pago, segue para o pagamento mesmo se o banco recusar */
+            .then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});mostrarPagamento(p)})
             .catch(function(e2){bad(erroFirebase(e2))}).then(function(){g.disabled=false;g.textContent='Ir para o pagamento'})});return}
     g.disabled=true;g.textContent='Gerando o pedido...';
     novoPedido(p).then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});mostrarPagamento(p)})
