@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Painel · Plano de Estudo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#13285E;--gold:#E9A910;--bg:#F7F5EF;--sheet:#fff;--ink:#0F1B3D;--soft:#55607A;--line:#E2DED2;--ok:#0F766E;--bad:#A63A50}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3",system-ui,sans-serif;font-size:16px}
+header{background:var(--navy);color:#fff;border-bottom:4px solid var(--gold)}header .w{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+header b{font-size:1.15rem}header b i{font-style:normal;color:#F5C04A}
+.w{max-width:1100px;margin:0 auto;padding:16px}
+button,.b{font:inherit;font-weight:700;border-radius:999px;border:2px solid var(--navy);background:var(--navy);color:#fff;padding:9px 16px;cursor:pointer}
+button.g{background:transparent;color:var(--navy)}header button{border-color:#fff;background:transparent}
+button:disabled{opacity:.5;cursor:default}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:16px;padding:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}.kpi span{display:block;color:var(--soft);font-size:.85rem}.kpi b{font-size:1.5rem}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.tools input,.lib input{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;min-width:0;flex:1}
+.pill{background:#fff;color:var(--navy);border:1px solid var(--line);padding:7px 14px}.pill[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--soft)}
+td small{display:block;color:var(--soft)}.st{font-weight:700;border-radius:999px;padding:2px 10px;font-size:.8rem;white-space:nowrap}.st.aguardando{background:#FCEFCB;color:#7A5300}.st.pago{background:#D7F0EC;color:var(--ok)}.st.cancelado{background:#F5DCE1;color:var(--bad)}
+td .acts{display:flex;gap:6px;flex-wrap:wrap}td button{padding:5px 12px;font-size:.85rem}
+.lib{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.lib select{font:inherit;padding:9px;border:1px solid var(--line);border-radius:10px}
+.msg{color:var(--soft)}.err{color:var(--bad)}
+@media(max-width:760px){thead{display:none}table,tbody,tr,td{display:block}tr{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;padding:6px;background:#fff}td{border:0;padding:6px 8px}}
+[hidden]{display:none!important}
+</style>
+<script>
+/* Configuração do Plano de Estudo no site publicado.
+   firebase: o mesmo projeto do site Mundo Encantado (não é senha; pode ficar no site).
+   pix: a mesma chave Pix do Mundo Encantado.
+   mercadoPago: link de pagamento de R$ 25,00 criado no Mercado Pago (deixe null para mostrar só o Pix). */
+window.PE_CONFIG = {
+  firebase: {
+    apiKey: 'AIzaSyDKL3tGVBxuKPxE-JZEInW_KZYi2bf_Iqo',
+    authDomain: 'mundo-encantado-77c43.firebaseapp.com',
+    projectId: 'mundo-encantado-77c43',
+    storageBucket: 'mundo-encantado-77c43.firebasestorage.app',
+    messagingSenderId: '582126300761',
+    appId: '1:582126300761:web:bd075d574b4e8d5e410b48'
+  },
+  pix: { chave: 'mundo.encantado.prof@gmail.com', nome: 'SANDRA MEDINA BENINI', cidade: 'TUPA' },
+  mercadoPago: 'https://mpago.la/1yo24ti',
+  admins: ['mundo.encantado.prof@gmail.com']
+};
+</script>
+</head><body>
+<header><div class="w"><b>Plano de <i>Estudo</i> · Painel</b><span><span id="quem"></span> <button id="sair" hidden>Sair</button></span></div></header>
+<main class="w">
+<section id="telaEntrar" class="card" style="max-width:520px;margin:40px auto;display:grid;gap:12px">
+ <h1 style="margin:0;font-size:1.4rem">Área da administradora</h1>
+ <p class="msg" style="margin:0">Entre com a conta Google autorizada para ver os pedidos do Plano de Estudo e liberar os acessos.</p>
+ <button id="entrar">Entrar com Google</button><p class="err" id="entrarErro" hidden></p>
+</section>
+<section id="painel" hidden>
+ <div class="kpis"><div class="card kpi"><span>Vendas pagas</span><b id="kTotal">R$ 0,00</b><span id="kQtd"></span></div><div class="card kpi"><span>Aguardando pagamento</span><b id="kEsp">0</b><span>pedidos para conferir</span></div><div class="card kpi"><span>Vendas de hoje</span><b id="kHoje">R$ 0,00</b><span id="kHojeQ"></span></div></div>
+ <div class="card">
+  <div class="tools"><button class="pill" data-f="aguardando" aria-pressed="true">Aguardando</button><button class="pill" data-f="pago" aria-pressed="false">Pagos</button><button class="pill" data-f="cancelado" aria-pressed="false">Cancelados</button><button class="pill" data-f="todos" aria-pressed="false">Todos</button><input id="busca" type="search" placeholder="Buscar nome, e-mail, cidade ou pedido" aria-label="Buscar"><button class="g" id="csv">Baixar planilha</button></div>
+  <table><thead><tr><th>Data</th><th>Pedido</th><th>Cliente</th><th>Pacote</th><th>Valor</th><th>Situação</th><th></th></tr></thead><tbody id="linhas"></tbody></table>
+  <p class="msg" id="vazio" hidden>Nenhum pedido aqui.</p>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <h2 style="margin:0 0 4px;font-size:1.1rem">Liberar acesso sem pedido</h2>
+  <p class="msg" style="margin:0">Para quem pagou por fora (por exemplo, pelo link do Mercado Pago). Use o e-mail Google da pessoa.</p>
+  <div class="lib"><input id="libEmail" type="email" placeholder="email@gmail.com" aria-label="E-mail"><select id="libPac" aria-label="Pacote"></select><button id="libBtn">Liberar</button></div><p class="msg" id="libMsg"></p>
+ </div>
+</section>
+</main>
+<script type="module">
+const SDK='https://www.gstatic.com/firebasejs/10.12.2/';
+let mods;try{mods=await Promise.all([import(SDK+'firebase-app.js'),import(SDK+'firebase-auth.js'),import(SDK+'firebase-firestore.js')])}catch(e){const er=document.getElementById('entrarErro');er.hidden=false;er.textContent=/^https?:$/.test(location.protocol)?'Não foi possível carregar o login. Confira a internet e recarregue a página.':'O painel só funciona com o site publicado na internet. Abra pelo endereço do site, terminando em /admin.html.';document.getElementById('entrar').disabled=true;throw e}
+const [{initializeApp},A,F]=mods;
+const CFG=window.PE_CONFIG,app=initializeApp(CFG.firebase),auth=A.getAuth(app),db=F.getFirestore(app);
+const PACOTES={'pe-arcoiris-ei':'Arco-Íris · Educação Infantil','pe-arcoiris-peb1':'Arco-Íris · PEB I','pe-arcoiris-assist':'Arco-Íris · Professor Assistente','pe-arcoiris-esp':'Arco-Íris · Educação Especial','pe-arcoiris-ef':'Arco-Íris · Educação Física','pe-arcoiris-mus':'Arco-Íris · Música'};
+const SIT={aguardando:'Aguardando',pago:'Pago',cancelado:'Cancelado'};
+const $=id=>document.getElementById(id),brl=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nomePac=i=>PACOTES[i]||i, dataBR=d=>d?d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+let pedidos=[],filtro='aguardando';
+$('libPac').innerHTML=Object.entries(PACOTES).map(([k,v])=>'<option value="'+k+'">'+esc(v)+'</option>').join('');
+async function carregar(){
+  const q=F.query(F.collection(db,'pedidos'),F.where('perfil','==','plano-de-estudo'));
+  pedidos=(await F.getDocs(q)).docs.map(d=>{const v=d.data();return Object.assign({},v,{codigo:d.id,data:v.criadoEm?v.criadoEm.toDate():null,pagoEm:v.pagoEm?v.pagoEm.toDate():null,itens:v.itens||[]})}).sort((a,b)=>(b.data||0)-(a.data||0));
+  resumo();tabela();
+}
+function resumo(){
+  const pagos=pedidos.filter(p=>p.situacao==='pago'),hoje=new Date().toDateString(),dh=pagos.filter(p=>(p.pagoEm||p.data)&&(p.pagoEm||p.data).toDateString()===hoje);
+  $('kTotal').textContent=brl(pagos.reduce((s,p)=>s+Number(p.total||0),0));$('kQtd').textContent=pagos.length+(pagos.length===1?' pacote vendido':' pacotes vendidos');
+  $('kEsp').textContent=pedidos.filter(p=>p.situacao==='aguardando').length;
+  $('kHoje').textContent=brl(dh.reduce((s,p)=>s+Number(p.total||0),0));$('kHojeQ').textContent=dh.length+(dh.length===1?' pacote':' pacotes');
+}
+function tabela(){
+  const t=$('busca').value.trim().toLowerCase();
+  const l=pedidos.filter(p=>(filtro==='todos'||p.situacao===filtro)&&(!t||[p.nome,p.email,p.cidade,p.codigo,p.tel].join(' ').toLowerCase().includes(t)));
+  $('vazio').hidden=!!l.length;
+  $('linhas').innerHTML=l.map(p=>{const tel=String(p.tel||'').replace(/\D/g,'');return '<tr><td>'+dataBR(p.data)+'</td><td><b>'+esc(p.codigo)+'</b></td><td>'+esc(p.nome)+'<small>'+esc(p.email)+'</small><small>'+(tel?'<a href="https://wa.me/55'+tel+'" target="_blank" rel="noopener">WhatsApp '+esc(tel)+'</a>':'')+' · '+esc(p.cidade)+'/'+esc(p.uf)+'</small></td><td>'+p.itens.map(nomePac).map(esc).join('<br>')+'</td><td>'+brl(p.total)+'</td><td><span class="st '+esc(p.situacao)+'">'+(SIT[p.situacao]||esc(p.situacao))+'</span>'+(p.pagoEm?'<small>'+dataBR(p.pagoEm)+'</small>':'')+'</td><td><div class="acts">'+(p.situacao!=='pago'?'<button data-c="'+esc(p.codigo)+'" data-m="pago">Marcar pago</button>':'')+(p.situacao==='aguardando'?'<button class="g" data-c="'+esc(p.codigo)+'" data-m="cancelado">Cancelar</button>':'')+'</div></td></tr>'}).join('');
+}
+async function marcar(p,sit){
+  const lote=F.writeBatch(db),mud={situacao:sit,atualizadoEm:F.serverTimestamp()};
+  if(sit==='pago'){mud.pagoEm=F.serverTimestamp();
+    lote.set(F.doc(db,'acessos',String(p.email).toLowerCase()),{planos:F.arrayUnion(...p.itens),atualizadoEm:F.serverTimestamp()},{merge:true});}
+  lote.update(F.doc(db,'pedidos',p.codigo),mud);await lote.commit();
+}
+$('linhas').onclick=async e=>{const b=e.target.closest('button[data-c]');if(!b)return;const p=pedidos.find(x=>x.codigo===b.dataset.c);
+  if(b.dataset.m==='pago'&&!confirm('Confirmar o pagamento de '+p.nome+' ('+brl(p.total)+') e liberar '+p.itens.map(nomePac).join(', ')+' para '+p.email+'?'))return;
+  b.disabled=true;try{await marcar(p,b.dataset.m);await carregar()}catch(x){alert('Não deu certo: '+x.message);b.disabled=false}};
+document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{filtro=b.dataset.f;document.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));tabela()});
+$('busca').oninput=tabela;
+$('libBtn').onclick=async()=>{const e=$('libEmail').value.trim().toLowerCase(),k=$('libPac').value,m=$('libMsg');
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){m.textContent='Confira o e-mail.';return}
+  try{await F.setDoc(F.doc(db,'acessos',e),{planos:F.arrayUnion(k),atualizadoEm:F.serverTimestamp()},{merge:true});m.textContent='Liberado: '+nomePac(k)+' para '+e+'.';$('libEmail').value=''}catch(x){m.textContent='Não deu certo: '+x.message}};
+$('csv').onclick=()=>{const L=[['Data','Pedido','Situação','Valor','Pacote','Nome','E-mail','WhatsApp','Cidade','UF']].concat(pedidos.map(p=>[dataBR(p.data),p.codigo,SIT[p.situacao]||p.situacao,String(p.total).replace('.',','),p.itens.map(nomePac).join(' + '),p.nome,p.email,p.tel,p.cidade,p.uf]));
+  const csv='﻿'+L.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(';')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='pedidos-plano-de-estudo.csv';a.click()};
+$('entrar').onclick=()=>A.signInWithPopup(auth,new A.GoogleAuthProvider()).catch(e=>{if(e.code!=='auth/popup-closed-by-user'){$('entrarErro').hidden=false;$('entrarErro').textContent='Não foi possível entrar: '+(e.code||e.message)}});
+$('sair').onclick=()=>A.signOut(auth);
+A.onAuthStateChanged(auth,async u=>{
+  const ok=u&&CFG.admins.includes(String(u.email).toLowerCase());
+  $('quem').textContent=u?u.email:'';$('sair').hidden=!u;
+  if(u&&!ok){$('entrarErro').hidden=false;$('entrarErro').textContent='Esta conta não tem acesso ao painel.'}
+  $('telaEntrar').hidden=!!ok;$('painel').hidden=!ok;
+  if(ok){try{await carregar()}catch(e){$('painel').hidden=true;$('telaEntrar').hidden=false;$('entrarErro').hidden=false;$('entrarErro').textContent='Sem permissão para ler os pedidos. Confira as regras do Firestore.'}}
+});
+</script>
+</body></html>
