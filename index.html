@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#13285E">
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -271,6 +276,13 @@ footer.site-foot{margin-top:40px;background:#0F2350;color:#C9D3EE;border-top:4px
 .btn.mp{background:#009EE3;border-color:#009EE3;color:#fff;text-align:center;text-decoration:none}.or{display:flex;align-items:center;gap:10px;margin:2px 0;color:var(--soft);font-size:.82rem}.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
 .secure{display:flex;align-items:center;gap:8px;margin:-4px 0 0;font-size:.88rem;color:var(--soft)}.secure svg{flex:none;color:#009EE3}.secure b{color:var(--ink)}
 .mpaviso{margin:0 0 14px;padding:12px 16px;border-radius:12px;background:#E6F4FB;border:1px solid #9BD3EF;color:var(--ink);font-weight:600}.mpaviso.ok{background:#D7F0EC;border-color:#8CCFC3}.mpaviso.bad{background:#F5DCE1;border-color:#E3A9B5}
+/* Celular: sem margem do navegador, logo sem quebrar, colunas que encolhem em vez de vazar a tela */
+html,body{margin:0;overflow-x:clip}
+img,svg,video{max-width:100%}
+.logo{flex-shrink:0;white-space:nowrap}
+[style*="display:grid"]>*,.today>*,.view>*,.stats>*,.facts>*,.jobs>*,.grid>*{min-width:0}
+.stem,.fb,.opt,.day,.rl{overflow-wrap:anywhere}
+@media (max-width:520px){.wrap{padding-left:14px;padding-right:14px}.top .crumbs span:not(:last-child){display:none}}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -764,12 +776,15 @@ function bindCompra(body,j){
 }
 
 /* ---------- Player genérico ---------- */
+/* No celular a questão nova pode ficar fora da tela (a anterior era mais longa): sobe até o topo do player, abaixo do cabeçalho fixo */
+function topoPlayer(el){var p=el.querySelector('.player')||el,r=p.getBoundingClientRect(),h=(document.querySelector('.top')||{offsetHeight:0}).offsetHeight;if(r.top<h||r.top>innerHeight*0.5)window.scrollBy(0,r.top-h-12)}
 function runPlayer(el,j,opt){
   var s=S.sess;
   if(s.i>=s.list.length){opt.onFinish(el,s);return}
   var q=s.list[s.i];
   var path=opt.path?'<div class="path"><ol>'+s.list.map(function(_,i){var cls=i<s.res.length?(opt.hideResult?'cur':(s.res[i]?'r':'w')):(i===s.i?'cur':'');return '<li><span class="node '+cls+'">'+(i+1)+'</span></li>'}).join('')+'</ol></div>':'';
   el.innerHTML=path+'<div class="player"><div class="qhead"><span class="num">Questão '+(s.i+1)+' de '+s.list.length+'</span><span class="row" style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag">'+esc(temaNome(q.tema))+'</span>'+(opt.timer?'<span class="tag gold timer" id="timer"></span>':'')+'</span></div><div class="stem">'+rich(q.s)+'</div><div class="opts">'+q.o.map(function(o,k){return '<button type="button" class="opt" data-k="'+k+'"><span class="bub">'+L[k]+'</span><span>'+esc(o)+'</span></button>'}).join('')+'</div><div id="fb"></div></div>';
+  topoPlayer(el);
   if(opt.timer)tick();
   if(VS.on&&VS.q)speak(q.s.replace(/\n/g,' ')+' '+q.o.map(function(o,i){return 'Letra '+L[i]+': '+o+'.'}).join(' '));
   var cur=el.querySelector('.path .node.cur'); if(cur&&cur.scrollIntoView&&s.i>6)cur.scrollIntoView({block:'nearest',inline:'center'});
@@ -823,7 +838,7 @@ function tabPlano(body,j){
   }
   function startDay(i){if(!isFull(j)&&i!==trialDay(j)){S.compra=true;renderCargo();return}var dd=plan.days[i],pp=prog(j)[i];S.sess={mode:'dia',day:i,list:dd.list,i:0,res:[]};if(pp&&!pp.fim){S.sess.i=pp.i;S.sess.res=pp.res}renderCargo()}
   var t=plan.days[ti],tp=p[ti];
-  var mix='<span class="tag">5 Legislação</span><span class="tag">3 Pedagogia</span><span class="tag">7 da área</span><span class="tag">7 Português</span><span class="tag">3 Gerais</span>';
+  var mix=catKeys().map(function(k){return '<span class="tag">'+quotaOf(k)+' '+(BL()?abrev(catNome(k)):{leg:'Legislação',ped:'Pedagogia',spec:'da área',port:'Português',cg:'Gerais'}[k])+'</span>'}).join('');
   var h='<div style="display:grid;gap:16px"><div class="today"><div><span class="eyebrow">Hoje · Dia '+(ti+1)+' de '+plan.days.length+' · '+fmtDate(t.date)+'</span><h3>'+'O que você vai estudar hoje'+'</h3><div class="rls">'+resumoLinhas(t,j)+'</div><div class="mix">'+mix+'</div></div><button type="button" class="btn" data-day="'+ti+'">'+(tp&&tp.fim?'Refazer o dia':tp?'Continuar ('+tp.i+'/'+perDay()+')':'Começar o dia')+'</button></div>';
   h+=dailyChart(plan,p,ti);
   h+='<p class="note">O plano vai de '+fmtDate(plan.days[0].date)+' a '+fmtDate(plan.days[plan.days.length-1].date)+', véspera da prova. São '+plan.unique+' questões diferentes para este cargo, distribuídas por tema. Cada área tem o seu plano e o seu progresso, separados das demais. Você pode adiantar ou recuperar qualquer dia.</p><div class="days">';
