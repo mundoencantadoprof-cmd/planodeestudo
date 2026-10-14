@@ -61,7 +61,7 @@ exports.pePagamento = onRequest(async (req, res) => {
     const b = req.body || {}, p = pacote(b.item), d = b.cadastro || {};
     if (!p) return res.status(400).json({ erro: 'Pacote desconhecido.' });
     const tel = limpa(d.tel, 15).replace(/\D/g, '');
-    if (limpa(d.nome, 120).split(' ').length < 2 || tel.length < 10 || !limpa(d.cidade, 80) || !/^[A-Z]{2}$/.test(limpa(d.uf, 2).toUpperCase()))
+    if (limpa(d.nome, 120).split(' ').length < 2 || tel.length < 10)
       return res.status(400).json({ erro: 'Confira o cadastro.' });
     const ac = await db.doc('acessos/' + email).get();
     if (((ac.exists && ac.data().planos) || []).includes(p.item)) return res.json({ jaLiberado: true });
@@ -71,7 +71,7 @@ exports.pePagamento = onRequest(async (req, res) => {
     const volta = s => origem.split('?')[0].split('#')[0] + '?pagamento=' + s + '&pedido=' + cod + '&conc=' + p.conc + '&cargo=' + p.cargo;
     await db.doc('pedidos/' + cod).set({
       situacao: 'aguardando', forma: 'mercadopago', criadoEm: admin.firestore.FieldValue.serverTimestamp(),
-      total: PRECO, itens: [p.item], nome: limpa(d.nome, 120), email, tel, cidade: limpa(d.cidade, 80), uf: limpa(d.uf, 2).toUpperCase(),
+      total: PRECO, itens: [p.item], nome: limpa(d.nome, 120), email, tel,
       perfil: 'plano-de-estudo'
     });
     const pref = await mp('/checkout/preferences', { method: 'POST', body: JSON.stringify({

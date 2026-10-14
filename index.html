@@ -597,7 +597,7 @@ function planosDe(email){return firebase().then(function(f){
 function novoPedido(p){return firebase().then(function(f){
   /* mesmos campos dos pedidos do Mundo Encantado; perfil marca que é do Plano de Estudo */
   return f.F.setDoc(f.F.doc(f.db,'pedidos',p.codigo),{situacao:'aguardando',forma:'pix-manual',criadoEm:f.F.serverTimestamp(),
-    total:PRECO_PACOTE,itens:p.itens,nome:p.nome,email:p.email,tel:p.tel,cidade:p.cidade,uf:p.uf,perfil:'plano-de-estudo'})})}
+    total:PRECO_PACOTE,itens:p.itens,nome:p.nome,email:p.email,tel:p.tel,perfil:'plano-de-estudo'})})}
 function codigoPedido(){var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s='',r=crypto.getRandomValues(new Uint8Array(6));r.forEach(function(x){s+=c[x%c.length]});return 'PE'+s}
 /* Pix estático (BR Code do Banco Central), igual ao do Mundo Encantado */
 function campoPix(id,v){return id+String(v.length).padStart(2,'0')+v}
@@ -642,7 +642,6 @@ function compraHTML(j){
    '<form class="bpane cad" id="bp2" hidden novalidate><p class="who" id="bWho"></p>'+
     '<label class="field" for="bNome">Nome completo<input id="bNome" autocomplete="name" value="'+esc(cad.nome||'')+'" required></label>'+
     '<label class="field" for="bTel">Celular com DDD (WhatsApp)<input id="bTel" type="tel" autocomplete="tel" inputmode="tel" placeholder="(14) 99999-9999" value="'+esc(cad.tel||'')+'" required></label>'+
-    '<div class="row2 cidade"><label class="field" for="bCid">Cidade<input id="bCid" autocomplete="address-level2" value="'+esc(cad.cidade||'')+'" required></label><label class="field uf" for="bUf">UF<input id="bUf" maxlength="2" autocomplete="address-level1" value="'+esc(cad.uf||'')+'" required></label></div>'+
     '<label class="chk"><input type="checkbox" id="bOk"> Concordo que a Editora Mundo Encantado use estes dados para liberar o acesso e falar comigo sobre a compra.</label>'+
     '<p class="err" id="bErr" hidden></p><button type="submit" class="btn" id="bGerar">Ir para o pagamento</button></form>'+
    '<div class="bpane" id="bp3" hidden></div>'+
@@ -663,14 +662,13 @@ function bindCompra(body,j){
       $('bWho').innerHTML='Conta: <b>'+esc(user.email)+'</b>';if(!$('bNome').value)$('bNome').value=user.nome;passo(2)})
     .then(function(){msg('')},function(e){msg(erroFirebase(e))}).then(function(){clearTimeout(lento);b.disabled=false})};
   $('bp2').onsubmit=function(ev){ev.preventDefault();
-    var d={nome:$('bNome').value.trim().replace(/\s+/g,' '),tel:normTel($('bTel').value),cidade:$('bCid').value.trim(),uf:$('bUf').value.trim().toUpperCase()},er=$('bErr');
+    var d={nome:$('bNome').value.trim().replace(/\s+/g,' '),tel:normTel($('bTel').value)},er=$('bErr');
     function bad(t){er.textContent=t;er.hidden=false}
     if(d.nome.split(' ').length<2)return bad('Escreva o nome completo.');
     if(!/^[1-9]{2}9?\d{8}$/.test(d.tel))return bad('Confira o celular com DDD.');
-    if(!d.cidade||!/^[A-Z]{2}$/.test(d.uf))return bad('Escreva a cidade e a UF.');
     if(!$('bOk').checked)return bad('Marque que concorda com o uso dos dados.');
     er.hidden=true;store.set('pe-cadastro',d);
-    var p={codigo:codigoPedido(),itens:[item],email:user.email,nome:d.nome,tel:d.tel,cidade:d.cidade,uf:d.uf},g=$('bGerar');
+    var p={codigo:codigoPedido(),itens:[item],email:user.email,nome:d.nome,tel:d.tel},g=$('bGerar');
     if(PE.funcoes){g.disabled=true;g.textContent='Abrindo o Mercado Pago...';
       pagarMercadoPago(item,d).then(function(r){if(r.jaLiberado)return liberarPacote(j,user.email);location.href=r.url})
         .catch(function(e){console.warn('pagamento automático indisponível',e);g.textContent='Gerando o pedido...';  /* sem o servidor: segue com Pix e link, conferidos no painel */

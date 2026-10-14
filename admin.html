@@ -90,9 +90,9 @@ function resumo(){
 }
 function tabela(){
   const t=$('busca').value.trim().toLowerCase();
-  const l=pedidos.filter(p=>(filtro==='todos'||p.situacao===filtro)&&(!t||[p.nome,p.email,p.cidade,p.codigo,p.tel].join(' ').toLowerCase().includes(t)));
+  const l=pedidos.filter(p=>(filtro==='todos'||p.situacao===filtro)&&(!t||[p.nome,p.email,p.codigo,p.tel].join(' ').toLowerCase().includes(t)));
   $('vazio').hidden=!!l.length;
-  $('linhas').innerHTML=l.map(p=>{const tel=String(p.tel||'').replace(/\D/g,'');return '<tr><td>'+dataBR(p.data)+'</td><td><b>'+esc(p.codigo)+'</b></td><td>'+esc(p.nome)+'<small>'+esc(p.email)+'</small><small>'+(tel?'<a href="https://wa.me/55'+tel+'" target="_blank" rel="noopener">WhatsApp '+esc(tel)+'</a>':'')+' · '+esc(p.cidade)+'/'+esc(p.uf)+'</small></td><td>'+p.itens.map(nomePac).map(esc).join('<br>')+'</td><td>'+brl(p.total)+'</td><td><span class="st '+esc(p.situacao)+'">'+(SIT[p.situacao]||esc(p.situacao))+'</span>'+(p.pagoEm?'<small>'+dataBR(p.pagoEm)+'</small>':'')+'</td><td><div class="acts">'+(p.situacao!=='pago'?'<button data-c="'+esc(p.codigo)+'" data-m="pago">Marcar pago</button>':'')+(p.situacao==='aguardando'?'<button class="g" data-c="'+esc(p.codigo)+'" data-m="cancelado">Cancelar</button>':'')+'</div></td></tr>'}).join('');
+  $('linhas').innerHTML=l.map(p=>{const tel=String(p.tel||'').replace(/\D/g,'');return '<tr><td>'+dataBR(p.data)+'</td><td><b>'+esc(p.codigo)+'</b></td><td>'+esc(p.nome)+'<small>'+esc(p.email)+'</small><small>'+(tel?'<a href="https://wa.me/55'+tel+'" target="_blank" rel="noopener">WhatsApp '+esc(tel)+'</a>':'')+'</small>'</td><td>'+p.itens.map(nomePac).map(esc).join('<br>')+'</td><td>'+brl(p.total)+'</td><td><span class="st '+esc(p.situacao)+'">'+(SIT[p.situacao]||esc(p.situacao))+'</span>'+(p.pagoEm?'<small>'+dataBR(p.pagoEm)+'</small>':'')+'</td><td><div class="acts">'+(p.situacao!=='pago'?'<button data-c="'+esc(p.codigo)+'" data-m="pago">Marcar pago</button>':'')+(p.situacao==='aguardando'?'<button class="g" data-c="'+esc(p.codigo)+'" data-m="cancelado">Cancelar</button>':'')+'</div></td></tr>'}).join('');
 }
 async function marcar(p,sit){
   const lote=F.writeBatch(db),mud={situacao:sit,atualizadoEm:F.serverTimestamp()};
@@ -108,7 +108,7 @@ $('busca').oninput=tabela;
 $('libBtn').onclick=async()=>{const e=$('libEmail').value.trim().toLowerCase(),k=$('libPac').value,m=$('libMsg');
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){m.textContent='Confira o e-mail.';return}
   try{await F.setDoc(F.doc(db,'acessos',e),{planos:F.arrayUnion(k),atualizadoEm:F.serverTimestamp()},{merge:true});m.textContent='Liberado: '+nomePac(k)+' para '+e+'.';$('libEmail').value=''}catch(x){m.textContent='Não deu certo: '+x.message}};
-$('csv').onclick=()=>{const L=[['Data','Pedido','Situação','Valor','Pacote','Nome','E-mail','WhatsApp','Cidade','UF']].concat(pedidos.map(p=>[dataBR(p.data),p.codigo,SIT[p.situacao]||p.situacao,String(p.total).replace('.',','),p.itens.map(nomePac).join(' + '),p.nome,p.email,p.tel,p.cidade,p.uf]));
+$('csv').onclick=()=>{const L=[['Data','Pedido','Situação','Valor','Pacote','Nome','E-mail','WhatsApp']].concat(pedidos.map(p=>[dataBR(p.data),p.codigo,SIT[p.situacao]||p.situacao,String(p.total).replace('.',','),p.itens.map(nomePac).join(' + '),p.nome,p.email,p.tel]));
   const csv='﻿'+L.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(';')).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='pedidos-plano-de-estudo.csv';a.click()};
 $('entrar').onclick=()=>A.signInWithPopup(auth,new A.GoogleAuthProvider()).catch(e=>{if(e.code!=='auth/popup-closed-by-user'){$('entrarErro').hidden=false;$('entrarErro').textContent='Não foi possível entrar: '+(e.code||e.message)}});
