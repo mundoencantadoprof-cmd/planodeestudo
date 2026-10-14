@@ -20,7 +20,10 @@ const CONCURSOS = {
     esp: 'PEB II Educação Especial', ef: 'PEB II Educação Física', mus: 'PEB II Música' } },
   echapora: { nome: 'Echaporã (SP) PS 01/2026', cargos: {
     peb1: 'PEB I – Professor de Ensino Básico I', arte: 'PEB II – Artes', esp: 'PEB II – Educação Especial',
-    ef: 'PEB II – Educação Física', ing: 'PEB II – Inglês' } }
+    ef: 'PEB II – Educação Física', ing: 'PEB II – Inglês' } },
+  lencois: { nome: 'Lençóis Paulista (SP) CP 03/2026', cargos: {
+    dir: 'Diretor de Escola', ei1: 'Professor de Educação Infantil I', ei2: 'Professor de Educação Infantil II',
+    ef1: 'Professor de Ensino Fundamental I', ef2m: 'Professor de Ensino Fundamental II – Matemática' } }
 };
 const SITES = ['https://mundoencantadoprof-cmd.github.io', 'https://planodeestudo.net.br', 'https://www.planodeestudo.net.br'];
 const SITE_PADRAO = process.env.SITE_URL || 'https://planodeestudo.net.br/';
