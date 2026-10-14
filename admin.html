@@ -61,7 +61,7 @@ window.PE_CONFIG = {
  <div class="card" style="margin-top:16px">
   <h2 style="margin:0 0 4px;font-size:1.1rem">Liberar acesso sem pedido</h2>
   <p class="msg" style="margin:0">Para quem pagou por fora (por exemplo, pelo link do Mercado Pago). Use o e-mail Google da pessoa.</p>
-  <div class="lib"><input id="libEmail" type="email" placeholder="email@gmail.com" aria-label="E-mail"><select id="libPac" aria-label="Pacote"></select><button id="libBtn">Liberar</button></div><p class="msg" id="libMsg"></p>
+  <div class="lib"><input id="libEmail" type="email" placeholder="email@gmail.com" aria-label="E-mail"><input id="libTel" type="tel" placeholder="WhatsApp com DDD (opcional)" aria-label="WhatsApp"><select id="libPac" aria-label="Pacote"></select><button id="libBtn">Liberar</button></div><p class="msg" id="libMsg"></p>
  </div>
 </section>
 </main>
@@ -76,6 +76,7 @@ const $=id=>document.getElementById(id),brl=v=>Number(v||0).toLocaleString('pt-B
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nomePac=i=>PACOTES[i]||i, dataBR=d=>d?d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
 let pedidos=[],filtro='aguardando';
+const avisoWhats=(tel,k,email)=>'https://wa.me/55'+tel+'?text='+encodeURIComponent('Olá! Seu pagamento foi confirmado e o acesso ao Plano de Estudo ('+nomePac(k)+') já está liberado. Entre em https://planodeestudo.net.br, abra a sua área e clique em "Entrar com Google" usando a conta '+email+'. Bons estudos! Editora Mundo Encantado')
 $('libPac').innerHTML=Object.entries(PACOTES).map(([k,v])=>'<option value="'+k+'">'+esc(v)+'</option>').join('');
 async function carregar(){
   const q=F.query(F.collection(db,'pedidos'),F.where('perfil','==','plano-de-estudo'));
@@ -102,12 +103,12 @@ async function marcar(p,sit){
 }
 $('linhas').onclick=async e=>{const b=e.target.closest('button[data-c]');if(!b)return;const p=pedidos.find(x=>x.codigo===b.dataset.c);
   if(b.dataset.m==='pago'&&!confirm('Confirmar o pagamento de '+p.nome+' ('+brl(p.total)+') e liberar '+p.itens.map(nomePac).join(', ')+' para '+p.email+'?'))return;
-  b.disabled=true;try{await marcar(p,b.dataset.m);await carregar()}catch(x){alert('Não deu certo: '+x.message);b.disabled=false}};
+  b.disabled=true;try{await marcar(p,b.dataset.m);const t=String(p.tel||'').replace(/\D/g,'');if(b.dataset.m==='pago'&&t.length>=10&&confirm('Acesso liberado. Abrir o WhatsApp para avisar '+p.nome+'?'))window.open(avisoWhats(t,p.itens[0],p.email),'_blank');await carregar()}catch(x){alert('Não deu certo: '+x.message);b.disabled=false}};
 document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{filtro=b.dataset.f;document.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));tabela()});
 $('busca').oninput=tabela;
 $('libBtn').onclick=async()=>{const e=$('libEmail').value.trim().toLowerCase(),k=$('libPac').value,m=$('libMsg');
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){m.textContent='Confira o e-mail.';return}
-  try{await F.setDoc(F.doc(db,'acessos',e),{planos:F.arrayUnion(k),atualizadoEm:F.serverTimestamp()},{merge:true});m.textContent='Liberado: '+nomePac(k)+' para '+e+'.';$('libEmail').value=''}catch(x){m.textContent='Não deu certo: '+x.message}};
+  try{await F.setDoc(F.doc(db,'acessos',e),{planos:F.arrayUnion(k),atualizadoEm:F.serverTimestamp()},{merge:true});const t=$('libTel').value.replace(/\D/g,'');m.innerHTML='Liberado: '+esc(nomePac(k))+' para '+esc(e)+'. '+(t.length>=10?'<a href="'+avisoWhats(t,k,e)+'" target="_blank" rel="noopener">Avisar no WhatsApp</a>':'');$('libEmail').value='';$('libTel').value=''}catch(x){m.textContent='Não deu certo: '+x.message}};
 $('csv').onclick=()=>{const L=[['Data','Pedido','Situação','Valor','Pacote','Nome','E-mail','WhatsApp']].concat(pedidos.map(p=>[dataBR(p.data),p.codigo,SIT[p.situacao]||p.situacao,String(p.total).replace('.',','),p.itens.map(nomePac).join(' + '),p.nome,p.email,p.tel]));
   const csv='﻿'+L.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(';')).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='pedidos-plano-de-estudo.csv';a.click()};
