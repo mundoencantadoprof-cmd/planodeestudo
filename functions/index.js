@@ -17,10 +17,13 @@ const PRECO = 25;
 const CONCURSOS = {
   arcoiris: { nome: 'Arco-Íris (SP) 01/2026', cargos: {
     ei: 'Professor de Educação Infantil', peb1: 'Professor de Educação Básica I', assist: 'Professor Assistente',
-    esp: 'PEB II Educação Especial', ef: 'PEB II Educação Física', mus: 'PEB II Música' } }
+    esp: 'PEB II Educação Especial', ef: 'PEB II Educação Física', mus: 'PEB II Música' } },
+  echapora: { nome: 'Echaporã (SP) PS 01/2026', cargos: {
+    peb1: 'PEB I – Professor de Ensino Básico I', arte: 'PEB II – Artes', esp: 'PEB II – Educação Especial',
+    ef: 'PEB II – Educação Física', ing: 'PEB II – Inglês' } }
 };
 const SITES = ['https://mundoencantadoprof-cmd.github.io', 'https://planodeestudo.net.br', 'https://www.planodeestudo.net.br'];
-const SITE_PADRAO = process.env.SITE_URL || 'https://mundoencantadoprof-cmd.github.io/planodeestudo/';
+const SITE_PADRAO = process.env.SITE_URL || 'https://planodeestudo.net.br/';
 const MP = 'https://api.mercadopago.com';
 
 function pacote(item) {
