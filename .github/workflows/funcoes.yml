@@ -1,0 +1,38 @@
+# Publica as funções de pagamento no Firebase quando a pasta functions muda (ou à mão, em Actions).
+# Precisa de dois segredos em Settings > Secrets and variables > Actions:
+#   FIREBASE_SERVICE_ACCOUNT: o arquivo JSON da chave da conta de serviço do Firebase
+#   MP_ACCESS_TOKEN: o Access Token de produção do Mercado Pago
+name: Publicar funções de pagamento
+on:
+  push:
+    branches: [main]
+    paths: ['functions/**', 'firebase.json', '.github/workflows/funcoes.yml']
+  workflow_dispatch:
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Conferir segredos
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          MP: ${{ secrets.MP_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$SA" ] || [ -z "$MP" ]; then echo "::warning::Faltam os segredos FIREBASE_SERVICE_ACCOUNT e/ou MP_ACCESS_TOKEN. Nada foi publicado."; echo "pular=1" >> "$GITHUB_ENV"; fi
+      - name: Instalar
+        if: env.pular != '1'
+        run: npm install --prefix functions --omit=dev
+      - name: Gravar a chave do Mercado Pago
+        if: env.pular != '1'
+        env:
+          MP: ${{ secrets.MP_ACCESS_TOKEN }}
+        run: printf 'MP_ACCESS_TOKEN=%s\n' "$MP" > functions/.env
+      - uses: google-github-actions/auth@v2
+        if: env.pular != '1'
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - name: Publicar no Firebase
+        if: env.pular != '1'
+        run: npx --yes firebase-tools@13 deploy --only functions --project mundo-encantado-77c43 --non-interactive --force

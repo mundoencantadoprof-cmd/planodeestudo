@@ -270,6 +270,7 @@ footer.site-foot{margin-top:40px;background:#0F2350;color:#C9D3EE;border-top:4px
 .pix{display:grid;gap:10px;justify-items:center;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px}.pix .qr{width:190px;max-width:100%;background:#fff;border-radius:10px;padding:6px}.pix .qr svg{display:block;width:100%;height:auto}.pix .field{width:100%}.pix textarea{width:100%;font-family:var(--f-mono,monospace);font-size:.74rem;resize:none;word-break:break-all}
 .btn.mp{background:#009EE3;border-color:#009EE3;color:#fff;text-align:center;text-decoration:none}.or{display:flex;align-items:center;gap:10px;margin:2px 0;color:var(--soft);font-size:.82rem}.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
 .secure{display:flex;align-items:center;gap:8px;margin:-4px 0 0;font-size:.88rem;color:var(--soft)}.secure svg{flex:none;color:#009EE3}.secure b{color:var(--ink)}
+.mpaviso{margin:0 0 14px;padding:12px 16px;border-radius:12px;background:#E6F4FB;border:1px solid #9BD3EF;color:var(--ink);font-weight:600}.mpaviso.ok{background:#D7F0EC;border-color:#8CCFC3}.mpaviso.bad{background:#F5DCE1;border-color:#E3A9B5}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -287,6 +288,8 @@ window.PE_CONFIG = {
   },
   pix: { chave: 'mundo.encantado.prof@gmail.com', nome: 'SANDRA MEDINA BENINI', cidade: 'TUPA' },
   mercadoPago: 'https://mpago.la/1yo24ti',
+  /* funções de pagamento (liberação automática). Se ainda não estiverem publicadas, o site volta sozinho para Pix + link. */
+  funcoes: 'https://southamerica-east1-mundo-encantado-77c43.cloudfunctions.net',
   admins: ['mundo.encantado.prof@gmail.com']
 };
 </script>
@@ -602,6 +605,25 @@ function crcPix(t){var c=0xFFFF;for(var i=0;i<t.length;i++){c^=t.charCodeAt(i)<<
 function codigoPix(valor,txid){var px=PE.pix,conta=campoPix('00','br.gov.bcb.pix')+campoPix('01',px.chave);
   var s=campoPix('00','01')+campoPix('26',conta)+campoPix('52','0000')+campoPix('53','986')+campoPix('54',valor.toFixed(2))+campoPix('58','BR')+campoPix('59',px.nome)+campoPix('60',px.cidade)+campoPix('62',campoPix('05',txid))+'6304';
   return s+crcPix(s)}
+/* Mercado Pago com liberação automática (funções do Firebase): o servidor cria o pedido e o link do checkout */
+function pagarMercadoPago(item,cad){return firebase().then(function(f){return f.auth.currentUser.getIdToken()}).then(function(tk){
+  return fetch(PE.funcoes.replace(/\/$/,'')+'/pePagamento',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},
+    body:JSON.stringify({item:item,cadastro:cad,voltar:location.origin+location.pathname})})}).then(function(r){return r.json().then(function(j){if(!r.ok||(!j.url&&!j.jaLiberado))throw new Error(j.erro||'Não foi possível abrir o pagamento agora.');return j})})}
+function usuarioAtual(){return firebase().then(function(f){return new Promise(function(ok){var pare=f.A.onAuthStateChanged(f.auth,function(u){pare();ok(u)})})})}
+/* volta do Mercado Pago: ?pagamento=aprovado|pendente|falha&pedido=PE...&conc=...&cargo=... */
+function retornoPagamento(){
+  var q=new URLSearchParams(location.search),st=q.get('pagamento');if(!st||!siteComBanco())return;
+  var c=findC(q.get('conc')),j=c&&findJ(c,q.get('cargo'));history.replaceState(null,'',location.pathname);if(!j)return;
+  go('cargo',{conc:c,cargo:j,tab:'plano',sess:null,compra:false});
+  function aviso(t,tipo){var a=document.getElementById('mpAviso');if(!a){a=document.createElement('div');a.id='mpAviso';a.className='mpaviso';var h=document.querySelector('.jhead');if(h)h.after(a);else return}a.className='mpaviso '+(tipo||'');a.textContent=t}
+  if(st==='falha')return aviso('O pagamento não foi concluído. Você pode tentar de novo em "Comprar o pacote completo".','bad');
+  if(isFull(j))return;
+  aviso(st==='aprovado'?'Pagamento aprovado! Liberando o seu acesso...':'Pagamento em análise. Assim que o Mercado Pago aprovar, o acesso é liberado (boleto pode levar até 3 dias úteis).');
+  usuarioAtual().then(function(u){if(!u)return aviso('Entre com a conta Google da compra em "Comprar o pacote completo" para liberar o acesso.');
+    var email=String(u.email).toLowerCase(),n=0;(function conferir(){planosDe(email).then(function(pl){
+      if(pl.indexOf(itemPacote(j))>=0){liberarPacote(j,email);setTimeout(function(){aviso('Acesso liberado. Bons estudos!','ok')},50);return}
+      if(++n<(st==='aprovado'?20:4))setTimeout(conferir,3000);else if(st==='aprovado')aviso('O pagamento foi aprovado e a liberação está a caminho. Se não abrir em alguns minutos, toque em "Comprar o pacote completo" e entre com a mesma conta Google.')})})()})
+}
 function liberarPacote(j,email){setAcesso(j,{mode:'full',email:email});S.compra=false;S.sess=null;S.tab='plano';renderCargo()}
 function erroFirebase(e){var c=e&&e.code||'';
   if(c==='auth/popup-closed-by-user'||c==='auth/cancelled-popup-request')return '';
@@ -649,6 +671,11 @@ function bindCompra(body,j){
     if(!$('bOk').checked)return bad('Marque que concorda com o uso dos dados.');
     er.hidden=true;store.set('pe-cadastro',d);
     var p={codigo:codigoPedido(),itens:[item],email:user.email,nome:d.nome,tel:d.tel,cidade:d.cidade,uf:d.uf},g=$('bGerar');
+    if(PE.funcoes){g.disabled=true;g.textContent='Abrindo o Mercado Pago...';
+      pagarMercadoPago(item,d).then(function(r){if(r.jaLiberado)return liberarPacote(j,user.email);location.href=r.url})
+        .catch(function(e){console.warn('pagamento automático indisponível',e);g.textContent='Gerando o pedido...';  /* sem o servidor: segue com Pix e link, conferidos no painel */
+          novoPedido(p).then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});mostrarPagamento(p)})
+            .catch(function(e2){bad(erroFirebase(e2))}).then(function(){g.disabled=false;g.textContent='Ir para o pagamento'})});return}
     g.disabled=true;g.textContent='Gerando o pedido...';
     novoPedido(p).then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});mostrarPagamento(p)})
       .catch(function(e){bad(erroFirebase(e))}).then(function(){g.disabled=false;g.textContent='Ir para o pagamento'})};
@@ -836,5 +863,6 @@ function render(){
   if(S.view==='home')renderHome();else if(S.view==='conc')renderConc();else renderCargo();
 }
 render();
+retornoPagamento();
 })();
 </script>
