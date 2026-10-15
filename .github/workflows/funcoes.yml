@@ -1,4 +1,4 @@
-# Atualizado em 15/10/2026.
+# Atualizado em 15/10/2026 (e-mail pelo Gmail).
 # Publica as funções de pagamento no Firebase quando a pasta functions muda (ou à mão, em Actions).
 # Precisa de dois segredos em Settings > Secrets and variables > Actions:
 #   FIREBASE_SERVICE_ACCOUNT: o arquivo JSON da chave da conta de serviço do Firebase
