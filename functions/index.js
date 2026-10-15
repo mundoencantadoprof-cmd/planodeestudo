@@ -14,37 +14,12 @@ setGlobalOptions({ region: 'southamerica-east1', maxInstances: 5 });
 const db = admin.firestore();
 
 const PRECO = 39.9;
-const CONCURSOS = {
-  arcoiris: { nome: 'Arco-Íris (SP) 01/2026', cargos: {
-    ei: 'Professor de Educação Infantil', peb1: 'Professor de Educação Básica I', assist: 'Professor Assistente',
-    esp: 'PEB II Educação Especial', ef: 'PEB II Educação Física', mus: 'PEB II Música' } },
-  echapora: { nome: 'Echaporã (SP) PS 01/2026', cargos: {
-    peb1: 'PEB I – Professor de Ensino Básico I', arte: 'PEB II – Artes', esp: 'PEB II – Educação Especial',
-    ef: 'PEB II – Educação Física', ing: 'PEB II – Inglês' } },
-  lencois: { nome: 'Lençóis Paulista (SP) CP 03/2026', cargos: {
-    dir: 'Diretor de Escola', ei1: 'Professor de Educação Infantil I', ei2: 'Professor de Educação Infantil II',
-    ef1: 'Professor de Ensino Fundamental I', ef2m: 'Professor de Ensino Fundamental II – Matemática' } },
-  lencoisps: { nome: 'Lençóis Paulista (SP) PS 01/2026', cargos: {
-    ee: 'Professor de Educação Especial',
-    arte: 'Professor de Ensino Fundamental II – Arte',
-    cie: 'Professor de Ensino Fundamental II – Ciências',
-    edf: 'Professor de Ensino Fundamental II – Educação Física',
-    geo: 'Professor de Ensino Fundamental II – Geografia',
-    his: 'Professor de Ensino Fundamental II – História',
-    ing: 'Professor de Ensino Fundamental II – Inglês',
-    lpo: 'Professor de Ensino Fundamental II – Português',
-    sei: 'Professor Substituto de Educação Infantil',
-    sef1: 'Professor Substituto de Ensino Fundamental I' } }
-};
+const { pacote } = require('./catalogo');
+const { enviarAviso } = require('./aviso');
 const SITES = ['https://mundoencantadoprof-cmd.github.io', 'https://planodeestudo.net.br', 'https://www.planodeestudo.net.br'];
 const SITE_PADRAO = process.env.SITE_URL || 'https://planodeestudo.net.br/';
 const MP = 'https://api.mercadopago.com';
 
-function pacote(item) {
-  const m = /^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(String(item || ''));
-  const c = m && CONCURSOS[m[1]];
-  return c && c.cargos[m[2]] ? { item, conc: m[1], cargo: m[2], titulo: 'Plano de Estudo · ' + c.nome + ' · ' + c.cargos[m[2]] } : null;
-}
 function cors(req, res) {
   const o = req.get('origin');
   if (SITES.includes(o)) res.set('Access-Control-Allow-Origin', o);
@@ -118,6 +93,7 @@ exports.peWebhook = onRequest(async (req, res) => {
     const cod = pg.external_reference;
     if (!cod || !/^PE[A-Z0-9]{6}$/.test(cod)) return res.status(200).send('ok');
     const ref = db.doc('pedidos/' + cod);
+    let liberado = null;
     await db.runTransaction(async t => {
       const s = await t.get(ref);
       if (!s.exists) return;
@@ -127,12 +103,17 @@ exports.peWebhook = onRequest(async (req, res) => {
         t.update(ref, { situacao: 'pago', pagoEm: admin.firestore.FieldValue.serverTimestamp(), mpPagamento: String(pg.id), mpMeio: pg.payment_type_id || '' });
         t.set(db.doc('acessos/' + String(pedido.email).toLowerCase()),
           { planos: admin.firestore.FieldValue.arrayUnion(...pedido.itens), atualizadoEm: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
+        liberado = pedido;
       } else if (['rejected', 'cancelled', 'refunded', 'charged_back'].includes(pg.status) && pedido.situacao === 'aguardando') {
         t.update(ref, { situacao: 'cancelado', mpPagamento: String(pg.id), mpStatus: pg.status });
       } else {
         t.update(ref, { mpPagamento: String(pg.id), mpStatus: pg.status });
       }
     });
+    if (liberado) {
+      const r = await enviarAviso(liberado, cod).catch(e => ({ ok: false, motivo: e.message }));
+      if (r) await ref.update({ avisoEmail: r.ok ? 'enviado' : 'falhou: ' + String(r.motivo).slice(0, 200) });
+    }
     res.status(200).send('ok');
   } catch (e) {
     console.error('peWebhook', e);

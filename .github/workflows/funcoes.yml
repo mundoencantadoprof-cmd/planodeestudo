@@ -29,7 +29,10 @@ jobs:
         if: env.pular != '1'
         env:
           MP: ${{ secrets.MP_ACCESS_TOKEN }}
-        run: printf 'MP_ACCESS_TOKEN=%s\n' "$MP" > functions/.env
+          GM: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          printf 'MP_ACCESS_TOKEN=%s\n' "$MP" > functions/.env
+          if [ -n "$GM" ]; then printf 'GMAIL_APP_PASSWORD=%s\n' "$GM" >> functions/.env; fi
       - uses: google-github-actions/auth@v2
         if: env.pular != '1'
         with:
