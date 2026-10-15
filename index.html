@@ -290,6 +290,17 @@ img,svg,video{max-width:100%}
 a.btn{text-decoration:none;text-align:center;justify-content:center}
 .fpubl{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:3px;color:#C9D3EE;font-size:.84rem}.fpubl li{display:flex;align-items:center;gap:8px}.fpubl li::before{content:"";width:6px;height:6px;border-radius:50%;background:#F2BE45;flex:none}
 @media (max-width:760px){.fpubl{font-size:.8rem}}
+/* Aviso do teste grátis na página inicial */
+.trialhome{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-left:5px solid #C9A227;border-radius:16px;padding:22px 26px;box-shadow:0 6px 20px rgba(19,40,94,.06)}
+.trialhome h2{font-size:1.35rem;margin:4px 0 8px;color:#13285E}
+.trialhome p{margin:0 0 10px;color:var(--soft);line-height:1.55}
+.trialhome ul{margin:0 0 10px;padding:0;list-style:none;display:grid;gap:6px}
+.trialhome li{position:relative;padding-left:24px;font-size:.95rem}
+.trialhome li::before{content:"";position:absolute;left:4px;top:.5em;width:9px;height:9px;border-radius:50%;background:#C9A227}
+.trialhome .small{font-size:.85rem;margin:0}
+.trialhome .btn{white-space:nowrap}
+#provas{scroll-margin-top:90px}
+@media (max-width:760px){.trialhome{grid-template-columns:1fr;padding:18px}.trialhome h2{font-size:1.15rem}.trialhome .btn{width:100%}}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -578,7 +589,9 @@ function renderHome(){
   app.innerHTML='<section class="view">'+
    '<div class="hero"><div class="hero-txt"><span class="eyebrow">Plataforma de estudo · concursos, seletivos e vestibulinhos</span><h1>Plano de <span>Estudo</span></h1><p class="slogan">Do edital à aprovação, <em>um plano de estudo</em> feito para você.</p><p class="lead">Uma plataforma desenvolvida para auxiliar o seu estudo para concursos públicos, processos seletivos e vestibulinhos. Escolha a prova, depois a sua área, e siga o plano diário: questões no formato da prova, escritas a partir do que o edital pede, com correção na hora e explicação de cada resposta.</p></div><div class="hero-art" aria-hidden="true"></div></div>'+
    '<div class="steps"><div class="step"><b>1. Escolha a prova</b><span>Concurso, processo seletivo ou vestibulinho: cada edital tem o seu módulo.</span></div><div class="step"><b>2. Escolha a sua área</b><span>Cada cargo ou área tem plano, progresso e gráficos próprios.</span></div><div class="step"><b>3. Siga o plano</b><span>Questões diárias até a véspera, acertos por dia, simulado e nota estimada.</span></div></div>'+
-   '<div style="display:grid;gap:12px"><h2 style="font-size:1.4rem">Provas disponíveis</h2><div class="grid">'+cards+'</div></div></section>';
+   (MODO_CONFERENCIA?'':'<div class="trialhome"><div class="th-txt"><span class="eyebrow">Experimente sem custo</span><h2>Teste a plataforma gratuitamente por 1 dia</h2><p>Escolha um dos concursos abaixo, selecione a sua área e ative o teste gratuito informando nome, e-mail e celular. Durante um dia, você tem acesso ao sistema completo para conhecer todo o potencial do Plano de Estudo, sem cartão de crédito e sem compromisso.</p><ul><li>Plano de estudo do dia, com questões no formato da prova</li><li>Simulado completo com cronômetro e nota estimada</li><li>Treino com revisão dos erros e correção comentada, em texto e voz</li></ul><p class="small">O teste gratuito pode ser feito uma vez em cada concurso.</p></div><div class="th-cta"><button type="button" class="btn" id="irProvas">Escolher um concurso</button></div></div>')+
+   '<div style="display:grid;gap:12px" id="provas"><h2 style="font-size:1.4rem">Provas disponíveis</h2><div class="grid">'+cards+'</div></div></section>';
+  var ip=document.getElementById('irProvas');if(ip)ip.onclick=function(){document.getElementById('provas').scrollIntoView({behavior:'smooth',block:'start'})};
   app.querySelectorAll('[data-c]').forEach(function(b){b.onclick=function(){go('conc',{conc:findC(b.dataset.c)})}});
 }
 
