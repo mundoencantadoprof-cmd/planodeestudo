@@ -316,6 +316,9 @@ a.btn{text-decoration:none;text-align:center;justify-content:center}
 .tour-arr{border:1px solid var(--line);background:#fff;color:#13285E;width:30px;height:30px;border-radius:50%;font-size:1.2rem;line-height:1;cursor:pointer;padding:0}
 @media (prefers-reduced-motion:reduce){.tour-screen img{transition:none}}
 @media (max-width:760px){.tour{width:100%;margin:6px auto 0}.tour-phone{width:230px}}
+.pgrupo{display:grid;gap:10px;margin-top:6px}
+.pgtit{display:flex;align-items:center;gap:8px;margin:0;font-size:1.05rem;color:#13285E;padding-bottom:6px;border-bottom:2px solid #C9A227;width:max-content}
+.pgtit span{font-size:.75rem;background:#13285E;color:#fff;border-radius:999px;padding:2px 8px;font-weight:600}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -611,16 +614,23 @@ function ligaTour(){var el=document.getElementById('tour');if(!el)return;var ims
   el.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>40){mostra(i+(dx<0?1:-1));roda()}},{passive:true});
   roda()}
 function renderHome(){
-  var cards=CONCURSOS.map(function(c){
+  /* Provas separadas por tipo; cada grupo só aparece quando tem prova (o tipo vem de c.tipo ou do nome do edital) */
+  function tipoDe(c){return c.tipo||(/seletivo/i.test(c.edital||'')?'ps':/vestibulinho/i.test(c.edital||'')?'vest':'cp')}
+  var TIPOS=[['cp','Concursos públicos'],['ps','Processos seletivos'],['vest','Vestibulinhos']];
+  var cardDe=function(c){
     if(c.soon)return '<div class="ccard soon"><div class="band"></div><div class="in"><h3>'+esc(c.nome)+'</h3><p class="meta">'+esc(c.meta)+'</p><div class="tags"><span class="tag">Em breve</span></div></div></div>';
     var d=daysTo(c.prova);
     return '<button type="button" class="ccard" data-c="'+c.id+'"><div class="band" style="background:'+c.band+'"></div><div class="in">'+(c.brasao?'<img class="brasao" src="'+c.brasao+'" alt="Brasão de '+esc(c.nome)+'">':'')+'<span class="eyebrow">'+esc(c.edital)+'</span><h3>'+esc(c.nome)+' ('+c.uf+')</h3><p class="meta">'+c.cargos.length+' cargos de professor · Banca '+esc(c.banca)+'</p><div class="tags"><span class="tag gold">Prova '+fmtDate(c.prova)+'</span>'+(d>0?'<span class="tag">Faltam '+d+' dias</span>':'')+'</div></div></button>';
-  }).join('');
+  };
+  function cardsDe(l){return l.map(cardDe).join('')}
+  var abertos=CONCURSOS.filter(function(c){return !c.soon}),breve=CONCURSOS.filter(function(c){return c.soon});
+  var grupos=TIPOS.map(function(t){var l=abertos.filter(function(c){return tipoDe(c)===t[0]});return l.length?'<div class="pgrupo"><h3 class="pgtit">'+t[1]+' <span>'+l.length+'</span></h3><div class="grid">'+cardsDe(l)+'</div></div>':''}).join('')+
+    (breve.length?'<div class="pgrupo"><h3 class="pgtit">Em breve</h3><div class="grid">'+cardsDe(breve)+'</div></div>':'');
   app.innerHTML='<section class="view">'+
    '<div class="hero"><div class="hero-txt"><span class="eyebrow">Plataforma de estudo · concursos, seletivos e vestibulinhos</span><h1>Plano de <span>Estudo</span></h1><p class="slogan">Do edital à aprovação, <em>um plano de estudo</em> feito para você.</p><p class="lead">Uma plataforma desenvolvida para auxiliar o seu estudo para concursos públicos, processos seletivos e vestibulinhos. Escolha a prova, depois a sua área, e siga o plano diário: questões no formato da prova, escritas a partir do que o edital pede, com correção na hora e explicação de cada resposta.</p></div><div class="hero-art" aria-hidden="true"></div></div>'+
    '<div class="steps"><div class="step"><b>1. Escolha a prova</b><span>Concurso, processo seletivo ou vestibulinho: cada edital tem o seu módulo.</span></div><div class="step"><b>2. Escolha a sua área</b><span>Cada cargo ou área tem plano, progresso e gráficos próprios.</span></div><div class="step"><b>3. Siga o plano</b><span>Questões diárias até a véspera, acertos por dia, simulado e nota estimada.</span></div></div>'+
    (MODO_CONFERENCIA?'':'<div class="trialhome"><div class="th-txt"><span class="eyebrow">Experimente sem custo</span><h2>Teste a plataforma gratuitamente por 1 dia</h2><p>Escolha um dos concursos abaixo, selecione a sua área e ative o teste gratuito informando nome, e-mail e celular. Durante um dia, você tem acesso ao sistema completo para conhecer todo o potencial do Plano de Estudo, sem cartão de crédito e sem compromisso.</p><ul><li>Plano de estudo do dia, com questões no formato da prova</li><li>Simulado completo com cronômetro e nota estimada</li><li>Treino com revisão dos erros e correção comentada, em texto e voz</li></ul><p class="small">O teste gratuito pode ser feito uma vez em cada cargo.</p><button type="button" class="btn" id="irProvas">Escolher um concurso</button></div>'+tourHTML()+'</div>')+
-   '<div style="display:grid;gap:12px" id="provas"><h2 style="font-size:1.4rem">Provas disponíveis</h2><div class="grid">'+cards+'</div></div></section>';
+   '<div style="display:grid;gap:12px" id="provas"><h2 style="font-size:1.4rem">Provas disponíveis</h2>'+grupos+'</div></section>';
   ligaTour();
   var ip=document.getElementById('irProvas');if(ip)ip.onclick=function(){document.getElementById('provas').scrollIntoView({behavior:'smooth',block:'start'})};
   app.querySelectorAll('[data-c]').forEach(function(b){b.onclick=function(){go('conc',{conc:findC(b.dataset.c)})}});
