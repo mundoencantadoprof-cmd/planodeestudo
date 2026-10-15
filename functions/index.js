@@ -108,6 +108,24 @@ exports.pePagamento = onRequest(async (req, res) => {
   }
 });
 
+// e-mail automático (FormSubmit, o mesmo do painel): para a Editora, com cópia e resposta automática para quem comprou
+const EMAIL_EDITORA = 'mundo.encantado.prof@gmail.com';
+async function avisarLiberado(pedido, cod) {
+  const p = pacote(pedido.itens && pedido.itens[0]);
+  const nomePac = p ? p.titulo.replace('Plano de Estudo · ', '') : String(pedido.itens || '');
+  const nome = String(pedido.nome || '').split(' ')[0];
+  const msg = 'Olá' + (nome ? ', ' + nome : '') + '! Seu pagamento foi confirmado e o acesso ao Plano de Estudo (' + nomePac + ') já está liberado. Entre em https://planodeestudo.net.br, abra a sua área e clique em "Entrar com Google" usando a conta ' + pedido.email + '. Bons estudos! Editora Mundo Encantado';
+  const r = await fetch('https://formsubmit.co/ajax/' + EMAIL_EDITORA, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json', Origin: 'https://planodeestudo.net.br', Referer: 'https://planodeestudo.net.br/' },
+    body: JSON.stringify({ _subject: 'Plano de Estudo: pagamento aprovado e acesso liberado (pedido ' + cod + ')', _template: 'table', _captcha: 'false',
+      Mensagem: msg, Pedido: cod, Pacote: nomePac, Valor: 'R$ ' + Number(pedido.total).toFixed(2).replace('.', ','), name: pedido.nome || pedido.email,
+      email: pedido.email, _autoresponse: msg })
+  });
+  const d = await r.json().catch(() => ({}));
+  await db.doc('pedidos/' + cod).update({ avisoEmail: String(d.success) === 'true' ? 'enviado' : 'falhou: ' + String(d.message || r.status) });
+}
+
 exports.peWebhook = onRequest(async (req, res) => {
   try {
     const tipo = req.query.type || req.query.topic || (req.body && req.body.type);
@@ -118,6 +136,7 @@ exports.peWebhook = onRequest(async (req, res) => {
     const cod = pg.external_reference;
     if (!cod || !/^PE[A-Z0-9]{6}$/.test(cod)) return res.status(200).send('ok');
     const ref = db.doc('pedidos/' + cod);
+    let liberado = null;
     await db.runTransaction(async t => {
       const s = await t.get(ref);
       if (!s.exists) return;
@@ -127,12 +146,14 @@ exports.peWebhook = onRequest(async (req, res) => {
         t.update(ref, { situacao: 'pago', pagoEm: admin.firestore.FieldValue.serverTimestamp(), mpPagamento: String(pg.id), mpMeio: pg.payment_type_id || '' });
         t.set(db.doc('acessos/' + String(pedido.email).toLowerCase()),
           { planos: admin.firestore.FieldValue.arrayUnion(...pedido.itens), atualizadoEm: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
+        liberado = pedido;
       } else if (['rejected', 'cancelled', 'refunded', 'charged_back'].includes(pg.status) && pedido.situacao === 'aguardando') {
         t.update(ref, { situacao: 'cancelado', mpPagamento: String(pg.id), mpStatus: pg.status });
       } else {
         t.update(ref, { mpPagamento: String(pg.id), mpStatus: pg.status });
       }
     });
+    if (liberado) await avisarLiberado(liberado, cod).catch(e => console.error('aviso por e-mail', e));
     res.status(200).send('ok');
   } catch (e) {
     console.error('peWebhook', e);
