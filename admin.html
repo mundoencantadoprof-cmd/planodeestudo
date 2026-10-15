@@ -60,6 +60,13 @@ window.PE_CONFIG = {
   <p class="msg" id="vazio" hidden>Nenhum pedido aqui.</p>
  </div>
  <div class="card" style="margin-top:16px">
+  <h2 style="margin:0 0 4px;font-size:1.1rem">Teste grátis: cadastros <span id="tQtd" style="font-weight:400;color:#5b6478"></span></h2>
+  <p class="msg" style="margin:0 0 8px">Quem preencheu o cadastro para usar o teste de 1 dia. Cada e-mail ou celular só faz o teste uma vez em cada concurso.</p>
+  <div class="tools"><input id="tBusca" type="search" placeholder="Buscar nome, e-mail ou celular" aria-label="Buscar nos testes"><label style="display:flex;gap:6px;align-items:center;font-size:.9rem"><input type="checkbox" id="tSoNao"> Só quem ainda não comprou</label><button class="g" id="tCsv">Baixar planilha dos testes</button></div>
+  <table><thead><tr><th>Data</th><th>Nome</th><th>Contato</th><th>Concurso e cargo</th><th>Comprou?</th></tr></thead><tbody id="tLinhas"></tbody></table>
+  <p class="msg" id="tVazio" hidden>Nenhum cadastro de teste ainda.</p>
+ </div>
+ <div class="card" style="margin-top:16px">
   <h2 style="margin:0 0 4px;font-size:1.1rem">Liberar acesso sem pedido</h2>
   <p class="msg" style="margin:0">Para quem pagou por fora (por exemplo, pelo link do Mercado Pago). Use o e-mail Google da pessoa.</p>
   <div class="lib"><input id="libEmail" type="email" placeholder="email@gmail.com" aria-label="E-mail"><input id="libTel" type="tel" placeholder="WhatsApp com DDD (opcional)" aria-label="WhatsApp"><select id="libPac" aria-label="Pacote"></select><button id="libBtn">Liberar</button></div><p class="msg" id="libMsg"></p>
@@ -84,8 +91,24 @@ $('libPac').innerHTML=Object.entries(PACOTES).map(([k,v])=>'<option value="'+k+'
 async function carregar(){
   const q=F.query(F.collection(db,'pedidos'),F.where('perfil','==','plano-de-estudo'));
   pedidos=(await F.getDocs(q)).docs.map(d=>{const v=d.data();return Object.assign({},v,{codigo:d.id,data:v.criadoEm?v.criadoEm.toDate():null,pagoEm:v.pagoEm?v.pagoEm.toDate():null,itens:v.itens||[]})}).sort((a,b)=>(b.data||0)-(a.data||0));
-  resumo();tabela();
+  resumo();tabela();carregarTestes();
 }
+let testes=[];
+async function carregarTestes(){
+  try{testes=(await F.getDocs(F.collection(db,'testes'))).docs.map(d=>d.data()).filter(v=>v.tipo==='e').map(v=>Object.assign({},v,{data:v.criadoEm?v.criadoEm.toDate():null})).sort((a,b)=>(b.data||0)-(a.data||0));$('tVazio').textContent='Nenhum cadastro de teste ainda.'}
+  catch(e){testes=[];$('tVazio').textContent='Ainda sem permissão para ler os testes: publique as regras novas do Firestore.'}
+  tabelaTestes()}
+function comprou(t){return pedidos.some(p=>p.situacao==='pago'&&String(p.email).toLowerCase()===t.email&&p.itens.some(i=>String(i).indexOf('pe-'+t.conc+'-')===0))}
+function testesFiltrados(){const q=$('tBusca').value.trim().toLowerCase(),so=$('tSoNao').checked;
+  return testes.filter(t=>(!so||!comprou(t))&&(!q||[t.nome,t.email,t.tel].join(' ').toLowerCase().includes(q)))}
+function tabelaTestes(){const l=testesFiltrados();
+  $('tQtd').textContent='('+testes.length+')';$('tVazio').hidden=!!l.length;
+  $('tLinhas').innerHTML=l.map(t=>{const tel=String(t.tel||'').replace(/\D/g,''),c=comprou(t);
+    return '<tr><td>'+dataBR(t.data)+'</td><td>'+esc(t.nome)+'</td><td><small>'+esc(t.email)+'</small><small>'+(tel?'<a href="https://wa.me/55'+tel+'" target="_blank" rel="noopener">WhatsApp '+esc(tel)+'</a>':'')+'</small></td><td>'+esc(nomePac('pe-'+t.conc+'-'+t.cargo))+'</td><td>'+(c?'<span class="st pago">Sim</span>':'Não')+'</td></tr>'}).join('')}
+$('tBusca').oninput=tabelaTestes;$('tSoNao').onchange=tabelaTestes;
+$('tCsv').onclick=()=>{const L=[['Data','Nome','E-mail','WhatsApp','Concurso e cargo','Comprou']].concat(testesFiltrados().map(t=>[dataBR(t.data),t.nome,t.email,t.tel,nomePac('pe-'+t.conc+'-'+t.cargo),comprou(t)?'Sim':'Não']));
+  const csv='\ufeff'+L.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(';')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='testes-gratis-plano-de-estudo.csv';a.click()};
 function resumo(){
   const pagos=pedidos.filter(p=>p.situacao==='pago'),hoje=new Date().toDateString(),dh=pagos.filter(p=>(p.pagoEm||p.data)&&(p.pagoEm||p.data).toDateString()===hoje);
   $('kTotal').textContent=brl(pagos.reduce((s,p)=>s+Number(p.total||0),0));$('kQtd').textContent=pagos.length+(pagos.length===1?' pacote vendido':' pacotes vendidos');

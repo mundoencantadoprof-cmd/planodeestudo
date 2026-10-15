@@ -628,7 +628,7 @@ function trialBump(j,f){var a=acesso(j);if(a&&a.mode==='trial'){a[f]=(a[f]||0)+1
 /* Cadastros do teste grátis. Nesta versão ficam neste aparelho; no site próprio vão para o banco de dados, que confere e-mail e telefone em qualquer aparelho. */
 function cadastros(){return store.get('re-cad',[])}
 function normTel(t){return String(t).replace(/\D/g,'').replace(/^55(?=\d{10,11}$)/,'')}
-function jaUsou(j,email,tel){var e=email.trim().toLowerCase(),t=normTel(tel);return cadastros().filter(function(c){return c.conc===S.conc.id&&c.cargo===j.id&&(c.email===e||c.tel===t)})[0]}
+function jaUsou(j,email,tel){var e=email.trim().toLowerCase(),t=normTel(tel);return cadastros().filter(function(c){return c.conc===S.conc.id&&(c.email===e||c.tel===t)})[0]}
 function lockedHTML(j,what){return '<div class="card lock"><span class="eyebrow">Limite do teste grátis</span><h3>'+what+'</h3><p>No teste grátis você usa o sistema completo por um dia: '+TRIAL_MAX+' questões do plano, '+TRIAL_MAX+' de treino e revisão e um simulado de '+S.conc.regras.questoes+' questões. O pacote libera tudo, sem limite, até a véspera da prova.</p><div><button type="button" class="btn" data-buy>Comprar o pacote completo por R$ 39,90</button></div></div>'}
 function bindBuy(root,j){root.querySelectorAll('[data-buy]').forEach(function(b){b.onclick=function(){S.compra=true;renderCargo()}})}
 function renderGate(body,j){
@@ -650,9 +650,14 @@ function renderGate(body,j){
     if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(e))return bad('Confira o e-mail.');
     if(!/^[1-9]{2}9?\d{8}$/.test(t))return bad('Confira o celular com DDD.');
     if(!document.getElementById('cOk').checked)return bad('Marque a autorização para liberar o teste.');
-    var u=jaUsou(j,e,t);if(u)return bad('Este '+(u.email===e?'e-mail':'celular')+' já usou o teste grátis deste cargo em '+fmtDate(u.date)+'. Para continuar, adquira o pacote completo.');
-    var hoje=iso(midnight());var cs=cadastros();cs.push({conc:S.conc.id,cargo:j.id,nome:n,email:e,tel:t,date:hoje});store.set('re-cad',cs);
-    setAcesso(j,{mode:'trial',date:hoje,day:todayIndex(plan),nome:n,email:e,tel:t,tre:0,sim:0});S.compra=false;S.tab='plano';S.sess=null;renderCargo()};
+    var u=jaUsou(j,e,t);if(u)return bad('Este '+(u.email===e?'e-mail':'celular')+' já usou o teste grátis deste concurso em '+fmtDate(u.date)+'. Para continuar, adquira o pacote completo.');
+    function libera(){var hoje=iso(midnight());var cs=cadastros();cs.push({conc:S.conc.id,cargo:j.id,nome:n,email:e,tel:t,date:hoje});store.set('re-cad',cs);
+    setAcesso(j,{mode:'trial',date:hoje,day:todayIndex(plan),nome:n,email:e,tel:t,tre:0,sim:0});S.compra=false;S.tab='plano';S.sess=null;renderCargo()}
+    if(!siteComBanco())return libera();
+    var bt=f.querySelector('button[type=submit]');if(bt)bt.disabled=true;er.hidden=true;
+    registrarTeste(j,n,e,t).then(libera,function(x){if(bt)bt.disabled=false;
+      if(x&&x.code==='permission-denied')return bad('Este e-mail ou celular já usou o teste grátis deste concurso. Para continuar, adquira o pacote completo.');
+      libera()})};
   bindBuy(body,j);
   if(buy&&siteComBanco()){bindCompra(body,j);return}
   var u=document.getElementById('usar');if(u)u.onclick=function(){var v=(document.getElementById('codigo').value||'').trim().toUpperCase();if(v===CODIGO_TESTE){setAcesso(j,{mode:'full'});S.compra=false;S.sess=null;renderCargo()}else document.getElementById('codErr').hidden=false};
@@ -688,6 +693,12 @@ function novoPedido(p){return firebase().then(function(f){
   /* mesmos campos dos pedidos do Mundo Encantado; perfil marca que é do Plano de Estudo */
   return f.F.setDoc(f.F.doc(f.db,'pedidos',p.codigo),{situacao:'aguardando',forma:'pix-manual',criadoEm:f.F.serverTimestamp(),
     total:PRECO_PACOTE,itens:p.itens,nome:p.nome,email:p.email,tel:p.tel,perfil:'plano-de-estudo'})})}
+/* Teste grátis: cada cadastro vai para a coleção "testes" (lista no painel). Um documento por e-mail e outro por celular, em cada concurso;
+   as regras só deixam criar, nunca reescrever, então o mesmo e-mail ou celular não faz um segundo teste no concurso, em nenhum aparelho */
+function registrarTeste(j,nome,email,tel){return firebase().then(function(f){var c=S.conc.id,b=f.F.writeBatch(f.db),ts=f.F.serverTimestamp();
+  b.set(f.F.doc(f.db,'testes',c+'_e_'+email),{tipo:'e',conc:c,cargo:j.id,nome:nome,email:email,tel:tel,criadoEm:ts});
+  b.set(f.F.doc(f.db,'testes',c+'_t_'+tel),{tipo:'t',conc:c,cargo:j.id,nome:nome,email:email,tel:tel,criadoEm:ts});
+  return b.commit()})}
 function nomePacote(j){return (S.conc&&S.conc.nome?S.conc.nome+' · ':'')+j.nome}
 /* Aviso de compra por e-mail (FormSubmit, escolhido pela Editora): chega para a Editora e o comprador recebe a resposta automática com o pedido */
 function avisarPedido(p,j){var a=PE.avisos;if(!a||!a.email||!window.fetch)return;var w=a.whatsapp||'',zap=w?' Dúvidas: WhatsApp ('+w.slice(2,4)+') '+w.slice(4,9)+'-'+w.slice(9)+'.':'';
