@@ -295,7 +295,7 @@ a.btn{text-decoration:none;text-align:center;justify-content:center}
 /* Configuração do Plano de Estudo no site publicado.
    firebase: o mesmo projeto do site Mundo Encantado (não é senha; pode ficar no site).
    pix: a mesma chave Pix do Mundo Encantado.
-   mercadoPago: link de pagamento de R$ 25,00 criado no Mercado Pago (deixe null para mostrar só o Pix). */
+   mercadoPago: link de pagamento de R$ 39,90 criado no Mercado Pago (deixe null para mostrar só o Pix). */
 window.PE_CONFIG = {
   firebase: {
     apiKey: 'AIzaSyDKL3tGVBxuKPxE-JZEInW_KZYi2bf_Iqo',
@@ -306,7 +306,7 @@ window.PE_CONFIG = {
     appId: '1:582126300761:web:bd075d574b4e8d5e410b48'
   },
   pix: { chave: 'mundo.encantado.prof@gmail.com', nome: 'SANDRA MEDINA BENINI', cidade: 'TUPA' },
-  mercadoPago: 'https://mpago.la/1yo24ti',
+  mercadoPago: 'https://mpago.la/2gYuKkr',
   /* funções de pagamento (liberação automática). Se ainda não estiverem publicadas, o site volta sozinho para Pix + link. */
   funcoes: 'https://southamerica-east1-mundo-encantado-77c43.cloudfunctions.net',
   /* avisos de compra: e-mail automático pelo FormSubmit (escolhido pela Editora em 15/10/2026) e WhatsApp para o comprovante */
@@ -608,7 +608,7 @@ function renderCargo(){TRIAL_MAX=perDay();
   var ac=acesso(j);
   if(!ac||S.compra||trialExpired(j)){app.querySelector('.tabs').hidden=true;renderGate(body,j);return}
   if(ac.mode==='trial'){var pd=prog(j)[ac.day],np=pd?pd.res.length:0;
-    body.insertAdjacentHTML('beforebegin','<div class="trialbar"><span><b>Teste grátis de hoje</b>, '+esc(ac.nome.split(' ')[0])+': plano '+np+'/'+TRIAL_MAX+' · treino e revisão '+(ac.tre||0)+'/'+TRIAL_MAX+' · simulado '+(ac.sim?'feito':'0/1')+'</span><button type="button" class="btn small" data-buy>Comprar o pacote completo por R$ 25</button></div>');bindBuy(app,j)}
+    body.insertAdjacentHTML('beforebegin','<div class="trialbar"><span><b>Teste grátis de hoje</b>, '+esc(ac.nome.split(' ')[0])+': plano '+np+'/'+TRIAL_MAX+' · treino e revisão '+(ac.tre||0)+'/'+TRIAL_MAX+' · simulado '+(ac.sim?'feito':'0/1')+'</span><button type="button" class="btn small" data-buy>Comprar o pacote completo por R$ 39,90</button></div>');bindBuy(app,j)}
   if(ac.mode==='trial'&&S.tab==='treino'&&(ac.tre||0)>=TRIAL_MAX&&!(S.sess&&S.sess.mode==='livre'&&S.sess.i<S.sess.list.length)){body.innerHTML=lockedHTML(j,'Você usou as '+TRIAL_MAX+' questões de treino do teste grátis.');bindBuy(body,j);return}
   if(ac.mode==='trial'&&S.tab==='simulado'&&ac.sim&&!(S.sess&&S.sess.mode==='sim')){body.innerHTML=lockedHTML(j,'Você já fez o simulado do teste grátis.');bindBuy(body,j);return}
   ({plano:tabPlano,treino:tabTreino,simulado:tabSimulado,desempenho:tabDesempenho,conteudo:tabConteudo,banco:tabBanco})[S.tab](body,j);
@@ -629,7 +629,7 @@ function trialBump(j,f){var a=acesso(j);if(a&&a.mode==='trial'){a[f]=(a[f]||0)+1
 function cadastros(){return store.get('re-cad',[])}
 function normTel(t){return String(t).replace(/\D/g,'').replace(/^55(?=\d{10,11}$)/,'')}
 function jaUsou(j,email,tel){var e=email.trim().toLowerCase(),t=normTel(tel);return cadastros().filter(function(c){return c.conc===S.conc.id&&c.cargo===j.id&&(c.email===e||c.tel===t)})[0]}
-function lockedHTML(j,what){return '<div class="card lock"><span class="eyebrow">Limite do teste grátis</span><h3>'+what+'</h3><p>No teste grátis você usa o sistema completo por um dia: '+TRIAL_MAX+' questões do plano, '+TRIAL_MAX+' de treino e revisão e um simulado de '+S.conc.regras.questoes+' questões. O pacote libera tudo, sem limite, até a véspera da prova.</p><div><button type="button" class="btn" data-buy>Comprar o pacote completo por R$ 25</button></div></div>'}
+function lockedHTML(j,what){return '<div class="card lock"><span class="eyebrow">Limite do teste grátis</span><h3>'+what+'</h3><p>No teste grátis você usa o sistema completo por um dia: '+TRIAL_MAX+' questões do plano, '+TRIAL_MAX+' de treino e revisão e um simulado de '+S.conc.regras.questoes+' questões. O pacote libera tudo, sem limite, até a véspera da prova.</p><div><button type="button" class="btn" data-buy>Comprar o pacote completo por R$ 39,90</button></div></div>'}
 function bindBuy(root,j){root.querySelectorAll('[data-buy]').forEach(function(b){b.onclick=function(){S.compra=true;renderCargo()}})}
 function renderGate(body,j){
   var plan=buildPlan(j),c=S.conc,a=acesso(j);
@@ -639,9 +639,9 @@ function renderGate(body,j){
     '<div class="offer"><span class="eyebrow">Experimente</span><h3>Teste grátis por 1 dia</h3><p>Use o sistema completo hoje, com correção explicada em texto e voz.</p><ul class="list"><li>'+TRIAL_MAX+' questões do plano do dia</li><li>Um simulado de '+c.regras.questoes+' questões com cronômetro</li><li>'+TRIAL_MAX+' questões de treino e revisão dos erros</li></ul>'+
     '<form id="cadForm" class="cad" novalidate><label class="field" for="cNome">Nome completo<input id="cNome" autocomplete="name" required></label><label class="field" for="cEmail">E-mail<input id="cEmail" type="email" autocomplete="email" inputmode="email" required></label><label class="field" for="cTel">Celular com DDD (WhatsApp)<input id="cTel" type="tel" autocomplete="tel" inputmode="tel" placeholder="(14) 99999-9999" required></label><label class="chk"><input type="checkbox" id="cOk"> Autorizo a Editora Mundo Encantado a usar estes dados para liberar o teste e falar comigo sobre o Plano de Estudo.</label><p class="err" id="cErr" hidden></p><button type="submit" class="btn ghost" id="trial">Liberar meu dia grátis</button><p class="note small">O teste grátis vale uma vez por pessoa em cada cargo. E-mail e telefone já usados não liberam outro teste.</p></form></div>'))+
    '<div class="offer best"><span class="eyebrow">Pacote completo · '+esc(j.nome)+'</span><h3>Rotina de treino até a prova</h3><p>Plano diário de '+fmtDate(plan.days[0].date)+' a '+fmtDate(plan.days[plan.days.length-1].date)+', véspera da prova de '+fmtDate(c.prova)+'.</p><ul class="list"><li>'+plan.days.length+' dias de plano, '+(plan.days.length*perDay())+' questões</li><li>Gráfico de acertos por dia e nota estimada</li><li>Treino livre, revisão dos erros e simulados cronometrados</li><li>Progresso só desta área, separado das demais</li></ul>'+
-   '<p class="price"><b>R$ 25,00</b> por área, pagamento único</p>'+
+   '<p class="price"><b>R$ 39,90</b> por área, pagamento único</p>'+
    '<p class="secure"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Pagamento seguro pelo <b>Mercado Pago</b>: boleto, cartão ou Pix.</span></p>'+
-   (buy&&siteComBanco()?compraHTML(j):buy?'<p class="note">O pagamento ainda não está ativo nesta versão de teste. Quando o site estiver no domínio próprio, este botão vai abrir o pagamento pelo Mercado Pago.</p><label class="field" for="codigo">Já comprou? Digite o código de acesso<input id="codigo" type="text" autocomplete="off" placeholder="Código"></label><p class="err" id="codErr" hidden>Código inválido. Confira e tente de novo.</p><div class="row2"><button type="button" class="btn" id="usar">Liberar o pacote</button><button type="button" class="btn ghost" id="voltar">Voltar</button></div>':'<button type="button" class="btn" data-buy>Comprar o pacote completo por R$ 25</button>')+
+   (buy&&siteComBanco()?compraHTML(j):buy?'<p class="note">O pagamento ainda não está ativo nesta versão de teste. Quando o site estiver no domínio próprio, este botão vai abrir o pagamento pelo Mercado Pago.</p><label class="field" for="codigo">Já comprou? Digite o código de acesso<input id="codigo" type="text" autocomplete="off" placeholder="Código"></label><p class="err" id="codErr" hidden>Código inválido. Confira e tente de novo.</p><div class="row2"><button type="button" class="btn" id="usar">Liberar o pacote</button><button type="button" class="btn ghost" id="voltar">Voltar</button></div>':'<button type="button" class="btn" data-buy>Comprar o pacote completo por R$ 39,90</button>')+
    '</div></div>';
   var f=document.getElementById('cadForm');if(f)f.onsubmit=function(ev){ev.preventDefault();
     var n=document.getElementById('cNome').value.trim().replace(/\s+/g,' '),e=document.getElementById('cEmail').value.trim().toLowerCase(),t=normTel(document.getElementById('cTel').value),er=document.getElementById('cErr');
@@ -665,7 +665,7 @@ function renderGate(body,j){
    - pedidos/{codigo}: o pedido (situação "aguardando" até o pagamento ser conferido);
    - acessos/{email}: o campo "planos" lista os pacotes liberados (ex.: pe-arcoiris-ei).
    Só funciona quando window.PE_CONFIG.firebase existe (versão publicada no GitHub). */
-var PE=window.PE_CONFIG||null, PRECO_PACOTE=25;
+var PE=window.PE_CONFIG||null, PRECO_PACOTE=39.9;
 function siteComBanco(){return !!(PE&&PE.firebase)}
 function itemPacote(j){return 'pe-'+S.conc.id+'-'+j.id}
 var FB=null;
@@ -693,12 +693,12 @@ function nomePacote(j){return (S.conc&&S.conc.nome?S.conc.nome+' · ':'')+j.nome
 function avisarPedido(p,j){var a=PE.avisos;if(!a||!a.email||!window.fetch)return;var w=a.whatsapp||'',zap=w?' Dúvidas: WhatsApp ('+w.slice(2,4)+') '+w.slice(4,9)+'-'+w.slice(9)+'.':'';
   fetch('https://formsubmit.co/ajax/'+a.email,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({
     _subject:'Novo pedido no Plano de Estudo: '+p.codigo,_template:'table',_captcha:'false',
-    Pedido:p.codigo,Pacote:nomePacote(j),Valor:'R$ 25,00',name:p.nome,email:p.email,WhatsApp:p.tel,
+    Pedido:p.codigo,Pacote:nomePacote(j),Valor:'R$ 39,90',name:p.nome,email:p.email,WhatsApp:p.tel,
     'Próximo passo':'Conferir o pagamento no Mercado Pago e liberar no painel: https://planodeestudo.net.br/admin.html',
-    _autoresponse:'Olá, '+p.nome.split(' ')[0]+'! Recebemos o seu pedido '+p.codigo+' do Plano de Estudo ('+nomePacote(j)+'), no valor de R$ 25,00. Pagando pelo Pix ou pelo Mercado Pago, a confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, liberamos o acesso para este e-mail e avisamos você. Depois é só entrar em https://planodeestudo.net.br com a sua conta Google.'+zap+' Editora Mundo Encantado'})}).catch(function(e){console.warn('aviso por e-mail não enviado',e)})}
+    _autoresponse:'Olá, '+p.nome.split(' ')[0]+'! Recebemos o seu pedido '+p.codigo+' do Plano de Estudo ('+nomePacote(j)+'), no valor de R$ 39,90. Pagando pelo Mercado Pago (Pix, cartão ou boleto), a confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, liberamos o acesso para este e-mail e avisamos você. Depois é só entrar em https://planodeestudo.net.br com a sua conta Google.'+zap+' Editora Mundo Encantado'})}).catch(function(e){console.warn('aviso por e-mail não enviado',e)})}
 /* o comprador avisa a Editora pelo WhatsApp, já com o pedido escrito */
 function linkComprovante(p,j){var a=PE.avisos;if(!a||!a.whatsapp)return '';
-  return 'https://wa.me/'+a.whatsapp+'?text='+encodeURIComponent('Olá! Fiz o pedido '+p.codigo+' no Plano de Estudo ('+nomePacote(j)+', R$ 25,00). Nome: '+p.nome+'. E-mail: '+p.email+'. Segue o comprovante do pagamento.')}
+  return 'https://wa.me/'+a.whatsapp+'?text='+encodeURIComponent('Olá! Fiz o pedido '+p.codigo+' no Plano de Estudo ('+nomePacote(j)+', R$ 39,90). Nome: '+p.nome+'. E-mail: '+p.email+'. Segue o comprovante do pagamento.')}
 function codigoPedido(){var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s='',r=crypto.getRandomValues(new Uint8Array(6));r.forEach(function(x){s+=c[x%c.length]});return 'PE'+s}
 /* Pix estático (BR Code do Banco Central), igual ao do Mundo Encantado */
 function campoPix(id,v){return id+String(v.length).padStart(2,'0')+v}
@@ -780,16 +780,16 @@ function bindCompra(body,j){
     novoPedido(p).then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});avisarPedido(p,j);mostrarPagamento(p)})
       .catch(function(e){bad(erroFirebase(e))}).then(function(){g.disabled=false;g.textContent='Ir para o pagamento'})};
   function mostrarPagamento(p){
-    var h='<p>Pedido <b>'+p.codigo+'</b> · '+esc(j.nome)+' · <b>R$ 25,00</b></p>';
+    var h='<p>Pedido <b>'+p.codigo+'</b> · '+esc(j.nome)+' · <b>R$ 39,90</b></p>';
     /* duas formas: Mercado Pago (cartão, boleto, Pix) e Pix direto com a chave da Editora */
     if(PE.mercadoPago)h+='<a class="btn mp" href="'+esc(PE.mercadoPago)+'" target="_blank" rel="noopener">Pagar pelo Mercado Pago (pagamento seguro)</a><p class="note small">Cartão de crédito ou débito, boleto ou Pix. Use o mesmo nome e e-mail do cadastro ('+esc(p.email)+').</p>';
-    if(PE.pix&&PE.pix.chave){var cod=codigoPix(PRECO_PACOTE,p.codigo),qr=qrcode(0,'M');qr.addData(cod);qr.make();
+    if(!PE.mercadoPago&&PE.pix&&PE.pix.chave){var cod=codigoPix(PRECO_PACOTE,p.codigo),qr=qrcode(0,'M');qr.addData(cod);qr.make();
       h+=(PE.mercadoPago?'<p class="note"><b>Ou pague direto pelo Pix</b>, no aplicativo do seu banco:</p>':'')+
        '<div class="pix"><div class="qr" aria-label="QR Code do Pix">'+qr.createSvgTag({cellSize:5,margin:2,scalable:true})+'</div>'+
-       '<p class="note small">Chave Pix (e-mail): <b>'+esc(PE.pix.chave)+'</b><br>Favorecida: '+esc(PE.pix.nome)+' · Valor: R$ 25,00</p>'+
+       '<p class="note small">Chave Pix (e-mail): <b>'+esc(PE.pix.chave)+'</b><br>Favorecida: '+esc(PE.pix.nome)+' · Valor: R$ 39,90</p>'+
        '<button type="button" class="btn ghost" id="bCopiarChave">Copiar chave Pix</button>'+
        '<label class="field" for="bPix">Pix copia e cola<textarea id="bPix" rows="3" readonly>'+cod+'</textarea></label><button type="button" class="btn ghost" id="bCopiar">Copiar código Pix</button></div>'}
-    $('bp3').innerHTML=h+'<p class="note">Pagando pelo Pix ou pelo Mercado Pago, a confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, o pacote fica liberado para <b>'+esc(p.email)+'</b>. Você também recebe a confirmação do pedido por e-mail. Depois é só tocar em "Já paguei".</p>'+
+    $('bp3').innerHTML=h+'<p class="note">Pagando pelo Mercado Pago (Pix, cartão ou boleto), a confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, o pacote fica liberado para <b>'+esc(p.email)+'</b>. Você também recebe a confirmação do pedido por e-mail. Depois é só tocar em "Já paguei".</p>'+
      '<button type="button" class="btn" id="bConf">Já paguei: liberar meu acesso</button>';
     passo(3);
     if($('bCopiarChave'))$('bCopiarChave').onclick=function(){var b=this,v=PE.pix.chave;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).catch(function(){var t=document.createElement('textarea');t.value=v;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}).then(function(){b.textContent='Chave copiada!';setTimeout(function(){b.textContent='Copiar chave Pix'},2200)})};
@@ -858,7 +858,7 @@ function tabPlano(body,j){
       var ok=s.res.filter(Boolean).length;
       el.innerHTML='<div class="player finish"><span class="eyebrow">Dia '+(dd.d+1)+' concluído</span><div class="big">'+ok+'/'+s.list.length+'</div><p>'+(ok/s.list.length>=.7?'Ótimo resultado. Amanhã tem mais.':'Releia as explicações das que errou. Elas aparecem em "Treino livre", opção "Revisar erros".')+'</p><div class="foot" style="justify-content:center"><button type="button" class="btn" id="bk">Voltar ao plano</button></div></div>';
       document.getElementById('bk').onclick=function(){S.sess=null;renderCargo()};
-      if(!isFull(j)){el.insertAdjacentHTML('beforeend','<div class="card lock" style="margin-top:14px"><h3>Gostou do teste?</h3><p>Com o pacote completo você segue o plano todos os dias até a véspera da prova, com gráfico de acertos, revisão dos erros e simulados.</p><div><button type="button" class="btn" data-buy>Comprar o pacote completo por R$ 25</button></div></div>');bindBuy(el,j)}
+      if(!isFull(j)){el.insertAdjacentHTML('beforeend','<div class="card lock" style="margin-top:14px"><h3>Gostou do teste?</h3><p>Com o pacote completo você segue o plano todos os dias até a véspera da prova, com gráfico de acertos, revisão dos erros e simulados.</p><div><button type="button" class="btn" data-buy>Comprar o pacote completo por R$ 39,90</button></div></div>');bindBuy(el,j)}
     }});
     return;
   }

@@ -13,7 +13,7 @@ admin.initializeApp();
 setGlobalOptions({ region: 'southamerica-east1', maxInstances: 5 });
 const db = admin.firestore();
 
-const PRECO = 25;
+const PRECO = 39.9;
 const CONCURSOS = {
   arcoiris: { nome: 'Arco-Íris (SP) 01/2026', cargos: {
     ei: 'Professor de Educação Infantil', peb1: 'Professor de Educação Básica I', assist: 'Professor Assistente',
