@@ -822,7 +822,7 @@ function retornoPagamento(){
   aviso(st==='aprovado'?'Pagamento aprovado! Liberando o seu acesso...':'Pagamento em análise. Assim que o Mercado Pago aprovar, o acesso é liberado (boleto pode levar até 3 dias úteis).');
   usuarioAtual().then(function(u){if(!u)return aviso('Entre com a conta Google da compra em "Comprar o pacote completo" para liberar o acesso.');
     var email=String(u.email).toLowerCase(),n=0;(function conferir(){planosDe(email).then(function(pl){
-      if(pl.indexOf(itemPacote(j))>=0){liberarPacote(j,email);setTimeout(function(){aviso('Acesso liberado. Bons estudos! Enviamos as instruções de acesso para '+email+'.','ok')},50);return}
+      if(pl.indexOf(itemPacote(j))>=0){liberarPacote(j,email);setTimeout(function(){aviso('Acesso liberado. Bons estudos! Enviamos as instruções para '+email+' (se não aparecer, confira a caixa de Spam ou Promoções). Para voltar depois, em qualquer aparelho, clique em Entrar no alto da página.','ok')},50);return}
       if(++n<(st==='aprovado'?20:4))setTimeout(conferir,3000);else if(st==='aprovado')aviso('O pagamento foi aprovado e a liberação está a caminho. Se não abrir em alguns minutos, toque em "Comprar o pacote completo" e entre com a mesma conta Google.')})})()})
 }
 /* e-mail de acesso liberado (FormSubmit, enviado daqui do navegador, uma vez por pedido): chega para quem comprou e a Editora recebe cópia */
@@ -895,7 +895,7 @@ function bindCompra(body,j){
        '<p class="note small">Chave Pix (e-mail): <b>'+esc(PE.pix.chave)+'</b><br>Favorecida: '+esc(PE.pix.nome)+' · Valor: R$ 39,90</p>'+
        '<button type="button" class="btn ghost" id="bCopiarChave">Copiar chave Pix</button>'+
        '<label class="field" for="bPix">Pix copia e cola<textarea id="bPix" rows="3" readonly>'+cod+'</textarea></label><button type="button" class="btn ghost" id="bCopiar">Copiar código Pix</button></div>'}
-    $('bp3').innerHTML=h+'<p class="note">Pagando pelo Mercado Pago (Pix, cartão ou boleto), a confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, o pacote fica liberado para <b>'+esc(p.email)+'</b>. Você também recebe a confirmação do pedido por e-mail. Depois é só tocar em "Já paguei".</p>'+
+    $('bp3').innerHTML=h+'<p class="note">Pagando pelo Mercado Pago (Pix, cartão ou boleto), a confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, o pacote fica liberado para <b>'+esc(p.email)+'</b>. Você também recebe a confirmação do pedido por e-mail (confira também a caixa de Spam ou Promoções). Depois é só tocar em "Já paguei".</p>'+
      '<button type="button" class="btn" id="bConf">Já paguei: liberar meu acesso</button>';
     passo(3);
     if($('bCopiarChave'))$('bCopiarChave').onclick=function(){var b=this,v=PE.pix.chave;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).catch(function(){var t=document.createElement('textarea');t.value=v;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}).then(function(){b.textContent='Chave copiada!';setTimeout(function(){b.textContent='Copiar chave Pix'},2200)})};
