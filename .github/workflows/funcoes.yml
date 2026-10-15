@@ -45,3 +45,11 @@ jobs:
           st=${PIPESTATUS[0]}
           if [ "$st" != "0" ]; then msg=$(grep -v '^\s*$' saida.txt | tail -25 | cut -c1-300 | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g'); echo "::error title=Falha ao publicar::$msg"; fi
           exit $st
+      - name: Conferir se as funções respondem
+        if: env.pular != '1'
+        run: |
+          B=https://southamerica-east1-mundo-encantado-77c43.cloudfunctions.net
+          a=$(curl -s -o /dev/null -w "%{http_code}" -X OPTIONS -H "Origin: https://planodeestudo.net.br" $B/pePagamento)
+          b=$(curl -s -X POST -H "Content-Type: application/json" -d '{}' $B/pePagamento)
+          c=$(curl -s -w " %{http_code}" -X POST -H "Content-Type: application/json" -d '{"type":"teste"}' $B/peWebhook)
+          echo "::notice title=Teste das funções::OPTIONS=$a | pePagamento sem login=$b | peWebhook=$c"
