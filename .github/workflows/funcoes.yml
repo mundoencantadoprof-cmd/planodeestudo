@@ -36,4 +36,9 @@ jobs:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
       - name: Publicar no Firebase
         if: env.pular != '1'
-        run: npx --yes firebase-tools@13 deploy --only functions --project mundo-encantado-77c43 --non-interactive --force
+        run: |
+          set +e
+          npx --yes firebase-tools@13 deploy --only functions --project mundo-encantado-77c43 --non-interactive --force 2>&1 | tee saida.txt
+          st=${PIPESTATUS[0]}
+          if [ "$st" != "0" ]; then msg=$(grep -v '^\s*$' saida.txt | tail -25 | cut -c1-300 | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g'); echo "::error title=Falha ao publicar::$msg"; fi
+          exit $st
