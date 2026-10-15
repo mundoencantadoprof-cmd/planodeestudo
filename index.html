@@ -788,7 +788,6 @@ function bindCompra(body,j){
        '<button type="button" class="btn ghost" id="bCopiarChave">Copiar chave Pix</button>'+
        '<label class="field" for="bPix">Pix copia e cola<textarea id="bPix" rows="3" readonly>'+cod+'</textarea></label><button type="button" class="btn ghost" id="bCopiar">Copiar código Pix</button></div>'}
     $('bp3').innerHTML=h+'<p class="note">Pagando pelo Pix ou pelo Mercado Pago, a confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, o pacote fica liberado para <b>'+esc(p.email)+'</b>. Você também recebe a confirmação do pedido por e-mail. Depois é só tocar em "Já paguei".</p>'+
-     (linkComprovante(p,j)?'<a class="btn ghost" href="'+esc(linkComprovante(p,j))+'" target="_blank" rel="noopener">Depois de pagar, envie o comprovante pelo WhatsApp</a>':'')+
      '<button type="button" class="btn" id="bConf">Já paguei: liberar meu acesso</button>';
     passo(3);
     if($('bCopiarChave'))$('bCopiarChave').onclick=function(){var b=this,v=PE.pix.chave;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).catch(function(){var t=document.createElement('textarea');t.value=v;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}).then(function(){b.textContent='Chave copiada!';setTimeout(function(){b.textContent='Copiar chave Pix'},2200)})};
