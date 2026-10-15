@@ -40,6 +40,7 @@ window.PE_CONFIG = {
   },
   pix: { chave: 'mundo.encantado.prof@gmail.com', nome: 'SANDRA MEDINA BENINI', cidade: 'TUPA' },
   mercadoPago: 'https://mpago.la/1yo24ti',
+  avisos: { email: 'mundo.encantado.prof@gmail.com', whatsapp: '5514991022522' },
   admins: ['mundo.encantado.prof@gmail.com']
 };
 </script>
@@ -62,6 +63,7 @@ window.PE_CONFIG = {
   <h2 style="margin:0 0 4px;font-size:1.1rem">Liberar acesso sem pedido</h2>
   <p class="msg" style="margin:0">Para quem pagou por fora (por exemplo, pelo link do Mercado Pago). Use o e-mail Google da pessoa.</p>
   <div class="lib"><input id="libEmail" type="email" placeholder="email@gmail.com" aria-label="E-mail"><input id="libTel" type="tel" placeholder="WhatsApp com DDD (opcional)" aria-label="WhatsApp"><select id="libPac" aria-label="Pacote"></select><button id="libBtn">Liberar</button></div><p class="msg" id="libMsg"></p>
+  <p class="msg"><button id="testeAviso" type="button">Testar aviso de pedido por e-mail</button> <span id="testeMsg"></span></p>
  </div>
 </section>
 </main>
@@ -107,6 +109,9 @@ $('linhas').onclick=async e=>{const b=e.target.closest('button[data-c]');if(!b)r
   b.disabled=true;try{await marcar(p,b.dataset.m);const t=String(p.tel||'').replace(/\D/g,'');if(b.dataset.m==='pago'&&t.length>=10&&confirm('Acesso liberado. Abrir o WhatsApp para avisar '+p.nome+'?'))window.open(avisoWhats(t,p.itens[0],p.email),'_blank');else if(b.dataset.m==='pago'&&confirm('Acesso liberado. Abrir o e-mail para avisar '+p.nome+'?'))location.href=avisoEmail(p.itens[0],p.email);await carregar()}catch(x){alert('Não deu certo: '+x.message);b.disabled=false}};
 document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{filtro=b.dataset.f;document.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));tabela()});
 $('busca').oninput=tabela;
+$('testeAviso').onclick=async()=>{const m=$('testeMsg'),em=(CFG.avisos||{}).email;if(!em){m.textContent='E-mail de aviso não configurado.';return}m.textContent='Enviando...';
+  try{const r=await fetch('https://formsubmit.co/ajax/'+em,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:'Teste do aviso de pedido do Plano de Estudo',_template:'table',_captcha:'false',Mensagem:'Teste enviado pelo painel. Os próximos pedidos chegam neste formato.'})});const d=await r.json().catch(()=>({}));
+    m.textContent=String(d.success)==='true'?'Enviado. Confira a caixa de entrada (e o spam) de '+em+'.':'Na primeira vez chega um e-mail do FormSubmit pedindo "Activate Form". Abra '+em+' e clique nele. '+(d.message||'')}catch(x){m.textContent='Não deu certo: '+x.message}};
 $('libBtn').onclick=async()=>{const e=$('libEmail').value.trim().toLowerCase(),k=$('libPac').value,m=$('libMsg');
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){m.textContent='Confira o e-mail.';return}
   try{await F.setDoc(F.doc(db,'acessos',e),{planos:F.arrayUnion(k),atualizadoEm:F.serverTimestamp()},{merge:true});const t=$('libTel').value.replace(/\D/g,'');m.innerHTML='Liberado: '+esc(nomePac(k))+' para '+esc(e)+'. '+(t.length>=10?'<a href="'+avisoWhats(t,k,e)+'" target="_blank" rel="noopener">Avisar no WhatsApp</a> · ':'')+'<a href="'+avisoEmail(k,e)+'">Avisar por e-mail</a>';$('libEmail').value='';$('libTel').value=''}catch(x){m.textContent='Não deu certo: '+x.message}};

@@ -304,8 +304,8 @@ window.PE_CONFIG = {
   mercadoPago: 'https://mpago.la/1yo24ti',
   /* funções de pagamento (liberação automática). Se ainda não estiverem publicadas, o site volta sozinho para Pix + link. */
   funcoes: 'https://southamerica-east1-mundo-encantado-77c43.cloudfunctions.net',
-  /* WhatsApp da Editora: o comprador manda o comprovante para este número */
-  avisos: { whatsapp: '5514991022522' },
+  /* avisos de compra: e-mail automático pelo FormSubmit (escolhido pela Editora em 15/10/2026) e WhatsApp para o comprovante */
+  avisos: { email: 'mundo.encantado.prof@gmail.com', whatsapp: '5514991022522' },
   admins: ['mundo.encantado.prof@gmail.com']
 };
 </script>
@@ -684,6 +684,13 @@ function novoPedido(p){return firebase().then(function(f){
   return f.F.setDoc(f.F.doc(f.db,'pedidos',p.codigo),{situacao:'aguardando',forma:'pix-manual',criadoEm:f.F.serverTimestamp(),
     total:PRECO_PACOTE,itens:p.itens,nome:p.nome,email:p.email,tel:p.tel,perfil:'plano-de-estudo'})})}
 function nomePacote(j){return (S.conc&&S.conc.nome?S.conc.nome+' · ':'')+j.nome}
+/* Aviso de compra por e-mail (FormSubmit, escolhido pela Editora): chega para a Editora e o comprador recebe a resposta automática com o pedido */
+function avisarPedido(p,j){var a=PE.avisos;if(!a||!a.email||!window.fetch)return;var w=a.whatsapp||'',zap=w?' Dúvidas: WhatsApp ('+w.slice(2,4)+') '+w.slice(4,9)+'-'+w.slice(9)+'.':'';
+  fetch('https://formsubmit.co/ajax/'+a.email,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({
+    _subject:'Novo pedido no Plano de Estudo: '+p.codigo,_template:'table',_captcha:'false',
+    Pedido:p.codigo,Pacote:nomePacote(j),Valor:'R$ 25,00',name:p.nome,email:p.email,WhatsApp:p.tel,
+    'Próximo passo':'Conferir o pagamento no Mercado Pago e liberar no painel: https://planodeestudo.net.br/admin.html',
+    _autoresponse:'Olá, '+p.nome.split(' ')[0]+'! Recebemos o seu pedido '+p.codigo+' do Plano de Estudo ('+nomePacote(j)+'), no valor de R$ 25,00. Assim que o pagamento for confirmado, liberamos o acesso para este e-mail e avisamos você. Depois é só entrar em https://planodeestudo.net.br com a sua conta Google.'+zap+' Editora Mundo Encantado'})}).catch(function(e){console.warn('aviso por e-mail não enviado',e)})}
 /* o comprador avisa a Editora pelo WhatsApp, já com o pedido escrito */
 function linkComprovante(p,j){var a=PE.avisos;if(!a||!a.whatsapp)return '';
   return 'https://wa.me/'+a.whatsapp+'?text='+encodeURIComponent('Olá! Fiz o pedido '+p.codigo+' no Plano de Estudo ('+nomePacote(j)+', R$ 25,00). Nome: '+p.nome+'. E-mail: '+p.email+'. Segue o comprovante do pagamento.')}
@@ -762,17 +769,17 @@ function bindCompra(body,j){
       pagarMercadoPago(item,d).then(function(r){if(r.jaLiberado)return liberarPacote(j,user.email);location.href=r.url})
         .catch(function(e){console.warn('pagamento automático indisponível',e);g.textContent='Gerando o pedido...';  /* sem o servidor: segue com Pix e link, conferidos no painel */
           novoPedido(p).catch(function(e2){if(!PE.mercadoPago)throw e2;console.warn('pedido não gravado',e2)}) /* com o link do Mercado Pago, segue para o pagamento mesmo se o banco recusar */
-            .then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});mostrarPagamento(p)})
+            .then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});avisarPedido(p,j);mostrarPagamento(p)})
             .catch(function(e2){bad(erroFirebase(e2))}).then(function(){g.disabled=false;g.textContent='Ir para o pagamento'})});return}
     g.disabled=true;g.textContent='Gerando o pedido...';
-    novoPedido(p).then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});mostrarPagamento(p)})
+    novoPedido(p).then(function(){store.set(key(j,'pedido'),{codigo:p.codigo,email:p.email});avisarPedido(p,j);mostrarPagamento(p)})
       .catch(function(e){bad(erroFirebase(e))}).then(function(){g.disabled=false;g.textContent='Ir para o pagamento'})};
   function mostrarPagamento(p){
     var pixDireto=!PE.mercadoPago,h='<p>Pedido <b>'+p.codigo+'</b> · '+esc(j.nome)+' · <b>R$ 25,00</b></p>';
     if(!pixDireto)h+='<a class="btn mp" href="'+esc(PE.mercadoPago)+'" target="_blank" rel="noopener">Pagar pelo Mercado Pago</a><p class="note small">Na tela do Mercado Pago você escolhe Pix, cartão de crédito ou débito, ou boleto bancário. Use o mesmo nome e e-mail do cadastro ('+esc(p.email)+').</p>';
     else{var cod=codigoPix(PRECO_PACOTE,p.codigo),qr=qrcode(0,'M');qr.addData(cod);qr.make();
       h+='<div class="pix"><div class="qr" aria-label="QR Code do Pix">'+qr.createSvgTag({cellSize:5,margin:2,scalable:true})+'</div><label class="field" for="bPix">Pix copia e cola<textarea id="bPix" rows="3" readonly>'+cod+'</textarea></label><button type="button" class="btn ghost" id="bCopiar">Copiar código Pix</button></div>'}
-    $('bp3').innerHTML=h+'<p class="note">Assim que o pagamento for confirmado, o pacote fica liberado para <b>'+esc(p.email)+'</b>. Depois é só tocar em "Já paguei".</p>'+
+    $('bp3').innerHTML=h+'<p class="note">Assim que o pagamento for confirmado, o pacote fica liberado para <b>'+esc(p.email)+'</b>. Você também recebe a confirmação do pedido por e-mail. Depois é só tocar em "Já paguei".</p>'+
      (linkComprovante(p,j)?'<a class="btn ghost" href="'+esc(linkComprovante(p,j))+'" target="_blank" rel="noopener">Depois de pagar, envie o comprovante pelo WhatsApp</a>':'')+
      '<button type="button" class="btn" id="bConf">Já paguei: liberar meu acesso</button>';
     passo(3);
