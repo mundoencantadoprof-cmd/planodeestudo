@@ -291,7 +291,7 @@ a.btn{text-decoration:none;text-align:center;justify-content:center}
 .fpubl{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:3px;color:#C9D3EE;font-size:.84rem}.fpubl li{display:flex;align-items:center;gap:8px}.fpubl li::before{content:"";width:6px;height:6px;border-radius:50%;background:#F2BE45;flex:none}
 @media (max-width:760px){.fpubl{font-size:.8rem}}
 /* Aviso do teste grátis na página inicial */
-.trialhome{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-left:5px solid #C9A227;border-radius:16px;padding:22px 26px;box-shadow:0 6px 20px rgba(19,40,94,.06)}
+.trialhome{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;padding:28px 32px!important;background:var(--sheet);border:1px solid var(--line);border-left:5px solid #C9A227;border-radius:16px;padding:22px 26px;box-shadow:0 6px 20px rgba(19,40,94,.06)}
 .trialhome h2{font-size:1.35rem;margin:4px 0 8px;color:#13285E}
 .trialhome p{margin:0 0 10px;color:var(--soft);line-height:1.55}
 .trialhome ul{margin:0 0 10px;padding:0;list-style:none;display:grid;gap:6px}
@@ -304,18 +304,18 @@ a.btn{text-decoration:none;text-align:center;justify-content:center}
 .masterlink{background:none;border:0;padding:0;margin-left:6px;color:inherit;opacity:.75;text-decoration:underline;font:inherit;cursor:pointer}
 .masterbar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:60;background:#13285E;color:#fff;border:2px solid #C9A227;border-radius:999px;padding:8px 16px;font-size:.85rem;box-shadow:0 6px 18px rgba(0,0,0,.2);max-width:calc(100% - 32px);text-align:center}
 .trialhome .th-txt .btn{margin-top:14px}
-.tour{width:250px;display:grid;justify-items:center;gap:8px}
-.tour-phone{width:250px;padding:9px;border-radius:30px;background:#13285E;box-shadow:0 14px 30px rgba(19,40,94,.25)}
-.tour-screen{position:relative;aspect-ratio:520/746;border-radius:22px;overflow:hidden;background:#F7F5EF}
+.tour{width:310px;display:grid;justify-items:center;gap:8px}
+.tour-phone{width:300px;padding:10px;border-radius:34px;background:#13285E;box-shadow:0 14px 30px rgba(19,40,94,.25)}
+.tour-screen{position:relative;aspect-ratio:560/804;border-radius:25px;overflow:hidden;background:#F7F5EF}
 .tour-screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .6s ease}
 .tour-screen img.on{opacity:1}
-.tour-cap{margin:4px 0 0!important;min-height:2.6em;text-align:center;font-size:.88rem!important;font-weight:600;color:#13285E!important;line-height:1.3!important}
-.tour-nav{display:flex;align-items:center;gap:6px}
-.tour-dot{width:9px;height:9px;padding:0;border-radius:50%;border:0;background:#d8d3c4;cursor:pointer}
+.tour-cap{margin:4px 0 0!important;min-height:2.6em;max-width:300px;text-align:center;font-size:.88rem!important;font-weight:600;color:#13285E!important;line-height:1.3!important}
+.tour-nav{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:center}
+.tour-dot{width:8px;height:8px;padding:0;border-radius:50%;border:0;background:#d8d3c4;cursor:pointer}
 .tour-dot.on{background:#C9A227;width:22px;border-radius:5px}
 .tour-arr{border:1px solid var(--line);background:#fff;color:#13285E;width:30px;height:30px;border-radius:50%;font-size:1.2rem;line-height:1;cursor:pointer;padding:0}
 @media (prefers-reduced-motion:reduce){.tour-screen img{transition:none}}
-@media (max-width:760px){.tour{width:100%;margin:6px auto 0}.tour-phone{width:230px}}
+@media (max-width:760px){.tour{width:100%;margin:6px auto 0}.tour-phone{width:min(270px,82vw)}}
 .pgrupo{display:grid;gap:10px;margin-top:6px}
 .pgtit{display:flex;align-items:center;gap:8px;margin:0;font-size:1.05rem;color:#13285E;padding-bottom:6px;border-bottom:2px solid #C9A227;width:max-content}
 .pgtit span{font-size:.75rem;background:#13285E;color:#fff;border-radius:999px;padding:2px 8px;font-weight:600}
@@ -599,15 +599,15 @@ function setCrumbs(){
 
 /* ---------- Telas ---------- */
 /* Telas da plataforma passando dentro do aviso do teste grátis (imagens em img/tour/, só no site publicado) */
-var TOUR=[['Escolha o concurso: cada edital tem o seu módulo'],['Datas, número de questões e regras da prova'],['Plano de estudo do dia, até a véspera da prova'],['Questões inéditas no formato da prova'],['Correção na hora, com explicação em texto e voz'],['Simulado completo com cronômetro'],['Desempenho: acertos por dia e nota estimada'],['Somente o conteúdo que o edital do seu cargo pede']];
+var TOUR=[['Escolha a prova: concursos públicos e processos seletivos'],['Datas, número de questões e regras da prova'],['Escolha o seu cargo: cada um tem plano próprio'],['Plano do dia: o que estudar hoje, até a véspera'],['Questões inéditas no formato da prova'],['Acertou? A plataforma confirma e explica'],['Errou? Veja a resposta certa, o porquê e uma orientação'],['Ajuda de áudio: ouça as questões e as explicações'],['Treino livre e revisão dos erros por matéria'],['Simulado completo com cronômetro'],['Resultado do simulado com a sua nota'],['Desempenho: acertos por dia e nota estimada'],['Somente o conteúdo que o edital do seu cargo pede']];
 function tourHTML(){return '<div class="tour" id="tour" role="region" aria-roledescription="carrossel" aria-label="Veja a plataforma por dentro"><div class="tour-phone"><div class="tour-screen">'+
-  TOUR.map(function(t,i){return '<img src="img/tour/'+(i+1)+'.webp" alt="'+esc(t[0])+'" width="520" height="746"'+(i?' loading="lazy"':'')+' class="'+(i?'':'on')+'">'}).join('')+
+  TOUR.map(function(t,i){return '<img src="img/tour/'+(i+1)+'.webp" alt="'+esc(t[0])+'" width="560" height="804"'+(i?' loading="lazy"':'')+' class="'+(i?'':'on')+'">'}).join('')+
   '</div></div><p class="tour-cap" id="tourCap" aria-live="polite">'+esc(TOUR[0][0])+'</p><div class="tour-nav"><button type="button" class="tour-arr" data-tv="-1" aria-label="Tela anterior">&#8249;</button>'+
   TOUR.map(function(t,i){return '<button type="button" class="tour-dot'+(i?'':' on')+'" data-ti="'+i+'" aria-label="Tela '+(i+1)+': '+esc(t[0])+'"></button>'}).join('')+
   '<button type="button" class="tour-arr" data-tv="1" aria-label="Próxima tela">&#8250;</button></div></div>'}
 function ligaTour(){var el=document.getElementById('tour');if(!el)return;var ims=el.querySelectorAll('.tour-screen img'),ds=el.querySelectorAll('.tour-dot'),cap=document.getElementById('tourCap'),i=0,tm=null,pausa=false;
   function mostra(n){i=(n+ims.length)%ims.length;for(var k=0;k<ims.length;k++){ims[k].classList.toggle('on',k===i);ds[k].classList.toggle('on',k===i)}cap.textContent=TOUR[i][0]}
-  function roda(){clearInterval(tm);tm=setInterval(function(){if(!pausa&&document.body.contains(el))mostra(i+1);else if(!document.body.contains(el))clearInterval(tm)},3800)}
+  function roda(){clearInterval(tm);tm=setInterval(function(){if(!pausa&&document.body.contains(el))mostra(i+1);else if(!document.body.contains(el))clearInterval(tm)},4200)}
   el.onclick=function(e){var b=e.target.closest('button');if(!b)return;if(b.dataset.ti!=null)mostra(+b.dataset.ti);else if(b.dataset.tv)mostra(i+ +b.dataset.tv);roda()};
   el.onmouseenter=function(){pausa=true};el.onmouseleave=function(){pausa=false};
   var x0=null;el.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
