@@ -23,7 +23,18 @@ const CONCURSOS = {
     ef: 'PEB II – Educação Física', ing: 'PEB II – Inglês' } },
   lencois: { nome: 'Lençóis Paulista (SP) CP 03/2026', cargos: {
     dir: 'Diretor de Escola', ei1: 'Professor de Educação Infantil I', ei2: 'Professor de Educação Infantil II',
-    ef1: 'Professor de Ensino Fundamental I', ef2m: 'Professor de Ensino Fundamental II – Matemática' } }
+    ef1: 'Professor de Ensino Fundamental I', ef2m: 'Professor de Ensino Fundamental II – Matemática' } },
+  lencoisps: { nome: 'Lençóis Paulista (SP) PS 01/2026', cargos: {
+    ee: 'Professor de Educação Especial',
+    arte: 'Professor de Ensino Fundamental II – Arte',
+    cie: 'Professor de Ensino Fundamental II – Ciências',
+    edf: 'Professor de Ensino Fundamental II – Educação Física',
+    geo: 'Professor de Ensino Fundamental II – Geografia',
+    his: 'Professor de Ensino Fundamental II – História',
+    ing: 'Professor de Ensino Fundamental II – Inglês',
+    lpo: 'Professor de Ensino Fundamental II – Português',
+    sei: 'Professor Substituto de Educação Infantil',
+    sef1: 'Professor Substituto de Ensino Fundamental I' } }
 };
 const SITES = ['https://mundoencantadoprof-cmd.github.io', 'https://planodeestudo.net.br', 'https://www.planodeestudo.net.br'];
 const SITE_PADRAO = process.env.SITE_URL || 'https://planodeestudo.net.br/';
