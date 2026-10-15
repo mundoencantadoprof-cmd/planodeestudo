@@ -108,15 +108,6 @@ exports.pePagamento = onRequest(async (req, res) => {
   }
 });
 
-// e-mail automático de acesso liberado (FormSubmit): ver aviso.js
-const { enviarAviso } = require('./aviso');
-async function avisarLiberado(pedido, cod) {
-  const p = pacote(pedido.itens && pedido.itens[0]);
-  const r = await enviarAviso({ nome: pedido.nome, email: pedido.email, total: pedido.total, cod,
-    nomePac: p ? p.titulo.replace('Plano de Estudo · ', '') : String(pedido.itens || '') });
-  await db.doc('pedidos/' + cod).update({ avisoEmail: r.ok ? 'enviado' : 'falhou: ' + r.motivo });
-}
-
 exports.peWebhook = onRequest(async (req, res) => {
   try {
     const tipo = req.query.type || req.query.topic || (req.body && req.body.type);
@@ -127,7 +118,6 @@ exports.peWebhook = onRequest(async (req, res) => {
     const cod = pg.external_reference;
     if (!cod || !/^PE[A-Z0-9]{6}$/.test(cod)) return res.status(200).send('ok');
     const ref = db.doc('pedidos/' + cod);
-    let liberado = null;
     await db.runTransaction(async t => {
       const s = await t.get(ref);
       if (!s.exists) return;
@@ -137,14 +127,12 @@ exports.peWebhook = onRequest(async (req, res) => {
         t.update(ref, { situacao: 'pago', pagoEm: admin.firestore.FieldValue.serverTimestamp(), mpPagamento: String(pg.id), mpMeio: pg.payment_type_id || '' });
         t.set(db.doc('acessos/' + String(pedido.email).toLowerCase()),
           { planos: admin.firestore.FieldValue.arrayUnion(...pedido.itens), atualizadoEm: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
-        liberado = pedido;
       } else if (['rejected', 'cancelled', 'refunded', 'charged_back'].includes(pg.status) && pedido.situacao === 'aguardando') {
         t.update(ref, { situacao: 'cancelado', mpPagamento: String(pg.id), mpStatus: pg.status });
       } else {
         t.update(ref, { mpPagamento: String(pg.id), mpStatus: pg.status });
       }
     });
-    if (liberado) await avisarLiberado(liberado, cod).catch(e => console.error('aviso por e-mail', e));
     res.status(200).send('ok');
   } catch (e) {
     console.error('peWebhook', e);

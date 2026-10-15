@@ -182,7 +182,7 @@ footer.site-foot{margin-top:40px;background:#0F2350;color:#C9D3EE;border-top:4px
   <div class="wrap">
     <button class="logo" id="home" type="button" aria-label="Início"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#F4B728" stroke="#0E2350" stroke-width="2.6"/><rect x="20.5" y="24" width="5.2" height="12" rx=".6" fill="#0E2350"/><rect x="28" y="19.5" width="5.2" height="16.5" rx=".6" fill="#0E2350"/><rect x="35.5" y="14.5" width="5.2" height="21.5" rx=".6" fill="#0E2350"/><path d="M18 20 C27 18.5 34 15 39.5 9.8" fill="none" stroke="#0E2350" stroke-width="1.9" stroke-linecap="round"/><path d="M36.2 8.6 L41.3 8 L40.6 13.1 Z" fill="#0E2350" stroke="#0E2350" stroke-width="1" stroke-linejoin="round"/><path d="M10.5 45.5 L14.5 31 C21 30.3 27.5 32.3 32 36 C36.5 32.3 43 30.3 49.5 31 L53.5 45.5 C46 44.3 38.5 45.5 33.4 48.4 L30.6 48.4 C25.5 45.5 18 44.3 10.5 45.5 Z" fill="#0E2350"/><path d="M14 43.2 L17 32.6 C22.5 32.2 27.6 33.8 31.2 37.3 L31.2 46 C26.6 43.6 20.4 42.6 14 43.2 Z" fill="#FBF3E1"/><path d="M50 43.2 L47 32.6 C41.5 32.2 36.4 33.8 32.8 37.3 L32.8 46 C37.4 43.6 43.6 42.6 50 43.2 Z" fill="#FBF3E1"/><g fill="none" stroke="#0E2350" stroke-width="1.2" stroke-linecap="round"><path d="M18 35.4 C21.6 35.2 25 36 27.8 37.8"/><path d="M17.3 38.3 C21 38.1 24.6 38.9 27.6 40.7"/><path d="M46 35.4 C42.4 35.2 39 36 36.2 37.8"/><path d="M46.7 38.3 C43 38.1 39.4 38.9 36.4 40.7"/></g><ellipse cx="32" cy="48.6" rx="3" ry="1.2" fill="#0E2350"/></svg><span class="wm"><b>Plano de</b><i>Estudo</i></span></button>
     <nav class="crumbs" id="crumbs" aria-label="Caminho"></nav>
-    <button type="button" class="icon-btn" id="voiceBtn" aria-pressed="true" title="Voz: ligar, tipo e velocidade" aria-label="Configurar voz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></button>
+    <button type="button" class="loginbtn" id="loginBtn" hidden>Entrar</button><button type="button" class="icon-btn" id="voiceBtn" aria-pressed="true" title="Voz: ligar, tipo e velocidade" aria-label="Configurar voz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></button>
   </div>
 </header>
 
@@ -335,6 +335,16 @@ a.btn{text-decoration:none;text-align:center;justify-content:center}
 .logo .mark{width:58px;height:58px}.logo{gap:12px}.wm{padding-left:12px}.wm b{font-size:1.22rem}.wm i{font-size:1.5rem}
 .fmark{width:60px!important;height:60px!important}.fbrandrow{gap:12px}.fwm{padding-left:12px}.fwm b{font-size:1.15rem!important}.fwm i{font-size:1.55rem!important}
 @media (max-width:760px){.logo .mark{width:48px;height:48px}.wm b{font-size:1.05rem}.wm i{font-size:1.28rem}.fmark{width:50px!important;height:50px!important}.fwm b{font-size:1rem!important}.fwm i{font-size:1.3rem!important}}
+
+.loginbtn{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-display);font-weight:700;font-size:.95rem;border:2px solid #13285E;background:#13285E;color:#fff;border-radius:999px;padding:8px 16px;cursor:pointer;margin-left:auto;margin-right:10px;white-space:nowrap}
+.loginbtn.on{background:transparent;color:#13285E}
+.proto:not([hidden])+.loginbtn{margin-left:10px}
+.jacomprei{display:block;margin:12px auto 0;background:none;border:0;color:#13285E;font-weight:700;text-decoration:underline;cursor:pointer;font-size:.95rem}
+.minha{display:grid;gap:16px}.mhead{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.mhead h2{margin:4px 0}
+.mtit{font-size:1.25rem;margin:4px 0 0}.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.mcard{background:var(--sheet);border:1px solid var(--line);border-left:5px solid var(--c,#13285E);border-radius:14px;padding:18px;display:grid;gap:8px}
+.mcard h3{margin:0;font-size:1.1rem}.mcard .btn{justify-self:start;margin-top:4px}
+@media (max-width:520px){.loginbtn{padding:7px 12px;font-size:.88rem;margin-right:6px}}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -614,6 +624,7 @@ function fmtPts(x){return Math.abs(x-Math.round(x))<0.05?String(Math.round(x)):x
 
 function setCrumbs(){
   var h='';
+  if(S.view==='minha'){crumbs.innerHTML='<span>·</span><span>Minha área</span>';return}
   if(S.view!=='home'){h+='<span>·</span><button type="button" data-go="conc">'+esc(S.conc.nome)+'</button>'}
   if(S.view==='cargo'){h+='<span>·</span><span>'+esc(S.cargo.nome)+'</span>'}
   crumbs.innerHTML=h;
@@ -719,7 +730,7 @@ function renderGate(body,j){
    '<div class="offer best"><span class="eyebrow">Pacote completo · '+esc(j.nome)+'</span><h3>Rotina de treino até a prova</h3><p>Plano diário de '+fmtDate(plan.days[0].date)+' a '+fmtDate(plan.days[plan.days.length-1].date)+', véspera da prova de '+fmtDate(c.prova)+'.</p><ul class="list"><li>'+plan.days.length+' dias de plano, '+(plan.days.length*perDay())+' questões</li><li>Gráfico de acertos por dia e nota estimada</li><li>Treino livre, revisão dos erros e simulados cronometrados</li><li>Progresso só desta área, separado das demais</li></ul>'+
    '<p class="price"><b>R$ 39,90</b> por área, pagamento único</p>'+
    '<p class="secure"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Pagamento seguro pelo <b>Mercado Pago</b>: boleto, cartão ou Pix.</span></p>'+
-   (buy&&siteComBanco()?compraHTML(j):buy?'<p class="note">O pagamento ainda não está ativo nesta versão de teste. Quando o site estiver no domínio próprio, este botão vai abrir o pagamento pelo Mercado Pago.</p><label class="field" for="codigo">Já comprou? Digite o código de acesso<input id="codigo" type="text" autocomplete="off" placeholder="Código"></label><p class="err" id="codErr" hidden>Código inválido. Confira e tente de novo.</p><div class="row2"><button type="button" class="btn" id="usar">Liberar o pacote</button><button type="button" class="btn ghost" id="voltar">Voltar</button></div>':'<button type="button" class="btn" data-buy>Comprar o pacote completo por R$ 39,90</button>')+
+   (buy&&siteComBanco()?compraHTML(j):buy?'<p class="note">O pagamento ainda não está ativo nesta versão de teste. Quando o site estiver no domínio próprio, este botão vai abrir o pagamento pelo Mercado Pago.</p><label class="field" for="codigo">Já comprou? Digite o código de acesso<input id="codigo" type="text" autocomplete="off" placeholder="Código"></label><p class="err" id="codErr" hidden>Código inválido. Confira e tente de novo.</p><div class="row2"><button type="button" class="btn" id="usar">Liberar o pacote</button><button type="button" class="btn ghost" id="voltar">Voltar</button></div>':'<button type="button" class="btn" data-buy>Comprar o pacote completo por R$ 39,90</button>'+(siteComBanco()?'<button type="button" class="jacomprei" data-jacomprei>Já comprei: entrar com a minha conta Google</button>':''))+
    '</div></div>';
   var f=document.getElementById('cadForm');if(f)f.onsubmit=function(ev){ev.preventDefault();
     var n=document.getElementById('cNome').value.trim().replace(/\s+/g,' '),e=document.getElementById('cEmail').value.trim().toLowerCase(),t=normTel(document.getElementById('cTel').value),er=document.getElementById('cErr');
@@ -811,9 +822,15 @@ function retornoPagamento(){
   aviso(st==='aprovado'?'Pagamento aprovado! Liberando o seu acesso...':'Pagamento em análise. Assim que o Mercado Pago aprovar, o acesso é liberado (boleto pode levar até 3 dias úteis).');
   usuarioAtual().then(function(u){if(!u)return aviso('Entre com a conta Google da compra em "Comprar o pacote completo" para liberar o acesso.');
     var email=String(u.email).toLowerCase(),n=0;(function conferir(){planosDe(email).then(function(pl){
-      if(pl.indexOf(itemPacote(j))>=0){liberarPacote(j,email);setTimeout(function(){aviso('Acesso liberado. Bons estudos!','ok')},50);return}
+      if(pl.indexOf(itemPacote(j))>=0){liberarPacote(j,email);avisarLiberado(j,u,q.get('pedido'));setTimeout(function(){aviso('Acesso liberado. Bons estudos! Enviamos as instruções de acesso para '+email+'.','ok')},50);return}
       if(++n<(st==='aprovado'?20:4))setTimeout(conferir,3000);else if(st==='aprovado')aviso('O pagamento foi aprovado e a liberação está a caminho. Se não abrir em alguns minutos, toque em "Comprar o pacote completo" e entre com a mesma conta Google.')})})()})
 }
+/* e-mail de acesso liberado (FormSubmit, enviado daqui do navegador, uma vez por pedido): chega para quem comprou e a Editora recebe cópia */
+function avisarLiberado(j,u,cod){var a=PE.avisos,email=String(u.email).toLowerCase(),k='pe-avisado-'+(cod||itemPacote(j));if(!a||!a.email||!window.fetch||store.get(k,0))return;store.set(k,1);
+  var msg='Olá'+(u.displayName?', '+u.displayName.split(' ')[0]:'')+'! Seu pagamento foi confirmado e o acesso ao Plano de Estudo ('+nomePacote(j)+') já está liberado. Para estudar em qualquer aparelho, entre em https://planodeestudo.net.br, clique em "Entrar" no alto da página e use a conta Google '+email+'. Em "Minha área" aparecem os seus pacotes. Bons estudos! Editora Mundo Encantado';
+  fetch('https://formsubmit.co/ajax/'+a.email,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({
+    _subject:'Plano de Estudo: pagamento aprovado e acesso liberado'+(cod?' (pedido '+cod+')':''),_template:'table',_captcha:'false',
+    Mensagem:msg,Pedido:cod||'',Pacote:nomePacote(j),Valor:'R$ 39,90',name:u.displayName||email,email:email,_autoresponse:msg})}).catch(function(){store.set(k,0)})}
 function liberarPacote(j,email){setAcesso(j,{mode:'full',email:email});S.compra=false;S.sess=null;S.tab='plano';renderCargo()}
 function erroFirebase(e){var c=e&&e.code||'';
   if(c==='auth/popup-closed-by-user'||c==='auth/cancelled-popup-request')return '';
@@ -1060,7 +1077,7 @@ function tabConteudo(body,j){
 
 function render(){
   setCrumbs();
-  if(S.view==='home')renderHome();else if(S.view==='conc')renderConc();else renderCargo();
+  if(S.view==='home')renderHome();else if(S.view==='minha')renderMinha();else if(S.view==='conc')renderConc();else renderCargo();
 }
 render();
 retornoPagamento();
@@ -1073,6 +1090,42 @@ function ligaMaster(on){MASTER=on;var b=document.getElementById('masterBar'),l=d
       store.set('pe-master',1);ligaMaster(true);alert('Acesso da Editora ativo: todos os concursos e cargos estão liberados neste aparelho, sem gastar teste grátis.')})
     .catch(function(e){if(e&&e.code!=='auth/popup-closed-by-user')alert('Não foi possível entrar: '+(e.code||e.message))})};
   if(store.get('pe-master',0))usuarioAtual().then(function(u){if(ehAdmin(u))ligaMaster(true);else store.set('pe-master',0)}).catch(function(){});
+})();
+
+/* ---------- Minha área: entrar com Google, ver as compras e estudar em qualquer aparelho ----------
+   Ao entrar, os pacotes de acessos/{email}.planos ficam liberados neste aparelho (o progresso de cada cargo fica guardado nele). */
+var USER=null,PLANOS=[];
+function sincronizar(u){USER=u||null;if(!u){PLANOS=[];atualizaLogin();return Promise.resolve([])}
+  var email=String(u.email).toLowerCase();
+  return planosDe(email).then(function(pl){PLANOS=pl;pl.forEach(function(it){var m=/^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(it);if(!m)return;
+    var k='re-'+m[1]+'-'+m[2]+'-acesso',ac=store.get(k,null);if(!ac||ac.mode!=='full')store.set(k,{mode:'full',email:email})});atualizaLogin();return pl})}
+function atualizaLogin(){var b=document.getElementById('loginBtn');if(!b)return;b.hidden=MODO_CONFERENCIA;
+  b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>'+(USER?'Minha área':'Entrar')+'</span>';b.classList.toggle('on',!!USER)}
+function erroLogin(e){if(e&&e.code==='auth/popup-closed-by-user')return;alert('Não foi possível entrar: '+((e&&(e.code||e.message))||'tente de novo.'))}
+function entrarMinha(){if(!/^https?:$/.test(location.protocol))return alert('O login com Google só funciona com o site publicado na internet.');
+  return entrarGoogle().then(sincronizar).then(function(){go('minha')},erroLogin)}
+function renderMinha(){
+  if(!USER){go('home');return}
+  var nome=(USER.displayName||'').split(' ')[0],cards=[],guard=S.conc;
+  PLANOS.forEach(function(it){var m=/^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(it),c=m&&findC(m[1]),j=c&&findJ(c,m[2]);if(!j)return;
+    S.conc=c;var plan=buildPlan(j),p=prog(j),done=Object.keys(p).filter(function(k){return p[k].fim}).length,d=daysTo(c.prova);
+    cards.push('<div class="mcard" style="--c:'+j.cor+'"><span class="eyebrow">'+esc(c.edital)+' · '+esc(c.nome)+' ('+c.uf+')</span><h3>'+esc(j.nome)+'</h3>'+
+      '<p class="meta">Prova em '+fmtDate(c.prova)+(d>0?' · faltam '+d+' dias':'')+'</p><div class="prog"><div class="bar"><i style="width:'+(done/plan.days.length*100)+'%"></i></div><span>'+done+'/'+plan.days.length+' dias</span></div>'+
+      '<button type="button" class="btn" data-mc="'+c.id+'" data-mj="'+j.id+'">Continuar estudando</button></div>')});
+  S.conc=guard;
+  app.innerHTML='<section class="view minha"><div class="card mhead"><div><span class="eyebrow">Minha área</span><h2>Olá'+(nome?', '+esc(nome):'')+'!</h2><p class="note">Conta Google: <b>'+esc(USER.email)+'</b></p></div><button type="button" class="btn ghost small" id="sair">Sair</button></div>'+
+    (cards.length?'<h3 class="mtit">Meus pacotes</h3><div class="mgrid">'+cards.join('')+'</div>':
+      '<div class="card"><h3>Nenhum pacote liberado nesta conta</h3><p>Se você já pagou, a liberação acontece assim que o Mercado Pago aprova o pagamento (Pix e cartão em poucos minutos, boleto em até 3 dias úteis). Confira se entrou com a mesma conta Google usada na compra.</p><button type="button" class="btn" id="verProvas">Ver as provas disponíveis</button></div>')+
+    '<p class="note small">O seu progresso fica guardado neste aparelho. Em outro aparelho, é só entrar com a mesma conta Google para abrir os seus pacotes.</p></section>';
+  app.querySelectorAll('[data-mc]').forEach(function(b){b.onclick=function(){var c=findC(b.dataset.mc);S.conc=c;go('cargo',{conc:c,cargo:findJ(c,b.dataset.mj),tab:'plano',filtro:'Tudo',sess:null,compra:false})}});
+  var s=document.getElementById('sair');if(s)s.onclick=function(){firebase().then(function(f){return f.A.signOut(f.auth)}).catch(function(){});store.set('pe-master',0);if(MASTER)ligaMaster(false);USER=null;PLANOS=[];atualizaLogin();go('home')};
+  var v=document.getElementById('verProvas');if(v)v.onclick=function(){go('home');setTimeout(function(){var p=document.getElementById('provas');if(p)p.scrollIntoView({behavior:'smooth'})},50)};
+}
+document.addEventListener('click',function(e){var t=e.target.closest('[data-jacomprei]');if(!t)return;t.disabled=true;
+  entrarGoogle().then(sincronizar).then(function(){if(S.cargo&&isFull(S.cargo)){S.compra=false;renderCargo()}else{t.disabled=false;alert('Esta conta Google ('+(USER&&USER.email)+') ainda não tem este pacote. Se você pagou agora, aguarde a aprovação do Mercado Pago ou entre com a conta usada na compra.')}},function(x){t.disabled=false;erroLogin(x)})});
+(function(){var b=document.getElementById('loginBtn');if(!b)return;atualizaLogin();if(MODO_CONFERENCIA)return;
+  b.onclick=function(){if(USER)go('minha');else entrarMinha()};
+  usuarioAtual().then(sincronizar).then(function(){if(S.view==='cargo'&&S.cargo)renderCargo()}).catch(function(){});
 })();
 })();
 </script>

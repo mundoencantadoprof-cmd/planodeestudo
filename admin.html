@@ -85,7 +85,7 @@ const $=id=>document.getElementById(id),brl=v=>Number(v||0).toLocaleString('pt-B
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nomePac=i=>PACOTES[i]||i, dataBR=d=>d?d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
 let pedidos=[],filtro='aguardando';
-const avisoWhats=(tel,k,email)=>'https://wa.me/55'+tel+'?text='+encodeURIComponent('Olá! Seu pagamento foi confirmado e o acesso ao Plano de Estudo ('+nomePac(k)+') já está liberado. Entre em https://planodeestudo.net.br, abra a sua área e clique em "Entrar com Google" usando a conta '+email+'. Bons estudos! Editora Mundo Encantado')
+const avisoWhats=(tel,k,email)=>'https://wa.me/55'+tel+'?text='+encodeURIComponent('Olá! Seu pagamento foi confirmado e o acesso ao Plano de Estudo ('+nomePac(k)+') já está liberado. Para estudar em qualquer aparelho, entre em https://planodeestudo.net.br, clique em "Entrar" no alto da página e use a conta Google '+email+'. Em "Minha área" aparecem os seus pacotes. Bons estudos! Editora Mundo Encantado')
 const avisoEmail=(k,email)=>'mailto:'+email+'?subject='+encodeURIComponent('Seu acesso ao Plano de Estudo foi liberado')+'&body='+encodeURIComponent('Olá!\n\nSeu pagamento foi confirmado e o acesso ao Plano de Estudo ('+nomePac(k)+') já está liberado.\n\nEntre em https://planodeestudo.net.br, abra a sua área e clique em "Entrar com Google" usando a conta '+email+'.\n\nBons estudos!\nEditora Mundo Encantado')
 $('libPac').innerHTML=Object.entries(PACOTES).map(([k,v])=>'<option value="'+k+'">'+esc(v)+'</option>').join('');
 async function carregar(){
@@ -123,7 +123,7 @@ function tabela(){
 }
 /* e-mail automático de acesso liberado (FormSubmit): vai para a Editora com cópia (_cc) e resposta automática para o comprador */
 async function emailLiberado(email,k,nome,codigo){const em=(CFG.avisos||{}).email;if(!em)return false;
-  const msg='Olá'+(nome?', '+String(nome).split(' ')[0]:'')+'! Seu pagamento foi confirmado e o acesso ao Plano de Estudo ('+nomePac(k)+') já está liberado. Entre em https://planodeestudo.net.br, abra a sua área e clique em "Entrar com Google" usando a conta '+email+'. Bons estudos! Editora Mundo Encantado';
+  const msg='Olá'+(nome?', '+String(nome).split(' ')[0]:'')+'! Seu pagamento foi confirmado e o acesso ao Plano de Estudo ('+nomePac(k)+') já está liberado. Para estudar em qualquer aparelho, entre em https://planodeestudo.net.br, clique em "Entrar" no alto da página e use a conta Google '+email+'. Em "Minha área" aparecem os seus pacotes. Bons estudos! Editora Mundo Encantado';
   try{const r=await fetch('https://formsubmit.co/ajax/'+em,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({
     _subject:'Plano de Estudo: seu acesso foi liberado'+(codigo?' (pedido '+codigo+')':''),_template:'table',_captcha:'false',
     Mensagem:msg,Pedido:codigo||'(sem pedido)',Pacote:nomePac(k),name:nome||email,email:email,_cc:email,_autoresponse:msg})});
