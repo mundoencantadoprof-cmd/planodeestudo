@@ -693,7 +693,7 @@ function avisarPedido(p,j){var a=PE.avisos;if(!a||!a.email||!window.fetch)return
     _subject:'Novo pedido no Plano de Estudo: '+p.codigo,_template:'table',_captcha:'false',
     Pedido:p.codigo,Pacote:nomePacote(j),Valor:'R$ 25,00',name:p.nome,email:p.email,WhatsApp:p.tel,
     'Próximo passo':'Conferir o pagamento no Mercado Pago e liberar no painel: https://planodeestudo.net.br/admin.html',
-    _autoresponse:'Olá, '+p.nome.split(' ')[0]+'! Recebemos o seu pedido '+p.codigo+' do Plano de Estudo ('+nomePacote(j)+'), no valor de R$ 25,00. A confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, liberamos o acesso para este e-mail e avisamos você. Depois é só entrar em https://planodeestudo.net.br com a sua conta Google.'+zap+' Editora Mundo Encantado'})}).catch(function(e){console.warn('aviso por e-mail não enviado',e)})}
+    _autoresponse:'Olá, '+p.nome.split(' ')[0]+'! Recebemos o seu pedido '+p.codigo+' do Plano de Estudo ('+nomePacote(j)+'), no valor de R$ 25,00. Pagando pelo Pix ou pelo Mercado Pago, a confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, liberamos o acesso para este e-mail e avisamos você. Depois é só entrar em https://planodeestudo.net.br com a sua conta Google.'+zap+' Editora Mundo Encantado'})}).catch(function(e){console.warn('aviso por e-mail não enviado',e)})}
 /* o comprador avisa a Editora pelo WhatsApp, já com o pedido escrito */
 function linkComprovante(p,j){var a=PE.avisos;if(!a||!a.whatsapp)return '';
   return 'https://wa.me/'+a.whatsapp+'?text='+encodeURIComponent('Olá! Fiz o pedido '+p.codigo+' no Plano de Estudo ('+nomePacote(j)+', R$ 25,00). Nome: '+p.nome+'. E-mail: '+p.email+'. Segue o comprovante do pagamento.')}
@@ -787,7 +787,7 @@ function bindCompra(body,j){
        '<p class="note small">Chave Pix (e-mail): <b>'+esc(PE.pix.chave)+'</b><br>Favorecida: '+esc(PE.pix.nome)+' · Valor: R$ 25,00</p>'+
        '<button type="button" class="btn ghost" id="bCopiarChave">Copiar chave Pix</button>'+
        '<label class="field" for="bPix">Pix copia e cola<textarea id="bPix" rows="3" readonly>'+cod+'</textarea></label><button type="button" class="btn ghost" id="bCopiar">Copiar código Pix</button></div>'}
-    $('bp3').innerHTML=h+'<p class="note">A confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, o pacote fica liberado para <b>'+esc(p.email)+'</b>. Você também recebe a confirmação do pedido por e-mail. Depois é só tocar em "Já paguei".</p>'+
+    $('bp3').innerHTML=h+'<p class="note">Pagando pelo Pix ou pelo Mercado Pago, a confirmação do pagamento pode levar até 1 dia útil. Assim que for confirmado, o pacote fica liberado para <b>'+esc(p.email)+'</b>. Você também recebe a confirmação do pedido por e-mail. Depois é só tocar em "Já paguei".</p>'+
      (linkComprovante(p,j)?'<a class="btn ghost" href="'+esc(linkComprovante(p,j))+'" target="_blank" rel="noopener">Depois de pagar, envie o comprovante pelo WhatsApp</a>':'')+
      '<button type="button" class="btn" id="bConf">Já paguei: liberar meu acesso</button>';
     passo(3);
