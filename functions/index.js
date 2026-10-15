@@ -108,22 +108,13 @@ exports.pePagamento = onRequest(async (req, res) => {
   }
 });
 
-// e-mail automático (FormSubmit, o mesmo do painel): para a Editora, com cópia e resposta automática para quem comprou
-const EMAIL_EDITORA = 'mundo.encantado.prof@gmail.com';
+// e-mail automático de acesso liberado (FormSubmit): ver aviso.js
+const { enviarAviso } = require('./aviso');
 async function avisarLiberado(pedido, cod) {
   const p = pacote(pedido.itens && pedido.itens[0]);
-  const nomePac = p ? p.titulo.replace('Plano de Estudo · ', '') : String(pedido.itens || '');
-  const nome = String(pedido.nome || '').split(' ')[0];
-  const msg = 'Olá' + (nome ? ', ' + nome : '') + '! Seu pagamento foi confirmado e o acesso ao Plano de Estudo (' + nomePac + ') já está liberado. Entre em https://planodeestudo.net.br, abra a sua área e clique em "Entrar com Google" usando a conta ' + pedido.email + '. Bons estudos! Editora Mundo Encantado';
-  const r = await fetch('https://formsubmit.co/ajax/' + EMAIL_EDITORA, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json', Origin: 'https://planodeestudo.net.br', Referer: 'https://planodeestudo.net.br/' },
-    body: JSON.stringify({ _subject: 'Plano de Estudo: pagamento aprovado e acesso liberado (pedido ' + cod + ')', _template: 'table', _captcha: 'false',
-      Mensagem: msg, Pedido: cod, Pacote: nomePac, Valor: 'R$ ' + Number(pedido.total).toFixed(2).replace('.', ','), name: pedido.nome || pedido.email,
-      email: pedido.email, _autoresponse: msg })
-  });
-  const d = await r.json().catch(() => ({}));
-  await db.doc('pedidos/' + cod).update({ avisoEmail: String(d.success) === 'true' ? 'enviado' : 'falhou: ' + String(d.message || r.status) });
+  const r = await enviarAviso({ nome: pedido.nome, email: pedido.email, total: pedido.total, cod,
+    nomePac: p ? p.titulo.replace('Plano de Estudo · ', '') : String(pedido.itens || '') });
+  await db.doc('pedidos/' + cod).update({ avisoEmail: r.ok ? 'enviado' : 'falhou: ' + r.motivo });
 }
 
 exports.peWebhook = onRequest(async (req, res) => {
