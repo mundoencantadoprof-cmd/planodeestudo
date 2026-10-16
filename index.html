@@ -790,7 +790,12 @@ function novoPedido(p){return firebase().then(function(f){
     total:PRECO_PACOTE,itens:p.itens,nome:p.nome,email:p.email,tel:p.tel,perfil:'plano-de-estudo'})})}
 /* Teste grátis: cada cadastro vai para a coleção "testes" (lista no painel). Um documento por e-mail e outro por celular, em cada cargo de cada concurso;
    as regras só deixam criar, nunca reescrever, então o mesmo e-mail ou celular não faz um segundo teste no mesmo cargo, em nenhum aparelho */
-function registrarTeste(j,nome,email,tel){return firebase().then(function(f){var c=S.conc.id+'_'+j.id,ts=f.F.serverTimestamp(),d={conc:S.conc.id,cargo:j.id,nome:nome,email:email,tel:tel,criadoEm:ts};
+/* cadastro do teste: primeiro pela função do servidor (não depende das regras do Firestore); se ela falhar, grava direto */
+function registrarTeste(j,nome,email,tel){var dado={conc:S.conc.id,cargo:j.id,nome:nome,email:email,tel:tel};
+  if(PE.funcoes&&window.fetch)return fetch(PE.funcoes.replace(/\/$/,'')+'/peTeste',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(dado)})
+    .then(function(r){if(!r.ok)throw new Error('peTeste '+r.status)}).catch(function(x){console.warn('peTeste',x);return registrarTesteDireto(j,nome,email,tel)});
+  return registrarTesteDireto(j,nome,email,tel)}
+function registrarTesteDireto(j,nome,email,tel){return firebase().then(function(f){var c=S.conc.id+'_'+j.id,ts=f.F.serverTimestamp(),d={conc:S.conc.id,cargo:j.id,nome:nome,email:email,tel:tel,criadoEm:ts};
   /* gravados um a um: se um já existir (mesmo e-mail ou celular), o outro ainda entra na lista */
   return Promise.all([f.F.setDoc(f.F.doc(f.db,'testes',c+'_e_'+email),Object.assign({tipo:'e'},d)).catch(function(x){return x}),
     f.F.setDoc(f.F.doc(f.db,'testes',c+'_t_'+tel),Object.assign({tipo:'t'},d)).catch(function(x){return x})])})}

@@ -55,4 +55,5 @@ jobs:
           a=$(curl -s -o /dev/null -w "%{http_code}" -X OPTIONS -H "Origin: https://planodeestudo.net.br" $B/pePagamento)
           b=$(curl -s -X POST -H "Content-Type: application/json" -d '{}' $B/pePagamento)
           c=$(curl -s -w " %{http_code}" -X POST -H "Content-Type: application/json" -d '{"type":"teste"}' $B/peWebhook)
-          echo "::notice title=Teste das funções::OPTIONS=$a | pePagamento sem login=$b | peWebhook=$c"
+          d=$(curl -s -w " %{http_code}" -X POST -H "Content-Type: application/json" -d '{}' $B/peTeste)
+          echo "::notice title=Teste das funções::OPTIONS=$a | pePagamento sem login=$b | peWebhook=$c | peTeste vazio=$d"

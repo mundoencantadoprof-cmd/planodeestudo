@@ -120,3 +120,31 @@ exports.peWebhook = onRequest(async (req, res) => {
     res.status(500).send('erro');
   }
 });
+
+/* peTeste: grava o cadastro do teste grátis de 1 dia na coleção "testes" pelo servidor,
+   sem depender das regras do Firestore. Um documento por e-mail e outro por celular, em cada
+   concurso e cargo; se já existir, fica o primeiro. Só dá a lista para o painel. */
+exports.peTeste = onRequest(async (req, res) => {
+  cors(req, res);
+  if (req.method === 'OPTIONS') return res.status(204).send('');
+  if (req.method !== 'POST') return res.status(405).json({ erro: 'Use POST.' });
+  try {
+    const b = req.body || {};
+    const conc = limpa(b.conc, 30), cargo = limpa(b.cargo, 30), nome = limpa(b.nome, 120);
+    const email = limpa(b.email, 160).toLowerCase(), tel = limpa(b.tel, 15).replace(/\D/g, '');
+    if (!/^[a-z0-9]+$/.test(conc) || !/^[a-z0-9-]+$/.test(cargo) || !nome
+      || !/^[^@ ]+@[^@ ]+[.][^@ ]+$/.test(email) || !/^[0-9]{10,11}$/.test(tel))
+      return res.status(400).json({ erro: 'Confira o cadastro.' });
+    const d = { conc, cargo, nome, email, tel, criadoEm: admin.firestore.FieldValue.serverTimestamp() };
+    const c = conc + '_' + cargo;
+    const grava = (id, tipo) => db.doc('testes/' + id).create(Object.assign({ tipo }, d)).then(() => true, e => {
+      if (e.code === 6) return false; /* já existe */
+      throw e;
+    });
+    const [e, t] = await Promise.all([grava(c + '_e_' + email, 'e'), grava(c + '_t_' + tel, 't')]);
+    res.json({ ok: true, novo: e || t });
+  } catch (e) {
+    console.error('peTeste', e);
+    res.status(500).json({ erro: 'Não foi possível gravar agora.' });
+  }
+});
