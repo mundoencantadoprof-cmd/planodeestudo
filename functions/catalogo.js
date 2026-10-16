@@ -57,7 +57,9 @@ const CONCURSOS = {
     ei: 'Professor de Educação Infantil',
     arte: 'PEB II – Artes',
     edf: 'PEB II – Educação Física',
-    ing: 'PEB II – Inglês' } }
+    ing: 'PEB II – Inglês' } },
+  unesp: { nome: 'Vestibular Unesp 2027', cargos: {
+    f1: '1ª fase: Conhecimentos Gerais' } }
 };
 function pacote(item) {
   const m = /^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(String(item || ''));
