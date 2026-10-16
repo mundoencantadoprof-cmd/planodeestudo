@@ -19,7 +19,45 @@ const CONCURSOS = {
     ing: 'Professor de Ensino Fundamental II – Inglês',
     lpo: 'Professor de Ensino Fundamental II – Português',
     sei: 'Professor Substituto de Educação Infantil',
-    sef1: 'Professor Substituto de Ensino Fundamental I' } }
+    sef1: 'Professor Substituto de Ensino Fundamental I' } },
+  birigui: { nome: 'Birigui (SP) CP 01/2026', cargos: {
+    aux: 'Professor Auxiliar' } },
+  lucelia: { nome: 'Lucélia (SP) PS 003/2026', cargos: {
+    ei1: 'Professor de Educação Infantil I',
+    ei2: 'Professor de Educação Infantil II',
+    peb1: 'Professor de Educação Básica I',
+    ing: 'PEB II – Inglês',
+    his: 'PEB II – História',
+    geo: 'PEB II – Geografia',
+    lpo: 'PEB II – Língua Portuguesa',
+    mat: 'PEB II – Matemática',
+    cie: 'PEB II – Ciências Físicas e Biológicas',
+    edf: 'PEB II – Educação Física',
+    arte: 'PEB II – Arte' } },
+  gsalgado: { nome: 'General Salgado (SP) CP 01/2026', cargos: {
+    dir: 'Diretor de Escola',
+    coord: 'Professor Coordenador',
+    aux1: 'Professor Auxiliar I',
+    lp: 'Professor Auxiliar II – Língua Portuguesa',
+    mt: 'Professor Auxiliar II – Matemática' } },
+  lins: { nome: 'Lins (SP) PS Educação 002/2026', cargos: {
+    peb1: 'Professor de Educação Básica I – PEB I',
+    arte: 'PEB II – Arte',
+    cie: 'PEB II – Ciências Físicas e Biológicas',
+    edf: 'PEB II – Educação Física',
+    geo: 'PEB II – Geografia',
+    his: 'PEB II – História',
+    inf: 'PEB II – Informática',
+    ing: 'PEB II – Inglês',
+    lpo: 'PEB II – Língua Portuguesa',
+    mt: 'PEB II – Matemática' } },
+  caiabu: { nome: 'Caiabu (SP) CP 001/2026', cargos: {
+    coord: 'Coordenador Pedagógico',
+    creche: 'Professor de Creche',
+    ei: 'Professor de Educação Infantil',
+    arte: 'PEB II – Artes',
+    edf: 'PEB II – Educação Física',
+    ing: 'PEB II – Inglês' } }
 };
 function pacote(item) {
   const m = /^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(String(item || ''));
