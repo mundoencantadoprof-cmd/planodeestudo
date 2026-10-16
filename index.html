@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='ddf9b63318ef';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='40a04bd998d5';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -608,7 +608,7 @@ function quotaOf(k){var b=BL();if(!b)return QUOTA[k];for(var i=0;i<b.length;i++)
 function perDay(){return catKeys().reduce(function(t,k){return t+quotaOf(k)},0)}
 function catNome(k){var b=BL();if(b)for(var i=0;i<b.length;i++)if(b[i].id===k)return b[i].nome;return CAT_NOME[k]}
 function ptsQ(){return 100/S.conc.regras.questoes}
-function metaAcertos(){return Math.ceil(S.conc.regras.min/100*perDay()-1e-9)}
+function metaAcertos(){return Math.ceil((S.conc.regras.min||60)/100*perDay()-1e-9)} /* prova classificatória (sem mínimo): meta sugerida de 60% */
 var ORDER={leg:['cf','ldb','eca','bncc','dcn','paulista','pne','lom','lom-geral'],ped:['teoricos','tendencias','didatica','gestao','info']};
 /* regras.mapBloco: um bloco do banco conta como outro nesta prova (ex.: legislação do CP de Lençóis entra nos Específicos do PS) */
 function blocoDe(q){var m=S.conc&&S.conc.regras&&S.conc.regras.mapBloco;return m&&m[q.bloco]||q.bloco}
@@ -651,7 +651,7 @@ function dailyChart(plan,p,ti){
   return '<div class="card"><div class="foot"><h3>Acertos por dia</h3><span class="eyebrow">Meta: '+total+' questões até '+fmtDate(plan.days[plan.days.length-1].date)+'</span></div>'+
    '<div class="stats"><div class="stat"><b>'+feitas+'</b><span>respondidas de '+total+'</span></div><div class="stat"><b>'+(total-feitas)+'</b><span>faltam até a véspera</span></div><div class="stat"><b>'+(feitas?Math.round(acertos/feitas*100)+'%':'–')+'</b><span>de acertos no plano</span></div><div class="stat"><b>'+acertos+'</b><span>acertos no total</span></div></div>'+
    '<div class="dchart" style="--n:'+plan.days.length+'">'+cols+'<div class="goal" style="bottom:'+(MA/PD*100)+'%" title="'+MA+' acertos de '+PD+' = '+fmtPts(MA/PD*100)+' pontos na escala da prova"></div></div><div class="dlab" style="--n:'+plan.days.length+'">'+lab+'</div>'+
-   '<p class="eyebrow" style="text-transform:none;letter-spacing:0;font-family:var(--f-body)">Verde: acertos. Vermelho: erros. A linha tracejada marca '+MA+' acertos em '+PD+', que equivalem a '+fmtPts(MA/PD*100)+' pontos'+(MA/PD*100>r.min+1e-9?', acima do mínimo de '+r.min:', o mínimo para aprovação')+'.</p></div>';
+   '<p class="eyebrow" style="text-transform:none;letter-spacing:0;font-family:var(--f-body)">Verde: acertos. Vermelho: erros. A linha tracejada marca '+MA+' acertos em '+PD+', que equivalem a '+fmtPts(MA/PD*100)+' pontos'+(!r.min?', a meta sugerida para esta prova classificatória':MA/PD*100>r.min+1e-9?', acima do mínimo de '+r.min:', o mínimo para aprovação')+'.</p></div>';
 }
 function fmtPts(x){return Math.abs(x-Math.round(x))<0.05?String(Math.round(x)):x.toFixed(1).replace('.',',')
 }
@@ -718,7 +718,7 @@ function renderConc(){
   var c=S.conc,r=c.regras,d=daysTo(c.prova);
   var jobs=c.cargos.map(function(j){
     var plan=buildPlan(j),p=prog(j),done=Object.keys(p).filter(function(k){return p[k].fim}).length;
-    return '<button type="button" class="job" data-j="'+j.id+'" style="--c:'+j.cor+'"><h3>'+esc(j.nome)+'</h3><p class="meta">'+(j.info||j.jornada+' · '+j.salario+' · '+j.horario)+'</p><div class="prog"><div class="bar"><i style="width:'+(done/plan.days.length*100)+'%"></i></div><span>'+done+'/'+plan.days.length+' dias</span></div><span class="tag" style="justify-self:start">'+plan.unique+' questões</span></button>';
+    return '<button type="button" class="job" data-j="'+j.id+'" style="--c:'+j.cor+'"><h3>'+esc(j.nome)+'</h3><p class="meta">'+(j.info||j.jornada+' · '+j.salario+' · '+j.horario)+'</p><div class="prog"><div class="bar"><i style="width:'+(done/plan.days.length*100)+'%"></i></div><span>'+done+'/'+plan.days.length+' dias</span></div><span class="tag" style="justify-self:start">'+(c.tipo==='vest'?qsFor(j).length:plan.unique)+' questões</span></button>';
   }).join('');
   app.innerHTML='<section class="view">'+
    '<div class="chead"><div class="band" style="height:10px;background:'+c.band+'"></div><div class="in">'+(c.brasao?'<img class="brasao lg" src="'+c.brasao+'" alt="Brasão de '+esc(c.nome)+'">':'')+'<span class="eyebrow">'+esc(c.edital)+' · Banca '+esc(c.banca)+'</span><h2>'+(c.titulo?esc(c.titulo):'Prefeitura de '+esc(c.nome)+' ('+c.uf+')')+'</h2>'+
