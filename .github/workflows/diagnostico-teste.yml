@@ -19,5 +19,5 @@ jobs:
       - run: node tools/diagnostico-teste.js
       - name: Erros recentes da função
         run: |
-          l=$(gcloud logging read 'resource.labels.service_name="peteste" AND severity>=WARNING' --project mundo-encantado-77c43 --freshness=3h --limit=8 --format='value(timestamp,textPayload)' 2>&1 | cut -c1-250 | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g')
+          l=$(gcloud logging read 'resource.labels.service_name="peteste" AND severity>=DEFAULT' --project mundo-encantado-77c43 --freshness=1h --limit=8 --format='value(timestamp,textPayload)' 2>&1 | cut -c1-250 | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g')
           echo "::notice title=Log peTeste::${l:-sem erros}"
