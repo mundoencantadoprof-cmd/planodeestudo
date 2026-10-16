@@ -63,11 +63,11 @@ exports.pePagamento = onRequest(async (req, res) => {
     const volta = s => origem.split('?')[0].split('#')[0] + '?pagamento=' + s + '&pedido=' + cod + '&conc=' + p.conc + '&cargo=' + p.cargo;
     await db.doc('pedidos/' + cod).set({
       situacao: 'aguardando', forma: 'mercadopago', criadoEm: admin.firestore.FieldValue.serverTimestamp(),
-      total: PRECO, itens: [p.item], nome: limpa(d.nome, 120), email, tel,
+      total: p.preco || PRECO, itens: [p.item], nome: limpa(d.nome, 120), email, tel,
       perfil: 'plano-de-estudo'
     });
     const pref = await mp('/checkout/preferences', { method: 'POST', body: JSON.stringify({
-      items: [{ id: p.item, title: p.titulo, quantity: 1, unit_price: PRECO, currency_id: 'BRL' }],
+      items: [{ id: p.item, title: p.titulo, quantity: 1, unit_price: p.preco || PRECO, currency_id: 'BRL' }],
       payer: { email, name: limpa(d.nome, 120) },
       external_reference: cod,
       statement_descriptor: 'PLANODEESTUDO',

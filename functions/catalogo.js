@@ -58,12 +58,13 @@ const CONCURSOS = {
     arte: 'PEB II – Artes',
     edf: 'PEB II – Educação Física',
     ing: 'PEB II – Inglês' } },
-  unesp: { nome: 'Vestibular Unesp 2027', cargos: {
-    f1: '1ª fase: Conhecimentos Gerais' } }
+  unesp: { nome: 'Vestibular Unesp 2027', precos: { f12: 59.9 }, cargos: {
+    f1: '1ª fase: Conhecimentos Gerais',
+    f12: '1ª + 2ª fase: pacote completo' } }
 };
 function pacote(item) {
   const m = /^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(String(item || ''));
   const c = m && CONCURSOS[m[1]];
-  return c && c.cargos[m[2]] ? { item, conc: m[1], cargo: m[2], titulo: 'Plano de Estudo · ' + c.nome + ' · ' + c.cargos[m[2]] } : null;
+  return c && c.cargos[m[2]] ? { item, conc: m[1], cargo: m[2], preco: (c.precos && c.precos[m[2]]) || null, titulo: 'Plano de Estudo · ' + c.nome + ' · ' + c.cargos[m[2]] } : null;
 }
 module.exports = { CONCURSOS, pacote };
