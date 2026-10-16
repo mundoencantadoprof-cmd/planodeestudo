@@ -726,7 +726,7 @@ function renderGate(body,j){
   body.innerHTML='<div class="gate2">'+
    (buy?'':(a&&a.mode==='trial'&&trialExpired(j)?'<div class="offer"><span class="eyebrow">Teste grátis encerrado</span><h3>Seu dia de teste foi '+fmtDate(a.date)+'</h3><p>O teste grátis vale um dia por pessoa em cada cargo. Para continuar o plano até a prova, com seu progresso guardado, adquira o pacote completo.</p></div>':
     '<div class="offer"><span class="eyebrow">Experimente</span><h3>Teste grátis por 1 dia</h3><p>Use o sistema completo hoje, com correção explicada em texto e voz.</p><ul class="list"><li>'+TRIAL_MAX+' questões do plano do dia</li><li>Um simulado de '+c.regras.questoes+' questões com cronômetro</li><li>'+TRIAL_MAX+' questões de treino e revisão dos erros</li></ul>'+
-    '<form id="cadForm" class="cad" novalidate><label class="field" for="cNome">Nome completo<input id="cNome" autocomplete="name" required></label><label class="field" for="cEmail">E-mail<input id="cEmail" type="email" autocomplete="email" inputmode="email" required></label><label class="field" for="cTel">Celular com DDD (WhatsApp)<input id="cTel" type="tel" autocomplete="tel" inputmode="tel" placeholder="(14) 99999-9999" required></label><label class="chk"><input type="checkbox" id="cOk"> Autorizo a Editora Mundo Encantado a usar estes dados para liberar o teste e falar comigo sobre o Plano de Estudo.</label><p class="err" id="cErr" hidden></p><button type="submit" class="btn ghost" id="trial">Liberar meu dia grátis</button><p class="note small">O teste grátis vale uma vez por pessoa em cada cargo. E-mail e celular já usados não liberam outro teste deste cargo.</p></form></div>'))+
+    '<form id="cadForm" class="cad" novalidate><label class="field" for="cNome">Nome completo<input id="cNome" autocomplete="name" required></label><label class="field" for="cEmail">E-mail<input id="cEmail" type="email" autocomplete="email" inputmode="email" required></label><label class="field" for="cTel">Celular com DDD (WhatsApp)<input id="cTel" type="tel" autocomplete="tel" inputmode="tel" placeholder="(14) 99999-9999" required></label><label class="chk"><input type="checkbox" id="cOk"> Autorizo a Editora Mundo Encantado a usar estes dados para liberar o teste e falar comigo sobre o Plano de Estudo.</label><p class="err" id="cErr" hidden></p><button type="submit" class="btn ghost" id="trial">Liberar meu dia grátis</button><p class="note small">O teste grátis vale um dia em cada cargo à venda. Você pode usar o mesmo e-mail e celular para testar outros cargos.</p></form></div>'))+
    '<div class="offer best"><span class="eyebrow">Pacote completo · '+esc(j.nome)+'</span><h3>Rotina de treino até a prova</h3><p>Plano diário de '+fmtDate(plan.days[0].date)+' a '+fmtDate(plan.days[plan.days.length-1].date)+', véspera da prova de '+fmtDate(c.prova)+'.</p><ul class="list"><li>'+plan.days.length+' dias de plano, '+(plan.days.length*perDay())+' questões</li><li>Gráfico de acertos por dia e nota estimada</li><li>Treino livre, revisão dos erros e simulados cronometrados</li><li>Progresso só desta área, separado das demais</li></ul>'+
    '<p class="price"><b>R$ 39,90</b> por área, pagamento único</p>'+
    '<p class="secure"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Pagamento seguro pelo <b>Mercado Pago</b>: boleto, cartão ou Pix.</span></p>'+
@@ -744,9 +744,9 @@ function renderGate(body,j){
     setAcesso(j,{mode:'trial',date:hoje,day:todayIndex(plan),nome:n,email:e,tel:t,tre:0,sim:0});S.compra=false;S.tab='plano';S.sess=null;renderCargo()}
     if(!siteComBanco())return libera();
     var bt=f.querySelector('button[type=submit]');if(bt)bt.disabled=true;er.hidden=true;
-    registrarTeste(j,n,e,t).then(libera,function(x){if(bt)bt.disabled=false;
-      if(x&&x.code==='permission-denied')return bad('Este e-mail ou celular já usou o teste grátis deste cargo. Para continuar, adquira o pacote completo.');
-      libera()})};
+    /* o cadastro vai para a lista do painel, mas nunca impede o teste: se o banco recusar ou demorar, o dia grátis é liberado do mesmo jeito */
+    var feito=false;function vai(){if(feito)return;feito=true;libera()}
+    setTimeout(vai,5000);registrarTeste(j,n,e,t).then(vai,function(x){console.warn('cadastro do teste não gravado',x);vai()})};
   bindBuy(body,j);
   if(buy&&siteComBanco()){bindCompra(body,j);return}
   var u=document.getElementById('usar');if(u)u.onclick=function(){var v=(document.getElementById('codigo').value||'').trim().toUpperCase();if(v===CODIGO_TESTE){setAcesso(j,{mode:'full'});S.compra=false;S.sess=null;renderCargo()}else document.getElementById('codErr').hidden=false};
@@ -784,10 +784,10 @@ function novoPedido(p){return firebase().then(function(f){
     total:PRECO_PACOTE,itens:p.itens,nome:p.nome,email:p.email,tel:p.tel,perfil:'plano-de-estudo'})})}
 /* Teste grátis: cada cadastro vai para a coleção "testes" (lista no painel). Um documento por e-mail e outro por celular, em cada cargo de cada concurso;
    as regras só deixam criar, nunca reescrever, então o mesmo e-mail ou celular não faz um segundo teste no mesmo cargo, em nenhum aparelho */
-function registrarTeste(j,nome,email,tel){return firebase().then(function(f){var c=S.conc.id+'_'+j.id,b=f.F.writeBatch(f.db),ts=f.F.serverTimestamp();
-  b.set(f.F.doc(f.db,'testes',c+'_e_'+email),{tipo:'e',conc:S.conc.id,cargo:j.id,nome:nome,email:email,tel:tel,criadoEm:ts});
-  b.set(f.F.doc(f.db,'testes',c+'_t_'+tel),{tipo:'t',conc:S.conc.id,cargo:j.id,nome:nome,email:email,tel:tel,criadoEm:ts});
-  return b.commit()})}
+function registrarTeste(j,nome,email,tel){return firebase().then(function(f){var c=S.conc.id+'_'+j.id,ts=f.F.serverTimestamp(),d={conc:S.conc.id,cargo:j.id,nome:nome,email:email,tel:tel,criadoEm:ts};
+  /* gravados um a um: se um já existir (mesmo e-mail ou celular), o outro ainda entra na lista */
+  return Promise.all([f.F.setDoc(f.F.doc(f.db,'testes',c+'_e_'+email),Object.assign({tipo:'e'},d)).catch(function(x){return x}),
+    f.F.setDoc(f.F.doc(f.db,'testes',c+'_t_'+tel),Object.assign({tipo:'t'},d)).catch(function(x){return x})])})}
 function nomePacote(j){return (S.conc&&S.conc.nome?S.conc.nome+' · ':'')+j.nome}
 /* Aviso de compra por e-mail (FormSubmit, escolhido pela Editora): chega para a Editora e o comprador recebe a resposta automática com o pedido */
 function avisarPedido(p,j){var a=PE.avisos;if(!a||!a.email||!window.fetch)return;var w=a.whatsapp||'',zap=w?' Dúvidas: WhatsApp ('+w.slice(2,4)+') '+w.slice(4,9)+'-'+w.slice(9)+'.':'';
