@@ -60,7 +60,10 @@ const CONCURSOS = {
     ing: 'PEB II – Inglês' } },
   unesp: { nome: 'Vestibular Unesp 2027', precos: { f12: 59.9 }, cargos: {
     f1: '1ª fase: Conhecimentos Gerais',
-    f12: '1ª + 2ª fase: pacote completo' } }
+    f12: '1ª + 2ª fase: pacote completo' } },
+  piracicaba: { nome: 'Piracicaba (SP) PS 01/2026', cargos: {
+    ei: 'Professor Substituto de Educação Infantil',
+    ef: 'Professor Substituto de Ensino Fundamental' } }
 };
 function pacote(item) {
   const m = /^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(String(item || ''));
