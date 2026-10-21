@@ -11,7 +11,7 @@ async function idToken(uid) {
   const j = await r.json(); if (!j.idToken) throw new Error('token: ' + JSON.stringify(j).slice(0, 200)); return j.idToken;
 }
 async function baixar(tk) {
-  const r = await fetch(F, { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://planodeestudo.net.br', Authorization: 'Bearer ' + tk }, body: JSON.stringify({ item: 'ap-arcoiris-ei' }) });
+  const r = await fetch(F, { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://planodeestudo.net.br', Authorization: 'Bearer ' + tk }, body: JSON.stringify({ item: process.env.ITEM || 'ap-arcoiris-ei' }) });
   const b = Buffer.from(await r.arrayBuffer());
   return r.status + ' ' + (r.headers.get('content-type') || '') + ' ' + b.length + ' bytes ' + (b.slice(0, 5).toString() === '%PDF-' ? 'PDF ok' : b.slice(0, 120).toString()) + ' | CORS=' + r.headers.get('access-control-allow-origin');
 }

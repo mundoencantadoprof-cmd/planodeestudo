@@ -3,7 +3,7 @@ name: Teste das apostilas
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/e2e-apostila.yml', 'tools/e2e-apostila.js']
+    paths: ['.github/workflows/e2e-apostila.yml', 'tools/e2e-apostila.js', 'functions/catalogo.js']
   workflow_dispatch:
 jobs:
   e2e:
@@ -17,3 +17,4 @@ jobs:
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
       - run: node tools/e2e-apostila.js
+      - run: ITEM=ap-piracicaba-ef node tools/e2e-apostila.js
