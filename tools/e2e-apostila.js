@@ -1,6 +1,6 @@
 /* Teste do download das apostilas (função peApostila): a conta da Editora recebe o PDF;
-   uma conta de teste sem compra é recusada. A conta de teste é apagada no fim. */
-   Testa a apostila padrão e a da variável ITEM.
+   uma conta de teste sem compra é recusada. A conta de teste é apagada no fim.
+   Testa a apostila padrão e a da variável ITEM. */
 const admin = require('../functions/node_modules/firebase-admin');
 admin.initializeApp({ projectId: 'mundo-encantado-77c43' });
 const nota = (t, m) => console.log('::notice title=' + t + '::' + String(m).replace(/%/g, '%25').replace(/\n/g, '%0A'));
