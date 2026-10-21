@@ -17,21 +17,22 @@ async function enviarAviso(pedido, cod) {
   const p = pacote(pedido.itens && pedido.itens[0]);
   const nomePac = p ? p.titulo.replace('Plano de Estudo · ', '') : String(pedido.itens || '');
   const nome = String(pedido.nome || '').split(' ')[0];
+  const ap = !!(p && p.apostila);
   const linhas = [
     'Olá' + (nome ? ', ' + nome : '') + '!',
-    'Seu pagamento foi confirmado e o acesso ao Plano de Estudo já está liberado.',
-    'Pacote: ' + nomePac + (cod ? ' (pedido ' + cod + ')' : ''),
-    'Como acessar, em qualquer aparelho: entre em https://planodeestudo.net.br, clique em "Entrar" no alto da página e use a conta Google ' + pedido.email + '. Em "Minha área" aparecem os seus pacotes e o botão "Continuar estudando".',
+    ap ? 'Seu pagamento foi confirmado e a sua apostila em PDF já está liberada.' : 'Seu pagamento foi confirmado e o acesso ao Plano de Estudo já está liberado.',
+    (ap ? 'Apostila: ' : 'Pacote: ') + nomePac.replace('Apostila em PDF · ', '') + (cod ? ' (pedido ' + cod + ')' : ''),
+    'Como acessar, em qualquer aparelho: entre em https://planodeestudo.net.br, clique em "Entrar" no alto da página e use a conta Google ' + pedido.email + '. ' + (ap ? 'Em "Minha área", toque em "Baixar apostila" para salvar o PDF.' : 'Em "Minha área" aparecem os seus pacotes e o botão "Continuar estudando".'),
     'Bons estudos!',
     'Editora Mundo Encantado · ' + EMAIL_EDITORA
   ];
   await t.sendMail({
     from: '"Plano de Estudo · Editora Mundo Encantado" <' + EMAIL_EDITORA + '>',
     to: pedido.email, bcc: EMAIL_EDITORA, replyTo: EMAIL_EDITORA,
-    subject: 'Plano de Estudo: seu acesso foi liberado',
+    subject: ap ? 'Plano de Estudo: sua apostila foi liberada' : 'Plano de Estudo: seu acesso foi liberado',
     text: linhas.join('\n\n'),
     html: '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#13285E">' + linhas.map((l, i) =>
-      i === 3 ? '<p>Como acessar, em qualquer aparelho: entre em <a href="https://planodeestudo.net.br">planodeestudo.net.br</a>, clique em <b>Entrar</b> no alto da página e use a conta Google <b>' + esc(pedido.email) + '</b>. Em <b>Minha área</b> aparecem os seus pacotes e o botão <b>Continuar estudando</b>.</p>'
+      i === 3 ? '<p>Como acessar, em qualquer aparelho: entre em <a href="https://planodeestudo.net.br">planodeestudo.net.br</a>, clique em <b>Entrar</b> no alto da página e use a conta Google <b>' + esc(pedido.email) + '</b>. ' + (ap ? 'Em <b>Minha área</b>, toque em <b>Baixar apostila</b> para salvar o PDF.' : 'Em <b>Minha área</b> aparecem os seus pacotes e o botão <b>Continuar estudando</b>.') + '</p>'
       : '<p>' + esc(l) + '</p>').join('') + '</div>'
   });
   return { ok: true };

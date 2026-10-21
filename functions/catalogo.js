@@ -65,9 +65,14 @@ const CONCURSOS = {
     ei: 'Professor Substituto de Educação Infantil',
     ef: 'Professor Substituto de Ensino Fundamental' } }
 };
+/* Apostilas em PDF à venda (item ap-<concurso>-<cargo>); o arquivo cifrado fica em apostilas/<item>.bin. */
+const APOSTILAS = { 'ap-arcoiris-ei': 39.9 };
 function pacote(item) {
-  const m = /^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(String(item || ''));
-  const c = m && CONCURSOS[m[1]];
-  return c && c.cargos[m[2]] ? { item, conc: m[1], cargo: m[2], preco: (c.precos && c.precos[m[2]]) || null, titulo: 'Plano de Estudo · ' + c.nome + ' · ' + c.cargos[m[2]] } : null;
+  item = String(item || '');
+  const m = /^(pe|ap)-([a-z0-9]+)-([a-z0-9]+)$/.exec(item);
+  const c = m && CONCURSOS[m[2]];
+  if (!c || !c.cargos[m[3]]) return null;
+  if (m[1] === 'ap') return APOSTILAS[item] ? { item, conc: m[2], cargo: m[3], preco: APOSTILAS[item], apostila: true, titulo: 'Apostila em PDF · ' + c.nome + ' · ' + c.cargos[m[3]] } : null;
+  return { item, conc: m[2], cargo: m[3], preco: (c.precos && c.precos[m[3]]) || null, titulo: 'Plano de Estudo · ' + c.nome + ' · ' + c.cargos[m[3]] };
 }
-module.exports = { CONCURSOS, pacote };
+module.exports = { CONCURSOS, APOSTILAS, pacote };

@@ -16,6 +16,7 @@ const db = admin.firestore();
 const PRECO = 39.9;
 const { pacote } = require('./catalogo');
 const { enviarAviso } = require('./aviso');
+const { abrir } = require('./cofre');
 const SITES = ['https://mundoencantadoprof-cmd.github.io', 'https://planodeestudo.net.br', 'https://www.planodeestudo.net.br'];
 const SITE_PADRAO = process.env.SITE_URL || 'https://planodeestudo.net.br/';
 const MP = 'https://api.mercadopago.com';
@@ -60,7 +61,7 @@ exports.pePagamento = onRequest(async (req, res) => {
 
     const cod = codigo();
     const origem = SITES.includes(req.get('origin')) ? (b.voltar && String(b.voltar).startsWith(req.get('origin')) ? String(b.voltar) : req.get('origin') + '/') : SITE_PADRAO;
-    const volta = s => origem.split('?')[0].split('#')[0] + '?pagamento=' + s + '&pedido=' + cod + '&conc=' + p.conc + '&cargo=' + p.cargo;
+    const volta = s => origem.split('?')[0].split('#')[0] + '?pagamento=' + s + '&pedido=' + cod + '&conc=' + p.conc + '&cargo=' + p.cargo + (p.apostila ? '&tipo=apostila' : '');
     await db.doc('pedidos/' + cod).set({
       situacao: 'aguardando', forma: 'mercadopago', criadoEm: admin.firestore.FieldValue.serverTimestamp(),
       total: p.preco || PRECO, itens: [p.item], nome: limpa(d.nome, 120), email, tel,
@@ -146,5 +147,39 @@ exports.peTeste = onRequest(async (req, res) => {
   } catch (e) {
     console.error('peTeste', e);
     res.status(500).json({ erro: 'Não foi possível gravar agora.' });
+  }
+});
+
+/* peApostila: entrega o PDF da apostila a quem comprou (ou à Editora). O arquivo fica cifrado no
+   repositório público; a chave privada fica só no Firestore (segredos/apostilas). */
+const REPO_APOSTILAS = 'https://raw.githubusercontent.com/mundoencantadoprof-cmd/planodeestudo/main/apostilas/';
+const ADMINS = ['mundo.encantado.prof@gmail.com'];
+let chaveApostilas = null;
+exports.peApostila = onRequest({ memory: '1GiB', timeoutSeconds: 120 }, async (req, res) => {
+  cors(req, res);
+  res.set('Access-Control-Expose-Headers', 'Content-Disposition');
+  if (req.method === 'OPTIONS') return res.status(204).send('');
+  if (req.method !== 'POST') return res.status(405).json({ erro: 'Use POST.' });
+  try {
+    const token = String(req.get('authorization') || '').replace(/^Bearer /, '');
+    const quem = await admin.auth().verifyIdToken(token).catch(() => null);
+    if (!quem || !quem.email) return res.status(401).json({ erro: 'Entre com a conta Google de novo.' });
+    const email = quem.email.toLowerCase();
+    const p = pacote((req.body || {}).item);
+    if (!p || !p.apostila) return res.status(400).json({ erro: 'Apostila desconhecida.' });
+    if (!ADMINS.includes(email)) {
+      const ac = await db.doc('acessos/' + email).get();
+      if (!((ac.exists && ac.data().planos) || []).includes(p.item)) return res.status(403).json({ erro: 'Esta apostila ainda não foi liberada para ' + email + '.' });
+    }
+    if (!chaveApostilas) chaveApostilas = (await db.doc('segredos/apostilas').get()).get('priv');
+    const r = await fetch(REPO_APOSTILAS + p.item + '.bin');
+    if (!r.ok) throw new Error('arquivo ' + r.status);
+    const pdf = abrir(Buffer.from(await r.arrayBuffer()), chaveApostilas);
+    res.set('Content-Type', 'application/pdf');
+    res.set('Content-Disposition', 'attachment; filename="apostila-' + p.conc + '-' + p.cargo + '.pdf"');
+    res.status(200).send(pdf);
+  } catch (e) {
+    console.error('peApostila', e);
+    res.status(500).json({ erro: 'Não foi possível baixar agora.' });
   }
 });
