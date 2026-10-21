@@ -1,0 +1,19 @@
+# Cofre das apostilas em PDF: chave no Firestore e conferência dos arquivos cifrados.
+name: Cofre das apostilas
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/chave-apostilas.yml', 'tools/chave-apostilas.js', 'apostilas/*.bin']
+  workflow_dispatch:
+jobs:
+  cofre:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm install --prefix functions --omit=dev
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - run: node tools/chave-apostilas.js
