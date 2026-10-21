@@ -17,7 +17,12 @@ async function baixar(tk) {
 }
 (async () => {
   const ed = await admin.auth().getUserByEmail('mundo.encantado.prof@gmail.com');
-  nota('Editora', await baixar(await idToken(ed.uid)));
+  const tk = await idToken(ed.uid);
+  nota('Editora', await baixar(tk));
+  const r = await fetch(F.replace('peApostila', 'pePagamento'), { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://planodeestudo.net.br', Authorization: 'Bearer ' + tk }, body: '{}' });
+  nota('pePagamento com o mesmo token', r.status + ' ' + (await r.text()).slice(0, 200));
+  const t2 = await fetch(F, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+  nota('peApostila sem token', t2.status + ' ' + (await t2.text()).slice(0, 200));
   const uid = 'diag-apostila';
   await admin.auth().createUser({ uid, email: 'diag.apostila@example.com', emailVerified: true }).catch(() => {});
   try { nota('Sem compra', await baixar(await idToken(uid))); } finally { await admin.auth().deleteUser(uid); }
