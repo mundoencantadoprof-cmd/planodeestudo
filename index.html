@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='e71521c62ace';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='d5b1e5d21b8f';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -391,10 +391,10 @@ a.btn{text-decoration:none;text-align:center;justify-content:center}
 .apin{display:grid;gap:8px;min-width:0}.apin h3{margin:0;font-size:1.2rem}.apin .list{margin:2px 0}
 .aprow{display:flex;flex-wrap:wrap;gap:10px}.aptem{margin:0;font-weight:700;color:#0F766E}
 .apbuy{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:12px}.apcad{display:grid;gap:10px}
-.apdcapa{width:150px;border-radius:8px;box-shadow:0 10px 26px rgba(0,0,0,.35);transform:rotate(-3deg);margin-bottom:6px}
+.apdpilha{position:relative;width:210px;height:200px}.apdcapa{position:absolute;top:0;width:128px;border-radius:7px;box-shadow:0 10px 26px rgba(0,0,0,.4)}.apdcapa:nth-child(1){left:0;transform:rotate(-9deg)}.apdcapa:nth-child(2){left:40px;top:-6px;z-index:1}.apdcapa:nth-child(3){left:82px;transform:rotate(8deg);z-index:2}.apdn{margin:0;color:#F4B728;font-weight:700;font-size:.92rem;text-align:center}
 .apfaixa{display:flex;align-items:center;gap:12px;margin-top:14px;background:#FFF6DC;border:1px solid #F4D27A;border-radius:14px;padding:10px 14px}
 .apfaixa img{width:46px;border-radius:4px}.apfaixa div{display:grid;flex:1;min-width:0}.apfaixa span{font-size:.9rem;color:var(--soft)}
-@media (max-width:620px){.apcard{grid-template-columns:96px 1fr;gap:12px;padding:14px}.apdcapa{width:120px}}
+@media (max-width:620px){.apcard{grid-template-columns:96px 1fr;gap:12px;padding:14px}.apdpilha{width:190px;height:180px}.apdcapa{width:112px}}
 @media (max-width:520px){.apbtn{width:40px;height:40px;flex:none;padding:0;justify-content:center;margin-right:6px}.apbtn svg{width:20px;height:20px}.apbtn span{display:none}}
 </style>
 <script>
@@ -700,7 +700,7 @@ function vestDestaque(){var v=CONCURSOS.filter(function(c){return c.tipo==='vest
 function apDestaque(){if(!APOSTILAS.length)return '';var a=APOSTILAS[0],tq=APOSTILAS.reduce(function(t,x){return t+x.questoes},0);
   return '<div class="vesthome aphome"><div class="vh-txt"><span class="eyebrow">Novidade · Apostilas em PDF</span><h2>Estude também com a apostila do seu cargo</h2><p>As questões inéditas do Plano de Estudo reunidas em um PDF, na ordem do edital, com o comentário completo de cada resposta. Compre uma vez e estude no celular, no computador ou impresso.</p><ul>'+
    '<li>Resposta, explicação, dica e o porquê de cada alternativa errada</li><li>Sumário organizado pelo conteúdo do edital do cargo</li><li>Cada apostila por '+apPreco(a)+', pagamento único</li></ul></div>'+
-   '<div class="vh-lado"><img class="apdcapa" src="'+a.capa+'" alt="Capa da apostila"><button type="button" class="btn" id="irApostilas">Ver as apostilas</button></div></div>'}
+   '<div class="vh-lado"><div class="apdpilha">'+APOSTILAS.slice(-3).map(function(x){return '<img class="apdcapa" src="'+x.capa+'" alt="" loading="lazy">'}).join('')+'</div><p class="apdn">'+APOSTILAS.length+(APOSTILAS.length===1?' apostila':' apostilas')+' à venda</p><button type="button" class="btn" id="irApostilas">Ver as apostilas</button></div></div>'}
 /* Vestibular: troca "cargo" por "fase" nos textos da tela */
 var VEST_TXT=[[/por cargo/g,'por pacote'],[/desta área/g,'deste pacote'],[/Escolha o seu cargo/g,'Escolha a fase'],[/o edital do seu cargo pede/g,'a prova pede'],[/Conteúdo do edital para este cargo/g,'Conteúdo da prova'],[/deste cargo/g,'desta fase'],[/este cargo/g,'esta fase'],[/cada cargo/g,'cada fase'],[/mesmo cargo/g,'mesma fase'],[/seu cargo/g,'sua fase'],[/outros cargos/g,'outras fases'],[/do edital/g,'da prova'],[/o edital pede/g,'a prova pede']];
 function vestTextos(){if(!S.conc||S.conc.tipo!=='vest'||!app)return;var w=document.createTreeWalker(app,NodeFilter.SHOW_TEXT,null),n;while(n=w.nextNode()){var t=n.nodeValue,u=t;if(!/cargo|edital|área/.test(t))continue;VEST_TXT.forEach(function(r){u=u.replace(r[0],r[1])});if(u!==t)n.nodeValue=u}}
@@ -1162,7 +1162,10 @@ function tabConteudo(body,j){
 /* ---------- Apostilas em PDF (perguntas comentadas por edital), vendidas uma a uma ----------
    Item ap-<concurso>-<cargo>. O PDF fica cifrado no repositório; a função peApostila só entrega a quem comprou (ou à Editora). */
 var APOSTILAS=[
- {item:'ap-arcoiris-ei',conc:'arcoiris',cargo:'ei',preco:39.9,paginas:581,questoes:1289,capa:'img/apostilas/ap-arcoiris-ei.jpg',amostra:'apostilas/amostra-ap-arcoiris-ei.pdf'}
+ {item:'ap-arcoiris-ei',conc:'arcoiris',cargo:'ei',preco:39.9,paginas:581,questoes:1289,capa:'img/apostilas/ap-arcoiris-ei.jpg',amostra:'apostilas/amostra-ap-arcoiris-ei.pdf'},
+ {item:'ap-arcoiris-peb1',conc:'arcoiris',cargo:'peb1',preco:39.9,paginas:581,questoes:1291,capa:'img/apostilas/ap-arcoiris-peb1.jpg',amostra:'apostilas/amostra-ap-arcoiris-peb1.pdf'},
+ {item:'ap-piracicaba-ei',conc:'piracicaba',cargo:'ei',preco:39.9,paginas:598,questoes:960,capa:'img/apostilas/ap-piracicaba-ei.jpg',amostra:'apostilas/amostra-ap-piracicaba-ei.pdf'},
+ {item:'ap-piracicaba-ef',conc:'piracicaba',cargo:'ef',preco:39.9,paginas:576,questoes:940,capa:'img/apostilas/ap-piracicaba-ef.jpg',amostra:'apostilas/amostra-ap-piracicaba-ef.pdf'}
 ];
 function apDe(cid,jid){return APOSTILAS.filter(function(a){return a.conc===cid&&(!jid||a.cargo===jid)})}
 function apItem(it){return APOSTILAS.filter(function(a){return a.item===it})[0]}
