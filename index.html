@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='47722d2b8b69';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='e71521c62ace';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -183,7 +183,7 @@ footer.site-foot{margin-top:40px;background:#0F2350;color:#C9D3EE;border-top:4px
   <div class="wrap">
     <button class="logo" id="home" type="button" aria-label="Início"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#F4B728" stroke="#0E2350" stroke-width="2.6"/><rect x="20.5" y="24" width="5.2" height="12" rx=".6" fill="#0E2350"/><rect x="28" y="19.5" width="5.2" height="16.5" rx=".6" fill="#0E2350"/><rect x="35.5" y="14.5" width="5.2" height="21.5" rx=".6" fill="#0E2350"/><path d="M18 20 C27 18.5 34 15 39.5 9.8" fill="none" stroke="#0E2350" stroke-width="1.9" stroke-linecap="round"/><path d="M36.2 8.6 L41.3 8 L40.6 13.1 Z" fill="#0E2350" stroke="#0E2350" stroke-width="1" stroke-linejoin="round"/><path d="M10.5 45.5 L14.5 31 C21 30.3 27.5 32.3 32 36 C36.5 32.3 43 30.3 49.5 31 L53.5 45.5 C46 44.3 38.5 45.5 33.4 48.4 L30.6 48.4 C25.5 45.5 18 44.3 10.5 45.5 Z" fill="#0E2350"/><path d="M14 43.2 L17 32.6 C22.5 32.2 27.6 33.8 31.2 37.3 L31.2 46 C26.6 43.6 20.4 42.6 14 43.2 Z" fill="#FBF3E1"/><path d="M50 43.2 L47 32.6 C41.5 32.2 36.4 33.8 32.8 37.3 L32.8 46 C37.4 43.6 43.6 42.6 50 43.2 Z" fill="#FBF3E1"/><g fill="none" stroke="#0E2350" stroke-width="1.2" stroke-linecap="round"><path d="M18 35.4 C21.6 35.2 25 36 27.8 37.8"/><path d="M17.3 38.3 C21 38.1 24.6 38.9 27.6 40.7"/><path d="M46 35.4 C42.4 35.2 39 36 36.2 37.8"/><path d="M46.7 38.3 C43 38.1 39.4 38.9 36.4 40.7"/></g><ellipse cx="32" cy="48.6" rx="3" ry="1.2" fill="#0E2350"/></svg><span class="wm"><b>Plano de</b><i>Estudo</i></span></button>
     <nav class="crumbs" id="crumbs" aria-label="Caminho"></nav>
-    <button type="button" class="loginbtn" id="loginBtn" hidden>Entrar</button><button type="button" class="icon-btn" id="voiceBtn" aria-pressed="true" title="Voz: ligar, tipo e velocidade" aria-label="Configurar voz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></button>
+    <button type="button" class="apbtn" id="apBtn" title="Apostilas em PDF" aria-label="Apostilas em PDF" hidden><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6.5A2.5 2.5 0 0 0 4 21.5"/><path d="M9 7h7M9 11h5"/></svg><span>Apostilas</span></button><button type="button" class="loginbtn" id="loginBtn" hidden>Entrar</button><button type="button" class="icon-btn" id="voiceBtn" aria-pressed="true" title="Voz: ligar, tipo e velocidade" aria-label="Configurar voz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></button>
   </div>
 </header>
 
@@ -383,6 +383,19 @@ a.btn{text-decoration:none;text-align:center;justify-content:center}
 .tag.vg{background:#E8F6EC;color:#14532D;font-weight:700}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .ccard .vagas,:root:not([data-theme="light"]) .vagasbig,:root:not([data-theme="light"]) .tag.vg{background:#123522;color:#B9F0CB;border-color:#1F5A37}}
 :root[data-theme="dark"] .ccard .vagas,:root[data-theme="dark"] .vagasbig,:root[data-theme="dark"] .tag.vg{background:#123522;color:#B9F0CB;border-color:#1F5A37}
+.apbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-display);font-weight:700;font-size:.95rem;border:2px solid #F4B728;background:#FFF6DC;color:#13285E;border-radius:999px;padding:8px 14px;cursor:pointer;margin-left:auto;margin-right:8px;white-space:nowrap}
+.apbtn:not([hidden])+.loginbtn{margin-left:0}
+.aplist{display:grid;gap:16px}
+.apcard{display:grid;grid-template-columns:170px 1fr;gap:18px;background:var(--sheet);border:1px solid var(--line);border-radius:16px;padding:18px;align-items:start}
+.apcapa{width:100%;border-radius:8px;box-shadow:0 6px 18px rgba(14,35,80,.25);display:block}
+.apin{display:grid;gap:8px;min-width:0}.apin h3{margin:0;font-size:1.2rem}.apin .list{margin:2px 0}
+.aprow{display:flex;flex-wrap:wrap;gap:10px}.aptem{margin:0;font-weight:700;color:#0F766E}
+.apbuy{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:12px}.apcad{display:grid;gap:10px}
+.apdcapa{width:150px;border-radius:8px;box-shadow:0 10px 26px rgba(0,0,0,.35);transform:rotate(-3deg);margin-bottom:6px}
+.apfaixa{display:flex;align-items:center;gap:12px;margin-top:14px;background:#FFF6DC;border:1px solid #F4D27A;border-radius:14px;padding:10px 14px}
+.apfaixa img{width:46px;border-radius:4px}.apfaixa div{display:grid;flex:1;min-width:0}.apfaixa span{font-size:.9rem;color:var(--soft)}
+@media (max-width:620px){.apcard{grid-template-columns:96px 1fr;gap:12px;padding:14px}.apdcapa{width:120px}}
+@media (max-width:520px){.apbtn{width:40px;height:40px;flex:none;padding:0;justify-content:center;margin-right:6px}.apbtn svg{width:20px;height:20px}.apbtn span{display:none}}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -657,6 +670,7 @@ function fmtPts(x){return Math.abs(x-Math.round(x))<0.05?String(Math.round(x)):x
 function setCrumbs(){
   var h='';
   if(S.view==='minha'){crumbs.innerHTML='<span>·</span><span>Minha área</span>';return}
+  if(S.view==='apostilas'){crumbs.innerHTML='<span>·</span><span>Apostilas</span>';return}
   if(S.view!=='home'){h+='<span>·</span><button type="button" data-go="conc">'+esc(S.conc.nome)+'</button>'}
   if(S.view==='cargo'){h+='<span>·</span><span>'+esc(S.cargo.nome)+'</span>'}
   crumbs.innerHTML=h;
@@ -683,6 +697,10 @@ function ligaTour(){var el=document.getElementById('tour');if(!el)return;var ims
 function vestDestaque(){var v=CONCURSOS.filter(function(c){return c.tipo==='vest'&&c.destaque&&!c.soon&&daysTo(c.prova)>=0})[0];if(!v)return '';var d=daysTo(v.prova),x=v.destaque;
   return '<div class="vesthome"><div class="vh-txt"><span class="eyebrow">'+esc(x.selo)+'</span><h2>'+esc(x.titulo)+'</h2><p>'+esc(x.texto)+'</p><ul>'+x.itens.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'+
    '<div class="vh-lado"><div class="vh-conta"><b>'+(d>0?d:'Hoje')+'</b><span>'+(d>0?(d===1?'dia':'dias')+' até a 1ª fase':'é o dia da prova')+'</span><small>'+fmtDate(v.prova)+'</small></div><button type="button" class="btn" data-c="'+v.id+'">'+esc(x.botao)+'</button></div></div>'}
+function apDestaque(){if(!APOSTILAS.length)return '';var a=APOSTILAS[0],tq=APOSTILAS.reduce(function(t,x){return t+x.questoes},0);
+  return '<div class="vesthome aphome"><div class="vh-txt"><span class="eyebrow">Novidade · Apostilas em PDF</span><h2>Estude também com a apostila do seu cargo</h2><p>As questões inéditas do Plano de Estudo reunidas em um PDF, na ordem do edital, com o comentário completo de cada resposta. Compre uma vez e estude no celular, no computador ou impresso.</p><ul>'+
+   '<li>Resposta, explicação, dica e o porquê de cada alternativa errada</li><li>Sumário organizado pelo conteúdo do edital do cargo</li><li>Cada apostila por '+apPreco(a)+', pagamento único</li></ul></div>'+
+   '<div class="vh-lado"><img class="apdcapa" src="'+a.capa+'" alt="Capa da apostila"><button type="button" class="btn" id="irApostilas">Ver as apostilas</button></div></div>'}
 /* Vestibular: troca "cargo" por "fase" nos textos da tela */
 var VEST_TXT=[[/por cargo/g,'por pacote'],[/desta área/g,'deste pacote'],[/Escolha o seu cargo/g,'Escolha a fase'],[/o edital do seu cargo pede/g,'a prova pede'],[/Conteúdo do edital para este cargo/g,'Conteúdo da prova'],[/deste cargo/g,'desta fase'],[/este cargo/g,'esta fase'],[/cada cargo/g,'cada fase'],[/mesmo cargo/g,'mesma fase'],[/seu cargo/g,'sua fase'],[/outros cargos/g,'outras fases'],[/do edital/g,'da prova'],[/o edital pede/g,'a prova pede']];
 function vestTextos(){if(!S.conc||S.conc.tipo!=='vest'||!app)return;var w=document.createTreeWalker(app,NodeFilter.SHOW_TEXT,null),n;while(n=w.nextNode()){var t=n.nodeValue,u=t;if(!/cargo|edital|área/.test(t))continue;VEST_TXT.forEach(function(r){u=u.replace(r[0],r[1])});if(u!==t)n.nodeValue=u}}
@@ -703,10 +721,12 @@ function renderHome(){
   app.innerHTML='<section class="view">'+
    '<div class="hero"><div class="hero-txt"><span class="eyebrow">Plataforma de estudo · vestibulares, concursos e seletivos</span><h1>Plano de <span>Estudo</span></h1><p class="slogan">Do edital à aprovação, <em>um plano de estudo</em> feito para você.</p><p class="lead">Uma plataforma desenvolvida para auxiliar o seu estudo para vestibulares, concursos públicos, processos seletivos e vestibulinhos. Escolha a prova, depois o cargo ou a fase, e siga o plano diário: questões no formato da prova, escritas a partir do que o edital pede, com correção na hora e explicação de cada resposta.</p></div><div class="hero-art" aria-hidden="true"></div></div>'+
    
-   vestDestaque()+
+   apDestaque()+ /* a chamada da Unesp (vestDestaque) saiu da página inicial a pedido da Editora em 21/10/2026 */
    (MODO_CONFERENCIA?'':'<div class="trialhome"><div class="th-txt"><span class="eyebrow">Experimente sem custo</span><h2>Teste a plataforma gratuitamente por 1 dia</h2><p>Escolha uma das provas abaixo, selecione o cargo ou a fase e ative o teste gratuito informando nome, e-mail e celular. Durante um dia, você tem acesso ao sistema completo para conhecer todo o potencial do Plano de Estudo, sem cartão de crédito e sem compromisso.</p><ul><li>Plano de estudo do dia, com questões no formato da prova</li><li>Simulado completo com cronômetro e nota estimada</li><li>Treino com revisão dos erros e correção comentada, em texto e voz</li></ul><p class="small">O teste gratuito pode ser feito uma vez em cada cargo.</p><button type="button" class="btn" id="irProvas">Escolher um concurso</button></div>'+tourHTML()+'</div>')+
+
    '<div style="display:grid;gap:12px" id="provas"><h2 style="font-size:1.4rem">Provas disponíveis</h2>'+grupos+'</div></section>';
   ligaTour();
+  var ia=document.getElementById('irApostilas');if(ia)ia.onclick=function(){go('apostilas')};
   var ip=document.getElementById('irProvas');if(ip)ip.onclick=function(){document.getElementById('provas').scrollIntoView({behavior:'smooth',block:'start'})};
   app.querySelectorAll('[data-c]').forEach(function(b){b.onclick=function(){go('conc',{conc:findC(b.dataset.c)})}});
 }
@@ -723,7 +743,9 @@ function renderConc(){
   app.innerHTML='<section class="view">'+
    '<div class="chead"><div class="band" style="height:10px;background:'+c.band+'"></div><div class="in">'+(c.brasao?'<img class="brasao lg" src="'+c.brasao+'" alt="Brasão de '+esc(c.nome)+'">':'')+'<span class="eyebrow">'+esc(c.edital)+' · Banca '+esc(c.banca)+'</span><h2>'+(c.titulo?esc(c.titulo):'Prefeitura de '+esc(c.nome)+' ('+c.uf+')')+'</h2>'+
    '<div class="edital">'+(c.links||[]).map(function(l){return '<a class="btn'+(l===c.links[0]?'':' ghost')+' small" href="'+l.u+'" target="_blank" rel="noopener">'+esc(l.t)+'</a>'}).join('')+'</div>'+(function(v){return v?'<div class="vagasbig"><b>'+(v.n||'Cadastro reserva')+'</b><span>'+(v.n?(v.n===1?'vaga':'vagas')+' para professores'+(v.cr?' + cadastro reserva':''):'Vagas preenchidas conforme a necessidade da rede.')+'</span></div>':''})(vagasC(c))+'<div class="facts"><div class="fact"><b>'+(d>0?d+' dias':fmtDate(c.prova))+'</b><span>até a prova, '+fmtDate(c.prova)+'</span></div><div class="fact"><b>'+r.questoes+' questões</b><span>'+r.duracao+' de prova</span></div><div class="fact"><b>'+(r.blocos?r.blocos.map(function(b){return b.n}).join(' · '):r.esp+' · '+r.port+' · '+r.cg)+'</b><span>'+(r.blocos?r.blocos.map(function(b){return abrev(b.nome)}).join(' · '):'Específicos · Português · Gerais')+'</span></div><div class="fact">'+(r.min?'<b>'+r.min+' pontos</b><span>mínimo para aprovação</span>':'<b>Classificatória</b><span>sem nota mínima</span>')+'</div></div>'+(r.discursiva||r.pratica?'<p class="note small">A prova também tem '+[r.discursiva?'parte discursiva ('+esc(r.discursiva)+')':'',r.pratica?'prova prática ('+esc(r.pratica)+')':''].filter(Boolean).join(' e ')+'. O Plano de Estudo treina a parte objetiva.</p>':'')+'</div></div>'+
-   '<div style="display:grid;gap:12px"><h2 style="font-size:1.4rem">Escolha o seu cargo</h2><div class="jobs">'+jobs+'</div></div></section>';
+   '<div style="display:grid;gap:12px"><h2 style="font-size:1.4rem">Escolha o seu cargo</h2><div class="jobs">'+jobs+'</div></div>'+
+   (apDe(c.id).length?'<div style="display:grid;gap:12px"><h2 style="font-size:1.4rem">Apostilas deste concurso</h2>'+apListaHTML(apDe(c.id))+'</div>':'')+'</section>';
+  ligaApostilas(app);
   app.querySelectorAll('[data-j]').forEach(function(b){b.onclick=function(){go('cargo',{cargo:findJ(c,b.dataset.j),tab:'plano',filtro:'Tudo',sess:null})}});
 }
 
@@ -731,6 +753,7 @@ function renderCargo(){TRIAL_MAX=perDay();
   var c=S.conc,j=S.cargo;
   var tabs=[['plano','Plano diário'],['treino','Treino livre'],['simulado','Simulado'],['desempenho','Desempenho'],['conteudo','O que cai']];
   if(j.fase2&&Q2.d.length)tabs.splice(3,0,['fase2','2ª fase']);
+  var apJ=apDe(c.id,j.id)[0];if(apJ)tabs.push(['apostila','Apostila em PDF']);
   app.innerHTML='<section class="view" style="--c:'+j.cor+'">'+
    '<div class="jhead"><span class="eyebrow">'+esc(c.nome)+' · '+esc(c.edital)+'</span><h2>'+esc(j.nome)+'</h2><p>'+(j.info||j.jornada+' · '+j.salario+' · prova '+(/^per/i.test(j.horario)?'no '+j.horario:'no período da '+j.horario.toLowerCase()))+'</p></div>'+
    '<div class="tabs" role="tablist">'+tabs.map(function(t){return '<button role="tab" type="button" data-t="'+t[0]+'" aria-selected="'+(S.tab===t[0])+'">'+t[1]+'</button>'}).join('')+'</div>'+
@@ -738,7 +761,8 @@ function renderCargo(){TRIAL_MAX=perDay();
   app.querySelectorAll('[data-t]').forEach(function(b){b.onclick=function(){if(S.tab!==b.dataset.t){stopTimer();S.sess=null}S.tab=b.dataset.t;renderCargo()}});
   var body=document.getElementById('tabBody');
   var ac=acesso(j);
-  if(!ac||S.compra||trialExpired(j)){app.querySelector('.tabs').hidden=true;renderGate(body,j);return}
+  if(apJ&&S.tab==='apostila'){body.innerHTML=apListaHTML([apJ]);ligaApostilas(body);if(!ac||trialExpired(j))app.querySelector('.tabs').hidden=true;return}
+  if(!ac||S.compra||trialExpired(j)){app.querySelector('.tabs').hidden=true;renderGate(body,j);if(apJ&&!S.compra){body.insertAdjacentHTML('beforeend','<div class="apfaixa"><img src="'+apJ.capa+'" alt=""><div><b>Apostila em PDF deste cargo</b><span>'+apMil(apJ.questoes)+' questões comentadas · '+apPreco(apJ)+'</span></div><button type="button" class="btn ghost small" id="verAp">Ver apostila</button></div>');document.getElementById('verAp').onclick=function(){S.tab='apostila';renderCargo();window.scrollTo({top:0})}}return}
   if(ac.mode==='trial'){var pd=prog(j)[ac.day],np=pd?pd.res.length:0;
     body.insertAdjacentHTML('beforebegin','<div class="trialbar"><span><b>Teste grátis de hoje</b>, '+esc(ac.nome.split(' ')[0])+': plano '+np+'/'+TRIAL_MAX+' · treino e revisão '+(ac.tre||0)+'/'+TRIAL_MAX+' · simulado '+(ac.sim?'feito':'0/1')+'</span><button type="button" class="btn small" data-buy>Comprar o pacote completo por '+precoTxt(j)+'</button></div>');bindBuy(app,j)}
   if(ac.mode==='trial'&&S.tab==='treino'&&(ac.tre||0)>=TRIAL_MAX&&!(S.sess&&S.sess.mode==='livre'&&S.sess.i<S.sess.list.length)){body.innerHTML=lockedHTML(j,'Você usou as '+TRIAL_MAX+' questões de treino do teste grátis.');bindBuy(body,j);return}
@@ -868,6 +892,7 @@ function usuarioAtual(){return firebase().then(function(f){return new Promise(fu
 /* volta do Mercado Pago: ?pagamento=aprovado|pendente|falha&pedido=PE...&conc=...&cargo=... */
 function retornoPagamento(){
   var q=new URLSearchParams(location.search),st=q.get('pagamento');if(!st||!siteComBanco())return;
+  if(q.get('tipo')==='apostila')return retornoApostila(q);
   var c=findC(q.get('conc')),j=c&&findJ(c,q.get('cargo'));history.replaceState(null,'',location.pathname);if(!j)return;
   go('cargo',{conc:c,cargo:j,tab:'plano',sess:null,compra:false});
   function aviso(t,tipo){var a=document.getElementById('mpAviso');if(!a){a=document.createElement('div');a.id='mpAviso';a.className='mpaviso';var h=document.querySelector('.jhead');if(h)h.after(a);else return}a.className='mpaviso '+(tipo||'');a.textContent=t}
@@ -1134,11 +1159,88 @@ function tabConteudo(body,j){
    '<div class="card"><h3>Questões disponíveis por tema</h3><div class="rows">'+Object.keys(by).map(function(t){return '<div class="arow"><span>'+esc(temaNome(t))+'</span><div class="bar"><i style="width:'+Math.min(100,by[t]/60*100)+'%"></i></div><b>'+by[t]+'</b></div>'}).join('')+'</div></div>';
 }
 
+/* ---------- Apostilas em PDF (perguntas comentadas por edital), vendidas uma a uma ----------
+   Item ap-<concurso>-<cargo>. O PDF fica cifrado no repositório; a função peApostila só entrega a quem comprou (ou à Editora). */
+var APOSTILAS=[
+ {item:'ap-arcoiris-ei',conc:'arcoiris',cargo:'ei',preco:39.9,paginas:581,questoes:1289,capa:'img/apostilas/ap-arcoiris-ei.jpg',amostra:'apostilas/amostra-ap-arcoiris-ei.pdf'}
+];
+function apDe(cid,jid){return APOSTILAS.filter(function(a){return a.conc===cid&&(!jid||a.cargo===jid)})}
+function apItem(it){return APOSTILAS.filter(function(a){return a.item===it})[0]}
+function apPreco(a){return 'R$ '+a.preco.toFixed(2).replace('.',',')}
+function apMil(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+function apTem(a){return MASTER||ehAdmin(USER)||(PLANOS||[]).indexOf(a.item)>=0}
+function apCardHTML(a){var c=findC(a.conc),j=c&&findJ(c,a.cargo);if(!j)return '';
+  return '<div class="apcard" data-ap="'+a.item+'"><img class="apcapa" src="'+a.capa+'" alt="Capa da apostila '+esc(j.nome)+'" loading="lazy"><div class="apin">'+
+   '<span class="eyebrow">Apostila em PDF · '+esc(c.nome)+' ('+c.uf+')</span><h3>'+esc(j.nome)+'</h3>'+
+   '<p class="meta">'+esc(c.edital)+' · Banca '+esc(c.banca)+'</p>'+
+   '<ul class="list"><li>'+apMil(a.questoes)+' questões comentadas, na ordem do edital</li><li>Resposta, explicação, dica e o porquê de cada alternativa errada</li><li>'+a.paginas+' páginas com sumário, para ler no celular ou imprimir</li></ul>'+
+   (apTem(a)?'<p class="aptem">Apostila liberada para '+esc(USER?USER.email:'a Editora')+'</p><div class="aprow"><button type="button" class="btn" data-apbaixar="'+a.item+'">Baixar apostila (PDF)</button></div>':
+    '<p class="price"><b>'+apPreco(a)+'</b> pagamento único</p><div class="aprow"><button type="button" class="btn" data-apcomprar="'+a.item+'">Comprar a apostila</button><a class="btn ghost" href="'+a.amostra+'" target="_blank" rel="noopener">Ver amostra grátis</a></div>')+
+   '<div class="apbuy" hidden></div><p class="err apmsg" hidden></p></div></div>'}
+function apListaHTML(l){return '<div class="aplist">'+l.map(apCardHTML).join('')+'</div>'}
+function renderApostilas(){
+  var grupos={},ordem=[];APOSTILAS.forEach(function(a){if(!grupos[a.conc]){grupos[a.conc]=[];ordem.push(a.conc)}grupos[a.conc].push(a)});
+  app.innerHTML='<section class="view"><div class="jhead aphead"><span class="eyebrow">Material para estudar onde quiser</span><h2>Apostilas em PDF</h2><p>Cada apostila reúne as questões inéditas do Plano de Estudo de um cargo, com o comentário completo de cada resposta, organizadas na ordem do edital. Você compra uma vez, baixa o PDF e estuda no celular, no computador ou impresso.</p></div>'+
+   ordem.map(function(cid){var c=findC(cid);return '<div class="pgrupo"><h3 class="pgtit">'+esc(c.nome)+' ('+c.uf+') <span>'+grupos[cid].length+'</span></h3>'+apListaHTML(grupos[cid])+'</div>'}).join('')+
+   '<p class="note small">Depois da compra, a apostila fica em "Minha área" (botão Entrar, no alto da página), com a mesma conta Google, em qualquer aparelho. Dúvidas: mundo.encantado.prof@gmail.com</p></section>';
+  ligaApostilas(app);
+}
+function ligaApostilas(root){
+  root.querySelectorAll('[data-apbaixar]').forEach(function(b){b.onclick=function(){baixarApostila(apItem(b.dataset.apbaixar),b)}});
+  root.querySelectorAll('[data-apcomprar]').forEach(function(b){b.onclick=function(){comprarApostila(apItem(b.dataset.apcomprar),b.closest('.apcard'))}});
+}
+function apMsg(card,t){var m=card.querySelector('.apmsg');m.textContent=t||'';m.hidden=!t}
+function baixarApostila(a,b){var card=b.closest('.apcard')||b.parentNode,txt=b.textContent;
+  if(!siteComBanco())return alert('O download funciona no site publicado.');
+  b.disabled=true;b.textContent='Preparando o PDF...';if(card.querySelector('.apmsg'))apMsg(card,'');
+  firebase().then(function(f){return f.auth.currentUser?f.auth.currentUser:entrarGoogle().then(function(u){return sincronizar(u).then(function(){return u})})})
+  .then(function(u){return u.getIdToken()}).then(function(tk){
+    return fetch(PE.funcoes.replace(/\/$/,'')+'/peApostila',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},body:JSON.stringify({item:a.item})})})
+  .then(function(r){if(!r.ok)return r.json().catch(function(){return {}}).then(function(j){throw new Error(j.erro||'Não foi possível baixar agora.')});return r.blob()})
+  .then(function(bl){var u=URL.createObjectURL(bl),l=document.createElement('a');l.href=u;l.download='apostila-'+a.conc+'-'+a.cargo+'.pdf';document.body.appendChild(l);l.click();l.remove();
+    setTimeout(function(){URL.revokeObjectURL(u)},60000);b.textContent='Pronto! Baixar de novo'})
+  .catch(function(e){b.textContent=txt;var m=e&&e.code?erroFirebase(e):(e&&e.message)||'Não foi possível baixar agora.';if(m){if(card.querySelector('.apmsg'))apMsg(card,m);else alert(m)}})
+  .then(function(){b.disabled=false})}
+function comprarApostila(a,card){var box=card.querySelector('.apbuy'),cad=store.get('pe-cadastro',{})||{},user=null;
+  if(!siteComBanco())return apMsg(card,'A compra funciona no site publicado.');
+  apMsg(card,'');box.hidden=false;card.querySelector('[data-apcomprar]').hidden=true;
+  box.innerHTML='<ol class="bsteps"><li class="on">Entrar</li><li>Cadastro</li><li>Pagamento</li></ol><p class="small">Entre com a sua conta Google. É com ela que você baixa a apostila em qualquer aparelho.</p><button type="button" class="btn gbtn apg">Entrar com Google</button>';
+  function passo(n){box.querySelectorAll('.bsteps li').forEach(function(li,i){li.className=i+1<n?'ok':i+1===n?'on':''})}
+  box.querySelector('.apg').onclick=function(){var b=this;b.disabled=true;
+    entrarGoogle().then(function(u){user=u;return sincronizar(u)}).then(function(){
+      if(apTem(a)){S.view==='apostilas'?renderApostilas():render();return}
+      passo(2);
+      box.querySelector('p.small').innerHTML='Conta: <b>'+esc(String(user.email).toLowerCase())+'</b>';b.remove();
+      box.insertAdjacentHTML('beforeend','<form class="cad apcad" novalidate><label class="field">Nome completo<input name="nome" autocomplete="name" value="'+esc(cad.nome||user.displayName||'')+'" required></label>'+
+        '<label class="field">Celular com DDD (WhatsApp)<input name="tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="(14) 99999-9999" value="'+esc(cad.tel||'')+'" required></label>'+
+        '<label class="chk"><input type="checkbox" name="ok"> Concordo que a Editora Mundo Encantado use estes dados para liberar a apostila e falar comigo sobre a compra.</label>'+
+        '<button type="submit" class="btn">Ir para o pagamento ('+apPreco(a)+')</button><p class="secure small">Pagamento seguro pelo <b>Mercado Pago</b>: Pix, cartão ou boleto.</p></form>');
+      var f=box.querySelector('form');f.onsubmit=function(ev){ev.preventDefault();
+        var d={nome:f.nome.value.trim().replace(/\s+/g,' '),tel:normTel(f.tel.value)};
+        if(d.nome.split(' ').length<2)return apMsg(card,'Escreva o nome completo.');
+        if(!/^[1-9]{2}9?\d{8}$/.test(d.tel))return apMsg(card,'Confira o celular com DDD.');
+        if(!f.ok.checked)return apMsg(card,'Marque que concorda com o uso dos dados.');
+        apMsg(card,'');store.set('pe-cadastro',d);passo(3);var g=f.querySelector('button');g.disabled=true;g.textContent='Abrindo o Mercado Pago...';
+        pagarMercadoPago(a.item,d).then(function(r){if(r.jaLiberado)return sincronizar(user).then(function(){S.view==='apostilas'?renderApostilas():render()});location.href=r.url})
+          .catch(function(e){g.disabled=false;g.textContent='Tentar de novo';passo(2);apMsg(card,(e&&e.message||'Não foi possível abrir o pagamento agora.')+' Se continuar, escreva para mundo.encantado.prof@gmail.com.')})};
+    },function(e){apMsg(card,erroFirebase(e))}).then(function(){b.disabled=false})};
+}
+/* volta do Mercado Pago com &tipo=apostila: confere a liberação e mostra o botão de baixar */
+function retornoApostila(q){var st=q.get('pagamento'),a=apItem('ap-'+q.get('conc')+'-'+q.get('cargo'));history.replaceState(null,'',location.pathname);
+  go('apostilas');if(!a)return;
+  function aviso(t,tipo){var x=document.getElementById('mpAviso');if(!x){x=document.createElement('div');x.id='mpAviso';var h=document.querySelector('.aphead');if(h)h.after(x);else return}x.className='mpaviso '+(tipo||'');x.textContent=t}
+  if(st==='falha')return aviso('O pagamento não foi concluído. Você pode tentar de novo em "Comprar a apostila".','bad');
+  aviso(st==='aprovado'?'Pagamento aprovado! Liberando a sua apostila...':'Pagamento em análise. Assim que o Mercado Pago aprovar, a apostila é liberada (boleto pode levar até 3 dias úteis).');
+  usuarioAtual().then(function(u){if(!u)return aviso('Entre com a conta Google da compra (botão Entrar, no alto da página) para baixar a apostila.');
+    var n=0;(function conferir(){sincronizar(u).then(function(){
+      if(PLANOS.indexOf(a.item)>=0){renderApostilas();aviso('Apostila liberada! Toque em "Baixar apostila (PDF)". Ela também fica em "Minha área", em qualquer aparelho. Enviamos as instruções para '+String(u.email).toLowerCase()+'.','ok');return}
+      if(++n<(st==='aprovado'?20:4))setTimeout(conferir,3000);else if(st==='aprovado')aviso('O pagamento foi aprovado e a liberação está a caminho. Se não aparecer em alguns minutos, abra "Minha área" com a mesma conta Google.')})})()})}
+(function(){var b=document.getElementById('apBtn');if(!b)return;b.hidden=!APOSTILAS.length;b.onclick=function(){go('apostilas')}})();
 function render(){
   /* cargo com regras próprias (ex.: Lins, onde cada cargo tem outro quadro de provas) */
   if(S.conc){var cb=S.conc.__base||S.conc;if(S.view==='cargo'&&S.cargo&&S.cargo.regras){if(S.conc.regras!==S.cargo.regras)S.conc=Object.assign({},cb,{regras:S.cargo.regras,__base:cb})}else if(S.conc.__base)S.conc=cb}
   setCrumbs();
-  if(S.view==='home')renderHome();else if(S.view==='minha')renderMinha();else if(S.view==='conc')renderConc();else renderCargo();
+  if(S.view==='home')renderHome();else if(S.view==='minha')renderMinha();else if(S.view==='apostilas')renderApostilas();else if(S.view==='conc')renderConc();else renderCargo();
 }
 render();
 retornoPagamento();
@@ -1174,12 +1276,15 @@ function renderMinha(){
       '<p class="meta">Prova em '+fmtDate(c.prova)+(d>0?' · faltam '+d+' dias':'')+'</p><div class="prog"><div class="bar"><i style="width:'+(done/plan.days.length*100)+'%"></i></div><span>'+done+'/'+plan.days.length+' dias</span></div>'+
       '<button type="button" class="btn" data-mc="'+c.id+'" data-mj="'+j.id+'">Continuar estudando</button></div>')});
   S.conc=guard;
+  var aps=APOSTILAS.filter(apTem);
   app.innerHTML='<section class="view minha"><div class="card mhead"><div><span class="eyebrow">Minha área</span><h2>Olá'+(nome?', '+esc(nome):'')+'!</h2><p class="note">Conta Google: <b>'+esc(USER.email)+'</b></p></div><button type="button" class="btn ghost small" id="sair">Sair</button></div>'+
     (cards.length?'<h3 class="mtit">Meus pacotes</h3><div class="mgrid">'+cards.join('')+'</div>':
-      '<div class="card"><h3>Nenhum pacote liberado nesta conta</h3><p>Se você já pagou, a liberação acontece assim que o Mercado Pago aprova o pagamento (Pix e cartão em poucos minutos, boleto em até 3 dias úteis). Confira se entrou com a mesma conta Google usada na compra.</p><button type="button" class="btn" id="verProvas">Ver as provas disponíveis</button></div>')+
+      aps.length?'':'<div class="card"><h3>Nenhum pacote liberado nesta conta</h3><p>Se você já pagou, a liberação acontece assim que o Mercado Pago aprova o pagamento (Pix e cartão em poucos minutos, boleto em até 3 dias úteis). Confira se entrou com a mesma conta Google usada na compra.</p><button type="button" class="btn" id="verProvas">Ver as provas disponíveis</button></div>')+
+    (aps.length?'<h3 class="mtit">Minhas apostilas</h3>'+apListaHTML(aps):'')+
     '<p class="note small">O seu progresso fica guardado neste aparelho. Em outro aparelho, é só entrar com a mesma conta Google para abrir os seus pacotes.</p></section>';
   app.querySelectorAll('[data-mc]').forEach(function(b){b.onclick=function(){var c=findC(b.dataset.mc);S.conc=c;go('cargo',{conc:c,cargo:findJ(c,b.dataset.mj),tab:'plano',filtro:'Tudo',sess:null,compra:false})}});
   var s=document.getElementById('sair');if(s)s.onclick=function(){firebase().then(function(f){return f.A.signOut(f.auth)}).catch(function(){});store.set('pe-master',0);if(MASTER)ligaMaster(false);USER=null;PLANOS=[];atualizaLogin();go('home')};
+  ligaApostilas(app);
   var v=document.getElementById('verProvas');if(v)v.onclick=function(){go('home');setTimeout(function(){var p=document.getElementById('provas');if(p)p.scrollIntoView({behavior:'smooth'})},50)};
 }
 document.addEventListener('click',function(e){var t=e.target.closest('[data-jacomprei]');if(!t)return;t.disabled=true;
