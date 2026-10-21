@@ -1,0 +1,19 @@
+# Teste do download das apostilas (peApostila).
+name: Teste das apostilas
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/e2e-apostila.yml', 'tools/e2e-apostila.js']
+  workflow_dispatch:
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm install --prefix functions --omit=dev
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - run: node tools/e2e-apostila.js
