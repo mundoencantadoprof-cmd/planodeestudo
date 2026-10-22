@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='d5b1e5d21b8f';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='e7f75c3ad72c';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1162,10 +1162,10 @@ function tabConteudo(body,j){
 /* ---------- Apostilas em PDF (perguntas comentadas por edital), vendidas uma a uma ----------
    Item ap-<concurso>-<cargo>. O PDF fica cifrado no repositório; a função peApostila só entrega a quem comprou (ou à Editora). */
 var APOSTILAS=[
- {item:'ap-arcoiris-ei',conc:'arcoiris',cargo:'ei',preco:39.9,paginas:581,questoes:1289,capa:'img/apostilas/ap-arcoiris-ei.jpg',amostra:'apostilas/amostra-ap-arcoiris-ei.pdf'},
- {item:'ap-arcoiris-peb1',conc:'arcoiris',cargo:'peb1',preco:39.9,paginas:581,questoes:1291,capa:'img/apostilas/ap-arcoiris-peb1.jpg',amostra:'apostilas/amostra-ap-arcoiris-peb1.pdf'},
- {item:'ap-piracicaba-ei',conc:'piracicaba',cargo:'ei',preco:39.9,paginas:598,questoes:960,capa:'img/apostilas/ap-piracicaba-ei.jpg',amostra:'apostilas/amostra-ap-piracicaba-ei.pdf'},
- {item:'ap-piracicaba-ef',conc:'piracicaba',cargo:'ef',preco:39.9,paginas:576,questoes:940,capa:'img/apostilas/ap-piracicaba-ef.jpg',amostra:'apostilas/amostra-ap-piracicaba-ef.pdf'}
+ {item:'ap-arcoiris-ei',conc:'arcoiris',cargo:'ei',preco:39.9,paginas:729,questoes:1289,capa:'img/apostilas/ap-arcoiris-ei.jpg',amostra:'apostilas/amostra-ap-arcoiris-ei.pdf'},
+ {item:'ap-arcoiris-peb1',conc:'arcoiris',cargo:'peb1',preco:39.9,paginas:727,questoes:1291,capa:'img/apostilas/ap-arcoiris-peb1.jpg',amostra:'apostilas/amostra-ap-arcoiris-peb1.pdf'},
+ {item:'ap-piracicaba-ei',conc:'piracicaba',cargo:'ei',preco:39.9,paginas:732,questoes:960,capa:'img/apostilas/ap-piracicaba-ei.jpg',amostra:'apostilas/amostra-ap-piracicaba-ei.pdf'},
+ {item:'ap-piracicaba-ef',conc:'piracicaba',cargo:'ef',preco:39.9,paginas:717,questoes:940,capa:'img/apostilas/ap-piracicaba-ef.jpg',amostra:'apostilas/amostra-ap-piracicaba-ef.pdf'}
 ];
 function apDe(cid,jid){return APOSTILAS.filter(function(a){return a.conc===cid&&(!jid||a.cargo===jid)})}
 function apItem(it){return APOSTILAS.filter(function(a){return a.item===it})[0]}
