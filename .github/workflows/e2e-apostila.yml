@@ -18,3 +18,5 @@ jobs:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
       - run: node tools/e2e-apostila.js
       - run: ITEM=ap-piracicaba-ef node tools/e2e-apostila.js
+      - run: ITEM=ap-arcoiris-peb1 node tools/e2e-apostila.js
+      - run: ITEM=ap-piracicaba-ei node tools/e2e-apostila.js
