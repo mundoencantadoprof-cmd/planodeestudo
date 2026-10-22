@@ -66,7 +66,8 @@ const CONCURSOS = {
     ef: 'Professor Substituto de Ensino Fundamental' } }
 };
 /* Apostilas em PDF à venda (item ap-<concurso>-<cargo>); o arquivo cifrado fica em apostilas/<item>.bin. */
-const APOSTILAS = { 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9 };
+const APOSTILAS = { 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
+  'ap-arcoiris-assist': 39.9, 'ap-arcoiris-esp': 39.9, 'ap-arcoiris-ef': 39.9, 'ap-arcoiris-mus': 39.9 };
 function pacote(item) {
   item = String(item || '');
   const m = /^(pe|ap)-([a-z0-9]+)-([a-z0-9]+)$/.exec(item);
