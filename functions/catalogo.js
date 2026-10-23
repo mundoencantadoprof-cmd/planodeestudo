@@ -63,7 +63,31 @@ const CONCURSOS = {
     f12: '1ª + 2ª fase: pacote completo' } },
   piracicaba: { nome: 'Piracicaba (SP) PS 01/2026', cargos: {
     ei: 'Professor Substituto de Educação Infantil',
-    ef: 'Professor Substituto de Ensino Fundamental' } }
+    ef: 'Professor Substituto de Ensino Fundamental' } },
+  matao: { nome: 'Matão (SP) PS 01/2026', cargos: {
+    ei: 'Professor I – Educação Infantil (0 a 6 anos)',
+    ef: 'Professor I – Ensino Fundamental (Anos Iniciais)',
+    da: 'Professor de Educação Especial – Deficiência Auditiva',
+    di: 'Professor de Educação Especial – Deficiência Intelectual',
+    dv: 'Professor de Educação Especial – Deficiência Visual',
+    lp: 'Professor III – Português',
+    mt: 'Professor III – Matemática',
+    geo: 'Professor III – Geografia',
+    cie: 'Professor III – Ciências',
+    ing: 'Professor III – Inglês',
+    fil: 'Professor III – Filosofia',
+    art: 'Professor III – Arte/Educação Artística',
+    his: 'Professor III – História',
+    qui: 'Professor III – Química',
+    bio: 'Professor III – Biologia',
+    fis: 'Professor III – Física',
+    soc: 'Professor III – Sociologia',
+    mus: 'Professor III – Arte Musical',
+    cen: 'Professor III – Artes Cênicas',
+    edf: 'Professor III – Educação Física',
+    dan: 'Professor III – Educação Física: Dança',
+    gin: 'Professor III – Educação Física: Ginástica Geral',
+    nat: 'Professor III – Educação Física: Natação' } }
 };
 /* Apostilas em PDF à venda (item ap-<concurso>-<cargo>); o arquivo cifrado fica em apostilas/<item>.bin. */
 const APOSTILAS = { 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
