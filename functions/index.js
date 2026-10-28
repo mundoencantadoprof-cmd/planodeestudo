@@ -210,8 +210,8 @@ exports.peProgresso = onRequest(async (req, res) => {
       if (!ADMINS.includes(email)) return res.status(403).json({ erro: 'Só a Editora vê o progresso dos alunos.' });
       const q = await db.collection('progresso').get();
       const alunos = q.docs.map(d => { const x = d.data(), dias = x.dias || {};
-        const lista = Object.keys(dias).map(Number).sort((m, n) => m - n).map(k => ({ d: k, n: dias[k].res.length, ok: dias[k].res.filter(Boolean).length, fim: !!dias[k].fim }));
-        return { email: x.email, conc: x.conc, cargo: x.cargo, dias: lista, quando: x.atualizadoEm ? x.atualizadoEm.toMillis() : 0 }; });
+        const lista = Object.keys(dias).map(Number).sort((m, n) => m - n).map(k => ({ d: k, n: dias[k].res.length, ok: dias[k].res.filter(Boolean).length, fim: !!dias[k].fim, t: dias[k].t || 0 }));
+        return { email: x.email, conc: x.conc, cargo: x.cargo, dias: lista, resumo: x.resumo || null, quando: x.atualizadoEm ? x.atualizadoEm.toMillis() : 0 }; });
       return res.json({ ok: true, alunos });
     }
     if (b.acao === 'todos') {
@@ -231,7 +231,12 @@ exports.peProgresso = onRequest(async (req, res) => {
       const s = await tx.get(ref), x = s.exists ? s.data() : {};
       const dias = juntaDias(x.dias, b.dias), hh = Object.assign({}, x.h || {}, h);
       const feitos = Object.values(dias).filter(d => d.fim).length;
-      tx.set(ref, { email, conc, cargo, dias, h: hh, feitos, atualizadoEm: admin.firestore.FieldValue.serverTimestamp() });
+      const dado = { email, conc, cargo, dias, h: hh, feitos, atualizadoEm: admin.firestore.FieldValue.serverTimestamp() };
+      const rs = b.resumo;
+      if (rs && /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(String(rs.inicio))) dado.resumo = { pd: Math.min(+rs.pd || 0, 500), nd: Math.min(+rs.nd || 0, 400), inicio: String(rs.inicio), nome: limpa(rs.nome, 120),
+        areas: (Array.isArray(rs.areas) ? rs.areas : []).slice(0, 20).map(a => ({ a: limpa(a.a, 60), n: Math.max(0, +a.n || 0), ok: Math.max(0, +a.ok || 0) })) };
+      else if (x.resumo) dado.resumo = x.resumo;
+      tx.set(ref, dado);
       return { dias, h: hh };
     });
     res.json(Object.assign({ ok: true }, r));

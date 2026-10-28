@@ -81,6 +81,7 @@ window.PE_CONFIG = {
  </div>
 </section>
 </main>
+<script src="relatorio.js"></script>
 <script type="module">
 const SDK='https://www.gstatic.com/firebasejs/10.12.2/';
 let mods;try{mods=await Promise.all([import(SDK+'firebase-app.js'),import(SDK+'firebase-auth.js'),import(SDK+'firebase-firestore.js')])}catch(e){const er=document.getElementById('entrarErro');er.hidden=false;er.textContent=/^https?:$/.test(location.protocol)?'Não foi possível carregar o login. Confira a internet e recarregue a página.':'O painel só funciona com o site publicado na internet. Abra pelo endereço do site, terminando em /admin.html.';document.getElementById('entrar').disabled=true;throw e}
@@ -118,7 +119,11 @@ async function carregarProgresso(){$('pVazio').hidden=false;$('pVazio').textCont
   tabelaProgresso()}
 function progFiltrado(){const q=$('pBusca').value.trim().toLowerCase();return progresso.filter(a=>!q||[a.email,a.nome,nomePac('pe-'+a.conc+'-'+a.cargo)].join(' ').toLowerCase().includes(q))}
 function tabelaProgresso(){const l=progFiltrado();$('pQtd').textContent='('+progresso.length+')';if(progresso.length)$('pVazio').hidden=!!l.length;
-  $('pLinhas').innerHTML=l.map(a=>'<tr><td>'+esc(a.nome||a.email)+(a.nome?'<small>'+esc(a.email)+'</small>':'')+'</td><td>'+esc(nomePac('pe-'+a.conc+'-'+a.cargo))+'<div class="dias">'+a.dias.map(d=>'<span'+(d.fim?' class="ok"':'')+' title="'+d.ok+' acertos de '+d.n+'">dia '+(d.d+1)+(d.fim?' ✓':' '+d.n+' q.')+'</span>').join('')+'</div></td><td><b>'+a.feitos+'</b></td><td>'+a.resp+'</td><td>'+(a.pct==null?'-':a.pct+'%')+'</td><td>'+dataBR(a.quando?new Date(a.quando):null)+'</td></tr>').join('')}
+  $('pLinhas').innerHTML=l.map((a,i)=>'<tr data-pi="'+progresso.indexOf(a)+'" style="cursor:pointer" title="Ver o relatório deste aluno"><td>'+esc(a.nome||a.email)+(a.nome?'<small>'+esc(a.email)+'</small>':'')+'</td><td>'+esc(nomePac('pe-'+a.conc+'-'+a.cargo))+'<div class="dias">'+a.dias.map(d=>'<span'+(d.fim?' class="ok"':'')+' title="'+d.ok+' acertos de '+d.n+'">dia '+(d.d+1)+(d.fim?' ✓':' '+d.n+' q.')+'</span>').join('')+'</div></td><td><b>'+a.feitos+'</b></td><td>'+a.resp+'</td><td>'+(a.pct==null?'-':a.pct+'%')+'</td><td>'+dataBR(a.quando?new Date(a.quando):null)+'<small><a href="#" data-ver>Ver relatório ▾</a></small></td></tr>'+(aberto===a?'<tr class="rel-linha"><td colspan="6">'+relAluno(a)+'</td></tr>':'')).join('')}
+let aberto=null;
+function relAluno(a){const r=a.resumo;if(!r||typeof RELATORIO==='undefined')return '<p class="msg">O relatório completo deste aluno aparece depois do próximo estudo dele no site atualizado.</p>';
+  return '<div style="max-width:560px">'+RELATORIO.html({nome:(a.nome||a.email)+' · '+(r.nome||nomePac('pe-'+a.conc+'-'+a.cargo)),pd:r.pd,nd:r.nd,inicio:r.inicio,dias:a.dias,areas:r.areas,ultimo:a.quando})+'</div>'}
+$('pLinhas').onclick=e=>{const tr=e.target.closest('tr[data-pi]');if(!tr)return;e.preventDefault();const a=progresso[+tr.dataset.pi];aberto=aberto===a?null:a;tabelaProgresso()};
 $('pBusca').oninput=tabelaProgresso;$('pAtual').onclick=carregarProgresso;
 $('pCsv').onclick=()=>{const L=[['Aluno','E-mail','Concurso e cargo','Dias concluídos','Dias feitos','Questões respondidas','Acertos (%)','Última atividade']].concat(progFiltrado().map(a=>[a.nome,a.email,nomePac('pe-'+a.conc+'-'+a.cargo),a.feitos,a.dias.map(d=>(d.d+1)+(d.fim?'':' (parcial)')).join(', '),a.resp,a.pct==null?'':a.pct,dataBR(a.quando?new Date(a.quando):null)]));
   const csv='\ufeff'+L.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(';')).join('\n');
