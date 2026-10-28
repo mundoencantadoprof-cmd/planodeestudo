@@ -64,6 +64,7 @@ const CONCURSOS = {
   piracicaba: { nome: 'Piracicaba (SP) PS 01/2026', cargos: {
     ei: 'Professor Substituto de Educação Infantil',
     ef: 'Professor Substituto de Ensino Fundamental' } },
+  piraju: { nome: 'Piraju (SP) PS 01/2026', cargos: { p1: 'Professor I', art: 'Professor II – Arte', edf: 'Professor II – Educação Física', ing: 'Professor II – Inglês' } },
   matao: { nome: 'Matão (SP) PS 01/2026', cargos: {
     ei: 'Professor I – Educação Infantil (0 a 6 anos)',
     ef: 'Professor I – Ensino Fundamental (Anos Iniciais)',
@@ -92,6 +93,7 @@ const CONCURSOS = {
 /* Apostilas em PDF à venda (item ap-<concurso>-<cargo>); o arquivo cifrado fica em apostilas/<item>.bin. */
 const APOSTILAS = { 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
   'ap-arcoiris-assist': 39.9, 'ap-arcoiris-esp': 39.9, 'ap-arcoiris-ef': 39.9, 'ap-arcoiris-mus': 39.9,
+  'ap-piraju-p1': 39.9, 'ap-piraju-art': 39.9, 'ap-piraju-edf': 39.9, 'ap-piraju-ing': 39.9,
   'ap-matao-ei': 39.9, 'ap-matao-ef': 39.9, 'ap-matao-da': 39.9, 'ap-matao-di': 39.9, 'ap-matao-dv': 39.9, 'ap-matao-lp': 39.9, 'ap-matao-mt': 39.9, 'ap-matao-geo': 39.9, 'ap-matao-cie': 39.9, 'ap-matao-ing': 39.9, 'ap-matao-fil': 39.9, 'ap-matao-art': 39.9, 'ap-matao-his': 39.9, 'ap-matao-qui': 39.9, 'ap-matao-bio': 39.9, 'ap-matao-fis': 39.9, 'ap-matao-soc': 39.9, 'ap-matao-mus': 39.9, 'ap-matao-cen': 39.9, 'ap-matao-edf': 39.9, 'ap-matao-dan': 39.9, 'ap-matao-gin': 39.9, 'ap-matao-nat': 39.9 };
 function pacote(item) {
   item = String(item || '');
