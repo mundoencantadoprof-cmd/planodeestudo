@@ -192,6 +192,7 @@ function juntaDias(a, b) {
   Object.entries(b || {}).forEach(([k, v]) => {
     if (!/^[0-9]{1,3}$/.test(k) || !v || !Array.isArray(v.res)) return;
     const d = { i: Math.min(+v.i || 0, 200), res: v.res.slice(0, 200).map(Boolean), fim: !!v.fim, t: +v.t || 0 };
+    if (Array.isArray(v.m)) d.m = v.m.slice(0, 200).map(x => { x = Math.trunc(+x); return x >= 0 && x <= 4 ? x : -1; }); /* letra marcada em cada questão, para a correção do dia */
     const o = out[k];
     if (!o || (d.fim && !o.fim) || (d.fim === !!o.fim && (d.res.length > o.res.length || (d.res.length === o.res.length && d.t > (o.t || 0))))) out[k] = d;
   });
