@@ -206,6 +206,14 @@ exports.peProgresso = onRequest(async (req, res) => {
     const quem = await admin.auth().verifyIdToken(token).catch(() => null);
     if (!quem || !quem.email) return res.status(401).json({ erro: 'Entre com a conta Google de novo.' });
     const email = quem.email.toLowerCase(), b = req.body || {};
+    if (b.acao === 'admin') {
+      if (!ADMINS.includes(email)) return res.status(403).json({ erro: 'Só a Editora vê o progresso dos alunos.' });
+      const q = await db.collection('progresso').get();
+      const alunos = q.docs.map(d => { const x = d.data(), dias = x.dias || {};
+        const lista = Object.keys(dias).map(Number).sort((m, n) => m - n).map(k => ({ d: k, n: dias[k].res.length, ok: dias[k].res.filter(Boolean).length, fim: !!dias[k].fim }));
+        return { email: x.email, conc: x.conc, cargo: x.cargo, dias: lista, quando: x.atualizadoEm ? x.atualizadoEm.toMillis() : 0 }; });
+      return res.json({ ok: true, alunos });
+    }
     if (b.acao === 'todos') {
       const q = await db.collection('progresso').where('email', '==', email).get();
       const itens = {};

@@ -26,6 +26,12 @@ const chama = (tk, corpo) => fetch(F, { method: 'POST', headers: { 'Content-Type
     const d = (c.j.itens || {})['matao-ei'] || {};
     ok = a.st === 200 && b.st === 200 && d.dias && d.dias[2] && d.dias[2].fim && d.dias[0] && d.dias[0].res.length === 3 && Object.keys(d.h || {}).length === 2;
     nota('Gravar e ler', 'A=' + a.st + ' B=' + b.st + ' todos=' + c.st + ' CORS=' + c.cors + ' | dia3 fim=' + (d.dias && d.dias[2] && d.dias[2].fim) + ' dia1 resp=' + (d.dias && d.dias[0] && d.dias[0].res.length) + ' acertos guardados=' + Object.keys(d.h || {}).length + (ok ? ' | OK' : ' | FALHOU'));
+    const naoAdm = await chama(tk, { acao: 'admin' });
+    const ed = await admin.auth().getUserByEmail('mundo.encantado.prof@gmail.com');
+    const adm = await chama(await idToken(ed.uid), { acao: 'admin' });
+    const meu = (adm.j.alunos || []).find(x => x.email === 'diag.progresso@example.com');
+    nota('Painel da Editora', 'aluno comum=' + naoAdm.st + ' | Editora=' + adm.st + ' alunos=' + (adm.j.alunos || []).length + ' teste aparece=' + !!meu + (meu ? ' dias=' + JSON.stringify(meu.dias) : ''));
+    ok = ok && naoAdm.st === 403 && adm.st === 200 && !!meu;
     const z = await chama(tk, Object.assign({ acao: 'zerar' }, base));
     const e = await chama(tk, { acao: 'todos' });
     nota('Zerar', z.st + ' | itens depois=' + Object.keys(e.j.itens || {}).length);

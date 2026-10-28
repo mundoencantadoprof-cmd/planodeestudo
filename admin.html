@@ -17,7 +17,7 @@ button:disabled{opacity:.5;cursor:default}
 .tools input,.lib input{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;min-width:0;flex:1}
 .pill{background:#fff;color:var(--navy);border:1px solid var(--line);padding:7px 14px}.pill[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
 table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--soft)}
-td small{display:block;color:var(--soft)}.st{font-weight:700;border-radius:999px;padding:2px 10px;font-size:.8rem;white-space:nowrap}.st.aguardando{background:#FCEFCB;color:#7A5300}.st.pago{background:#D7F0EC;color:var(--ok)}.st.cancelado{background:#F5DCE1;color:var(--bad)}
+td small{display:block;color:var(--soft)}.dias{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}.dias span{font-size:.75rem;border-radius:6px;padding:1px 6px;background:#FCEFCB;color:#7A5300;white-space:nowrap}.dias span.ok{background:#D7F0EC;color:var(--ok)}.st{font-weight:700;border-radius:999px;padding:2px 10px;font-size:.8rem;white-space:nowrap}.st.aguardando{background:#FCEFCB;color:#7A5300}.st.pago{background:#D7F0EC;color:var(--ok)}.st.cancelado{background:#F5DCE1;color:var(--bad)}
 td .acts{display:flex;gap:6px;flex-wrap:wrap}td button{padding:5px 12px;font-size:.85rem}
 .lib{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.lib select{font:inherit;padding:9px;border:1px solid var(--line);border-radius:10px}
 .msg{color:var(--soft)}.err{color:var(--bad)}
@@ -60,6 +60,13 @@ window.PE_CONFIG = {
   <p class="msg" id="vazio" hidden>Nenhum pedido aqui.</p>
  </div>
  <div class="card" style="margin-top:16px">
+  <h2 style="margin:0 0 4px;font-size:1.1rem">Progresso dos alunos <span id="pQtd" style="font-weight:400;color:#5b6478"></span></h2>
+  <p class="msg" style="margin:0 0 8px">Os dias do plano que cada aluno fez, com as questões respondidas e os acertos. Aparece aqui quem estuda com a conta Google conectada no site (o progresso feito antes de 28/10/2026 só sobe quando o aluno entra com Google no aparelho onde estudou).</p>
+  <div class="tools"><input id="pBusca" type="search" placeholder="Buscar e-mail ou cargo" aria-label="Buscar no progresso"><button class="g" id="pAtual">Atualizar</button><button class="g" id="pCsv">Baixar planilha do progresso</button></div>
+  <table><thead><tr><th>Aluno</th><th>Concurso e cargo</th><th>Dias concluídos</th><th>Questões</th><th>Acertos</th><th>Última atividade</th></tr></thead><tbody id="pLinhas"></tbody></table>
+  <p class="msg" id="pVazio" hidden>Nenhum progresso registrado ainda.</p>
+ </div>
+ <div class="card" style="margin-top:16px">
   <h2 style="margin:0 0 4px;font-size:1.1rem">Teste grátis: cadastros <span id="tQtd" style="font-weight:400;color:#5b6478"></span></h2>
   <p class="msg" style="margin:0 0 8px">Quem preencheu o cadastro para usar o teste de 1 dia. Cada e-mail ou celular faz o teste uma vez em cada cargo.</p>
   <div class="tools"><input id="tBusca" type="search" placeholder="Buscar nome, e-mail ou celular" aria-label="Buscar nos testes"><label style="display:flex;gap:6px;align-items:center;font-size:.9rem"><input type="checkbox" id="tSoNao"> Só quem ainda não comprou</label><button class="g" id="tCsv">Baixar planilha dos testes</button></div>
@@ -91,13 +98,31 @@ $('libPac').innerHTML=Object.entries(PACOTES).map(([k,v])=>'<option value="'+k+'
 async function carregar(){
   const q=F.query(F.collection(db,'pedidos'),F.where('perfil','==','plano-de-estudo'));
   pedidos=(await F.getDocs(q)).docs.map(d=>{const v=d.data();return Object.assign({},v,{codigo:d.id,data:v.criadoEm?v.criadoEm.toDate():null,pagoEm:v.pagoEm?v.pagoEm.toDate():null,itens:v.itens||[]})}).sort((a,b)=>(b.data||0)-(a.data||0));
-  resumo();tabela();carregarTestes();
+  resumo();tabela();carregarTestes();carregarProgresso();
 }
 let testes=[];
 async function carregarTestes(){
   try{testes=(await F.getDocs(F.collection(db,'testes'))).docs.map(d=>d.data()).filter(v=>v.tipo==='e').map(v=>Object.assign({},v,{data:v.criadoEm?v.criadoEm.toDate():null})).sort((a,b)=>(b.data||0)-(a.data||0));$('tVazio').textContent='Nenhum cadastro de teste ainda.'}
   catch(e){testes=[];$('tVazio').textContent='Ainda sem permissão para ler os testes: publique as regras novas do Firestore.'}
   tabelaTestes()}
+
+/* Progresso dos alunos: vem da função peProgresso (só a conta da Editora pode listar). */
+const FUNCOES='https://southamerica-east1-mundo-encantado-77c43.cloudfunctions.net';
+let progresso=[];
+async function carregarProgresso(){$('pVazio').hidden=false;$('pVazio').textContent='Carregando...';
+  try{const tk=await auth.currentUser.getIdToken();const r=await fetch(FUNCOES+'/peProgresso',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},body:JSON.stringify({acao:'admin'})});
+    const j=await r.json();if(!r.ok)throw new Error(j.erro||r.status);
+    progresso=j.alunos.map(a=>{const n=a.dias.reduce((t,d)=>t+d.n,0),ok=a.dias.reduce((t,d)=>t+d.ok,0);return Object.assign(a,{feitos:a.dias.filter(d=>d.fim).length,resp:n,acertos:ok,pct:n?Math.round(ok/n*100):null,nome:(pedidos.find(p=>String(p.email).toLowerCase()===a.email)||{}).nome||''})}).sort((x,y)=>y.quando-x.quando);
+    $('pVazio').textContent='Nenhum progresso registrado ainda.'}
+  catch(e){progresso=[];$('pVazio').textContent='Não foi possível carregar o progresso: '+e.message}
+  tabelaProgresso()}
+function progFiltrado(){const q=$('pBusca').value.trim().toLowerCase();return progresso.filter(a=>!q||[a.email,a.nome,nomePac('pe-'+a.conc+'-'+a.cargo)].join(' ').toLowerCase().includes(q))}
+function tabelaProgresso(){const l=progFiltrado();$('pQtd').textContent='('+progresso.length+')';if(progresso.length)$('pVazio').hidden=!!l.length;
+  $('pLinhas').innerHTML=l.map(a=>'<tr><td>'+esc(a.nome||a.email)+(a.nome?'<small>'+esc(a.email)+'</small>':'')+'</td><td>'+esc(nomePac('pe-'+a.conc+'-'+a.cargo))+'<div class="dias">'+a.dias.map(d=>'<span'+(d.fim?' class="ok"':'')+' title="'+d.ok+' acertos de '+d.n+'">dia '+(d.d+1)+(d.fim?' ✓':' '+d.n+' q.')+'</span>').join('')+'</div></td><td><b>'+a.feitos+'</b></td><td>'+a.resp+'</td><td>'+(a.pct==null?'-':a.pct+'%')+'</td><td>'+dataBR(a.quando?new Date(a.quando):null)+'</td></tr>').join('')}
+$('pBusca').oninput=tabelaProgresso;$('pAtual').onclick=carregarProgresso;
+$('pCsv').onclick=()=>{const L=[['Aluno','E-mail','Concurso e cargo','Dias concluídos','Dias feitos','Questões respondidas','Acertos (%)','Última atividade']].concat(progFiltrado().map(a=>[a.nome,a.email,nomePac('pe-'+a.conc+'-'+a.cargo),a.feitos,a.dias.map(d=>(d.d+1)+(d.fim?'':' (parcial)')).join(', '),a.resp,a.pct==null?'':a.pct,dataBR(a.quando?new Date(a.quando):null)]));
+  const csv='\ufeff'+L.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(';')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='progresso-alunos-plano-de-estudo.csv';a.click()};
 function comprou(t){return pedidos.some(p=>p.situacao==='pago'&&String(p.email).toLowerCase()===t.email&&p.itens.some(i=>String(i).indexOf('pe-'+t.conc+'-')===0))}
 function testesFiltrados(){const q=$('tBusca').value.trim().toLowerCase(),so=$('tSoNao').checked;
   return testes.filter(t=>(!so||!comprou(t))&&(!q||[t.nome,t.email,t.tel].join(' ').toLowerCase().includes(q)))}
