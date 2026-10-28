@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='8d3a811548ed';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='8a8c13ec2045';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -948,8 +948,8 @@ function apDestaque(){if(!APOSTILAS.length)return '';var a=APOSTILAS[0],tq=APOST
 var VEST_TXT=[[/por cargo/g,'por pacote'],[/desta área/g,'deste pacote'],[/Escolha o seu cargo/g,'Escolha a fase'],[/o edital do seu cargo pede/g,'a prova pede'],[/Conteúdo do edital para este cargo/g,'Conteúdo da prova'],[/deste cargo/g,'desta fase'],[/este cargo/g,'esta fase'],[/cada cargo/g,'cada fase'],[/mesmo cargo/g,'mesma fase'],[/seu cargo/g,'sua fase'],[/outros cargos/g,'outras fases'],[/do edital/g,'da prova'],[/o edital pede/g,'a prova pede']];
 function vestTextos(){if(!S.conc||S.conc.tipo!=='vest'||!app)return;var w=document.createTreeWalker(app,NodeFilter.SHOW_TEXT,null),n;while(n=w.nextNode()){var t=n.nodeValue,u=t;if(!/cargo|edital|área/.test(t))continue;VEST_TXT.forEach(function(r){u=u.replace(r[0],r[1])});if(u!==t)n.nodeValue=u}}
 if(window.MutationObserver)setTimeout(function(){if(app)new MutationObserver(vestTextos).observe(app,{childList:true,subtree:true})},0);
-/* Página inicial: 1 ou 2 provas em destaque (ids abaixo; troque quando quiser) e as demais em chamadas menores */
-var DESTAQUE_HOME=['piraju','caiabu'];
+/* Página inicial: em destaque, sozinho, o concurso público e o processo seletivo cuja prova está MAIS LONGE (regra da Editora, 28/10/2026: quem ainda pode se inscrever); as demais em chamadas menores */
+function destaquesHome(){var r=[];['ps','cp'].forEach(function(tp){var l=CONCURSOS.filter(function(c){return !c.soon&&tipoDe(c)===tp&&daysTo(c.prova)>=0}).sort(function(x,y){return x.prova<y.prova?1:x.prova>y.prova?-1:0});if(l[0])r.push(l[0])});return r.sort(function(x,y){return x.prova<y.prova?1:x.prova>y.prova?-1:0})}
 function tituloC(c){return c.titulo?c.titulo:(tipoDe(c)==='vest'?c.nome:'Prefeitura de '+c.nome+' ('+c.uf+')')}
 function nomeTipo(c){return {cp:'Concurso público',ps:'Processo seletivo',vest:'Vestibular',curso:'Curso preparatório'}[tipoDe(c)]||''}
 function destCard(c){var d=daysTo(c.prova),v=vagasC(c),nc=(c.cargos||[]).length;
@@ -979,7 +979,7 @@ function renderHome(){
       (ll.length?'<div class="grid">'+cardsDe(ll)+'</div>':'<div class="vazio">'+sc.ic+'<b>Em breve</b><p>'+(sc.breve||'Novas provas aparecem aqui assim que abrirem.')+'</p><button type="button" class="btn ghost" id="vzHome">Ver as provas disponíveis</button></div>')+(bl.length?'<h3 class="pgtit">Em breve</h3><div class="grid">'+cardsDe(bl)+'</div>':'')+'</div></section>';
     var vz=document.getElementById('vzHome');if(vz)vz.onclick=function(){go('home')};
     app.querySelectorAll('[data-c]').forEach(function(b){b.onclick=function(){go('conc',{conc:findC(b.dataset.c)})}});return}
-  var dest=DESTAQUE_HOME.map(findC).filter(function(c){return c&&!c.soon&&daysTo(c.prova)>=0});
+  var dest=destaquesHome();
   if(!dest.length)dest=abertos.filter(function(c){return daysTo(c.prova)>=0}).sort(porData).slice(0,1);
   var outras=abertos.filter(function(c){return dest.indexOf(c)<0}).sort(porData);
   app.innerHTML='<section class="view">'+
