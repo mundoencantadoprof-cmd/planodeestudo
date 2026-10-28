@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='bb91959071a7';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='138410f1078c';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -497,6 +497,10 @@ header.top .secoes .wrap::-webkit-scrollbar{display:none}
   .busca{display:none;order:9;flex:1 0 100%;margin:2px 0 4px}
   body.buscando .busca{display:block}body.buscando .buscabtn{display:none}
   .buscares{min-width:0}.busca~.loginbtn{margin-left:0}}
+/* Topo no celular: logo, lupa, Entrar/Minha área e voz cabem numa linha só */
+@media(max-width:520px){header.top>.wrap{column-gap:6px!important}.logo{gap:8px}.logo .mark{width:40px;height:40px}.wm{padding-left:8px}.wm b{font-size:.9rem}.wm i{font-size:1.1rem}
+  .loginbtn{padding:7px 11px;font-size:.84rem;gap:5px;margin-right:0}.loginbtn svg{width:16px;height:16px}.top .icon-btn{width:34px;height:34px}}
+@media(max-width:374px){.loginbtn span{display:none}.loginbtn{padding:8px}.sec{font-size:.64rem;letter-spacing:-.01em}}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
