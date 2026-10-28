@@ -10,6 +10,11 @@ const mascara = e => String(e || '').replace(/^(.{3}).*(@.*)$/, '$1***$2');
   const s = await db.collection('progresso').get();
   const l = s.docs.map(d => Object.assign({ id: d.id }, d.data())).sort((a, b) => ((b.atualizadoEm && b.atualizadoEm.toMillis()) || 0) - ((a.atualizadoEm && a.atualizadoEm.toMillis()) || 0));
   nota('Coleção progresso', l.length + ' documentos');
+  const ac = await db.collection('acessos').get();
+  nota('Coleção acessos', ac.size + ' contas com pacote\n' + ac.docs.map(d => mascara(d.id) + ' | ' + (d.data().planos || []).join(',') + ' | ' + (d.data().atualizadoEm && d.data().atualizadoEm.toDate ? d.data().atualizadoEm.toDate().toISOString().slice(0, 16) : '')).join('\n'));
+  const pe = await db.collection('pedidos').get();
+  const sit = {}; pe.docs.forEach(d => { const s = d.data().situacao || '?'; sit[s] = (sit[s] || 0) + 1; });
+  nota('Coleção pedidos', JSON.stringify(sit));
   for (const v of l.slice(0, 10)) {
     const dias = Object.entries(v.dias || {}).map(([k, d]) => 'dia ' + (+k + 1) + ': ' + d.res.filter(Boolean).length + '/' + d.res.length + (d.fim ? ' fim' : '') + ' ' + new Date(d.t || 0).toISOString().slice(0, 16)).join('\n');
     const h = v.h || {}, erradas = Object.keys(h).filter(q => h[q] === false), certas = Object.keys(h).filter(q => h[q] === true);
