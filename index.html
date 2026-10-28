@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='138410f1078c';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='3a55dc737569';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -501,6 +501,9 @@ header.top .secoes .wrap::-webkit-scrollbar{display:none}
 @media(max-width:520px){header.top>.wrap{column-gap:6px!important}.logo{gap:8px}.logo .mark{width:40px;height:40px}.wm{padding-left:8px}.wm b{font-size:.9rem}.wm i{font-size:1.1rem}
   .loginbtn{padding:7px 11px;font-size:.84rem;gap:5px;margin-right:0}.loginbtn svg{width:16px;height:16px}.top .icon-btn{width:34px;height:34px}}
 @media(max-width:374px){.loginbtn span{display:none}.loginbtn{padding:8px}.sec{font-size:.64rem;letter-spacing:-.01em}}
+.vidmodal{position:fixed;inset:0;z-index:100;background:rgba(6,14,36,.82);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) 16px max(16px,env(safe-area-inset-bottom,0px))}
+.vidbox{position:relative;height:min(86vh,760px);aspect-ratio:9/16;max-width:100%}.vidbox video{width:100%;height:100%;border-radius:16px;background:#000;display:block}
+.vidx{position:absolute;top:-12px;right:-12px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:#13285E;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35)}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -1012,7 +1015,8 @@ function renderCargo(){TRIAL_MAX=perDay();
   var ac=acesso(j);
   if(apJ&&S.tab==='apostila'){body.innerHTML=apListaHTML([apJ]);ligaApostilas(body);if(!ac||trialExpired(j))app.querySelector('.tabs').hidden=true;return}
   if(!ac&&!S.compra&&compradoAqui(j)&&!logadoCom(j)){app.querySelector('.tabs').hidden=true;
-    body.innerHTML=AUTH_PRONTO?'<div class="card lock"><h3>Entre com a sua conta Google para continuar</h3><p>Este cargo já foi comprado neste aparelho. Para abrir o plano e guardar o seu progresso na sua conta, entre com a <b>mesma conta Google usada na compra</b>. Depois disso, o seu progresso aparece igual no celular e no computador.</p><div><button type="button" class="btn" id="loginCargo">Entrar com Google</button></div><p class="err" id="loginCargoMsg" hidden></p></div>':'<div class="card"><p class="note">Conferindo o seu acesso...</p></div>';
+    body.innerHTML=AUTH_PRONTO?'<div class="card lock"><h3>Entre com a sua conta Google para continuar</h3><p>Este cargo já foi comprado neste aparelho. Para abrir o plano e guardar o seu progresso na sua conta, entre com a <b>mesma conta Google usada na compra</b>. Depois disso, o seu progresso aparece igual no celular e no computador.</p><div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px"><button type="button" class="btn" id="loginCargo">Entrar com Google</button><a href="tutorial.mp4" id="verComo" style="display:inline-flex;gap:6px;align-items:center;font-weight:700;color:var(--brand)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Ver como (vídeo de 2 min)</a></div><p class="err" id="loginCargoMsg" hidden></p></div>':'<div class="card"><p class="note">Conferindo o seu acesso...</p></div>';
+    var vc=document.getElementById('verComo');if(vc)vc.onclick=function(e){e.preventDefault();verTutorial()};
     var lc=document.getElementById('loginCargo');if(lc)lc.onclick=function(){lc.disabled=true;entrarGoogle().then(sincronizar).then(function(){if(logadoCom(j))renderCargo();else{var m=document.getElementById('loginCargoMsg');m.hidden=false;m.textContent='A conta '+(USER&&USER.email)+' não tem este cargo. Entre com a conta Google usada na compra.';lc.disabled=false}},function(e){lc.disabled=false;erroLogin(e)})};
     return}
   if(!ac||S.compra||trialExpired(j)){app.querySelector('.tabs').hidden=true;renderGate(body,j);if(apJ&&!S.compra){body.insertAdjacentHTML('beforeend','<div class="apfaixa"><img src="'+apJ.capa+'" alt=""><div><b>Apostila em PDF deste cargo</b><span>'+apMil(apJ.questoes)+' questões comentadas · '+apPreco(apJ)+'</span></div><button type="button" class="btn ghost small" id="verAp">Ver apostila</button></div>');document.getElementById('verAp').onclick=function(){S.tab='apostila';renderCargo();window.scrollTo({top:0})}}return}
@@ -1590,6 +1594,10 @@ function atualizaLogin(){var b=document.getElementById('loginBtn');if(!b)return;
 function erroLogin(e){if(e&&e.code==='auth/popup-closed-by-user')return;alert('Não foi possível entrar: '+((e&&(e.code||e.message))||'tente de novo.'))}
 function entrarMinha(){if(!/^https?:$/.test(location.protocol))return alert('O login com Google só funciona com o site publicado na internet.');
   return entrarGoogle().then(sincronizar).then(function(){go('minha')},erroLogin)}
+/* vídeo "Como usar" em tela cheia, por cima da página */
+function verTutorial(){var o=document.createElement('div');o.className='vidmodal';o.innerHTML='<div class="vidbox"><button type="button" class="vidx" aria-label="Fechar o vídeo">×</button><video src="tutorial.mp4" poster="tutorial-capa.jpg" controls autoplay playsinline></video></div>';
+  function fecha(){var v=o.querySelector('video');try{v.pause()}catch(e){}o.remove();document.removeEventListener('keydown',esc1)}function esc1(e){if(e.key==='Escape')fecha()}
+  o.onclick=function(e){if(e.target===o||e.target.closest('.vidx'))fecha()};document.addEventListener('keydown',esc1);document.body.appendChild(o)}
 function renderMinha(){
   if(!USER){go('home');return}
   var nome=(USER.displayName||'').split(' ')[0],cards=[],guard=S.conc;
@@ -1601,6 +1609,8 @@ function renderMinha(){
   S.conc=guard;
   var aps=APOSTILAS.filter(apTem);
   app.innerHTML='<section class="view minha"><div class="card mhead"><div><span class="eyebrow">Minha área</span><h2>Olá'+(nome?', '+esc(nome):'')+'!</h2><p class="note">Conta Google: <b>'+esc(USER.email)+'</b></p></div><button type="button" class="btn ghost small" id="sair">Sair</button></div>'+
+    '<div class="card" id="comoUsar" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;border-left:4px solid #F5C04A"><video src="tutorial.mp4" poster="tutorial-capa.jpg" controls playsinline preload="none" style="width:120px;aspect-ratio:9/16;border-radius:12px;background:#13285E;object-fit:cover"></video>'+
+    '<div style="flex:1;min-width:170px"><span class="eyebrow">Vídeo de 2 minutos</span><h3 style="margin:4px 0 6px">Como usar o Plano de Estudo</h3><ol style="margin:0;padding-left:20px;line-height:1.5"><li>Entre sempre com a <b>conta Google da compra</b>, no celular e no computador.</li><li>Toque em <b>Continuar estudando</b> e depois em <b>Começar o dia</b>.</li><li>No fim, veja a <b>correção do dia</b> e o <b>Meu acompanhamento</b>.</li></ol></div></div>'+
     (cards.length?'<h3 class="mtit">Meus pacotes</h3><div class="mgrid">'+cards.join('')+'</div>':
       aps.length?'':'<div class="card"><h3>Nenhum pacote liberado nesta conta</h3><p>Se você já pagou, a liberação acontece assim que o Mercado Pago aprova o pagamento (Pix e cartão em poucos minutos, boleto em até 3 dias úteis). Confira se entrou com a mesma conta Google usada na compra.</p><button type="button" class="btn" id="verProvas">Ver as provas disponíveis</button></div>')+
     (aps.length?'<h3 class="mtit">Minhas apostilas</h3>'+apListaHTML(aps):'')+
