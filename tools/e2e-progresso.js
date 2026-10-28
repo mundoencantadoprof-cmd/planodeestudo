@@ -38,3 +38,4 @@ const chama = (tk, corpo) => fetch(F, { method: 'POST', headers: { 'Content-Type
   } finally { await admin.auth().deleteUser(uid); }
   if (!ok) process.exit(1);
 })().catch(e => { console.log('::error title=Teste progresso::' + e.message); process.exit(1); });
+// rodada 2
