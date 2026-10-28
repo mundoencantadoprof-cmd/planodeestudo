@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='f3fc25195316';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='4639818831ca';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -533,9 +533,9 @@ var GRUPO={ei:'G1',peb1:'G1',assist:'G1',esp:'G2',ef:'G3',mus:'G4'}; /* cargos c
 function qsFor(j){var g=S.conc&&S.conc.id==='arcoiris'?GRUPO[j.id]:null;return Q.filter(function(q){return j.pools.indexOf(q.pool)>=0&&(!q.gr||(g?q.gr.indexOf(g)>=0:/^G\d$/.test(q.gr[0])||q.gr.indexOf(j.id)>=0))})}
 function key(j,k){return 're-'+S.conc.id+'-'+j.id+'-'+k}
 function hist(j){return store.get(key(j,'h'),{})}
-function saveHist(j,h){store.set(key(j,'h'),h)}
+function saveHist(j,h){store.set(key(j,'h'),h);nuvemAgendar(j)}
 function prog(j){return store.get(key(j,'dias'),{})}
-function saveProg(j,p){store.set(key(j,'dias'),p)}
+function saveProg(j,p){store.set(key(j,'dias'),p);nuvemAgendar(j)}
 function midnight(d){var x=d?new Date(d+'T00:00:00'):new Date();x.setHours(0,0,0,0);return x}
 function daysTo(d){return Math.round((midnight(d)-midnight())/86400000)}
 function fmtDate(d){var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
@@ -1042,7 +1042,7 @@ function tabPlano(body,j){
     if(!S.sess.intro){introDia(body,j,dd);return}
     body.innerHTML='<div style="display:grid;gap:14px"><div class="foot"><span class="eyebrow">Dia '+(dd.d+1)+' · '+fmtDate(dd.date)+'</span><button type="button" class="btn ghost small" id="back">Voltar ao plano</button></div><div id="pl"></div></div>';
     document.getElementById('back').onclick=function(){S.sess=null;renderCargo()};
-    runPlayer(document.getElementById('pl'),j,{path:true,onAnswer:function(s){var pp=prog(j);pp[s.day]={i:s.i+1,res:s.res.slice(),fim:s.res.length>=s.list.length};saveProg(j,pp)},onFinish:function(el,s){
+    runPlayer(document.getElementById('pl'),j,{path:true,onAnswer:function(s){var pp=prog(j),fim=s.res.length>=s.list.length;if(s.refaz&&!fim&&pp[s.day]&&pp[s.day].fim)return;pp[s.day]={i:s.i+1,res:s.res.slice(),fim:fim,t:Date.now()};saveProg(j,pp)},onFinish:function(el,s){
       var ok=s.res.filter(Boolean).length;
       el.innerHTML='<div class="player finish"><span class="eyebrow">Dia '+(dd.d+1)+' concluído</span><div class="big">'+ok+'/'+s.list.length+'</div><p>'+(ok/s.list.length>=.7?'Ótimo resultado. Amanhã tem mais.':'Releia as explicações das que errou. Elas aparecem em "Treino livre", opção "Revisar erros".')+'</p><div class="foot" style="justify-content:center"><button type="button" class="btn" id="bk">Voltar ao plano</button></div></div>';
       document.getElementById('bk').onclick=function(){S.sess=null;renderCargo()};
@@ -1050,10 +1050,11 @@ function tabPlano(body,j){
     }});
     return;
   }
-  function startDay(i){if(!isFull(j)&&i!==trialDay(j)){S.compra=true;renderCargo();return}var dd=plan.days[i],pp=prog(j)[i];S.sess={mode:'dia',day:i,list:dd.list,i:0,res:[]};if(pp&&!pp.fim){S.sess.i=pp.i;S.sess.res=pp.res}renderCargo()}
+  function startDay(i){if(!isFull(j)&&i!==trialDay(j)){S.compra=true;renderCargo();return}var dd=plan.days[i],pp=prog(j)[i];S.sess={mode:'dia',day:i,list:dd.list,i:0,res:[],refaz:!!(pp&&pp.fim)};if(pp&&!pp.fim){S.sess.i=pp.i;S.sess.res=pp.res}renderCargo()}
   var t=plan.days[ti],tp=p[ti];
   var mix=catKeys().map(function(k){return '<span class="tag">'+quotaOf(k)+' '+(BL()?abrev(catNome(k)):{leg:'Legislação',ped:'Pedagogia',spec:'da área',port:'Português',cg:'Gerais'}[k])+'</span>'}).join('');
   var h='<div style="display:grid;gap:16px"><div class="today"><div><span class="eyebrow">Hoje · Dia '+(ti+1)+' de '+plan.days.length+' · '+fmtDate(t.date)+'</span><h3>'+'O que você vai estudar hoje'+'</h3><div class="rls">'+resumoLinhas(t,j)+'</div><div class="mix">'+mix+'</div></div><button type="button" class="btn" data-day="'+ti+'">'+(tp&&tp.fim?'Refazer o dia':tp?'Continuar ('+tp.i+'/'+perDay()+')':'Começar o dia')+'</button></div>';
+  if(isFull(j)&&!USER&&!MASTER&&!MODO_CONFERENCIA&&PE&&PE.funcoes)h+='<div class="card" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h3 style="margin:0">Guarde o seu progresso na sua conta</h3><p class="note" style="margin:4px 0 0">Entre com a conta Google da compra: os dias feitos ficam salvos e aparecem em qualquer celular, computador ou navegador.</p></div><button type="button" class="btn small" id="progLogin">Entrar com Google</button></div>';
   h+=dailyChart(plan,p,ti);
   h+='<p class="note">O plano vai de '+fmtDate(plan.days[0].date)+' a '+fmtDate(plan.days[plan.days.length-1].date)+', véspera da prova. São '+plan.unique+' questões diferentes para este cargo, distribuídas por tema. Cada área tem o seu plano e o seu progresso, separados das demais. Você pode adiantar ou recuperar qualquer dia.</p><div class="days">';
   var wk=-1;
@@ -1065,6 +1066,7 @@ function tabPlano(body,j){
   });
   h+='</div><div class="today" style="border-left-color:var(--gold)"><div><span class="eyebrow">Domingo, '+fmtDate(S.conc.prova)+'</span><h3>Dia da prova</h3><p>Chegue 30 minutos antes, com caneta azul ou preta e documento original com foto.</p></div></div></div>';
   body.innerHTML=h;
+  var pl0=document.getElementById('progLogin');if(pl0)pl0.onclick=function(){entrarGoogle().then(sincronizar).then(function(){renderCargo()},erroLogin)};
   body.querySelectorAll('[data-day]').forEach(function(b){b.onclick=function(){startDay(+b.dataset.day)}});
 }
 
@@ -1132,7 +1134,7 @@ function tabDesempenho(body,j){
    (weak.length?'<div class="card"><h3>Temas para reforçar</h3><div class="rows">'+weak.map(function(t){var x=temas[t];return '<div class="arow"><span>'+esc(temaNome(t))+'</span><div class="bar"><i style="width:'+(x.ok/x.n*100)+'%;background:var(--bad)"></i></div><b>'+Math.round(x.ok/x.n*100)+'%</b></div>'}).join('')+'</div></div>':'')+
    '<div class="foot"><span class="eyebrow">Os dados ficam salvos só neste aparelho</span><button type="button" class="btn ghost small" id="reset">Zerar desempenho deste cargo</button></div></div>';
   var rb=document.getElementById('reset'),armed=false;
-  rb.onclick=function(){if(!armed){armed=true;rb.textContent='Toque de novo para confirmar';return}saveHist(j,{});saveProg(j,{});S.sess=null;renderCargo()};
+  rb.onclick=function(){if(!armed){armed=true;rb.textContent='Toque de novo para confirmar';return}saveHist(j,{});saveProg(j,{});if(podeNuvem()){delete NUVEM.fila[S.conc.id+'|'+j.id];nuvemChamar({acao:'zerar',conc:S.conc.id,cargo:j.id}).catch(function(){})}S.sess=null;renderCargo()};
 }
 
 /* Conferência: lista todas as questões do cargo com gabarito, explicações e fonte */
@@ -1294,7 +1296,7 @@ var USER=null,PLANOS=[];
 function sincronizar(u){USER=u||null;if(!u){PLANOS=[];atualizaLogin();return Promise.resolve([])}
   var email=String(u.email).toLowerCase();
   return planosDe(email).then(function(pl){PLANOS=pl;pl.forEach(function(it){var m=/^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(it);if(!m)return;
-    var k='re-'+m[1]+'-'+m[2]+'-acesso',ac=store.get(k,null);if(!ac||ac.mode!=='full')store.set(k,{mode:'full',email:email})});atualizaLogin();return pl})}
+    var k='re-'+m[1]+'-'+m[2]+'-acesso',ac=store.get(k,null);if(!ac||ac.mode!=='full')store.set(k,{mode:'full',email:email})});atualizaLogin();return nuvemBaixar().then(function(){return pl})})}
 function atualizaLogin(){var b=document.getElementById('loginBtn');if(!b)return;b.hidden=MODO_CONFERENCIA;
   b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>'+(USER?'Minha área':'Entrar')+'</span>';b.classList.toggle('on',!!USER)}
 function erroLogin(e){if(e&&e.code==='auth/popup-closed-by-user')return;alert('Não foi possível entrar: '+((e&&(e.code||e.message))||'tente de novo.'))}
@@ -1314,7 +1316,7 @@ function renderMinha(){
     (cards.length?'<h3 class="mtit">Meus pacotes</h3><div class="mgrid">'+cards.join('')+'</div>':
       aps.length?'':'<div class="card"><h3>Nenhum pacote liberado nesta conta</h3><p>Se você já pagou, a liberação acontece assim que o Mercado Pago aprova o pagamento (Pix e cartão em poucos minutos, boleto em até 3 dias úteis). Confira se entrou com a mesma conta Google usada na compra.</p><button type="button" class="btn" id="verProvas">Ver as provas disponíveis</button></div>')+
     (aps.length?'<h3 class="mtit">Minhas apostilas</h3>'+apListaHTML(aps):'')+
-    '<p class="note small">O seu progresso fica guardado neste aparelho. Em outro aparelho, é só entrar com a mesma conta Google para abrir os seus pacotes.</p></section>';
+    '<p class="note small">O seu progresso fica guardado na sua conta Google. Em outro celular, computador ou navegador, é só entrar com a mesma conta para continuar de onde parou.</p></section>';
   app.querySelectorAll('[data-mc]').forEach(function(b){b.onclick=function(){var c=findC(b.dataset.mc);S.conc=c;go('cargo',{conc:c,cargo:findJ(c,b.dataset.mj),tab:'plano',filtro:'Tudo',sess:null,compra:false})}});
   var s=document.getElementById('sair');if(s)s.onclick=function(){firebase().then(function(f){return f.A.signOut(f.auth)}).catch(function(){});store.set('pe-master',0);if(MASTER)ligaMaster(false);USER=null;PLANOS=[];atualizaLogin();go('home')};
   ligaApostilas(app);
@@ -1326,6 +1328,30 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-jaco
   b.onclick=function(){if(USER)go('minha');else entrarMinha()};
   usuarioAtual().then(sincronizar).then(function(){if(S.view==='cargo'&&S.cargo)renderCargo()}).catch(function(){});
 })();
+/* ---------- Progresso na nuvem: os dias feitos e os acertos ficam na conta Google do aluno (função peProgresso),
+   para aparecer em qualquer aparelho ou navegador. Neste aparelho continua tudo no localStorage. ---------- */
+var NUVEM={t:null,fila:{}};
+function podeNuvem(){return !!(USER&&PE&&PE.funcoes&&window.fetch&&!MODO_CONFERENCIA)}
+function nuvemChamar(corpo){var txt=JSON.stringify(corpo);return USER.getIdToken().then(function(tk){return fetch(PE.funcoes.replace(/\/$/,'')+'/peProgresso',{method:'POST',keepalive:txt.length<60000,headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},body:txt})}).then(function(r){if(!r.ok)throw new Error('peProgresso '+r.status);return r.json()})}
+function nuvemAgendar(j){if(!podeNuvem()||!S.conc||!isFull(j))return;NUVEM.fila[S.conc.id+'|'+j.id]=1;clearTimeout(NUVEM.t);NUVEM.t=setTimeout(nuvemEnviar,2500)}
+function nuvemEnviar(){clearTimeout(NUVEM.t);NUVEM.t=null;var f=NUVEM.fila;NUVEM.fila={};if(!podeNuvem())return;
+  Object.keys(f).forEach(function(k){var m=k.split('|'),kd='re-'+m[0]+'-'+m[1]+'-';
+    nuvemChamar({acao:'gravar',conc:m[0],cargo:m[1],dias:store.get(kd+'dias',{}),h:store.get(kd+'h',{})}).catch(function(e){console.warn(e);NUVEM.fila[k]=1})})}
+function juntaDias(a,b){var o=Object.assign({},a||{});Object.keys(b||{}).forEach(function(k){var d=b[k],x=o[k];if(!d||!d.res)return;
+  if(!x||(d.fim&&!x.fim)||(!!d.fim===!!x.fim&&(d.res.length>x.res.length||(d.res.length===x.res.length&&(d.t||0)>(x.t||0)))))o[k]=d});return o}
+function nuvemBaixar(){if(!podeNuvem())return Promise.resolve();
+  return nuvemChamar({acao:'todos'}).then(function(r){var it=r.itens||{},mexeu=false;
+    Object.keys(it).forEach(function(ck){var i=ck.indexOf('-'),kd='re-'+ck.slice(0,i)+'-'+ck.slice(i+1)+'-',ld=store.get(kd+'dias',{}),lh=store.get(kd+'h',{});
+      var nd=juntaDias(ld,it[ck].dias),nh=Object.assign({},it[ck].h||{},lh);
+      if(JSON.stringify(nd)!==JSON.stringify(ld)){store.set(kd+'dias',nd);mexeu=true}
+      if(Object.keys(nh).length!==Object.keys(lh).length){store.set(kd+'h',nh);mexeu=true}});
+    /* o que só existe neste aparelho sobe para a conta */
+    PLANOS.forEach(function(pl){var m=/^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(pl);if(!m)return;var kd='re-'+m[1]+'-'+m[2]+'-',ld=store.get(kd+'dias',{}),c=it[m[1]+'-'+m[2]];
+      if(Object.keys(ld).length&&(!c||JSON.stringify(juntaDias(c.dias,ld))!==JSON.stringify(c.dias)||Object.keys(store.get(kd+'h',{})).length>Object.keys(c.h||{}).length))NUVEM.fila[m[1]+'|'+m[2]]=1});
+    if(Object.keys(NUVEM.fila).length)nuvemEnviar();
+    if(mexeu&&!S.sess){if(S.view==='cargo'&&S.cargo)renderCargo();else render()}
+  }).catch(function(e){console.warn('nuvem',e)})}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&NUVEM.t)nuvemEnviar()});
 /* ---------- 2ª fase (Unesp): questões discursivas com resposta esperada e propostas de redação ---------- */
 var Q2=(function(){try{var e=document.getElementById('q2data');return e?JSON.parse(e.textContent):{d:[],r:[]}}catch(x){return {d:[],r:[]}}})();
 var F2={modo:'disc',area:'',i:0,red:null};
