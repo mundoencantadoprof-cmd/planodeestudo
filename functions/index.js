@@ -183,3 +183,52 @@ exports.peApostila = onRequest({ memory: '1GiB', timeoutSeconds: 120 }, async (r
     res.status(500).json({ erro: 'Não foi possível baixar agora.' });
   }
 });
+
+/* peProgresso: guarda o progresso de estudo (dias do plano e histórico de acertos) na conta Google
+   do aluno, para aparecer em qualquer aparelho ou navegador. Documento progresso/{email}__{conc}__{cargo}.
+   Gravado pelo servidor (admin SDK), sem depender das regras do Firestore. */
+function juntaDias(a, b) {
+  const out = Object.assign({}, a || {});
+  Object.entries(b || {}).forEach(([k, v]) => {
+    if (!/^[0-9]{1,3}$/.test(k) || !v || !Array.isArray(v.res)) return;
+    const d = { i: Math.min(+v.i || 0, 200), res: v.res.slice(0, 200).map(Boolean), fim: !!v.fim, t: +v.t || 0 };
+    const o = out[k];
+    if (!o || (d.fim && !o.fim) || (d.fim === !!o.fim && (d.res.length > o.res.length || (d.res.length === o.res.length && d.t > (o.t || 0))))) out[k] = d;
+  });
+  return out;
+}
+exports.peProgresso = onRequest(async (req, res) => {
+  cors(req, res);
+  if (req.method === 'OPTIONS') return res.status(204).send('');
+  if (req.method !== 'POST') return res.status(405).json({ erro: 'Use POST.' });
+  try {
+    const token = String(req.get('authorization') || '').replace(/^Bearer /, '');
+    const quem = await admin.auth().verifyIdToken(token).catch(() => null);
+    if (!quem || !quem.email) return res.status(401).json({ erro: 'Entre com a conta Google de novo.' });
+    const email = quem.email.toLowerCase(), b = req.body || {};
+    if (b.acao === 'todos') {
+      const q = await db.collection('progresso').where('email', '==', email).get();
+      const itens = {};
+      q.forEach(d => { const x = d.data(); itens[x.conc + '-' + x.cargo] = { dias: x.dias || {}, h: x.h || {} }; });
+      return res.json({ ok: true, itens });
+    }
+    const conc = limpa(b.conc, 30), cargo = limpa(b.cargo, 30);
+    if (!/^[a-z0-9]+$/.test(conc) || !/^[a-z0-9-]+$/.test(cargo)) return res.status(400).json({ erro: 'Cargo inválido.' });
+    const ref = db.doc('progresso/' + email + '__' + conc + '__' + cargo);
+    if (b.acao === 'zerar') { await ref.delete(); return res.json({ ok: true }); }
+    if (b.acao !== 'gravar') return res.status(400).json({ erro: 'Ação inválida.' });
+    const h = {};
+    Object.entries(b.h || {}).slice(0, 5000).forEach(([k, v]) => { if (/^[A-Za-z0-9_-]{1,24}$/.test(k)) h[k] = !!v; });
+    const r = await db.runTransaction(async tx => {
+      const s = await tx.get(ref), x = s.exists ? s.data() : {};
+      const dias = juntaDias(x.dias, b.dias), hh = Object.assign({}, x.h || {}, h);
+      const feitos = Object.values(dias).filter(d => d.fim).length;
+      tx.set(ref, { email, conc, cargo, dias, h: hh, feitos, atualizadoEm: admin.firestore.FieldValue.serverTimestamp() });
+      return { dias, h: hh };
+    });
+    res.json(Object.assign({ ok: true }, r));
+  } catch (e) {
+    console.error('peProgresso', e);
+    res.status(500).json({ erro: 'Não foi possível guardar o progresso agora.' });
+  }
+});
