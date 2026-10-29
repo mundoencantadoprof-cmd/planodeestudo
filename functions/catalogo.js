@@ -65,6 +65,8 @@ const CONCURSOS = {
     ei: 'Professor Substituto de Educação Infantil',
     ef: 'Professor Substituto de Ensino Fundamental' } },
   cursounesp: { nome: 'Cursinho Preparatório Unesp 2027', precos: { f1: 59.9, f2: 59.9 }, soApostilas: ['1ling', '1hum', '1nat', '1mat', '2fase'], cargos: { f1: 'Curso da 1ª fase', f2: 'Curso da 2ª fase', '1ling': 'Volume 1: Linguagens e Códigos', '1hum': 'Volume 2: Ciências Humanas', '1nat': 'Volume 3: Ciências da Natureza', '1mat': 'Volume 4: Matemática', '2fase': '2ª fase: Discursivas e Redação' } },
+  paraguacu: { nome: 'Paraguaçu Paulista (SP) PS 01/2026', cargos: {
+    p1: 'PEB I', art: 'PEB II – Arte', cie: 'PEB II – Ciências', esp: 'PEB II – Educação Especial', lib: 'PEB II – Educação Especial (Libras)', edf: 'PEB II – Educação Física', geo: 'PEB II – Geografia', his: 'PEB II – História', ing: 'PEB II – Inglês', lp: 'PEB II – Português', mt: 'PEB II – Matemática' } },
   piraju: { nome: 'Piraju (SP) PS 01/2026', cargos: { p1: 'Professor I', art: 'Professor II – Arte', edf: 'Professor II – Educação Física', ing: 'Professor II – Inglês' } },
   matao: { nome: 'Matão (SP) PS 01/2026', cargos: {
     ei: 'Professor I – Educação Infantil (0 a 6 anos)',
@@ -95,6 +97,7 @@ const CONCURSOS = {
 const APOSTILAS = { 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
   'ap-arcoiris-assist': 39.9, 'ap-arcoiris-esp': 39.9, 'ap-arcoiris-ef': 39.9, 'ap-arcoiris-mus': 39.9,
   'ap-cursounesp-1ling': 39.9, 'ap-cursounesp-1hum': 39.9, 'ap-cursounesp-1nat': 39.9, 'ap-cursounesp-1mat': 39.9, 'ap-cursounesp-2fase': 39.9,
+  'ap-paraguacu-p1': 39.9, 'ap-paraguacu-art': 39.9, 'ap-paraguacu-cie': 39.9, 'ap-paraguacu-esp': 39.9, 'ap-paraguacu-lib': 39.9, 'ap-paraguacu-edf': 39.9, 'ap-paraguacu-geo': 39.9, 'ap-paraguacu-his': 39.9, 'ap-paraguacu-ing': 39.9, 'ap-paraguacu-lp': 39.9, 'ap-paraguacu-mt': 39.9,
   'ap-piraju-p1': 39.9, 'ap-piraju-art': 39.9, 'ap-piraju-edf': 39.9, 'ap-piraju-ing': 39.9,
   'ap-matao-ei': 39.9, 'ap-matao-ef': 39.9, 'ap-matao-da': 39.9, 'ap-matao-di': 39.9, 'ap-matao-dv': 39.9, 'ap-matao-lp': 39.9, 'ap-matao-mt': 39.9, 'ap-matao-geo': 39.9, 'ap-matao-cie': 39.9, 'ap-matao-ing': 39.9, 'ap-matao-fil': 39.9, 'ap-matao-art': 39.9, 'ap-matao-his': 39.9, 'ap-matao-qui': 39.9, 'ap-matao-bio': 39.9, 'ap-matao-fis': 39.9, 'ap-matao-soc': 39.9, 'ap-matao-mus': 39.9, 'ap-matao-cen': 39.9, 'ap-matao-edf': 39.9, 'ap-matao-dan': 39.9, 'ap-matao-gin': 39.9, 'ap-matao-nat': 39.9 };
 function pacote(item) {
