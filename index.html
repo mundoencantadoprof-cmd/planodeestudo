@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='8a8c13ec2045';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='5ca03ff9b58e';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -517,6 +517,16 @@ header.top .secoes .wrap::-webkit-scrollbar{display:none}
 .tutlink{background:none;border:0;color:#F5C04A;font:700 .85rem var(--f-body);cursor:pointer;padding:0;margin-right:14px;text-decoration:underline;text-underline-offset:3px}
 .vertut{background:none;border:0;color:var(--brand);font:700 .92rem var(--f-body);cursor:pointer;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
 @media(max-width:520px){.tutban{gap:12px;padding:12px}.tbimg{width:66px}.tbtxt>span:not(.eyebrow):not(.tbcta){font-size:.88rem}}
+/* Apostilas separadas por tipo de prova */
+.aptipos{display:flex;flex-wrap:wrap;gap:8px}
+.aptipos .btn{display:inline-flex;align-items:center;gap:7px}
+.aptipos .btn svg{width:18px;height:18px}
+.aptipos em{font-style:normal;font-size:.78rem;background:#13285E;color:#fff;border-radius:999px;padding:1px 8px}
+.apsec{display:grid;gap:14px;scroll-margin-top:90px}
+.apstit{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-size:1.35rem;color:#13285E}
+.apstit svg{width:26px;height:26px;color:#C9A227;flex:none}
+.apstit span{font-size:.85rem;font-weight:600;color:var(--muted,#5A6480)}
+@media (prefers-color-scheme:dark){.apstit{color:#EEF1FA}}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -882,8 +892,8 @@ function buscaIndice(){if(BUSCA)return BUSCA;var l=[];
   CONCURSOS.forEach(function(c){if(c.soon)return;var tc=tituloC(c),tipo=nomeTipo(c);
     l.push({k:'c',c:c,tit:tc,sub:tipo+' · '+c.edital+(c.banca?' · Banca '+c.banca:''),t:semAc([tc,c.nome,c.edital,c.banca,tipo,SECOES.filter(function(s){return s.id===tipoDe(c)}).map(function(s){return s.nome}).join(' ')].join(' '))});
     (c.cargos||[]).forEach(function(j){l.push({k:'j',c:c,j:j,tit:j.nome,sub:(tipoDe(c)==='vest'?'Fase · ':'Cargo · ')+tc,t:semAc([j.nome,c.nome,tc,tipo,'cargo professor'].join(' '))})})});
-  APOSTILAS.forEach(function(a){var c=findC(a.conc),j=c&&findJ(c,a.cargo);if(!j)return;
-    l.push({k:'a',a:a,c:c,j:j,tit:'Apostila: '+j.nome,sub:'Apostila em PDF · '+tituloC(c),t:semAc(['apostila pdf',j.nome,c.nome,tituloC(c)].join(' '))})});
+  APOSTILAS.forEach(function(a){var x=apInfo(a);if(!x)return;
+    l.push({k:'a',a:a,tit:'Apostila: '+x.nome,sub:'Apostila em PDF · '+x.de,t:semAc(['apostila pdf',x.nome,x.de,x.meta].join(' '))})});
   return BUSCA=l}
 function buscaAbrir(r){var q=document.getElementById('busca');if(q){q.value='';q.blur()}buscaFechar();document.body.classList.remove('buscando');
   if(r.k==='c')go('conc',{conc:r.c});
@@ -1474,6 +1484,11 @@ function tabConteudo(body,j){
 /* ---------- Apostilas em PDF (perguntas comentadas por edital), vendidas uma a uma ----------
    Item ap-<concurso>-<cargo>. O PDF fica cifrado no repositório; a função peApostila só entrega a quem comprou (ou à Editora). */
 var APOSTILAS=[
+ {item:'ap-cursounesp-1ling',cargo:'1ling',conc:'cursounesp',titulo:'Volume 1: Linguagens e Códigos',de:'Cursinho Preparatório Unesp 2027',meta:'1ª fase · Português, Literatura, Inglês, Arte e Educação Física',tipo:'curso',preco:39.9,paginas:727,questoes:735,capa:'img/apostilas/ap-cursounesp-1ling.jpg',amostra:'apostilas/amostra-ap-cursounesp-1ling.pdf'},
+ {item:'ap-cursounesp-1hum',cargo:'1hum',conc:'cursounesp',titulo:'Volume 2: Ciências Humanas',de:'Cursinho Preparatório Unesp 2027',meta:'1ª fase · História, Geografia, Filosofia e Sociologia',tipo:'curso',preco:39.9,paginas:1013,questoes:990,capa:'img/apostilas/ap-cursounesp-1hum.jpg',amostra:'apostilas/amostra-ap-cursounesp-1hum.pdf'},
+ {item:'ap-cursounesp-1nat',cargo:'1nat',conc:'cursounesp',titulo:'Volume 3: Ciências da Natureza',de:'Cursinho Preparatório Unesp 2027',meta:'1ª fase · Biologia, Química e Física',tipo:'curso',preco:39.9,paginas:1184,questoes:1245,capa:'img/apostilas/ap-cursounesp-1nat.jpg',amostra:'apostilas/amostra-ap-cursounesp-1nat.pdf'},
+ {item:'ap-cursounesp-1mat',cargo:'1mat',conc:'cursounesp',titulo:'Volume 4: Matemática',de:'Cursinho Preparatório Unesp 2027',meta:'1ª fase · Matemática',tipo:'curso',preco:39.9,paginas:427,questoes:480,capa:'img/apostilas/ap-cursounesp-1mat.jpg',amostra:'apostilas/amostra-ap-cursounesp-1mat.pdf'},
+ {item:'ap-cursounesp-2fase',cargo:'2fase',conc:'cursounesp',titulo:'2ª fase: Discursivas e Redação',de:'Cursinho Preparatório Unesp 2027',meta:'2ª fase · questões discursivas e redação',tipo:'curso',preco:39.9,paginas:572,questoes:230,capa:'img/apostilas/ap-cursounesp-2fase.jpg',amostra:'apostilas/amostra-ap-cursounesp-2fase.pdf',itens:['230 questões discursivas com resposta esperada e correção comentada','28 oficinas de redação em etapas, com proposta, coletânea e texto exemplo','572 páginas com sumário, para ler no celular ou imprimir']},
  {item:'ap-arcoiris-ei',conc:'arcoiris',cargo:'ei',preco:39.9,paginas:729,questoes:1289,capa:'img/apostilas/ap-arcoiris-ei.jpg',amostra:'apostilas/amostra-ap-arcoiris-ei.pdf'},
  {item:'ap-arcoiris-peb1',conc:'arcoiris',cargo:'peb1',preco:39.9,paginas:727,questoes:1291,capa:'img/apostilas/ap-arcoiris-peb1.jpg',amostra:'apostilas/amostra-ap-arcoiris-peb1.pdf'},
  {item:'ap-arcoiris-assist',conc:'arcoiris',cargo:'assist',preco:39.9,paginas:728,questoes:1291,capa:'img/apostilas/ap-arcoiris-assist.jpg',amostra:'apostilas/amostra-ap-arcoiris-assist.pdf'},
@@ -1510,26 +1525,32 @@ var APOSTILAS=[
  {item:'ap-piracicaba-ei',conc:'piracicaba',cargo:'ei',preco:39.9,paginas:732,questoes:960,capa:'img/apostilas/ap-piracicaba-ei.jpg',amostra:'apostilas/amostra-ap-piracicaba-ei.pdf'},
  {item:'ap-piracicaba-ef',conc:'piracicaba',cargo:'ef',preco:39.9,paginas:717,questoes:940,capa:'img/apostilas/ap-piracicaba-ef.jpg',amostra:'apostilas/amostra-ap-piracicaba-ef.pdf'}
 ];
+function apInfo(a){if(a.titulo)return {nome:a.titulo,de:a.de,meta:a.meta,tipo:a.tipo||'curso'};var c=findC(a.conc),j=c&&findJ(c,a.cargo);if(!j)return null;
+  return {nome:j.nome,de:c.nome+(c.uf?' ('+c.uf+')':''),meta:c.edital+' · Banca '+c.banca,tipo:tipoDe(c)}}
 function apDe(cid,jid){return APOSTILAS.filter(function(a){return a.conc===cid&&(!jid||a.cargo===jid)})}
 function apItem(it){return APOSTILAS.filter(function(a){return a.item===it})[0]}
 function apPreco(a){return 'R$ '+a.preco.toFixed(2).replace('.',',')}
 function apMil(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
 function apTem(a){return MASTER||ehAdmin(USER)||(PLANOS||[]).indexOf(a.item)>=0}
-function apCardHTML(a){var c=findC(a.conc),j=c&&findJ(c,a.cargo);if(!j)return '';
-  return '<div class="apcard" data-ap="'+a.item+'"><img class="apcapa" src="'+a.capa+'" alt="Capa da apostila '+esc(j.nome)+'" loading="lazy"><div class="apin">'+
-   '<span class="eyebrow">Apostila em PDF · '+esc(c.nome)+' ('+c.uf+')</span><h3>'+esc(j.nome)+'</h3>'+
-   '<p class="meta">'+esc(c.edital)+' · Banca '+esc(c.banca)+'</p>'+
-   '<ul class="list"><li>'+apMil(a.questoes)+' questões comentadas, na ordem do edital</li><li>Resposta, explicação, dica e o porquê de cada alternativa errada</li><li>'+a.paginas+' páginas com sumário, para ler no celular ou imprimir</li></ul>'+
+function apCardHTML(a){var x=apInfo(a);if(!x)return '';
+  return '<div class="apcard" data-ap="'+a.item+'"><img class="apcapa" src="'+a.capa+'" alt="Capa da apostila '+esc(x.nome)+'" loading="lazy"><div class="apin">'+
+   '<span class="eyebrow">Apostila em PDF · '+esc(x.de)+'</span><h3>'+esc(x.nome)+'</h3>'+
+   '<p class="meta">'+esc(x.meta)+'</p>'+
+   '<ul class="list">'+(a.itens?a.itens.map(function(t){return '<li>'+esc(t)+'</li>'}).join(''):'<li>'+apMil(a.questoes)+' questões comentadas, '+(a.titulo?'organizadas por matéria':'na ordem do edital')+'</li><li>Resposta, explicação, dica e o porquê de cada alternativa errada</li><li>'+apMil(a.paginas)+' páginas com sumário, para ler no celular ou imprimir</li>')+'</ul>'+
    (apTem(a)?'<p class="aptem">Apostila liberada para '+esc(USER?USER.email:'a Editora')+'</p><div class="aprow"><button type="button" class="btn" data-apbaixar="'+a.item+'">Baixar apostila (PDF)</button></div>':
     '<p class="price"><b>'+apPreco(a)+'</b> pagamento único</p><div class="aprow"><button type="button" class="btn" data-apcomprar="'+a.item+'">Comprar a apostila</button><a class="btn ghost" href="'+a.amostra+'" target="_blank" rel="noopener">Ver amostra grátis</a></div>')+
    '<div class="apbuy" hidden></div><p class="err apmsg" hidden></p></div></div>'}
 function apListaHTML(l){return '<div class="aplist">'+l.map(apCardHTML).join('')+'</div>'}
 function renderApostilas(){
-  var grupos={},ordem=[];APOSTILAS.forEach(function(a){if(!grupos[a.conc]){grupos[a.conc]=[];ordem.push(a.conc)}grupos[a.conc].push(a)});
-  app.innerHTML='<section class="view"><div class="jhead aphead"><span class="eyebrow">Material para estudar onde quiser</span><h2>Apostilas em PDF</h2><p>Cada apostila reúne as questões inéditas do Plano de Estudo de um cargo, com o comentário completo de cada resposta, organizadas na ordem do edital. Você compra uma vez, baixa o PDF e estuda no celular, no computador ou impresso.</p></div>'+
-   ordem.map(function(cid){var c=findC(cid);return '<div class="pgrupo"><h3 class="pgtit">'+esc(c.nome)+' ('+c.uf+') <span>'+grupos[cid].length+'</span></h3>'+apListaHTML(grupos[cid])+'</div>'}).join('')+
+  var porTipo={};APOSTILAS.forEach(function(a){var x=apInfo(a);if(!x)return;var t=porTipo[x.tipo]||(porTipo[x.tipo]={n:0,ordem:[],g:{}});t.n++;if(!t.g[a.conc]){t.g[a.conc]={de:x.de,l:[]};t.ordem.push(a.conc)}t.g[a.conc].l.push(a)});
+  var tipos=SECOES.filter(function(s){return porTipo[s.id]});
+  app.innerHTML='<section class="view"><div class="jhead aphead"><span class="eyebrow">Material para estudar onde quiser</span><h2>Apostilas em PDF</h2><p>Cada apostila reúne as questões inéditas do Plano de Estudo de um cargo ou de uma área do vestibular, com o comentário completo de cada resposta, organizadas pelo conteúdo da prova. Você compra uma vez, baixa o PDF e estuda no celular, no computador ou impresso.</p></div>'+
+   (tipos.length>1?'<nav class="aptipos" aria-label="Tipos de prova">'+tipos.map(function(s){return '<button type="button" class="btn ghost small" data-apt="'+s.id+'">'+s.ic+s.titulo+' <em>'+porTipo[s.id].n+'</em></button>'}).join('')+'</nav>':'')+
+   tipos.map(function(s){var t=porTipo[s.id];return '<div class="apsec" id="apt-'+s.id+'"><h2 class="apstit">'+s.ic+s.titulo+' <span>'+t.n+(t.n===1?' apostila':' apostilas')+'</span></h2>'+
+     t.ordem.map(function(cid){var g=t.g[cid];return '<div class="pgrupo"><h3 class="pgtit">'+esc(g.de)+' <span>'+g.l.length+'</span></h3>'+apListaHTML(g.l)+'</div>'}).join('')+'</div>'}).join('')+
    '<p class="note small">Depois da compra, a apostila fica em "Minha área" (botão Entrar, no alto da página), com a mesma conta Google, em qualquer aparelho. Dúvidas: mundo.encantado.prof@gmail.com</p></section>';
   ligaApostilas(app);
+  app.querySelectorAll('[data-apt]').forEach(function(b){b.onclick=function(){var el=document.getElementById('apt-'+b.dataset.apt);if(el){var y=el.getBoundingClientRect().top+window.scrollY-((document.querySelector('.top')||{offsetHeight:0}).offsetHeight||0)-12;window.scrollTo({top:y,behavior:'smooth'})}}});
 }
 function ligaApostilas(root){
   root.querySelectorAll('[data-apbaixar]').forEach(function(b){b.onclick=function(){baixarApostila(apItem(b.dataset.apbaixar),b)}});
