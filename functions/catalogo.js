@@ -64,6 +64,7 @@ const CONCURSOS = {
   piracicaba: { nome: 'Piracicaba (SP) PS 01/2026', cargos: {
     ei: 'Professor Substituto de Educação Infantil',
     ef: 'Professor Substituto de Ensino Fundamental' } },
+  cursounesp: { nome: 'Cursinho Preparatório Unesp 2027', soApostilas: ['1ling', '1hum', '1nat', '1mat', '2fase'], cargos: { '1ling': 'Volume 1: Linguagens e Códigos', '1hum': 'Volume 2: Ciências Humanas', '1nat': 'Volume 3: Ciências da Natureza', '1mat': 'Volume 4: Matemática', '2fase': '2ª fase: Discursivas e Redação' } },
   piraju: { nome: 'Piraju (SP) PS 01/2026', cargos: { p1: 'Professor I', art: 'Professor II – Arte', edf: 'Professor II – Educação Física', ing: 'Professor II – Inglês' } },
   matao: { nome: 'Matão (SP) PS 01/2026', cargos: {
     ei: 'Professor I – Educação Infantil (0 a 6 anos)',
@@ -93,6 +94,7 @@ const CONCURSOS = {
 /* Apostilas em PDF à venda (item ap-<concurso>-<cargo>); o arquivo cifrado fica em apostilas/<item>.bin. */
 const APOSTILAS = { 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
   'ap-arcoiris-assist': 39.9, 'ap-arcoiris-esp': 39.9, 'ap-arcoiris-ef': 39.9, 'ap-arcoiris-mus': 39.9,
+  'ap-cursounesp-1ling': 39.9, 'ap-cursounesp-1hum': 39.9, 'ap-cursounesp-1nat': 39.9, 'ap-cursounesp-1mat': 39.9, 'ap-cursounesp-2fase': 39.9,
   'ap-piraju-p1': 39.9, 'ap-piraju-art': 39.9, 'ap-piraju-edf': 39.9, 'ap-piraju-ing': 39.9,
   'ap-matao-ei': 39.9, 'ap-matao-ef': 39.9, 'ap-matao-da': 39.9, 'ap-matao-di': 39.9, 'ap-matao-dv': 39.9, 'ap-matao-lp': 39.9, 'ap-matao-mt': 39.9, 'ap-matao-geo': 39.9, 'ap-matao-cie': 39.9, 'ap-matao-ing': 39.9, 'ap-matao-fil': 39.9, 'ap-matao-art': 39.9, 'ap-matao-his': 39.9, 'ap-matao-qui': 39.9, 'ap-matao-bio': 39.9, 'ap-matao-fis': 39.9, 'ap-matao-soc': 39.9, 'ap-matao-mus': 39.9, 'ap-matao-cen': 39.9, 'ap-matao-edf': 39.9, 'ap-matao-dan': 39.9, 'ap-matao-gin': 39.9, 'ap-matao-nat': 39.9 };
 function pacote(item) {
@@ -101,6 +103,7 @@ function pacote(item) {
   const c = m && CONCURSOS[m[2]];
   if (!c || !c.cargos[m[3]]) return null;
   if (m[1] === 'ap') return APOSTILAS[item] ? { item, conc: m[2], cargo: m[3], preco: APOSTILAS[item], apostila: true, titulo: 'Apostila em PDF · ' + c.nome + ' · ' + c.cargos[m[3]] } : null;
+  if (c.soApostilas && c.soApostilas.includes(m[3])) return null; /* volume vendido só como apostila */
   return { item, conc: m[2], cargo: m[3], preco: (c.precos && c.precos[m[3]]) || null, titulo: 'Plano de Estudo · ' + c.nome + ' · ' + c.cargos[m[3]] };
 }
 module.exports = { CONCURSOS, APOSTILAS, pacote };
