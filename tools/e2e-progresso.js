@@ -32,6 +32,15 @@ const chama = (tk, corpo) => fetch(F, { method: 'POST', headers: { 'Content-Type
     const meu = (adm.j.alunos || []).find(x => x.email === 'diag.progresso@example.com');
     nota('Painel da Editora', 'aluno comum=' + naoAdm.st + ' | Editora=' + adm.st + ' alunos=' + (adm.j.alunos || []).length + ' teste aparece=' + !!meu + (meu ? ' dias=' + JSON.stringify(meu.dias) : ''));
     ok = ok && naoAdm.st === 403 && adm.st === 200 && !!meu;
+    /* cursinho: mapa cu-* de dois aparelhos (o concluído vence; senão, o mais recente) */
+    const cb = { conc: 'cursounesp', cargo: 'c' };
+    const c1 = await chama(tk, Object.assign({ acao: 'gravar', cu: { 'cu-a-HIS01': { q: { a: 0 } }, 'cu-r-RED01': { fim: 1 }, _t: { 'cu-a-HIS01': 5, 'cu-r-RED01': 5 } } }, cb));
+    const c2 = await chama(tk, Object.assign({ acao: 'gravar', cu: { 'cu-a-HIS01': { q: { a: 0, b: 1 } }, 'cu-r-RED01': { x: 1 }, 'cu-s-SIM1': { r: {} }, _t: { 'cu-a-HIS01': 9, 'cu-r-RED01': 9, 'cu-s-SIM1': 9 } } }, cb));
+    const cl = await chama(tk, { acao: 'todos' }), cu = ((cl.j.itens || {})['cursounesp-c'] || {}).cu || {};
+    const okc = c1.st === 200 && c2.st === 200 && cu['cu-a-HIS01'] && Object.keys(cu['cu-a-HIS01'].q).length === 2 && cu['cu-r-RED01'] && cu['cu-r-RED01'].fim === 1 && !!cu['cu-s-SIM1'];
+    nota('Cursinho', 'A=' + c1.st + ' B=' + c2.st + ' | mais recente=' + JSON.stringify(cu['cu-a-HIS01']) + ' concluído mantido=' + JSON.stringify(cu['cu-r-RED01']) + ' itens=' + Object.keys(cu).length + (okc ? ' | OK' : ' | FALHOU'));
+    ok = ok && okc;
+    await chama(tk, Object.assign({ acao: 'zerar' }, cb));
     const z = await chama(tk, Object.assign({ acao: 'zerar' }, base));
     const e = await chama(tk, { acao: 'todos' });
     nota('Zerar', z.st + ' | itens depois=' + Object.keys(e.j.itens || {}).length);
