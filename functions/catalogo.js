@@ -64,7 +64,7 @@ const CONCURSOS = {
   piracicaba: { nome: 'Piracicaba (SP) PS 01/2026', cargos: {
     ei: 'Professor Substituto de Educação Infantil',
     ef: 'Professor Substituto de Ensino Fundamental' } },
-  cursounesp: { nome: 'Cursinho Preparatório Unesp 2027', soApostilas: ['1ling', '1hum', '1nat', '1mat', '2fase'], cargos: { '1ling': 'Volume 1: Linguagens e Códigos', '1hum': 'Volume 2: Ciências Humanas', '1nat': 'Volume 3: Ciências da Natureza', '1mat': 'Volume 4: Matemática', '2fase': '2ª fase: Discursivas e Redação' } },
+  cursounesp: { nome: 'Cursinho Preparatório Unesp 2027', precos: { f1: 59.9, f2: 59.9 }, soApostilas: ['1ling', '1hum', '1nat', '1mat', '2fase'], cargos: { f1: 'Curso da 1ª fase', f2: 'Curso da 2ª fase', '1ling': 'Volume 1: Linguagens e Códigos', '1hum': 'Volume 2: Ciências Humanas', '1nat': 'Volume 3: Ciências da Natureza', '1mat': 'Volume 4: Matemática', '2fase': '2ª fase: Discursivas e Redação' } },
   piraju: { nome: 'Piraju (SP) PS 01/2026', cargos: { p1: 'Professor I', art: 'Professor II – Arte', edf: 'Professor II – Educação Física', ing: 'Professor II – Inglês' } },
   matao: { nome: 'Matão (SP) PS 01/2026', cargos: {
     ei: 'Professor I – Educação Infantil (0 a 6 anos)',
