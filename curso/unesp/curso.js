@@ -229,7 +229,7 @@ function ckRes(r,p){var s=['Tema','Estrutura','Expressão'].map(function(c){var 
 
 /* ---------- render e eventos ---------- */
 function render(){OUV=[];clearInterval(RELOGIO);
-  if(viewTravada()){EL.innerHTML='<div class="cu">'+vTrava()+'</div>';bind();return}
+  if(viewTravada()){EL.innerHTML='<div class="cu">'+vTrava()+'</div>';bind();setTimeout(function(){try{EL.scrollIntoView({block:'start'});if(EL.getBoundingClientRect().top<0||EL.getBoundingClientRect().top>innerHeight)scrollTo(0,EL.getBoundingClientRect().top+scrollY-8)}catch(e){}},0);return}
   var falta=D.carregar?precisa():[];if(falta.length){falta.forEach(function(id){TENTOU[id]=1});EL.innerHTML='<div class="cu"><div class="card"><p>Carregando...</p></div></div>';D.carregar(falta,function(){render()});return}
   EL.innerHTML='<div class="cu">'+(S.v==='aula'?vAula():S.v==='f2'?vF2():S.v==='disc'?vDisc():S.v==='red'?vRed():S.v==='sim'?vSim():S.v==='met'?vMet():S.v==='rev'?vRev():S.v==='cart'?vCartoes():vHome())+'</div>';
   bind()}
