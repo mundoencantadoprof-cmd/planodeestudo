@@ -64,6 +64,7 @@ const CONCURSOS = {
   piracicaba: { nome: 'Piracicaba (SP) PS 01/2026', cargos: {
     ei: 'Professor Substituto de Educação Infantil',
     ef: 'Professor Substituto de Ensino Fundamental' } },
+  cursounesp: { nome: 'Cursinho Preparatório Unesp 2027', precos: { c: 149.9 }, cargos: { c: 'Curso completo' } },
   piraju: { nome: 'Piraju (SP) PS 01/2026', cargos: { p1: 'Professor I', art: 'Professor II – Arte', edf: 'Professor II – Educação Física', ing: 'Professor II – Inglês' } },
   matao: { nome: 'Matão (SP) PS 01/2026', cargos: {
     ei: 'Professor I – Educação Infantil (0 a 6 anos)',

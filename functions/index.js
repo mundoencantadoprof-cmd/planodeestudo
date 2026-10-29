@@ -198,6 +198,21 @@ function juntaDias(a, b) {
   });
   return out;
 }
+/* Cursinho (tipo curso): o progresso vem como um mapa cu-* (com _t = hora de cada item) e fica guardado como texto (cuj).
+   Ao juntar dois aparelhos, o item concluído (fim) vence; senão, o mais recente. */
+function juntaCu(a, b) {
+  const o = Object.assign({}, a || {}), ta = Object.assign({}, (a && a._t) || {}), tb = (b && b._t) || {};
+  Object.keys(b || {}).forEach(k => {
+    if (k === '_t' || !/^cu-[A-Za-z0-9_-]{1,40}$/.test(k)) return;
+    const x = o[k], y = b[k];
+    if (y == null) return;
+    const fx = !!(x && x.fim), fy = !!(y && y.fim);
+    if (x == null || (fy && !fx) || (fx === fy && (+tb[k] || 0) > (+ta[k] || 0))) { o[k] = y; ta[k] = +tb[k] || +ta[k] || 0; }
+  });
+  o._t = ta;
+  return o;
+}
+
 exports.peProgresso = onRequest(async (req, res) => {
   cors(req, res);
   if (req.method === 'OPTIONS') return res.status(204).send('');
@@ -218,7 +233,7 @@ exports.peProgresso = onRequest(async (req, res) => {
     if (b.acao === 'todos') {
       const q = await db.collection('progresso').where('email', '==', email).get();
       const itens = {};
-      q.forEach(d => { const x = d.data(); itens[x.conc + '-' + x.cargo] = { dias: x.dias || {}, h: x.h || {} }; });
+      q.forEach(d => { const x = d.data(); itens[x.conc + '-' + x.cargo] = { dias: x.dias || {}, h: x.h || {}, cu: x.cuj ? JSON.parse(x.cuj) : undefined }; });
       return res.json({ ok: true, itens });
     }
     const conc = limpa(b.conc, 30), cargo = limpa(b.cargo, 30);
@@ -226,6 +241,7 @@ exports.peProgresso = onRequest(async (req, res) => {
     const ref = db.doc('progresso/' + email + '__' + conc + '__' + cargo);
     if (b.acao === 'zerar') { await ref.delete(); return res.json({ ok: true }); }
     if (b.acao !== 'gravar') return res.status(400).json({ erro: 'Ação inválida.' });
+    if (b.cu != null && (typeof b.cu !== 'object' || JSON.stringify(b.cu).length > 900000)) return res.status(413).json({ erro: 'Progresso do curso grande demais.' });
     const h = {};
     Object.entries(b.h || {}).slice(0, 5000).forEach(([k, v]) => { if (/^[A-Za-z0-9_-]{1,24}$/.test(k)) h[k] = !!v; });
     const r = await db.runTransaction(async tx => {
@@ -237,8 +253,11 @@ exports.peProgresso = onRequest(async (req, res) => {
       if (rs && /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(String(rs.inicio))) dado.resumo = { pd: Math.min(+rs.pd || 0, 500), nd: Math.min(+rs.nd || 0, 400), inicio: String(rs.inicio), nome: limpa(rs.nome, 120),
         areas: (Array.isArray(rs.areas) ? rs.areas : []).slice(0, 20).map(a => ({ a: limpa(a.a, 60), n: Math.max(0, +a.n || 0), ok: Math.max(0, +a.ok || 0) })) };
       else if (x.resumo) dado.resumo = x.resumo;
+      let cu;
+      if (b.cu) { cu = juntaCu(x.cuj ? JSON.parse(x.cuj) : {}, b.cu); const t = JSON.stringify(cu); if (t.length < 950000) dado.cuj = t; else if (x.cuj) dado.cuj = x.cuj; }
+      else if (x.cuj) dado.cuj = x.cuj;
       tx.set(ref, dado);
-      return { dias, h: hh };
+      return { dias, h: hh, cu };
     });
     res.json(Object.assign({ ok: true }, r));
   } catch (e) {
