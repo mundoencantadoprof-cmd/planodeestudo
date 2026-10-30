@@ -17,7 +17,7 @@ const PRECO = 39.9;
 const { pacote, PARCELAS } = require('./catalogo');
 const { enviarAviso, enviarReembolso } = require('./aviso');
 const { abrir } = require('./cofre');
-const SITES = ['https://mundoencantadoprof-cmd.github.io', 'https://planodeestudo.net.br', 'https://www.planodeestudo.net.br'];
+const SITES = ['https://mundoencantadoprof-cmd.github.io', 'https://orangered-cheetah-396698.hostingersite.com', 'https://planodeestudo.net.br', 'https://www.planodeestudo.net.br'];
 const SITE_PADRAO = process.env.SITE_URL || 'https://planodeestudo.net.br/';
 const MP = 'https://api.mercadopago.com';
 
