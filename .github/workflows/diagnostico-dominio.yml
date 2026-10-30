@@ -1,4 +1,4 @@
-# Diagnóstico só de leitura (rodado 14:30, zona completa).
+# Diagnóstico só de leitura (rodado 14:33, zona completa).
 name: Diagnóstico do domínio
 on:
   push:
@@ -14,6 +14,8 @@ jobs:
           {
           echo "== NS .br: $(dig +short NS $D @a.dns.br +norec | tr '\n' ' ') / $(dig NS $D @a.dns.br +norec | grep -E '^planodeestudo' | awk '{print $5}' | tr '\n' ' ')"
           for t in A AAAA CNAME MX TXT CAA; do echo "== nova $t @: $(dig +short $t $D @nova.dns-parking.com | tr '\n' ' ')"; done
+          echo "== auto A @: $(dig +short A $D @a.auto.dns.br | tr "\n" " ") www: $(dig +short www.$D @a.auto.dns.br | tr "\n" " ")"
+          echo "== publico 8.8.8.8 A: $(dig +short A $D @8.8.8.8 | tr "\n" " ")"
           for t in A CNAME; do echo "== nova $t www: $(dig +short $t www.$D @nova.dns-parking.com | tr '\n' ' ')"; done
           IP=$(dig +short A $D @nova.dns-parking.com | head -1)
           if [ -n "$IP" ]; then
