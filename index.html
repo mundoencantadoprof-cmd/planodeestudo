@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='9d461d09cdc6';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='e30940748e98';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="img/app/icon-192.png">
 <link rel="apple-touch-icon" href="img/app/apple-touch-icon.png">
@@ -546,6 +546,7 @@ header.top .secoes .wrap::-webkit-scrollbar{display:none}
 .orisec h3 svg{width:26px;height:26px;flex:none;color:var(--gold)}
 .orisec h4{margin:16px 0 6px}
 .orisec .btn svg{width:18px;height:18px;margin-right:6px;vertical-align:-3px}
+.orimail{display:inline-flex;align-items:center;gap:8px;max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:left;font-size:clamp(.78rem,3.6vw,.95rem);line-height:1.25;padding-inline:14px}.orisec .orimail svg{flex:none;margin:0}
 .appso{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px}
 .appso.sua{border:2px solid var(--gold);background:var(--gold-wash)}
 .appso h4{margin:0 0 6px}
@@ -2052,7 +2053,7 @@ function oriSecHTML(id){
       '<li><b>Direitos autorais.</b> Todo o conteúdo (questões, comentários, apostilas e vídeos) é do Mundo Encantado. É proibido copiar, gravar, revender ou repassar, no todo ou em parte. As apostilas em PDF são para uso pessoal.</li>'+
       '<li><b>Seus dados.</b> Nome, e-mail e celular são usados só para liberar o acesso, guardar o seu progresso e falar com você sobre a compra, conforme a Lei Geral de Proteção de Dados. Para pedir a exclusão dos seus dados, escreva para '+CONTATO+'.</li>'+
       '<li><b>Mudanças.</b> Estes termos podem ser atualizados. A versão que vale para a sua compra é a que estava no site no dia do pagamento.</li></ol>';
-  return '<p>Dúvidas sobre o app, a compra, o reembolso ou o conteúdo? Escreva para a equipe Mundo Encantado. Respondemos em até 1 dia útil.</p><p><a class="btn ghost" href="mailto:'+CONTATO+'">'+ICO.contato+CONTATO+'</a></p>';
+  return '<p>Dúvidas sobre o app, a compra, o reembolso ou o conteúdo? Escreva para a equipe Mundo Encantado. Respondemos em até 1 dia útil.</p><p><a class="btn ghost orimail" href="mailto:'+CONTATO+'">'+ICO.contato+CONTATO+'</a></p>';
 }
 function renderOri(){var ob=document.getElementById('oriBtn');if(ob)ob.classList.add('on');
   app.innerHTML='<section class="view ori"><div class="card orihead"><span class="eyebrow">Orientações</span><h2>Como funciona o Plano de Estudo</h2><p>Tudo o que você precisa saber para estudar tranquilo: o app no celular, até quando vale o seu acesso, o reembolso e os termos de uso.</p>'+
