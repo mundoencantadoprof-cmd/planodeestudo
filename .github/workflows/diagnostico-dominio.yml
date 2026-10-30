@@ -1,4 +1,4 @@
-# Diagnóstico só de leitura (rodado 13:50): para onde o domínio aponta e se HTTPS e o app respondem.
+# Diagnóstico só de leitura (rodado 14:13): para onde o domínio aponta e se HTTPS e o app respondem.
 name: Diagnóstico do domínio
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
             dig NS $D @$ns +short
           done
           for p in / version.json manifest.webmanifest sw.js offline.html img/app/apple-touch-icon.png; do
-            echo "== github /$p $(curl -s -o /tmp/b -w '%{http_code} %{content_type}' https://$D/$p --max-time 30) $([ $p = version.json ] && head -c 100 /tmp/b)"
+            echo "== publico /$p $(curl -s -o /tmp/b -w '%{http_code} %{content_type}' https://$D/$p --max-time 30) $([ $p = version.json ] && head -c 100 /tmp/b)"
           done
           } > out.txt 2>&1
           cat out.txt
