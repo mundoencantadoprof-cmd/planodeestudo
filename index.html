@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='4a0ab727ac6c';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='4ce57e74d386';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="img/app/icon-192.png">
 <link rel="apple-touch-icon" href="img/app/apple-touch-icon.png">
@@ -599,6 +599,12 @@ header.top .buscabtn{display:none!important}
 @media(max-width:700px){header.top>.wrap{row-gap:6px}header.top .busca{flex:1 1 0}.oribtn{padding:0 12px;height:40px;font-size:.88rem}.oribtn span{display:inline}
   .logo .mark{width:46px;height:46px}.wm b{font-size:1rem}.wm i{font-size:1.24rem}}
 @media(max-width:374px){.loginbtn{padding:0;width:40px;height:40px;justify-content:center}.oribtn{padding:0 10px;font-size:.84rem}}
+/* vídeo "Como usar" agora fica em Orientações e na página inicial; sai do rodapé */
+.fbar .tutlink{display:none}
+.orivid{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.orivid>div{flex:1;min-width:200px}
+.orivthumb{position:relative;width:120px;aspect-ratio:9/16;border:0;padding:0;border-radius:12px;overflow:hidden;background:#13285E;cursor:pointer;flex:none}
+.orivthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.orivthumb span{position:absolute;inset:0;display:grid;place-items:center;font-size:1.8rem;color:#fff;background:rgba(19,40,94,.35)}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -1962,11 +1968,13 @@ var ICO={
   prazo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8.5 15l2.2 2.2 4.5-4.4"/></svg>',
   reembolso:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.4 0-2.5.8-2.5 2s1.1 1.6 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1.1 0-2-.4-2.5-1.2M12 6.5V8m0 8v1.5"/></svg>',
   termos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>',
+  video:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10 9.2v5.6l4.8-2.8z"/></svg>',
   contato:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>'};
-var ORI_SEC=[['app','Instale o app no celular'],['prazo','Prazo de acesso'],['reembolso','Reembolso em até 7 dias'],['termos','Termos de uso'],['contato','Fale com a Editora']];
+var ORI_SEC=[['video','Como usar a plataforma (vídeo)'],['app','Instale o app no celular'],['prazo','Prazo de acesso'],['reembolso','Reembolso em até 7 dias'],['termos','Termos de uso'],['contato','Fale com a Editora']];
 var SHARE_IOS='<svg class="inl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="ícone Compartilhar"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>';
 var MENU_AND='<svg class="inl" viewBox="0 0 24 24" fill="currentColor" aria-label="menu de 3 pontinhos"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
 function oriSecHTML(id){
+  if(id==='video')return '<div class="orivid"><button type="button" class="orivthumb" data-tutorial aria-label="Assistir ao vídeo"><img src="tutorial-capa.jpg" alt=""><span>▶</span></button><div><p>Em 2 minutos, veja como entrar com a sua conta Google, começar o plano do dia, ver a correção e acompanhar o seu progresso no celular e no computador.</p><p><button type="button" class="btn" data-tutorial>'+ICO.video+'Assistir ao vídeo</button></p></div></div>';
   if(id==='app'){var so=appSistema(),inst=appInstalado();
     var and='<div class="appso'+(so==='android'?' sua':'')+'"><h4>Android (Samsung, Motorola, Xiaomi e outros)</h4><ol><li>Abra <b>planodeestudo.net.br</b> no <b>Google Chrome</b>.</li><li>Toque no botão <b>Instalar o app</b> acima ou no menu '+MENU_AND+' do Chrome, no canto de cima.</li><li>Escolha <b>Instalar app</b> (ou <b>Adicionar à tela inicial</b>) e confirme.</li><li>O ícone do <b>Plano de Estudo</b> aparece junto com os seus aplicativos.</li></ol></div>';
     var ios='<div class="appso'+(so==='ios'?' sua':'')+'"><h4>iPhone e iPad</h4><ol><li>Abra <b>planodeestudo.net.br</b> no <b>Safari</b> (o navegador da bússola azul).</li><li>Toque em <b>Compartilhar</b> '+SHARE_IOS+', na barra de baixo (ou de cima, no iPad).</li><li>Role a lista e toque em <b>Adicionar à Tela de Início</b>.</li><li>Toque em <b>Adicionar</b>. O ícone do <b>Plano de Estudo</b> aparece na tela do iPhone.</li></ol></div>';
@@ -2022,7 +2030,7 @@ document.addEventListener('click',function(e){var t;
   if(e.target.closest('[data-gohome]')){go('home');return}
   if(e.target.closest('[data-irminha]')){if(USER)go('minha',{mSec:'compras'});else if(siteComBanco()){S.mSec='compras';entrarMinha()}else alert('O login com Google só funciona no site publicado.')}});
 /* link direto: planodeestudo.net.br/#orientacoes, #app, #reembolso, #termos */
-(function(){var h=(location.hash||'').replace('#','').toLowerCase(),m={orientacoes:null,app:'app',instalar:'app',prazo:'prazo',reembolso:'reembolso',termos:'termos',contato:'contato'};if(h in m)oriAbrir(m[h])})();
+(function(){var h=(location.hash||'').replace('#','').toLowerCase(),m={orientacoes:null,video:'video',tutorial:'video',app:'app',instalar:'app',prazo:'prazo',reembolso:'reembolso',termos:'termos',contato:'contato'};if(h in m)oriAbrir(m[h])})();
 
 /* ---------- Minhas compras e reembolso (função peReembolso no servidor; o Mercado Pago devolve o valor) ---------- */
 function reembolsoChamar(corpo){return USER.getIdToken().then(function(tk){return fetch(PE.funcoes.replace(/\/$/,'')+'/peReembolso',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},body:JSON.stringify(corpo)})})
