@@ -1,4 +1,4 @@
-# Diagnóstico só de leitura (rodado 14:20): para onde o domínio aponta e se HTTPS e o app respondem.
+# Diagnóstico só de leitura (zona completa): para onde o domínio aponta e se HTTPS e o app respondem.
 name: Diagnóstico do domínio
 on:
   push:
@@ -12,16 +12,15 @@ jobs:
         run: |
           D=planodeestudo.net.br
           {
-          echo "== delegacao .br"; dig NS $D @a.dns.br +norec | grep -A4 -E "AUTHORITY|ANSWER"
-          for ns in nova.dns-parking.com cosmos.dns-parking.com; do
-            echo "== $ns ip: $(dig +short A $ns)"
-            dig A $D @$ns | grep -E "status|^$D|ANSWER:"
-            dig A www.$D @$ns | grep -E "status|^www"
-            dig NS $D @$ns +short
-          done
-          for p in / version.json manifest.webmanifest sw.js offline.html img/app/apple-touch-icon.png; do
-            echo "== publico /$p $(curl -s -o /tmp/b -w '%{http_code} %{content_type}' https://$D/$p --max-time 30) $([ $p = version.json ] && head -c 100 /tmp/b)"
-          done
+          echo "== NS .br: $(dig +short NS $D @a.dns.br +norec | tr '\n' ' ') / $(dig NS $D @a.dns.br +norec | grep -E '^planodeestudo' | awk '{print $5}' | tr '\n' ' ')"
+          for t in A AAAA CNAME MX TXT CAA; do echo "== nova $t @: $(dig +short $t $D @nova.dns-parking.com | tr '\n' ' ')"; done
+          for t in A CNAME; do echo "== nova $t www: $(dig +short $t www.$D @nova.dns-parking.com | tr '\n' ' ')"; done
+          IP=$(dig +short A $D @nova.dns-parking.com | head -1)
+          if [ -n "$IP" ]; then
+            echo "== cert em $IP: $(echo | timeout 15 openssl s_client -connect $IP:443 -servername $D 2>/dev/null | openssl x509 -noout -subject -issuer -enddate 2>&1 | tr '\n' ' ')"
+            for p in / version.json manifest.webmanifest; do echo "== $IP https /$p $(curl -sk -o /tmp/b -w '%{http_code} %{content_type}' --resolve $D:443:$IP https://$D/$p --max-time 30) $([ $p = version.json ] && head -c 60 /tmp/b)"; done
+            echo "== $IP http / $(curl -s -o /dev/null -w '%{http_code}' --resolve $D:80:$IP http://$D/ --max-time 20)"
+          fi
           } > out.txt 2>&1
           cat out.txt
           echo "::notice title=resultado::$(tr '\n' '|' < out.txt | cut -c1-3900)"
