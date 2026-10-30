@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='5e035f904162';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='4a0ab727ac6c';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="img/app/icon-192.png">
 <link rel="apple-touch-icon" href="img/app/apple-touch-icon.png">
@@ -586,19 +586,19 @@ body.comfaixa footer.site-foot{padding-bottom:80px}
 .oribtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-display);font-weight:700;font-size:.92rem;border:2px solid var(--line);background:var(--sheet);color:#13285E;border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap;margin-right:8px;flex:none}
 .oribtn svg{width:18px;height:18px;flex:none}
 .oribtn:hover,.oribtn.on{border-color:#13285E}.oribtn.on{background:#13285E;color:#fff}
-@media(max-width:900px){.oribtn span{display:none}.oribtn{padding:0;width:40px;height:40px;justify-content:center;margin-right:6px}}
+
 @media(prefers-color-scheme:dark){.oribtn{color:var(--ink)}}
-/* topo (30/10/2026): logo maior; Orientações ao lado de Minha área; no computador a busca fica numa linha própria, logo abaixo */
-.oribtn{margin-left:auto}
-@media(min-width:701px){header.top>.wrap{flex-wrap:wrap;row-gap:8px}
-  header.top .busca{order:9;flex:1 0 100%;margin:0 0 4px}
-  header.top .busca input{padding-block:11px;font-size:1rem}
-  .logo .mark{width:68px;height:68px}.wm{padding-left:14px}.wm b{font-size:1.4rem}.wm i{font-size:1.75rem}}
-@media(max-width:700px){header.top>.wrap{flex-wrap:wrap;row-gap:6px}.oribtn{margin-left:auto;width:38px;height:38px}
-  header.top .busca{display:block;order:9;flex:1 0 100%;margin:0 0 2px}header.top .buscabtn{display:none!important}
+/* topo (30/10/2026): 1ª linha logo maior + Minha área e voz; 2ª linha, embaixo do logo, o botão Orientações e a busca ao lado */
+header.top>.wrap{flex-wrap:wrap;row-gap:8px}
+header.top>.wrap::after{content:"";order:7;flex-basis:100%;height:0}
+header.top .loginbtn{margin-left:auto}
+.oribtn{order:8;margin:0 0 4px}
+header.top .busca{display:block;order:9;flex:0 1 420px;min-width:0;margin:0 0 4px}
+header.top .buscabtn{display:none!important}
+@media(min-width:701px){.logo .mark{width:68px;height:68px}.wm{padding-left:14px}.wm b{font-size:1.4rem}.wm i{font-size:1.75rem}}
+@media(max-width:700px){header.top>.wrap{row-gap:6px}header.top .busca{flex:1 1 0}.oribtn{padding:0 12px;height:40px;font-size:.88rem}.oribtn span{display:inline}
   .logo .mark{width:46px;height:46px}.wm b{font-size:1rem}.wm i{font-size:1.24rem}}
-@media(max-width:374px){.loginbtn{padding:0;width:40px;height:40px;justify-content:center}}
-@media(max-width:374px){.logo .mark{width:40px;height:40px}.wm b{font-size:.9rem}.wm i{font-size:1.1rem}}
+@media(max-width:374px){.loginbtn{padding:0;width:40px;height:40px;justify-content:center}.oribtn{padding:0 10px;font-size:.84rem}}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -1928,7 +1928,8 @@ var CONTATO='mundo.encantado.prof@gmail.com';
 /* botão Orientações no topo, ao lado da busca (no celular, só o ícone) */
 (function(){var lb=document.getElementById('loginBtn');if(!lb||document.getElementById('oriBtn'))return;var b=document.createElement('button');b.type='button';b.id='oriBtn';b.className='oribtn';b.setAttribute('aria-label','Orientações');b.title='Orientações: app, prazo de acesso, reembolso e termos de uso';
   b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M12 11v6M12 7.6v.2"/></svg><span>Orientações</span>';
-  b.onclick=function(){oriAbrir()};lb.parentNode.insertBefore(b,lb)})();
+  b.onclick=function(){oriAbrir()};lb.parentNode.insertBefore(b,lb)
+  var bi=document.getElementById('busca');if(bi&&window.matchMedia&&window.matchMedia('(max-width:700px)').matches)bi.placeholder='Buscar prova ou cargo'})();
 function maisUmMes(d){var p=d.split('-').map(Number),y=p[0],m=p[1]+1;if(m>12){m=1;y++}var ult=new Date(y,m,0).getDate();return y+'-'+String(m).padStart(2,'0')+'-'+String(Math.min(p[2],ult)).padStart(2,'0')}
 /* última prova do plano: a do concurso; no Intensivão Unesp 1ª + 2ª fase, a 2ª fase (14/12/2026) */
 var ULTIMA_PROVA={'unesp-f12':'2026-12-14'};
