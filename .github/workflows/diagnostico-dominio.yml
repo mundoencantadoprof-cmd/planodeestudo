@@ -11,22 +11,17 @@ jobs:
       - name: Conferir
         run: |
           D=planodeestudo.net.br
-          a(){ echo "::notice title=$1::$(echo "$2" | tr '\n' ' ' | cut -c1-900)"; }
-          a "NS (8.8.8.8)" "$(dig +short NS $D @8.8.8.8)"
-          a "NS (1.1.1.1)" "$(dig +short NS $D @1.1.1.1)"
-          a "NS na delegacao .br" "$(dig +short NS $D @a.dns.br)"
-          a "A (8.8.8.8)" "$(dig +short A $D @8.8.8.8)"
-          a "A (1.1.1.1)" "$(dig +short A $D @1.1.1.1)"
-          a "A www" "$(dig +short A www.$D @8.8.8.8)"
-          for ns in nova.dns-parking.com cosmos.dns-parking.com; do a "A em $ns" "$(dig +short A $D @$ns) / www: $(dig +short A www.$D @$ns)"; done
-          IPS="$(dig +short A $D @8.8.8.8) $(dig +short A $D @nova.dns-parking.com)"
-          for ip in $(echo $IPS | tr ' ' '\n' | sort -u); do
-            c=$(echo | timeout 15 openssl s_client -connect $ip:443 -servername $D 2>/dev/null | openssl x509 -noout -subject -issuer -enddate 2>&1)
-            a "Certificado em $ip" "$c"
-            for p in / version.json manifest.webmanifest sw.js offline.html img/app/apple-touch-icon.png; do
-              r=$(curl -s -o /tmp/b -w "%{http_code} %{content_type}" --resolve $D:443:$ip https://$D/$p --max-time 30 || echo falhou)
-              extra=""; [ "$p" = version.json ] && extra=" $(head -c 120 /tmp/b)"
-              a "$ip /$p" "$r$extra"
-            done
-            a "$ip http" "$(curl -sI --resolve $D:80:$ip http://$D/ --max-time 20 | head -3)"
+          {
+          echo "== delegacao .br"; dig NS $D @a.dns.br +norec | grep -A4 -E "AUTHORITY|ANSWER"
+          for ns in nova.dns-parking.com cosmos.dns-parking.com; do
+            echo "== $ns ip: $(dig +short A $ns)"
+            dig A $D @$ns | grep -E "status|^$D|ANSWER:"
+            dig A www.$D @$ns | grep -E "status|^www"
+            dig NS $D @$ns +short
           done
+          for p in / version.json manifest.webmanifest sw.js offline.html img/app/apple-touch-icon.png; do
+            echo "== github /$p $(curl -s -o /tmp/b -w '%{http_code} %{content_type}' https://$D/$p --max-time 30) $([ $p = version.json ] && head -c 100 /tmp/b)"
+          done
+          } > out.txt 2>&1
+          cat out.txt
+          echo "::notice title=resultado::$(tr '\n' '|' < out.txt | cut -c1-3900)"
