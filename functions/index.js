@@ -14,7 +14,7 @@ setGlobalOptions({ region: 'southamerica-east1', maxInstances: 5 });
 const db = admin.firestore();
 
 const PRECO = 39.9;
-const { pacote } = require('./catalogo');
+const { pacote, PARCELAS } = require('./catalogo');
 const { enviarAviso, enviarReembolso } = require('./aviso');
 const { abrir } = require('./cofre');
 const SITES = ['https://mundoencantadoprof-cmd.github.io', 'https://orangered-cheetah-396698.hostingersite.com', 'https://planodeestudo.net.br', 'https://www.planodeestudo.net.br'];
@@ -74,7 +74,8 @@ exports.pePagamento = onRequest(async (req, res) => {
       statement_descriptor: 'PLANODEESTUDO',
       notification_url: 'https://southamerica-east1-' + process.env.GCLOUD_PROJECT + '.cloudfunctions.net/peWebhook',
       back_urls: { success: volta('aprovado'), pending: volta('pendente'), failure: volta('falha') },
-      auto_return: 'approved'
+      auto_return: 'approved',
+      ...(PARCELAS[p.item] ? { payment_methods: { installments: PARCELAS[p.item], default_installments: PARCELAS[p.item] } } : {})
     }) });
     await db.doc('pedidos/' + cod).update({ mpPreferencia: pref.id });
     res.json({ url: pref.init_point, pedido: cod });
@@ -294,7 +295,7 @@ exports.peProgresso = onRequest(async (req, res) => {
     if (!quem || !quem.email) return res.status(401).json({ erro: 'Entre com a conta Google de novo.' });
     const email = quem.email.toLowerCase(), b = req.body || {};
     if (b.acao === 'admin') {
-      if (!ADMINS.includes(email)) return res.status(403).json({ erro: 'Só a Editora vê o progresso dos alunos.' });
+      if (!ADMINS.includes(email)) return res.status(403).json({ erro: 'Só a equipe Mundo Encantado vê o progresso dos alunos.' });
       const q = await db.collection('progresso').get();
       const alunos = q.docs.map(d => { const x = d.data(), dias = x.dias || {};
         const lista = Object.keys(dias).map(Number).sort((m, n) => m - n).map(k => ({ d: k, n: dias[k].res.length, ok: dias[k].res.filter(Boolean).length, fim: !!dias[k].fim, t: dias[k].t || 0 }));
