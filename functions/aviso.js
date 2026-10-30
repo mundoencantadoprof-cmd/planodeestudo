@@ -37,4 +37,39 @@ async function enviarAviso(pedido, cod) {
   });
   return { ok: true };
 }
-module.exports = { enviarAviso };
+/* E-mail do reembolso (direito de arrependimento): o aluno recebe a confirmação; a Editora recebe cópia oculta.
+   Quando o Mercado Pago não devolveu sozinho (Pix direto ou erro), o assunto avisa a Editora para devolver pelo painel. */
+async function enviarReembolso(pedido, cod, automatico, motivo) {
+  const t = correio();
+  if (!t) return null;
+  const p = pacote(pedido.itens && pedido.itens[0]);
+  const nomePac = p ? p.titulo.replace('Plano de Estudo · ', '').replace('Apostila em PDF · ', 'Apostila: ') : String(pedido.itens || '');
+  const nome = String(pedido.nome || '').split(' ')[0];
+  const valor = 'R$ ' + Number(pedido.total || 0).toFixed(2).replace('.', ',');
+  const linhas = [
+    'Olá' + (nome ? ', ' + nome : '') + '!',
+    'Recebemos o seu pedido de reembolso (direito de arrependimento, art. 49 do Código de Defesa do Consumidor).',
+    'Pacote: ' + nomePac + ' (pedido ' + cod + ') · valor ' + valor + '.',
+    automatico
+      ? 'O Mercado Pago já está devolvendo todo o valor, no mesmo meio de pagamento. No Pix e no saldo do Mercado Pago, o valor volta normalmente no mesmo dia; no cartão de crédito, o estorno aparece na fatura atual ou na seguinte, conforme o banco.'
+      : 'A Editora vai devolver todo o valor em até 5 dias úteis e avisa você por e-mail quando terminar.',
+    'O acesso a este pacote foi encerrado. Se quiser voltar a estudar, é só comprar de novo em https://planodeestudo.net.br.',
+    'Editora Mundo Encantado · ' + EMAIL_EDITORA
+  ];
+  await t.sendMail({
+    from: '"Plano de Estudo · Editora Mundo Encantado" <' + EMAIL_EDITORA + '>',
+    to: pedido.email, bcc: EMAIL_EDITORA, replyTo: EMAIL_EDITORA,
+    subject: automatico ? 'Plano de Estudo: reembolso do pedido ' + cod : 'Plano de Estudo: pedido de reembolso ' + cod + ' recebido',
+    text: linhas.join('\n\n') + (motivo ? '\n\nMotivo informado: ' + motivo : ''),
+    html: '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#13285E">' + linhas.map(l => '<p>' + esc(l) + '</p>').join('') + '</div>'
+  });
+  if (!automatico) {
+    await t.sendMail({
+      from: '"Plano de Estudo" <' + EMAIL_EDITORA + '>', to: EMAIL_EDITORA,
+      subject: 'DEVOLVER: reembolso do pedido ' + cod + ' (' + valor + ')',
+      text: 'Reembolso pedido pelo aluno e NÃO feito automaticamente pelo Mercado Pago. Devolva ' + valor + ' para ' + (pedido.nome || '') + ' (' + pedido.email + ', ' + (pedido.tel || 'sem celular') + '), pedido ' + cod + ', forma ' + (pedido.forma || '') + '. Depois, no painel, marque o pedido como Reembolsado. O acesso já foi retirado.' + (motivo ? '\nMotivo: ' + motivo : '')
+    });
+  }
+  return { ok: true };
+}
+module.exports = { enviarAviso, enviarReembolso };
