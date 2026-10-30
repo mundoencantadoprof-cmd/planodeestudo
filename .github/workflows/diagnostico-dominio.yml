@@ -1,4 +1,4 @@
-# Diagnóstico só de leitura (rodado 15:09, zona completa).
+# Diagnóstico só de leitura (rodado 17:11): para onde o domínio aponta e se HTTPS e o app respondem.
 name: Diagnóstico do domínio
 on:
   push:
@@ -12,16 +12,16 @@ jobs:
         run: |
           D=planodeestudo.net.br
           {
-          echo "== NS .br: $(dig +short NS $D @a.dns.br +norec | tr '\n' ' ') / $(dig NS $D @a.dns.br +norec | grep -E '^planodeestudo' | awk '{print $5}' | tr '\n' ' ')"
-          for t in A AAAA CNAME MX TXT CAA; do echo "== nova $t @: $(dig +short $t $D @nova.dns-parking.com | tr '\n' ' ')"; done
-          echo "== auto A @: $(dig +short A $D @a.auto.dns.br | tr "\n" " ") www: $(dig +short www.$D @a.auto.dns.br | tr "\n" " ")"
-          echo "== publico 8.8.8.8 A: $(dig +short A $D @8.8.8.8 | tr "\n" " ")"
-          for t in A CNAME; do echo "== nova $t www: $(dig +short $t www.$D @nova.dns-parking.com | tr '\n' ' ')"; done
-          IP=$(dig +short A $D @nova.dns-parking.com | head -1)
+          NS=$(dig NS $D @a.dns.br +norec | grep -E '^planodeestudo' | awk '{print $5}' | head -1)
+          echo "== NS .br: $(dig NS $D @a.dns.br +norec | grep -E '^planodeestudo' | awk '{print $5}' | tr '\n' ' ')"
+          echo "== A @ em $NS: $(dig +short A $D @$NS | tr '\n' ' ') / www: $(dig +short www.$D @$NS | tr '\n' ' ')"
+          echo "== publico 8.8.8.8: $(dig +short A $D @8.8.8.8 | tr '\n' ' ') / www: $(dig +short www.$D @8.8.8.8 | tr '\n' ' ')"
+          IP=$(dig +short A $D @$NS | head -1)
           if [ -n "$IP" ]; then
             echo "== cert em $IP: $(echo | timeout 15 openssl s_client -connect $IP:443 -servername $D 2>/dev/null | openssl x509 -noout -subject -issuer -enddate 2>&1 | tr '\n' ' ')"
-            for p in / version.json manifest.webmanifest; do echo "== $IP https /$p $(curl -sk -o /tmp/b -w '%{http_code} %{content_type}' --resolve $D:443:$IP https://$D/$p --max-time 30) $([ $p = version.json ] && head -c 60 /tmp/b)"; done
-            echo "== $IP http / $(curl -s -o /dev/null -w '%{http_code}' --resolve $D:80:$IP http://$D/ --max-time 20)"
+            for p in / version.json manifest.webmanifest sw.js img/app/apple-touch-icon.png; do echo "== $IP /$p $(curl -s -o /tmp/b -w '%{http_code} %{content_type}' --resolve $D:443:$IP https://$D/$p --max-time 30) $([ $p = version.json ] && head -c 60 /tmp/b)"; done
+            echo "== $IP http: $(curl -sI --resolve $D:80:$IP http://$D/ --max-time 20 | head -3 | tr '\n' ' ')"
+            echo "== www https: $(curl -s -o /dev/null -w '%{http_code} -> %{redirect_url}' https://www.$D/ --max-time 30)"
           fi
           } > out.txt 2>&1
           cat out.txt
