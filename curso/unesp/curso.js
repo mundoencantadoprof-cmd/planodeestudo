@@ -137,7 +137,7 @@ function vResultado(a,p){var n=a.questoes.length,c=0,f=0;a.questoes.forEach(func
   return '<p class="score">'+c+' / '+n+'</p><p>'+(f<n?'Você respondeu '+f+' de '+n+' questões.':c>=n*0.8?'Excelente! Este assunto está dominado.':c>=n*0.6?'Bom resultado. As que você errou voltam na revisão dos próximos dias.':'Refaça este bloco amanhã: as que você errou também voltam na revisão.')+'</p>'+
     '<div class="bar lt"><i style="width:'+Math.round(100*c/n)+'%"></i></div>'+
     (erradas.length?'<p class="small">'+erradas.length+' questão(ões) foram para a sua <b>revisão dos erros</b>.</p>':'')+
-    '<h4>Cartões para memorizar</h4><p class="small">Releia antes de dormir e de novo amanhã cedo. É assim que fixa.</p><div class="flash">'+a.questoes.map(function(q){return q.mem?'<div>'+inl(memo(q))+'</div>':''}).join('')+'</div>'+
+    vCartBloco(a)+
     '<div class="row" style="margin-top:14px"><button type="button" class="btn" data-fimaula>'+(p.fim?'Bloco concluído ✓':'Concluir o bloco')+'</button><button type="button" class="btn ghost" data-refaz>Refazer as questões</button></div>'}
 /* revisão: questões erradas em blocos anteriores voltam até você acertar */
 function errosPendentes(){var l=[],vis={},ok=get('cu-rev',{});
@@ -149,11 +149,51 @@ function errosPendentes(){var l=[],vis={},ok=get('cu-rev',{});
 function vRev(){var h='<button class="back" data-home>‹ Cronograma</button><div class="card"><span class="eyebrow">Revisão dos erros</span><h2>Questões que você errou</h2>';
   var l=S.revLista||[];if(!l.length)return h+'<p>Nenhuma questão pendente. Cada questão que você errar volta aqui até você acertar.</p></div>';
   return h+'<p class="small">Acertou agora? Ela sai da revisão. Errou de novo? Continua aqui para outro dia.</p>'+vQuestao(l,S.qi||0,S.revResp||{},'rev')+'</div>'}
-function vCartoes(){var h='<button class="back" data-home>‹ Cronograma</button><div class="card"><span class="eyebrow">Cartões para memorizar</span><h2>Tudo o que você já estudou</h2><p class="small">Os pontos-chave de cada bloco que você concluiu, por matéria.</p>',por={};
-  D.cur.aulas.forEach(function(m){var a=D.aulas[m.id];if(!a||!aulaFeita(m.id))return;(por[a.materia]=por[a.materia]||[]).push(a)});
-  var ks=Object.keys(por);if(!ks.length)return h+'<p>Conclua um bloco de questões para os cartões aparecerem aqui.</p></div>';
-  ks.forEach(function(k){h+='<h4>'+esc(k)+'</h4>'+por[k].map(function(a){return '<details class="box blue"><summary><b>'+esc(a.titulo)+'</b></summary><div class="flash" style="margin-top:8px">'+a.questoes.map(function(q){return q.mem?'<div>'+inl(memo(q))+'</div>':''}).join('')+'</div></details>'}).join('')});
-  return h+'</div>'}
+/* cartões para memorizar: frente = assunto, verso = "Para memorizar"; o aluno vira, tenta lembrar e marca "Já sei" */
+function cartoesDe(a){return a.questoes.filter(function(q){return q.mem}).map(function(q){return {q:q,a:a}})}
+function sabe(){return get('cu-mem',{})}
+function fora(t,c){var z=0,l=[];for(var i=0;i<t.length;i++){var x=t.charAt(i);if(x==='(')z++;else if(x===')')z=Math.max(0,z-1);else if(x===c&&!z&&t.charAt(i+1)===' ')l.push(i)}return l}
+function memFmt(t){t=String(t||'').trim();var k=fora(t,':')[0],h='',b=t,ps=[],u=0;
+  if(k>0&&k<80&&!/[.;]/.test(t.slice(0,k).replace(/\([^)]*\)/g,''))){h=t.slice(0,k);b=t.slice(k+2)}
+  fora(b,';').forEach(function(i){ps.push(b.slice(u,i).trim());u=i+1});ps.push(b.slice(u).trim());ps=ps.filter(Boolean);
+  return (h?'<p class="fc-h">'+inl(h)+'</p>':'')+(ps.length>1&&ps.length<7?'<ul>'+ps.map(function(x,n){return '<li>'+inl(cap(x.replace(/[.;]$/,'')))+'</li>'}).join('')+'</ul>':'<p>'+inl(cap(b))+'</p>')}
+function cartao(c,n,tot){var q=c.q,a=c.a,ok=sabe()[q.id];
+  return '<div class="fc '+a.area+(ok?' sei':'')+'" data-flip role="button" tabindex="0" aria-label="Cartão: '+esc(q.as||a.titulo)+'. Toque para virar."><div class="fc-in">'+
+    '<div class="fc-f"><div class="fc-top"><span>'+esc(a.materia)+'</span><span>'+(tot?n+' / '+tot:'')+'</span></div><p class="fc-as">'+esc(cap(q.as||a.titulo))+'</p><p class="fc-dica">Tente lembrar o ponto-chave.<br><b>Toque para virar</b></p></div>'+
+    '<div class="fc-b"><div class="fc-top"><span>Para memorizar</span><span>'+esc(cap(q.as||''))+'</span></div><div class="fc-tx">'+memFmt(memo(q))+'</div></div></div></div>'}
+function listaCart(l){var ok=sabe();return '<div class="fcl">'+l.map(function(c){return '<div class="'+c.a.area+(ok[c.q.id]?' sei':'')+'"><span class="fcl-as">'+esc(cap(c.q.as||''))+(ok[c.q.id]?' <i>✓ já sei</i>':'')+'</span>'+memFmt(memo(c.q))+'</div>'}).join('')+'</div>'}
+function contaSei(l){var ok=sabe();return l.filter(function(c){return ok[c.q.id]}).length}
+function vCartBloco(a){var l=cartoesDe(a);if(!l.length)return '';var k=contaSei(l);
+  return '<div class="fcbox"><div class="row between"><div><span class="eyebrow">Cartões para memorizar</span><h3>'+l.length+' cartões deste bloco</h3></div><span class="fc-cont">'+k+' de '+l.length+' já sei</span></div>'+
+    '<p class="small">Vire um por um e tente lembrar antes de ler. Repita antes de dormir e de novo amanhã cedo: é assim que fixa.</p>'+
+    '<div class="row"><button type="button" class="btn gold" data-treino="'+esc(a.id)+'">Treinar com os cartões</button></div>'+
+    '<details class="fcdet"><summary>Ver todos em lista</summary>'+listaCart(l)+'</details></div>'}
+function todosCart(){var l=[];D.cur.aulas.forEach(function(m){var a=D.aulas[m.id];if(a&&aulaFeita(m.id))l=l.concat(cartoesDe(a))});return l}
+function vDeck(){var d=S.deck,i=S.di||0,volta='<button class="back" data-voltadeck>‹ '+(S.deckVolta&&S.deckVolta.v==='aula'?'Resultado do bloco':'Cartões')+'</button>';
+  if(i>=d.length){var ok=sabe(),f=d.filter(function(c){return !ok[c.q.id]}).length,k=d.length-f;
+    return volta+'<div class="card fcfim"><span class="eyebrow">Rodada concluída</span><p class="score">'+k+' / '+d.length+'</p><p>'+(f?'Você já sabe '+k+' de '+d.length+' cartões. Os '+f+' que faltam voltam na próxima rodada.':'Você sabe todos os cartões desta rodada. Ótimo!')+'</p>'+
+      '<div class="bar lt"><i style="width:'+Math.round(100*k/d.length)+'%"></i></div><div class="row" style="margin-top:14px">'+(f?'<button type="button" class="btn gold" data-deckfalta>Rever os '+f+' que faltam</button>':'')+'<button type="button" class="btn ghost" data-deckde>Embaralhar e recomeçar</button><button type="button" class="btn ghost" data-voltadeck>Terminar</button></div></div>'}
+  var c=d[i];
+  return volta+'<div class="card deck"><div class="row between"><span class="tag">Cartão '+(i+1)+' de '+d.length+'</span>'+ouvir((c.q.as?cap(c.q.as)+'. ':'')+memo(c.q))+'</div><div class="bar lt"><i style="width:'+Math.round(100*i/d.length)+'%"></i></div>'+
+    cartao(c)+
+    '<div class="duo fcbt"><button type="button" class="btn ghost nao" data-marca="0">Ainda não sei</button><button type="button" class="btn sim" data-marca="1">Já sei ✓</button></div>'+
+    '<div class="row between" style="margin-top:6px"><button type="button" class="btn ghost small" data-di="'+(i-1)+'"'+(i?'':' disabled')+'>Anterior</button><span class="small">Vire, confira e marque.</span></div></div>'}
+function misturar(l){l=l.slice();for(var i=l.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=l[i];l[i]=l[j];l[j]=t}return l}
+function vCartoes(){if(S.deck)return vDeck();
+  var h='<button class="back" data-home>‹ Cronograma</button>',todos=todosCart();
+  if(!todos.length)return h+'<div class="card"><span class="eyebrow">Cartões para memorizar</span><h2>Seus cartões aparecem aqui</h2><p>Cada questão do curso tem um "Para memorizar". Quando você conclui um bloco de questões, esses pontos-chave viram cartões: na frente o assunto, no verso o que precisa ficar na cabeça.</p></div>';
+  var mats=[],por={};todos.forEach(function(c){if(!por[c.a.materia]){por[c.a.materia]=[];mats.push(c.a.materia)}por[c.a.materia].push(c)});
+  var fm=S.cmat&&por[S.cmat]?S.cmat:'',vis=fm?por[fm]:todos,ok=sabe(),k=contaSei(vis),f=vis.length-k;
+  h+='<div class="card hero"><span class="eyebrow">Cartões para memorizar</span><h2>'+(fm?esc(fm):'Tudo o que você já estudou')+'</h2><p class="small">Na frente, o assunto. No verso, o ponto-chave. Tente lembrar antes de virar.</p>'+
+    '<div class="tres fcst"><div><b>'+vis.length+'</b><span>cartões</span></div><div><b>'+k+'</b><span>já sei</span></div><div><b>'+f+'</b><span>para rever</span></div></div>'+
+    '<div class="bar"><i style="width:'+Math.round(100*k/Math.max(1,vis.length))+'%"></i></div>'+
+    '<div class="row" style="margin-top:12px">'+(f?'<button type="button" class="btn gold" data-treino="*falta">Treinar os '+f+' que faltam</button>':'')+'<button type="button" class="btn ghost claro" data-treino="*todos">Treinar todos</button></div></div>';
+  if(mats.length>1)h+='<div class="chips"><button type="button" class="'+(fm?'':'on')+'" data-cmat="">Todas <span>'+todos.length+'</span></button>'+mats.map(function(m){return '<button type="button" class="'+(fm===m?'on':'')+'" data-cmat="'+esc(m)+'">'+esc(m)+' <span>'+por[m].length+'</span></button>'}).join('')+'</div>';
+  (fm?[fm]:mats).forEach(function(m){var bl={},ord=[];por[m].forEach(function(c){if(!bl[c.a.id]){bl[c.a.id]=[];ord.push(c.a)}bl[c.a.id].push(c)});
+    h+='<div class="card"><h4 style="margin-top:0">'+esc(m)+'</h4>'+ord.map(function(a){var l=bl[a.id],s=contaSei(l);
+      return '<details class="fcb"><summary><span class="mt '+a.area+'">'+sigla(a)+'</span><span class="tt"><b>'+esc(a.titulo)+'</b><span class="small">'+s+' de '+l.length+' já sei</span><span class="bar lt mini"><i style="width:'+Math.round(100*s/l.length)+'%"></i></span></span></summary>'+
+        '<div class="row" style="margin:8px 0"><button type="button" class="btn small gold" data-treino="'+esc(a.id)+'">Treinar este bloco</button></div>'+listaCart(l)+'</details>'}).join('')+'</div>'});
+  return h}
 /* ---------- 2ª fase: lista da semana e discursiva guiada ---------- */
 function vF2(){var w=D.cur.semanas[S.sem2-1],ids=aulasDaSemana(w).filter(function(id){return D.aulas[id]});
   var h='<button class="back" data-home>‹ Cronograma</button><div class="card"><span class="eyebrow">Sábado da 2ª fase · semana '+w.n+'</span><h2>Discursivas guiadas</h2>'+
@@ -292,7 +332,18 @@ function bind(){
     if(S.v==='rev'){var q=S.revLista[S.qi||0];S.revResp=S.revResp||{};S.revResp[q.id]=k;if(k===q.a){var ok=get('cu-rev',{});ok[q.id]=1;set('cu-rev',ok)}render();return}
     var a=D.aulas[S.id],p=get('cu-a-'+S.id,{q:{}});p.q=p.q||{};p.q[a.questoes[S.qi||0].id]=k;set('cu-a-'+S.id,p);render()});
   on('[data-rev]',function(){go({v:'rev',qi:0,revLista:errosPendentes(),revResp:{}})});
-  on('[data-cart]',function(){go({v:'cart'})});
+  on('[data-cart]',function(){go({v:'cart',deck:null})});
+  on('[data-cmat]',function(b){S.cmat=b.dataset.cmat;render()});
+  on('[data-treino]',function(b){var t=b.dataset.treino,l,ok=sabe();
+    if(t.charAt(0)==='*'){l=todosCart();if(S.cmat)l=l.filter(function(c){return c.a.materia===S.cmat});if(t==='*falta')l=l.filter(function(c){return !ok[c.q.id]})}else l=cartoesDe(D.aulas[t]);
+    if(!l.length)return;go({deckVolta:S.v==='aula'?{v:'aula',id:S.id,step:1}:{v:'cart'},v:'cart',deck:t.charAt(0)==='*'?misturar(l):l,deckBase:l,di:0})});
+  on('[data-flip]',function(b){b.classList.toggle('virado')});
+  EL.querySelectorAll('[data-flip]').forEach(function(b){b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();b.classList.toggle('virado')}})});
+  on('[data-marca]',function(b){var c=S.deck[S.di||0],ok=sabe();if(b.dataset.marca==='1')ok[c.q.id]=1;else delete ok[c.q.id];set('cu-mem',ok);S.di=(S.di||0)+1;render()});
+  on('[data-di]',function(b){S.di=Math.max(0,+b.dataset.di);render()});
+  on('[data-deckfalta]',function(){var ok=sabe();go({deck:S.deck.filter(function(c){return !ok[c.q.id]}),di:0})});
+  on('[data-deckde]',function(){go({deck:misturar(S.deckBase||S.deck),di:0})});
+  on('[data-voltadeck]',function(){var v=S.deckVolta||{v:'cart'};go({v:v.v,id:v.id||S.id,step:v.step||0,deck:null})});
   on('[data-fimaula]',function(){var p=get('cu-a-'+S.id,{q:{}});p.fim=1;set('cu-a-'+S.id,p);go({v:'home'})});
   /* discursiva */
   var did=S.v==='disc'?D.aulas[S.id].discursiva.id:null;
