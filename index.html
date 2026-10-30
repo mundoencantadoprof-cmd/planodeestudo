@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='ef801ce19f2d';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='f6a31da88d25';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="img/app/icon-192.png">
 <link rel="apple-touch-icon" href="img/app/apple-touch-icon.png">
@@ -393,6 +393,32 @@ a.btn{text-decoration:none;text-align:center;justify-content:center}
 .tag.vg{background:#E8F6EC;color:#14532D;font-weight:700}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .ccard .vagas,:root:not([data-theme="light"]) .vagasbig,:root:not([data-theme="light"]) .tag.vg{background:#123522;color:#B9F0CB;border-color:#1F5A37}}
 :root[data-theme="dark"] .ccard .vagas,:root[data-theme="dark"] .vagasbig,:root[data-theme="dark"] .tag.vg{background:#123522;color:#B9F0CB;border-color:#1F5A37}
+/* Cards das provas (2026-10-30): mesma altura, faixa única, números lado a lado, rodapé fixo embaixo */
+.ccard.cc2{align-content:start;grid-template-rows:auto 1fr;transition:transform .15s,box-shadow .15s,border-color .15s}
+.ccard.cc2:hover{transform:translateY(-2px);box-shadow:0 18px 34px -20px rgba(15,27,61,.45)}
+.ccard.cc2 .band{height:6px;background:linear-gradient(90deg,#13285E,#1F55A0 55%,#F2BE45)}
+.ccard.cc2 .in{display:flex;flex-direction:column;gap:12px;padding:18px 18px 16px}
+.cc-top{display:flex;align-items:center;gap:14px}
+.cc-bras{flex:none;width:60px;height:60px;border-radius:14px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;padding:5px}
+.cc-bras img{max-width:100%;max-height:100%;object-fit:contain}
+.cc-tit{display:grid;gap:3px;min-width:0}
+.cc-tit .eyebrow{font-size:.68rem;line-height:1.35}
+.ccard.cc2 h3{font-size:1.28rem}
+.ccard.cc2 h3 .uf{font-size:.8em;color:var(--soft);font-weight:600}
+.ccard.cc2 .meta{margin:0;font-size:.9rem}
+.ccard.cc2 .meta b{color:var(--ink);font-weight:600}
+.cc-num{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cc-num>span{display:grid;gap:2px;align-content:start;padding:9px 10px;border-radius:12px;background:var(--brand-wash);color:var(--brand);font-size:.8rem;font-weight:600;line-height:1.25}
+.cc-num b{font-family:var(--f-display);font-size:1.45rem;line-height:1.05;font-variant-numeric:tabular-nums}
+.cc-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:30px}
+.cc-vg{flex:none;padding:4px 10px;border-radius:999px;background:#E8F6EC;color:#14532D;border:1px solid #B7E2C3;font-size:.8rem;font-weight:700;white-space:nowrap}
+.cc-vg b{font-family:var(--f-display);font-size:1rem}
+.cc-num .dd{background:var(--gold-wash);color:var(--ink)}
+.cc-pe{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cc-ir{font-weight:700;font-size:.92rem;color:var(--brand);white-space:nowrap}
+.ccard.cc2:hover .cc-ir span{display:inline-block;transform:translateX(3px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .cc-vg{background:#123522;color:#B9F0CB;border-color:#1F5A37}}
+:root[data-theme="dark"] .cc-vg{background:#123522;color:#B9F0CB;border-color:#1F5A37}
 .apbtn{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-display);font-weight:700;font-size:.95rem;border:2px solid #F4B728;background:#FFF6DC;color:#13285E;border-radius:999px;padding:8px 14px;cursor:pointer;margin-left:auto;margin-right:8px;white-space:nowrap}
 .apbtn:not([hidden])+.loginbtn{margin-left:0}
 .aplist{display:grid;gap:16px}
@@ -1112,7 +1138,12 @@ function renderHome(){
     if(ehCurso(c)){var k=c.curso||{},v=cursoVenda(c)[0];return '<button type="button" class="ccard cuban" data-c="'+c.id+'"><span class="cub-txt"><span class="eyebrow">Curso preparatório · Vestibular</span><b class="cub-tit">'+esc(c.titulo)+'</b><span class="cub-per">'+cursoPeriodo(c)+' · '+k.semanas+' semanas</span>'+
      '<span class="cub-l"><span>'+k.aulas+' blocos de questões comentadas passo a passo</span><span>'+k.simulados+' simulados no formato da prova</span><span>Discursivas da 2ª fase e '+k.oficinas+' oficinas de redação</span><span>Teste grátis por 1 dia</span></span></span>'+
      '<span class="cub-lado">'+(c.brasao?'<span class="cub-bras"><img src="'+c.brasao+'" alt=""></span>':'')+'<span class="cub-preco"><small>'+esc(v.nome)+'</small><b>'+(v.parcelas?v.parcelas+'x de R$ '+(precoJ(v)/v.parcelas).toFixed(2).replace('.',','):precoTxt(v))+'</b><em>'+(v.parcelas?'sem juros · total '+precoTxt(v):'pagamento único')+'</em></span><span class="btn">Conhecer o curso</span></span></button>'}
-    return '<button type="button" class="ccard" data-c="'+c.id+'"><div class="band" style="background:'+c.band+'"></div><div class="in">'+(c.brasao?'<img class="brasao" src="'+c.brasao+'" alt="Brasão de '+esc(c.nome)+'">':'')+'<span class="eyebrow">'+esc(c.edital)+'</span><h3>'+(c.titulo?esc(c.titulo):esc(c.nome)+' ('+c.uf+')')+'</h3><p class="meta">'+(c.meta||c.cargos.length+' cargos de professor')+' · Banca '+esc(c.banca)+'</p>'+(function(v){return v?'<p class="vagas"><b>'+(v.n||'CR')+'</b><span>'+(v.n?(v.n===1?'vaga':'vagas')+' para professores'+(v.cr?' + cadastro reserva':''):'cadastro reserva para professores')+'</span></p>':''})(vagasC(c))+'<div class="tags"><span class="tag gold">Prova '+fmtDate(c.prova)+'</span>'+(d>0?'<span class="tag">Faltam '+d+' dias</span>':'')+'</div></div></button>';
+    var vg=vagasC(c),nc=(c.cargos||[]).length;
+    return '<button type="button" class="ccard cc2" data-c="'+c.id+'"><div class="band"></div><div class="in">'+
+     '<div class="cc-top">'+(c.brasao?'<span class="cc-bras"><img src="'+c.brasao+'" alt="Brasão de '+esc(c.nome)+'"></span>':'')+'<div class="cc-tit"><span class="eyebrow">'+esc((c.edital||'').replace(/^[^·]*?\bnº\s*/,'Edital nº '))+'</span><h3>'+(c.titulo?esc(c.titulo):esc(c.nome)+' <span class="uf">'+c.uf+'</span>')+'</h3></div></div>'+
+     '<div class="cc-meta"><p class="meta">'+(c.meta?esc(c.meta)+(c.banca?' · ':''):'')+(c.banca?'Banca <b>'+esc(c.banca)+'</b>':'')+'</p>'+(vg?'<span class="cc-vg"><b>'+vg.n+'</b> '+(vg.n===1?'vaga':'vagas')+(vg.cr?' + CR':'')+'</span>':'')+'</div>'+
+     '<div class="cc-num">'+(!c.meta&&nc?'<span><b>'+nc+'</b>'+(nc===1?'cargo':'cargos')+'</span>':'')+(d>0?'<span class="dd"><b>'+d+'</b>'+(d===1?'dia até a prova':'dias até a prova')+'</span>':'<span class="dd"><b>✓</b>prova realizada</span>')+'</div>'+
+     '<div class="cc-pe"><span class="tag gold">Prova '+fmtDate(c.prova)+'</span><span class="cc-ir">'+(nc>1?'Ver cargos':'Ver plano')+' <span aria-hidden="true">→</span></span></div></div></button>';
   };
   function cardsDe(l){return l.map(cardDe).join('')}
   var abertos=CONCURSOS.filter(function(c){return !c.soon}),breve=CONCURSOS.filter(function(c){return c.soon});
