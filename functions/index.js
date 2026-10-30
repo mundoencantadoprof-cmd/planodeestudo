@@ -295,7 +295,7 @@ exports.peProgresso = onRequest(async (req, res) => {
     if (!quem || !quem.email) return res.status(401).json({ erro: 'Entre com a conta Google de novo.' });
     const email = quem.email.toLowerCase(), b = req.body || {};
     if (b.acao === 'admin') {
-      if (!ADMINS.includes(email)) return res.status(403).json({ erro: 'Só a Editora vê o progresso dos alunos.' });
+      if (!ADMINS.includes(email)) return res.status(403).json({ erro: 'Só a equipe Mundo Encantado vê o progresso dos alunos.' });
       const q = await db.collection('progresso').get();
       const alunos = q.docs.map(d => { const x = d.data(), dias = x.dias || {};
         const lista = Object.keys(dias).map(Number).sort((m, n) => m - n).map(k => ({ d: k, n: dias[k].res.length, ok: dias[k].res.filter(Boolean).length, fim: !!dias[k].fim, t: dias[k].t || 0 }));

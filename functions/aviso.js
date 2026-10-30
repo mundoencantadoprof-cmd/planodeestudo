@@ -24,10 +24,10 @@ async function enviarAviso(pedido, cod) {
     (ap ? 'Apostila: ' : 'Pacote: ') + nomePac.replace('Apostila em PDF · ', '') + (cod ? ' (pedido ' + cod + ')' : ''),
     'Como acessar, em qualquer aparelho: entre em https://planodeestudo.net.br, clique em "Entrar" no alto da página e use a conta Google ' + pedido.email + '. ' + (ap ? 'Em "Minha área", toque em "Baixar apostila" para salvar o PDF.' : 'Em "Minha área" aparecem os seus pacotes e o botão "Continuar estudando".'),
     'Bons estudos!',
-    'Editora Mundo Encantado · ' + EMAIL_EDITORA
+    'Mundo Encantado · ' + EMAIL_EDITORA
   ];
   await t.sendMail({
-    from: '"Plano de Estudo · Editora Mundo Encantado" <' + EMAIL_EDITORA + '>',
+    from: '"Plano de Estudo · Mundo Encantado" <' + EMAIL_EDITORA + '>',
     to: pedido.email, bcc: EMAIL_EDITORA, replyTo: EMAIL_EDITORA,
     subject: ap ? 'Plano de Estudo: sua apostila foi liberada' : 'Plano de Estudo: seu acesso foi liberado',
     text: linhas.join('\n\n'),
@@ -52,12 +52,12 @@ async function enviarReembolso(pedido, cod, automatico, motivo) {
     'Pacote: ' + nomePac + ' (pedido ' + cod + ') · valor ' + valor + '.',
     automatico
       ? 'O Mercado Pago já está devolvendo todo o valor, no mesmo meio de pagamento. No Pix e no saldo do Mercado Pago, o valor volta normalmente no mesmo dia; no cartão de crédito, o estorno aparece na fatura atual ou na seguinte, conforme o banco.'
-      : 'A Editora vai devolver todo o valor em até 5 dias úteis e avisa você por e-mail quando terminar.',
+      : 'A equipe Mundo Encantado vai devolver todo o valor em até 5 dias úteis e avisa você por e-mail quando terminar.',
     'O acesso a este pacote foi encerrado. Se quiser voltar a estudar, é só comprar de novo em https://planodeestudo.net.br.',
-    'Editora Mundo Encantado · ' + EMAIL_EDITORA
+    'Mundo Encantado · ' + EMAIL_EDITORA
   ];
   await t.sendMail({
-    from: '"Plano de Estudo · Editora Mundo Encantado" <' + EMAIL_EDITORA + '>',
+    from: '"Plano de Estudo · Mundo Encantado" <' + EMAIL_EDITORA + '>',
     to: pedido.email, bcc: EMAIL_EDITORA, replyTo: EMAIL_EDITORA,
     subject: automatico ? 'Plano de Estudo: reembolso do pedido ' + cod : 'Plano de Estudo: pedido de reembolso ' + cod + ' recebido',
     text: linhas.join('\n\n') + (motivo ? '\n\nMotivo informado: ' + motivo : ''),
