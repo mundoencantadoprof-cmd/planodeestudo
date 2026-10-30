@@ -3,7 +3,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='968169b0ac19';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='e38aaf4a0e99';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="img/app/icon-192.png">
+<link rel="apple-touch-icon" href="img/app/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Plano de Estudo">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Plano de Estudo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -435,7 +442,7 @@ header.top .secoes .wrap::-webkit-scrollbar{display:none}
 .sec:hover{background:rgba(255,255,255,.09);color:#fff}
 .sec.on{background:#fff;color:#13285E}.sec.on em{background:#F4B728;color:#13285E;border-color:transparent}
 .sec .ss{display:none}
-@media(max-width:700px){header.top .secoes .wrap{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;padding-block:4px}
+@media(max-width:700px){header.top .secoes .wrap{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;padding-block:4px}
   .sec{flex-direction:column;gap:4px;padding:8px 2px 7px;font-size:.74rem;border-radius:10px;min-width:0}
   .sec svg{width:21px;height:21px}.sec .sl{display:none}.sec .ss{display:inline}
   .sec em{position:absolute;top:3px;left:calc(50% + 8px);font-size:.58rem;padding:2px 5px}.sec em.eb{display:none}}
@@ -527,6 +534,54 @@ header.top .secoes .wrap::-webkit-scrollbar{display:none}
 .apstit svg{width:26px;height:26px;color:#C9A227;flex:none}
 .apstit span{font-size:.85rem;font-weight:600;color:var(--muted,#5A6480)}
 @media (prefers-color-scheme:dark){.apstit{color:#EEF1FA}}
+/* Orientações: app, prazo de acesso, reembolso e termos de uso */
+.ori{display:grid;gap:16px}
+.orihead h2{margin:4px 0 6px}
+.orinav{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.orib{display:flex;align-items:center;gap:10px;text-align:left;background:var(--brand-wash);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px;font:600 .95rem/1.25 var(--f-display);cursor:pointer}
+.orib:hover{border-color:var(--brand)}
+.orib svg{width:24px;height:24px;flex:none;color:var(--brand)}
+.orisec{scroll-margin-top:150px}
+.orisec h3{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.orisec h3 svg{width:26px;height:26px;flex:none;color:var(--gold)}
+.orisec h4{margin:16px 0 6px}
+.orisec .btn svg{width:18px;height:18px;margin-right:6px;vertical-align:-3px}
+.appso{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px}
+.appso.sua{border:2px solid var(--gold);background:var(--gold-wash)}
+.appso h4{margin:0 0 6px}
+.appso ol,.orisec ol.passos{margin:0;padding-left:22px;line-height:1.6}
+svg.inl{width:18px;height:18px;vertical-align:-3px;color:var(--brand)}
+.appok{background:var(--ok-wash);border-radius:10px;padding:10px 12px}
+.appaviso{background:var(--gold-wash);border:1px solid var(--gold);border-radius:10px;padding:10px 12px}
+.tabwrap{overflow-x:auto;margin-top:12px}
+.oritab{width:100%;border-collapse:collapse;font-size:.93rem}
+.oritab th,.oritab td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.oritab th{font:600 .8rem/1.2 var(--f-display);text-transform:uppercase;letter-spacing:.04em;color:var(--brand)}
+.oritab td:nth-child(2),.oritab td:nth-child(3){white-space:nowrap}
+.oritab tr.fim td{opacity:.55}
+ol.termos{padding-left:22px;line-height:1.55;display:grid;gap:8px;margin:0}
+.linkb{background:none;border:0;padding:0;font:inherit;color:var(--brand);text-decoration:underline;cursor:pointer}
+.validade{display:flex;gap:8px;align-items:flex-start;font-size:.92rem;background:var(--brand-wash);border-radius:10px;padding:8px 10px;margin:8px 0 12px}
+.validade svg{width:18px;height:18px;flex:none;margin-top:2px;color:var(--brand)}
+.orimodal .orisec{position:relative;width:min(640px,100%);max-height:88vh;overflow:auto;margin:0}
+.orimodal .vidx{position:absolute;top:8px;right:10px;background:none;border:0;font-size:1.8rem;line-height:1;cursor:pointer;color:var(--ink)}
+.orimodal select{display:block;width:100%;margin-top:6px;padding:10px;border-radius:10px;border:1px solid var(--line);font:inherit;background:var(--sheet);color:var(--ink)}
+.macesso{font-weight:600;color:var(--brand)}.macesso.fim{color:var(--bad)}
+.compras{display:grid;gap:0;padding-block:6px}
+.compra{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}
+.compra b,.compra small{display:block}.compra small{color:var(--ink);opacity:.75;font-size:.85rem;margin-top:2px}
+.cacao{display:grid;justify-items:end;gap:4px;text-align:right}
+.cst{font-size:.9rem}.cst.ok{color:var(--ok);font-weight:600}
+@media(max-width:560px){.cacao{justify-items:start;text-align:left}}
+.appmini{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-left:4px solid var(--gold)}
+.appmini img{border-radius:10px}.appmini div{flex:1;min-width:160px}.appmini b,.appmini small{display:block}
+.appfaixa{position:fixed;left:10px;right:10px;bottom:max(10px,env(safe-area-inset-bottom,0px));z-index:90;display:flex;align-items:center;gap:10px;background:#13285E;color:#fff;border-radius:14px;padding:10px 10px 10px 12px;box-shadow:0 10px 30px -10px rgba(0,0,0,.6)}
+.appfaixa img{border-radius:9px;flex:none}
+.appfaixa span{flex:1;min-width:0;line-height:1.2}.appfaixa b,.appfaixa small{display:block}.appfaixa small{opacity:.8;font-size:.8rem}
+.appfaixa .btn{background:#F4B728;color:#13285E;border-color:#F4B728}
+.appx{background:none;border:0;color:#fff;font-size:1.5rem;line-height:1;padding:4px 6px;cursor:pointer}
+body.comfaixa footer.site-foot{padding-bottom:80px}
+@media(min-width:701px){.appfaixa{display:none}}
 </style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
@@ -882,14 +937,15 @@ var SECOES=[
   {id:'ps',nome:'Seletivos',titulo:'Processos seletivos',texto:'Processos seletivos abertos com plano de estudo pronto. Escolha o município e depois o cargo.',ic:SVG('<rect x="5" y="4" width="14" height="17" rx="2.2"/><path d="M9 4V2.8h6V4M8.8 12.6l2.3 2.3 4.2-4.4"/>')},
   {id:'vest',nome:'Vestibulares',titulo:'Vestibulares',texto:'Vestibulares com plano de estudo por fase e questões no formato da prova.',ic:SVG('<path d="M2 9.2 12 4.5l10 4.7-10 4.7z"/><path d="M6.2 11.3v4.6c3.3 2.3 8.3 2.3 11.6 0v-4.6M21.8 9.4v5.4"/>')},
   {id:'curso',nome:'Cursos preparatórios',curto:'Cursos',titulo:'Cursos preparatórios',texto:'Cursos preparatórios para vestibulares, organizados pelo conteúdo da prova.',breve:'Os cursos preparatórios para vestibulares estão sendo preparados e aparecem aqui assim que abrirem.',ic:SVG('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8.5 20.5 12 16l3.5 4.5M10 8.2v4.6l4-2.3z"/>')},
-  {id:'ap',nome:'Apostilas',titulo:'Apostilas',ic:SVG('<path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6.5A2.5 2.5 0 0 0 4 21.5"/><path d="M9 7h7M9 11h5"/>')}];
+  {id:'ap',nome:'Apostilas',titulo:'Apostilas',ic:SVG('<path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6.5A2.5 2.5 0 0 0 4 21.5"/><path d="M9 7h7M9 11h5"/>')},
+  {id:'ori',nome:'Orientações',curto:'Ajuda',titulo:'Orientações',ic:SVG('<circle cx="12" cy="12" r="9.2"/><path d="M12 11v6M12 7.6v.2"/>')}];
 function tipoDe(c){return c.tipo||(/seletivo/i.test(c.edital||'')?'ps':/vestibulinho/i.test(c.edital||'')?'vest':'cp')}
 function provasDe(tp){return CONCURSOS.filter(function(c){return !c.soon&&tipoDe(c)===tp})}
 function renderSecoes(){var el=document.getElementById('secoesIn');if(!el)return;
-  var at=S.view==='lista'?S.lista:S.view==='apostilas'?'ap':(S.view==='conc'||S.view==='cargo')&&S.conc?tipoDe(S.conc):'';
+  var at=S.view==='lista'?S.lista:S.view==='apostilas'?'ap':S.view==='ori'?'ori':(S.view==='conc'||S.view==='cargo')&&S.conc?tipoDe(S.conc):'';
   el.innerHTML=SECOES.map(function(s){var n=s.id==='ap'?APOSTILAS.length:provasDe(s.id).length;
-    return '<button type="button" class="sec'+(at===s.id?' on':'')+'" data-sec="'+s.id+'"'+(at===s.id?' aria-current="page"':'')+'>'+s.ic+'<span class="sn"><span class="sl">'+s.nome+'</span><span class="ss">'+(s.curto||s.nome)+'</span></span>'+(n?'<em>'+n+'</em>':'<em class="eb">em breve</em>')+'</button>'}).join('');
-  el.querySelectorAll('[data-sec]').forEach(function(b){b.onclick=function(){var id=b.dataset.sec;if(id==='ap')go('apostilas');else go('lista',{lista:id})}});
+    return '<button type="button" class="sec'+(at===s.id?' on':'')+'" data-sec="'+s.id+'"'+(at===s.id?' aria-current="page"':'')+'>'+s.ic+'<span class="sn"><span class="sl">'+s.nome+'</span><span class="ss">'+(s.curto||s.nome)+'</span></span>'+(s.id==='ori'?'':n?'<em>'+n+'</em>':'<em class="eb">em breve</em>')+'</button>'}).join('');
+  el.querySelectorAll('[data-sec]').forEach(function(b){b.onclick=function(){var id=b.dataset.sec;if(id==='ap')go('apostilas');else if(id==='ori')go('ori');else go('lista',{lista:id})}});
   var on=el.querySelector('.on');if(on&&on.scrollIntoView&&el.scrollWidth>el.clientWidth)on.scrollIntoView({block:'nearest',inline:'center'})}
 /* ---------- Busca única no topo: provas, cargos e apostilas ---------- */
 var BUSCA=null;
@@ -900,8 +956,10 @@ function buscaIndice(){if(BUSCA)return BUSCA;var l=[];
     (ehCurso(c)?[]:c.cargos||[]).forEach(function(j){l.push({k:'j',c:c,j:j,tit:j.nome,sub:(tipoDe(c)==='vest'?'Fase · ':'Cargo · ')+tc,t:semAc([j.nome,c.nome,tc,tipo,'cargo professor'].join(' '))})})});
   APOSTILAS.forEach(function(a){var x=apInfo(a);if(!x)return;
     l.push({k:'a',a:a,tit:'Apostila: '+x.nome,sub:'Apostila em PDF · '+x.de,t:semAc(['apostila pdf',x.nome,x.de,x.meta].join(' '))})});
+  [['app','Instalar o app no celular','app aplicativo instalar baixar celular iphone android atalho'],['prazo','Prazo de acesso','prazo acesso validade expira vence ate quando bloqueio'],['reembolso','Reembolso em até 7 dias','reembolso devolucao arrependimento cancelar estorno dinheiro de volta'],['termos','Termos de uso','termos de uso regras contrato']].forEach(function(o){l.push({k:'o',sec:o[0],tit:o[1],sub:'Orientações',t:semAc(o[1]+' orientacoes ajuda '+o[2])})});
   return BUSCA=l}
 function buscaAbrir(r){var q=document.getElementById('busca');if(q){q.value='';q.blur()}buscaFechar();document.body.classList.remove('buscando');
+  if(r.k==='o'){oriAbrir(r.sec);return}
   if(r.k==='c')go('conc',{conc:r.c});
   else if(r.k==='j')go('cargo',{conc:r.c,cargo:r.j,tab:'plano',filtro:'Tudo',sess:null,compra:false});
   else{go('apostilas');setTimeout(function(){var el=document.querySelector('.apcard[data-ap="'+r.a.item+'"]');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('apfoco');setTimeout(function(){el.classList.remove('apfoco')},2600)}},60)}}
@@ -909,9 +967,10 @@ function buscaFechar(){var p=document.getElementById('buscaRes');if(p)p.hidden=t
 function buscaMostra(){var q=document.getElementById('busca'),p=document.getElementById('buscaRes');if(!q||!p)return;
   var ps=semAc(q.value).split(/\s+/).filter(Boolean);if(!ps.length){p.hidden=true;return}
   var r=buscaIndice().filter(function(x){return ps.every(function(w){return x.t.indexOf(w)>=0})});
-  var ord={c:0,j:1,a:2};r.sort(function(a,b){return ord[a.k]-ord[b.k]});var tot=r.length;r=r.slice(0,12);
+  var ord={c:0,j:1,a:2,o:3};r.sort(function(a,b){return ord[a.k]-ord[b.k]});var tot=r.length;r=r.slice(0,12);
   var ic={c:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4.5 9.5h15M12 3 4 8h16z"/><path d="M6.5 10v8M10 10v8M14 10v8M17.5 10v8"/></svg>',
           j:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+          o:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.2"/><path d="M12 11v6M12 7.6v.2"/></svg>',
           a:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6.5A2.5 2.5 0 0 0 4 21.5"/><path d="M9 7h7M9 11h5"/></svg>'};
   p.innerHTML=r.length?r.map(function(x,i){return '<button type="button" class="bres'+(i===0?' on':'')+'" data-bi="'+i+'"><span class="bic '+x.k+'">'+ic[x.k]+'</span><span class="btx"><b>'+esc(x.tit)+'</b><small>'+esc(x.sub)+'</small></span></button>'}).join('')+(tot>r.length?'<p class="bmais">Mais '+(tot-r.length)+' resultados. Digite mais uma palavra para filtrar.</p>':''):'<p class="bmais">Nada encontrado. Tente o nome da cidade, do cargo ou "apostila".</p>';
   p.hidden=false;p._r=r;
@@ -928,6 +987,7 @@ function setCrumbs(){
   renderSecoes();
   var h='';
   if(S.view==='minha'){crumbs.innerHTML='<span>·</span><span>Minha área</span>';return}
+  if(S.view==='ori'){crumbs.innerHTML='<span>·</span><span>Orientações</span>';return}
   if(S.view==='apostilas'){crumbs.innerHTML='<span>·</span><span>Apostilas</span>';return}
   if(S.view==='home'||S.view==='lista'){crumbs.innerHTML='';return}
   if(ehCurso(S.conc)){crumbs.innerHTML='<span>·</span><span>'+esc(S.conc.titulo)+'</span>';return}
@@ -984,7 +1044,7 @@ function miniCard(c){var d=daysTo(c.prova);
    '<span class="mtxt"><small>'+nomeTipo(c)+(c.banca?' · '+esc(c.banca):'')+'</small><b>'+esc(tituloC(c).replace(/^Prefeitura (Municipal )?de /,''))+'</b><em>'+(ehCurso(c)?cursoPeriodo(c):'Prova '+fmtDate(c.prova)+(d>0?' · faltam '+d+' dias':''))+'</em></span><span class="marr" aria-hidden="true">›</span></button>'}
 function renderHome(){
   /* Provas separadas por tipo; cada grupo só aparece quando tem prova (o tipo vem de c.tipo ou do nome do edital) */
-  var TIPOS=SECOES.filter(function(s){return s.id!=='ap'}).map(function(s){return [s.id,s.titulo]});
+  var TIPOS=SECOES.filter(function(s){return s.id!=='ap'&&s.id!=='ori'}).map(function(s){return [s.id,s.titulo]});
   var cardDe=function(c){
     if(c.soon)return '<div class="ccard soon"><div class="band"></div><div class="in"><h3>'+esc(c.nome)+'</h3><p class="meta">'+esc(c.meta)+'</p><div class="tags"><span class="tag">Em breve</span></div></div></div>';
     var d=daysTo(c.prova);
@@ -1057,6 +1117,7 @@ function renderCargo(){if(S.cargo&&S.cargo.curso)return renderCurso();TRIAL_MAX=
     var lc=document.getElementById('loginCargo');if(lc)lc.onclick=function(){lc.disabled=true;entrarGoogle().then(sincronizar).then(function(){if(logadoCom(j))renderCargo();else{var m=document.getElementById('loginCargoMsg');m.hidden=false;m.textContent='A conta '+(USER&&USER.email)+' não tem este cargo. Entre com a conta Google usada na compra.';lc.disabled=false}},function(e){lc.disabled=false;erroLogin(e)})};
     return}
   if(!ac||S.compra||trialExpired(j)){app.querySelector('.tabs').hidden=true;renderGate(body,j);if(apJ&&!S.compra){body.insertAdjacentHTML('beforeend','<div class="apfaixa"><img src="'+apJ.capa+'" alt=""><div><b>Apostila em PDF deste cargo</b><span>'+apMil(apJ.questoes)+' questões comentadas · '+apPreco(apJ)+'</span></div><button type="button" class="btn ghost small" id="verAp">Ver apostila</button></div>');document.getElementById('verAp').onclick=function(){S.tab='apostila';renderCargo();window.scrollTo({top:0})}}return}
+  if(ac.mode==='full'&&acessoEncerrado(c,j)){app.querySelector('.tabs').hidden=true;body.innerHTML=encerradoHTML(c,j);return}
   if(ac.mode==='trial'){var pd=prog(j)[ac.day],np=pd?pd.res.length:0;
     body.insertAdjacentHTML('beforebegin','<div class="trialbar"><span><b>Teste grátis de hoje</b>, '+esc(ac.nome.split(' ')[0])+': plano '+np+'/'+TRIAL_MAX+' · treino e revisão '+(ac.tre||0)+'/'+TRIAL_MAX+' · simulado '+(ac.sim?'feito':'0/1')+'</span><button type="button" class="btn small" data-buy>Comprar o pacote completo por '+precoTxt(j)+'</button></div>');bindBuy(app,j)}
   /* comprou mas está sem login neste aparelho: o progresso não sobe para a conta; pede para entrar, em todas as abas */
@@ -1097,7 +1158,7 @@ function renderGate(body,j){
     '<div class="offer"><span class="eyebrow">Experimente</span><h3>Teste grátis por 1 dia</h3><p>Use o sistema completo hoje, com correção explicada em texto e voz.</p><ul class="list"><li>'+TRIAL_MAX+' questões do plano do dia</li><li>Um simulado de '+c.regras.questoes+' questões com cronômetro</li><li>'+TRIAL_MAX+' questões de treino e revisão dos erros</li></ul>'+
     '<form id="cadForm" class="cad" novalidate><label class="field" for="cNome">Nome completo<input id="cNome" autocomplete="name" required></label><label class="field" for="cEmail">E-mail<input id="cEmail" type="email" autocomplete="email" inputmode="email" required></label><label class="field" for="cTel">Celular com DDD (WhatsApp)<input id="cTel" type="tel" autocomplete="tel" inputmode="tel" placeholder="(14) 99999-9999" required></label><label class="chk"><input type="checkbox" id="cOk"> Autorizo a Editora Mundo Encantado a usar estes dados para liberar o teste e falar comigo sobre o Plano de Estudo.</label><p class="err" id="cErr" hidden></p><button type="submit" class="btn ghost" id="trial">Liberar meu dia grátis</button><p class="note small">O teste grátis vale um dia em cada cargo à venda. Você pode usar o mesmo e-mail e celular para testar outros cargos.</p></form></div>'))+
    '<div class="offer best"><span class="eyebrow">Pacote completo · '+esc(j.nome)+'</span><h3>Rotina de treino até a prova</h3><p>Plano diário de '+fmtDate(plan.days[0].date)+' a '+fmtDate(plan.days[plan.days.length-1].date)+', véspera da prova de '+fmtDate(c.prova)+'.</p><ul class="list"><li>'+plan.days.length+' dias de plano, '+(plan.days.length*perDay())+' questões</li><li>Gráfico de acertos por dia e nota estimada</li><li>Treino livre, revisão dos erros e simulados cronometrados</li><li>Progresso só desta área, separado das demais</li></ul>'+
-   '<p class="price"><b>'+precoTxt(j)+'</b> por cargo, pagamento único</p>'+
+   '<p class="price"><b>'+precoTxt(j)+'</b> por cargo, pagamento único</p>'+prazoHTML(c,j)+
    '<p class="secure"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Pagamento seguro pelo <b>Mercado Pago</b>: boleto, cartão ou Pix.</span></p>'+
    (buy&&siteComBanco()?compraHTML(j):buy?'<p class="note">O pagamento ainda não está ativo nesta versão de teste. Quando o site estiver no domínio próprio, este botão vai abrir o pagamento pelo Mercado Pago.</p><label class="field" for="codigo">Já comprou? Digite o código de acesso<input id="codigo" type="text" autocomplete="off" placeholder="Código"></label><p class="err" id="codErr" hidden>Código inválido. Confira e tente de novo.</p><div class="row2"><button type="button" class="btn" id="usar">Liberar o pacote</button><button type="button" class="btn ghost" id="voltar">Voltar</button></div>':'<button type="button" class="btn" data-buy>Comprar o pacote completo por '+precoTxt(j)+'</button>'+(siteComBanco()?'<button type="button" class="jacomprei" data-jacomprei>Já comprei: entrar com a minha conta Google</button><button type="button" class="vertut" data-tutorial>▶ Como acessar (vídeo de 2 min)</button>':''))+
    '</div></div>';
@@ -1135,13 +1196,14 @@ function renderCurso(){var c=S.conc,f1=c.cargos[0],j=S.cargo,fs=cursoFases(c),te
     var lc=document.getElementById('loginCargo');if(lc)lc.onclick=function(){lc.disabled=true;entrarGoogle().then(sincronizar).then(function(){if(c.cargos.some(logadoCom))renderCargo();else{var m=document.getElementById('loginCargoMsg');m.hidden=false;m.textContent='A conta '+(USER&&USER.email)+' não tem este curso. Entre com a conta Google usada na compra.';lc.disabled=false}},function(e){lc.disabled=false;erroLogin(e)})};
     return}
   if(S.compra||(!tem&&!trial)){gateCurso(body,c,S.compra?j:f1);return}
+  if(tem&&acessoEncerrado(c)){body.innerHTML=encerradoHTML(c);return}
   if(trial)body.insertAdjacentHTML('beforebegin','<div class="trialbar"><span><b>Teste grátis de hoje</b>, '+esc(tr.nome.split(' ')[0])+': a semana 1 e o método do curso estão liberados.</span><span class="row2">'+c.cargos.map(function(x){return '<button type="button" class="btn small" data-buyf="'+x.id+'">'+esc(x.curto||x.nome)+' por '+precoTxt(x)+'</button>'}).join('')+'</span></div>');
   if(tem&&!USER&&!MASTER&&!MODO_CONFERENCIA&&PE&&PE.funcoes){body.insertAdjacentHTML('beforebegin','<div class="trialbar savebar"><span><b>Seu progresso está guardado só neste aparelho.</b> Entre com a conta Google da compra para salvar na sua conta e continuar de onde parou no celular ou no computador.</span><button type="button" class="btn small" id="saveLogin">Entrar com Google</button></div>');
     document.getElementById('saveLogin').onclick=function(){entrarGoogle().then(sincronizar).then(function(){renderCargo()},erroLogin)}}
   app.querySelectorAll('[data-buyf]').forEach(function(b){b.onclick=function(){cursoCompra(c,b.dataset.buyf)}});
   tabCurso(body,c,tem?fs:null,trial)}
 function gateCurso(body,c,j){var buy=S.compra,f1=c.cargos[0],a=acesso(f1);
-  var oferta=function(f){return '<div class="offer best"><span class="eyebrow">'+esc(c.titulo)+'</span><h3>'+esc(f.nome)+'</h3><p>'+esc(f.texto||'')+'</p><ul class="list">'+(f.itens||[]).map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul><p class="price"><b>'+precoTxt(f)+'</b> pagamento único</p>'+
+  var oferta=function(f){return '<div class="offer best"><span class="eyebrow">'+esc(c.titulo)+'</span><h3>'+esc(f.nome)+'</h3><p>'+esc(f.texto||'')+'</p><ul class="list">'+(f.itens||[]).map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul><p class="price"><b>'+precoTxt(f)+'</b> pagamento único</p>'+prazoHTML(c,f)+
     (buy?(siteComBanco()?compraHTML(f):'<p class="note">O pagamento só funciona no site publicado.</p><button type="button" class="btn ghost" id="voltar">Voltar</button>'):'<button type="button" class="btn" data-buyf="'+f.id+'">Comprar por '+precoTxt(f)+'</button>')+'</div>'};
   body.innerHTML='<div class="gate2">'+(buy?'':(a&&a.mode==='trial'&&trialExpired(f1)?'<div class="offer"><span class="eyebrow">Teste grátis encerrado</span><h3>Seu dia de teste foi '+fmtDate(a.date)+'</h3><p>O teste grátis vale um dia por pessoa. Para continuar o curso com seu progresso guardado, escolha a fase.</p></div>':
     '<div class="offer"><span class="eyebrow">Experimente</span><h3>Teste grátis por 1 dia</h3><p>Conheça o curso hoje, com resolução explicada em texto e voz.</p><ul class="list"><li>A semana 1 das duas fases: blocos de questões, discursiva e oficina de redação</li><li>O método de estudo do curso</li><li>Resolução passo a passo e leitura em voz alta</li></ul>'+
@@ -1298,6 +1360,7 @@ function compraHTML(j){
     '<label class="field" for="bNome">Nome completo<input id="bNome" autocomplete="name" value="'+esc(cad.nome||'')+'" required></label>'+
     '<label class="field" for="bTel">Celular com DDD (WhatsApp)<input id="bTel" type="tel" autocomplete="tel" inputmode="tel" placeholder="(14) 99999-9999" value="'+esc(cad.tel||'')+'" required></label>'+
     '<label class="chk"><input type="checkbox" id="bOk"> Concordo que a Editora Mundo Encantado use estes dados para liberar o acesso e falar comigo sobre a compra.</label>'+
+    '<label class="chk"><input type="checkbox" id="bTermos"><span>Li e aceito os <button type="button" class="linkb" data-orim="termos">termos de uso</button>: acesso até <b>'+fmtDate(fimAcesso(S.conc,j))+'</b> e reembolso em até 7 dias depois do pagamento.</span></label>'+
     '<p class="err" id="bErr" hidden></p><button type="submit" class="btn" id="bGerar">Ir para o pagamento</button></form>'+
    '<div class="bpane" id="bp3" hidden></div>'+
    '<p class="err" id="bMsg" hidden></p>'+
@@ -1322,6 +1385,7 @@ function bindCompra(body,j){
     if(d.nome.split(' ').length<2)return bad('Escreva o nome completo.');
     if(!/^[1-9]{2}9?\d{8}$/.test(d.tel))return bad('Confira o celular com DDD.');
     if(!$('bOk').checked)return bad('Marque que concorda com o uso dos dados.');
+    if($('bTermos')&&!$('bTermos').checked)return bad('Marque que leu e aceita os termos de uso.');
     er.hidden=true;store.set('pe-cadastro',d);
     var p={codigo:codigoPedido(),itens:[item],email:user.email,nome:d.nome,tel:d.tel},g=$('bGerar');
     if(PE.funcoes){g.disabled=true;g.textContent='Abrindo o Mercado Pago...';
@@ -1672,6 +1736,7 @@ function comprarApostila(a,card){var box=card.querySelector('.apbuy'),cad=store.
       box.insertAdjacentHTML('beforeend','<form class="cad apcad" novalidate><label class="field">Nome completo<input name="nome" autocomplete="name" value="'+esc(cad.nome||user.displayName||'')+'" required></label>'+
         '<label class="field">Celular com DDD (WhatsApp)<input name="tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="(14) 99999-9999" value="'+esc(cad.tel||'')+'" required></label>'+
         '<label class="chk"><input type="checkbox" name="ok"> Concordo que a Editora Mundo Encantado use estes dados para liberar a apostila e falar comigo sobre a compra.</label>'+
+        '<p class="small">Ao comprar, você aceita os <button type="button" class="linkb" data-orim="termos">termos de uso</button>. Reembolso em até 7 dias depois do pagamento.</p>'+
         '<button type="submit" class="btn">Ir para o pagamento ('+apPreco(a)+')</button><p class="secure small">Pagamento seguro pelo <b>Mercado Pago</b>: Pix, cartão ou boleto.</p></form>');
       var f=box.querySelector('form');f.onsubmit=function(ev){ev.preventDefault();
         var d={nome:f.nome.value.trim().replace(/\s+/g,' '),tel:normTel(f.tel.value)};
@@ -1699,7 +1764,7 @@ function render(){
   if(S.conc){var cb=S.conc.__base||S.conc;if(S.view==='cargo'&&S.cargo&&S.cargo.regras){if(S.conc.regras!==S.cargo.regras)S.conc=Object.assign({},cb,{regras:S.cargo.regras,__base:cb})}else if(S.conc.__base)S.conc=cb}
   if(ehCurso(S.conc)&&(S.view==='conc'||S.view==='cargo')){S.view='cargo';if(!S.cargo||S.conc.cargos.indexOf(S.cargo)<0)S.cargo=S.conc.cargos[0];S.tab='curso'}
   setCrumbs();
-  if(S.view==='home'||S.view==='lista')renderHome();else if(S.view==='minha')renderMinha();else if(S.view==='apostilas')renderApostilas();else if(S.view==='conc')renderConc();else renderCargo();
+  if(S.view==='home'||S.view==='lista')renderHome();else if(S.view==='minha')renderMinha();else if(S.view==='ori')renderOri();else if(S.view==='apostilas')renderApostilas();else if(S.view==='conc')renderConc();else renderCargo();
 }
 render();
 retornoPagamento();
@@ -1720,7 +1785,8 @@ var USER=null,PLANOS=[];
 function sincronizar(u){USER=u||null;if(!u){PLANOS=[];atualizaLogin();return Promise.resolve([])}
   var email=String(u.email).toLowerCase();
   return planosDe(email).then(function(pl){PLANOS=pl;pl.forEach(function(it){var m=/^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(it);if(!m)return;
-    var k='re-'+m[1]+'-'+m[2]+'-acesso',ac=store.get(k,null);if(!ac||ac.mode!=='full')store.set(k,{mode:'full',email:email})});atualizaLogin();return nuvemBaixar().then(function(){return pl})})}
+    var k='re-'+m[1]+'-'+m[2]+'-acesso',ac=store.get(k,null);if(!ac||ac.mode!=='full')store.set(k,{mode:'full',email:email})});
+    CONCURSOS.forEach(function(c){(c.cargos||[]).forEach(function(x){var k='re-'+c.id+'-'+x.id+'-acesso',ac=store.get(k,null);if(ac&&ac.mode==='full'&&ac.email===email&&pl.indexOf('pe-'+c.id+'-'+x.id)<0)store.set(k,null)})});atualizaLogin();return nuvemBaixar().then(function(){return pl})})}
 function atualizaLogin(){var b=document.getElementById('loginBtn');if(!b)return;b.hidden=MODO_CONFERENCIA;
   b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>'+(USER?'Minha área':'Entrar')+'</span>';b.classList.toggle('on',!!USER)}
 function erroLogin(e){if(e&&e.code==='auth/popup-closed-by-user')return;alert('Não foi possível entrar: '+((e&&(e.code||e.message))||'tente de novo.'))}
@@ -1735,10 +1801,10 @@ function renderMinha(){
   var nome=(USER.displayName||'').split(' ')[0],cards=[],guard=S.conc;
   var cursosVistos={};PLANOS.forEach(function(it){var m=/^pe-([a-z0-9]+)-([a-z0-9]+)$/.exec(it),c=m&&findC(m[1]),j=c&&findJ(c,m[2]);if(!j)return;
     if(j.curso){if(cursosVistos[c.id])return;cursosVistos[c.id]=1;var cm=cuMapa(cuChave(c)),fe=Object.keys(cm).filter(function(x){return /^cu-a-(?!REV)/.test(x)&&cm[x]&&cm[x].fim}).length,ta=c.curso.aulas||1,lib=c.cargos.filter(function(x){return PLANOS.indexOf('pe-'+c.id+'-'+x.id)>=0}).map(function(x){return x.curto||x.nome});
-      cards.push('<div class="mcard" style="--c:'+j.cor+'"><span class="eyebrow">Curso preparatório · '+esc(lib.join(' e '))+'</span><h3>'+esc(c.titulo)+'</h3><p class="meta">De '+cursoPeriodo(c)+'</p><div class="prog"><div class="bar"><i style="width:'+Math.min(100,fe/ta*100)+'%"></i></div><span>'+fe+'/'+ta+' blocos</span></div><button type="button" class="btn" data-mc="'+c.id+'" data-mj="'+j.id+'">Continuar estudando</button></div>');return}
+      cards.push('<div class="mcard" style="--c:'+j.cor+'"><span class="eyebrow">Curso preparatório · '+esc(lib.join(' e '))+'</span><h3>'+esc(c.titulo)+'</h3><p class="meta">De '+cursoPeriodo(c)+'</p><p class="meta macesso'+(acessoEncerrado(c)?' fim':'')+'">'+(acessoEncerrado(c)?'Acesso encerrado em ':'Acesso até ')+fmtDate(fimAcesso(c))+'</p><div class="prog"><div class="bar"><i style="width:'+Math.min(100,fe/ta*100)+'%"></i></div><span>'+fe+'/'+ta+' blocos</span></div><button type="button" class="btn" data-mc="'+c.id+'" data-mj="'+j.id+'">Continuar estudando</button></div>');return}
     S.conc=j.regras?Object.assign({},c,{regras:j.regras,__base:c}):c;var plan=buildPlan(j),p=prog(j),done=Object.keys(p).filter(function(k){return p[k].fim}).length,d=daysTo(c.prova);
     cards.push('<div class="mcard" style="--c:'+j.cor+'"><span class="eyebrow">'+esc(c.edital)+' · '+esc(c.nome)+' ('+c.uf+')</span><h3>'+esc(j.nome)+'</h3>'+
-      '<p class="meta">Prova em '+fmtDate(c.prova)+(d>0?' · faltam '+d+' dias':'')+'</p><div class="prog"><div class="bar"><i style="width:'+(done/plan.days.length*100)+'%"></i></div><span>'+done+'/'+plan.days.length+' dias</span></div>'+
+      '<p class="meta">Prova em '+fmtDate(c.prova)+(d>0?' · faltam '+d+' dias':'')+'</p><p class="meta macesso'+(acessoEncerrado(c,j)?' fim':'')+'">'+(acessoEncerrado(c,j)?'Acesso encerrado em ':'Acesso até ')+fmtDate(fimAcesso(c,j))+'</p><div class="prog"><div class="bar"><i style="width:'+(done/plan.days.length*100)+'%"></i></div><span>'+done+'/'+plan.days.length+' dias</span></div>'+
       '<button type="button" class="btn" data-mc="'+c.id+'" data-mj="'+j.id+'">Continuar estudando</button></div>')});
   S.conc=guard;
   var aps=APOSTILAS.filter(apTem);
@@ -1748,10 +1814,12 @@ function renderMinha(){
     (cards.length?'<h3 class="mtit">Meus pacotes</h3><div class="mgrid">'+cards.join('')+'</div>':
       aps.length?'':'<div class="card"><h3>Nenhum pacote liberado nesta conta</h3><p>Se você já pagou, a liberação acontece assim que o Mercado Pago aprova o pagamento (Pix e cartão em poucos minutos, boleto em até 3 dias úteis). Confira se entrou com a mesma conta Google usada na compra.</p><button type="button" class="btn" id="verProvas">Ver as provas disponíveis</button></div>')+
     (aps.length?'<h3 class="mtit">Minhas apostilas</h3>'+apListaHTML(aps):'')+
+    '<div id="mcompras"></div>'+(appInstalado()?'':'<div class="card appmini"><img src="img/app/icon-192.png" alt="" width="44" height="44"><div><b>Estude pelo app</b><small>Instale o Plano de Estudo no seu celular, de graça, em menos de um minuto.</small></div><button type="button" class="btn ghost small" data-ori="app">Como instalar</button></div>')+
     '<p class="note small">O seu progresso fica guardado na sua conta Google. Em outro celular, computador ou navegador, é só entrar com a mesma conta para continuar de onde parou.</p></section>';
   app.querySelectorAll('[data-mc]').forEach(function(b){b.onclick=function(){var c=findC(b.dataset.mc);S.conc=c;go('cargo',{conc:c,cargo:findJ(c,b.dataset.mj),tab:'plano',filtro:'Tudo',sess:null,compra:false})}});
   var s=document.getElementById('sair');if(s)s.onclick=function(){firebase().then(function(f){return f.A.signOut(f.auth)}).catch(function(){});store.set('pe-master',0);if(MASTER)ligaMaster(false);USER=null;PLANOS=[];atualizaLogin();go('home')};
   ligaApostilas(app);
+  carregarCompras();
   var v=document.getElementById('verProvas');if(v)v.onclick=function(){go('home');setTimeout(function(){var p=document.getElementById('provas');if(p)p.scrollIntoView({behavior:'smooth'})},50)};
 }
 document.addEventListener('click',function(e){if(e.target.closest('[data-tutorial]')){e.preventDefault();verTutorial()}});
@@ -1836,5 +1904,135 @@ function tabFase2(body,j){
   if($('f2red')){conta();$('f2red').oninput=function(){store.set('pe-f2-red-'+r.id,this.value);conta()}}
   if($('f2ex'))$('f2ex').onclick=function(){$('f2exb').innerHTML='<div class="fb f2fb"><h4>Texto exemplo</h4><div class="f2exemplo">'+rich(r.exemplo)+'</div><h4>O que a banca avalia</h4><ul>'+r.criterios.map(function(c){return '<li>'+esc(c)+'</li>'}).join('')+'</ul><h4>Dicas para este tema</h4><ul>'+r.dicas.map(function(c){return '<li>'+esc(c)+'</li>'}).join('')+'</ul></div>'};
 }
+/* ---------- Orientações: app no celular, prazo de acesso, reembolso (direito de arrependimento, art. 49 do CDC) e termos de uso ----------
+   Aba "Orientações" na barra azul. O prazo de acesso de cada plano é a data da última prova + 1 mês (no curso, a data final do curso + 1 mês);
+   depois disso o plano fica bloqueado. O reembolso é pedido pelo aluno em "Minha área" até 7 dias depois do pagamento (função peReembolso). */
+var CONTATO='mundo.encantado.prof@gmail.com';
+function maisUmMes(d){var p=d.split('-').map(Number),y=p[0],m=p[1]+1;if(m>12){m=1;y++}var ult=new Date(y,m,0).getDate();return y+'-'+String(m).padStart(2,'0')+'-'+String(Math.min(p[2],ult)).padStart(2,'0')}
+/* última prova do plano: a do concurso; no Intensivão Unesp 1ª + 2ª fase, a 2ª fase (14/12/2026) */
+var ULTIMA_PROVA={'unesp-f12':'2026-12-14'};
+function ultimaProva(c,j){return (j&&(j.ultimaProva||ULTIMA_PROVA[c.id+'-'+j.id]))||c.ultimaProva||c.prova}
+function fimAcesso(c,j){return c.fimAcesso||maisUmMes(ultimaProva(c,j))}
+function acessoEncerrado(c,j){return !MODO_CONFERENCIA&&!MASTER&&!!c&&!!c.prova&&daysTo(fimAcesso(c,j))<0}
+function prazoTxt(c,j){return 'Acesso até <b>'+fmtDate(fimAcesso(c,j))+'</b>, 1 mês depois '+(ehCurso(c)?'do fim do curso':'da prova')}
+function prazoHTML(c,j){return '<p class="validade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>'+prazoTxt(c,j)+'. <button type="button" class="linkb" data-orim="prazo">Termos de uso</button> · <button type="button" class="linkb" data-orim="reembolso">Reembolso em até 7 dias</button></span></p>'}
+function encerradoHTML(c,j){return '<div class="card lock"><span class="eyebrow">Acesso encerrado</span><h3>O acesso a este '+(ehCurso(c)?'curso':'plano')+' terminou em '+fmtDate(fimAcesso(c,j))+'</h3><p>O Plano de Estudo fica liberado até 1 mês depois '+(ehCurso(c)?'do fim do curso':'da prova')+', como está nos termos de uso aceitos na compra. Obrigado por estudar com a gente e boa sorte!</p><div class="row2"><button type="button" class="btn" data-gohome>Ver as provas abertas</button><button type="button" class="btn ghost" data-orim="prazo">Ver os termos de uso</button></div></div>'}
+
+/* app instalável (PWA): o Android/Chrome oferece o botão "Instalar"; no iPhone é pelo Safari, em "Adicionar à Tela de Início" */
+var APP={prompt:null};
+function appInstalado(){try{return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}}
+function appSistema(){var u=navigator.userAgent||'';if(/iphone|ipad|ipod/i.test(u)||(/Macintosh/.test(u)&&navigator.maxTouchPoints>1))return 'ios';if(/android/i.test(u))return 'android';return 'pc'}
+function appDentroDeOutro(){return /Instagram|FBAN|FBAV|FB_IAB|Line\/|TikTok|musical_ly|BytedanceWebview/i.test(navigator.userAgent||'')}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();APP.prompt=e;document.querySelectorAll('[data-instalar]').forEach(function(b){b.hidden=false})});
+window.addEventListener('appinstalled',function(){APP.prompt=null;store.set('pe-app-fechou',Date.now());var f=document.getElementById('appFaixa');if(f)f.remove();if(S.view==='ori')renderOri()});
+function appInstalar(b){if(!APP.prompt){oriAbrir('app');return}APP.prompt.prompt();(APP.prompt.userChoice||Promise.resolve()).then(function(){APP.prompt=null;if(b)b.hidden=true})}
+if(PE&&PE.firebase&&'serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(e){console.warn('sw',e)})});
+/* faixa "Instale o app" no celular, até a pessoa instalar ou fechar (volta depois de 15 dias) */
+function appFaixa(){if(appInstalado()||appSistema()==='pc'||MODO_CONFERENCIA||document.getElementById('appFaixa'))return;var f=store.get('pe-app-fechou',0);if(f&&Date.now()-f<15*86400000)return;
+  var d=document.createElement('div');d.id='appFaixa';d.className='appfaixa';d.innerHTML='<img src="img/app/icon-192.png" alt="" width="36" height="36"><span><b>App do Plano de Estudo</b><small>Instale no seu celular, de graça</small></span><button type="button" class="btn small" id="appFaixaBt">Instalar</button><button type="button" class="appx" aria-label="Fechar">×</button>';
+  document.body.appendChild(d);document.body.classList.add('comfaixa');
+  d.querySelector('#appFaixaBt').onclick=function(){if(APP.prompt)appInstalar();else oriAbrir('app')};
+  d.querySelector('.appx').onclick=function(){store.set('pe-app-fechou',Date.now());d.remove();document.body.classList.remove('comfaixa')}}
+setTimeout(appFaixa,2500);
+
+var ICO={
+  app:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M12 7v6m-2.6-2.6L12 13l2.6-2.6"/></svg>',
+  prazo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8.5 15l2.2 2.2 4.5-4.4"/></svg>',
+  reembolso:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.4 0-2.5.8-2.5 2s1.1 1.6 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1.1 0-2-.4-2.5-1.2M12 6.5V8m0 8v1.5"/></svg>',
+  termos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>',
+  contato:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>'};
+var ORI_SEC=[['app','Instale o app no celular'],['prazo','Prazo de acesso'],['reembolso','Reembolso em até 7 dias'],['termos','Termos de uso'],['contato','Fale com a Editora']];
+var SHARE_IOS='<svg class="inl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="ícone Compartilhar"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>';
+var MENU_AND='<svg class="inl" viewBox="0 0 24 24" fill="currentColor" aria-label="menu de 3 pontinhos"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+function oriSecHTML(id){
+  if(id==='app'){var so=appSistema(),inst=appInstalado();
+    var and='<div class="appso'+(so==='android'?' sua':'')+'"><h4>Android (Samsung, Motorola, Xiaomi e outros)</h4><ol><li>Abra <b>planodeestudo.net.br</b> no <b>Google Chrome</b>.</li><li>Toque no botão <b>Instalar o app</b> acima ou no menu '+MENU_AND+' do Chrome, no canto de cima.</li><li>Escolha <b>Instalar app</b> (ou <b>Adicionar à tela inicial</b>) e confirme.</li><li>O ícone do <b>Plano de Estudo</b> aparece junto com os seus aplicativos.</li></ol></div>';
+    var ios='<div class="appso'+(so==='ios'?' sua':'')+'"><h4>iPhone e iPad</h4><ol><li>Abra <b>planodeestudo.net.br</b> no <b>Safari</b> (o navegador da bússola azul).</li><li>Toque em <b>Compartilhar</b> '+SHARE_IOS+', na barra de baixo (ou de cima, no iPad).</li><li>Role a lista e toque em <b>Adicionar à Tela de Início</b>.</li><li>Toque em <b>Adicionar</b>. O ícone do <b>Plano de Estudo</b> aparece na tela do iPhone.</li></ol></div>';
+    return '<p>O Plano de Estudo tem um <b>app para o celular</b>, para iPhone e Android. Ele não fica na Play Store nem na App Store: você instala direto daqui do site, em menos de um minuto. O app abre em tela cheia, com o ícone na tela do celular, ocupa pouquíssimo espaço e se atualiza sozinho.</p>'+
+      (inst?'<p class="appok"><b>Você já está usando o app.</b> Para entrar na sua conta, toque em <b>Entrar</b> no alto da tela.</p>':
+       (appDentroDeOutro()?'<p class="appaviso"><b>Você abriu o site dentro do Instagram, Facebook ou TikTok.</b> Toque nos 3 pontinhos (⋯) e escolha <b>Abrir no navegador</b> (Chrome ou Safari) para conseguir instalar.</p>':'')+
+       '<p><button type="button" class="btn" data-instalar'+(APP.prompt?'':' hidden')+'>'+ICO.app+'Instalar o app</button></p>'+
+       (so==='ios'?ios+and:and+ios))+
+      '<p class="note small">Depois de instalar, entre com a <b>mesma conta Google da compra</b>. O seu progresso é o mesmo no app, no navegador e no computador.</p>'}
+  if(id==='prazo'){var hoje=iso(midnight()),abertas=CONCURSOS.filter(function(c){return !c.soon&&c.prova&&!(c.soApostilas&&!c.cargos.some(function(x){return !x.oculto}))}).sort(function(a,b){return a.prova<b.prova?-1:1});
+    var linhas=[];abertas.forEach(function(c){if(ehCurso(c)){linhas.push([c.titulo,'Fim do curso: '+fmtDate(c.prova),fimAcesso(c)]);return}
+      var fs={};(c.cargos||[]).forEach(function(j){var u=ultimaProva(c,j);(fs[u]=fs[u]||[]).push(j)});
+      Object.keys(fs).sort().forEach(function(u){var j=fs[u][0],multi=Object.keys(fs).length>1;linhas.push([(c.titulo||c.nome+' ('+c.uf+')')+(multi?' · '+fs[u].map(function(x){return x.nome}).join(', '):''),'Prova: '+fmtDate(u),fimAcesso(c,j)])})});
+    return '<p>O Plano de Estudo é um <b>plano de estudo com data para terminar</b>, feito para uma prova. Não é um curso vitalício: você estuda até a prova e ainda tem <b>1 mês a mais</b> para revisar, refazer os simulados e consultar as correções.</p>'+
+      '<ul class="list"><li><b>Concursos, processos seletivos e vestibulares:</b> o acesso vai da liberação do pagamento até <b>1 mês depois da data da prova</b>.</li><li><b>Cursos preparatórios:</b> o acesso vai até <b>1 mês depois da data final do curso</b>.</li><li>A data de fim aparece antes da compra, ao lado do preço, e em <b>Minha área</b>.</li><li>Depois dessa data, o plano fica <b>bloqueado</b>. O seu histórico não é apagado, mas não é mais possível abrir as questões.</li><li>Se a prova for adiada pela prefeitura ou pela banca, o prazo acompanha a nova data.</li><li><b>Apostilas em PDF:</b> o arquivo baixado é seu, para uso pessoal.</li></ul>'+
+      (linhas.length?'<div class="tabwrap"><table class="oritab"><thead><tr><th>Plano</th><th>Data</th><th>Acesso até</th></tr></thead><tbody>'+linhas.map(function(l){return '<tr'+(l[2]<hoje?' class="fim"':'')+'><td>'+esc(l[0])+'</td><td>'+l[1]+'</td><td><b>'+fmtDate(l[2])+'</b></td></tr>'}).join('')+'</tbody></table></div>':'')}
+  if(id==='reembolso')return '<p>Pelo <b>direito de arrependimento</b> do Código de Defesa do Consumidor (art. 49), quem compra pela internet pode desistir da compra em até <b>7 dias</b> e receber <b>todo o valor de volta</b>, sem precisar explicar o motivo.</p>'+
+      '<ul class="list"><li>Os 7 dias contam a partir da <b>confirmação do pagamento</b>. O dia de teste grátis vem antes da compra e <b>não entra</b> nessa conta.</li><li>Vale para os planos de estudo, os cursos e as apostilas em PDF.</li><li>Com o reembolso, o acesso ao que foi comprado é <b>encerrado na hora</b>.</li><li>Depois dos 7 dias, não há reembolso por desistência. Se tiver qualquer problema técnico, escreva para nós que resolvemos.</li></ul>'+
+      '<h4>Como pedir o reembolso</h4><ol class="passos"><li>Toque em <b>Entrar</b> no alto da página, com a conta Google da compra.</li><li>Em <b>Minha área</b>, vá até <b>Minhas compras</b>.</li><li>Toque em <b>Solicitar reembolso</b> e confirme.</li></ol>'+
+      '<h4>Quando o dinheiro volta</h4><ul class="list"><li><b>Pix ou saldo do Mercado Pago:</b> volta para a mesma conta, normalmente no mesmo dia.</li><li><b>Cartão de crédito:</b> o estorno aparece na fatura atual ou na seguinte, conforme o banco do cartão.</li><li><b>Boleto:</b> o valor volta para a sua conta do Mercado Pago.</li></ul>'+
+      '<p>Você recebe a confirmação por e-mail. Se o pagamento foi feito por Pix direto para a Editora, a devolução é feita pela Editora em até 5 dias úteis.</p>'+
+      '<p><button type="button" class="btn" data-irminha>Ir para Minhas compras</button></p>';
+  if(id==='termos')return '<p class="note small">Versão de 30/10/2026. Ao comprar, você declara que leu e aceita estes termos.</p><ol class="termos">'+
+      '<li><b>O que é o Plano de Estudo.</b> Uma plataforma on-line de estudo da Editora Mundo Encantado, com plano diário, questões comentadas, simulados e acompanhamento, organizada pelo conteúdo do edital de cada prova.</li>'+
+      '<li><b>O que você compra.</b> O direito de uso pessoal do plano de um cargo (ou de um curso), pelo prazo descrito no item 3. Não é a venda de um produto para sempre.</li>'+
+      '<li><b>Prazo de acesso.</b> O acesso vai da liberação do pagamento até 1 mês depois da data da prova do cargo comprado. Nos cursos preparatórios, até 1 mês depois da data final do curso. A data aparece antes da compra e em Minha área. Depois dela, o plano fica bloqueado. Se a prova for adiada, o prazo acompanha a nova data.</li>'+
+      '<li><b>Conta pessoal.</b> O acesso fica na conta Google usada na compra e é pessoal e intransferível. Não compartilhe a sua conta.</li>'+
+      '<li><b>Teste grátis.</b> Cada cargo à venda pode ser testado por 1 dia, sem pagamento. O teste não faz parte da compra.</li>'+
+      '<li><b>Pagamento.</b> Pagamento único pelo Mercado Pago (Pix, cartão ou boleto), sem mensalidade e sem renovação automática.</li>'+
+      '<li><b>Reembolso.</b> Você pode desistir da compra em até 7 dias depois da confirmação do pagamento, com devolução de todo o valor, pelo botão Solicitar reembolso em Minha área (art. 49 do Código de Defesa do Consumidor). Com o reembolso, o acesso é encerrado.</li>'+
+      '<li><b>Conteúdo.</b> As questões são inéditas, escritas a partir do conteúdo programático do edital. O Plano de Estudo não tem ligação com prefeituras ou bancas e não garante aprovação. Confira sempre o edital oficial.</li>'+
+      '<li><b>Direitos autorais.</b> Todo o conteúdo (questões, comentários, apostilas e vídeos) é da Editora Mundo Encantado. É proibido copiar, gravar, revender ou repassar, no todo ou em parte. As apostilas em PDF são para uso pessoal.</li>'+
+      '<li><b>Seus dados.</b> Nome, e-mail e celular são usados só para liberar o acesso, guardar o seu progresso e falar com você sobre a compra, conforme a Lei Geral de Proteção de Dados. Para pedir a exclusão dos seus dados, escreva para '+CONTATO+'.</li>'+
+      '<li><b>Mudanças.</b> Estes termos podem ser atualizados. A versão que vale para a sua compra é a que estava no site no dia do pagamento.</li></ol>';
+  return '<p>Dúvidas sobre o app, a compra, o reembolso ou o conteúdo? Escreva para a Editora Mundo Encantado. Respondemos em até 1 dia útil.</p><p><a class="btn ghost" href="mailto:'+CONTATO+'">'+ICO.contato+CONTATO+'</a></p>';
+}
+function renderOri(){
+  app.innerHTML='<section class="view ori"><div class="card orihead"><span class="eyebrow">Orientações</span><h2>Como funciona o Plano de Estudo</h2><p>Tudo o que você precisa saber para estudar tranquilo: o app no celular, até quando vale o seu acesso, o reembolso e os termos de uso.</p>'+
+    '<div class="orinav">'+ORI_SEC.map(function(s){return '<button type="button" class="orib" data-orisec="'+s[0]+'">'+ICO[s[0]]+'<span>'+s[1]+'</span></button>'}).join('')+'</div></div>'+
+    ORI_SEC.map(function(s){return '<div class="card orisec" id="ori-'+s[0]+'"><h3>'+ICO[s[0]]+s[1]+'</h3>'+oriSecHTML(s[0])+'</div>'}).join('')+'</section>';
+  app.querySelectorAll('[data-orisec]').forEach(function(b){b.onclick=function(){var e=document.getElementById('ori-'+b.dataset.orisec);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}});
+  if(S.oriSec){var alvo=S.oriSec;S.oriSec=null;setTimeout(function(){var e=document.getElementById('ori-'+alvo);if(e)e.scrollIntoView({block:'start'})},40)}}
+function oriAbrir(sec){go('ori',{oriSec:sec||null})}
+/* janela por cima da página (na compra, para ler os termos sem perder o que já foi preenchido) */
+function oriModal(sec){var s=ORI_SEC.filter(function(x){return x[0]===sec})[0]||ORI_SEC[1],o=document.createElement('div');o.className='vidmodal orimodal';
+  o.innerHTML='<div class="card orisec" role="dialog" aria-modal="true" aria-label="'+s[1]+'"><button type="button" class="vidx" aria-label="Fechar">×</button><h3>'+ICO[s[0]]+s[1]+'</h3>'+oriSecHTML(s[0])+(sec!=='termos'?'<h3>'+ICO.termos+'Termos de uso</h3>'+oriSecHTML('termos'):'')+'<p><button type="button" class="btn" data-fecha>Entendi</button></p></div>';
+  function fecha(){o.remove();document.removeEventListener('keydown',k)}function k(e){if(e.key==='Escape')fecha()}
+  o.onclick=function(e){if(e.target===o||e.target.closest('.vidx')||e.target.closest('[data-fecha]'))fecha()};document.addEventListener('keydown',k);document.body.appendChild(o);var bi=o.querySelector('[data-irminha]');if(bi)bi.remove()}
+document.addEventListener('click',function(e){var t;
+  if((t=e.target.closest('[data-orim]'))){e.preventDefault();oriModal(t.dataset.orim);return}
+  if((t=e.target.closest('[data-ori]'))){e.preventDefault();oriAbrir(t.dataset.ori);return}
+  if((t=e.target.closest('[data-instalar]'))){appInstalar(t);return}
+  if(e.target.closest('[data-gohome]')){go('home');return}
+  if(e.target.closest('[data-irminha]')){if(USER)go('minha',{mSec:'compras'});else if(siteComBanco()){S.mSec='compras';entrarMinha()}else alert('O login com Google só funciona no site publicado.')}});
+/* link direto: planodeestudo.net.br/#orientacoes, #app, #reembolso, #termos */
+(function(){var h=(location.hash||'').replace('#','').toLowerCase(),m={orientacoes:null,app:'app',instalar:'app',prazo:'prazo',reembolso:'reembolso',termos:'termos',contato:'contato'};if(h in m)oriAbrir(m[h])})();
+
+/* ---------- Minhas compras e reembolso (função peReembolso no servidor; o Mercado Pago devolve o valor) ---------- */
+function reembolsoChamar(corpo){return USER.getIdToken().then(function(tk){return fetch(PE.funcoes.replace(/\/$/,'')+'/peReembolso',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},body:JSON.stringify(corpo)})})
+  .then(function(r){return r.json().catch(function(){return {}}).then(function(j){if(!r.ok)throw new Error(j.erro||'Não foi possível agora. Tente de novo em instantes.');return j})})}
+function dataHora(s,hora){var d=new Date(s);if(isNaN(d))return '';return d.toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'})+(hora?' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Sao_Paulo'}):'')}
+function brl(v){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}
+function compraLinhaHTML(p){var st;
+  if(p.situacao==='reembolsado')st='<span class="cst ok">Reembolsado'+(p.reembolsadoEm?' em '+dataHora(p.reembolsadoEm):'')+'</span>';
+  else if(p.situacao==='reembolso-pedido')st='<span class="cst">Reembolso solicitado'+(p.reembolsoPedidoEm?' em '+dataHora(p.reembolsoPedidoEm):'')+'. A Editora devolve o valor em até 5 dias úteis.</span>';
+  else if(p.pode)st='<button type="button" class="btn ghost small" data-reemb="'+esc(p.pedido)+'">Solicitar reembolso</button><small>Você pode pedir até '+dataHora(p.prazo,true)+'</small>';
+  else st='<small>Prazo de reembolso encerrado em '+dataHora(p.prazo)+'</small>';
+  return '<div class="compra"><div><b>'+esc(p.titulo)+'</b><small>Pedido '+esc(p.pedido)+' · '+brl(p.total)+(p.pagoEm?' · pago em '+dataHora(p.pagoEm):'')+'</small></div><div class="cacao">'+st+'</div></div>'}
+function carregarCompras(){var el=document.getElementById('mcompras');if(!el||!USER||!PE||!PE.funcoes||!window.fetch)return;
+  reembolsoChamar({acao:'listar'}).then(function(r){var l=r.itens||[];if(!document.body.contains(el))return;if(!l.length){el.innerHTML='';return}
+    el.innerHTML='<h3 class="mtit" id="mComprasTit">Minhas compras</h3><div class="card compras">'+l.map(compraLinhaHTML).join('')+'<p class="note small">Pelo direito de arrependimento (art. 49 do Código de Defesa do Consumidor), você pode pedir o reembolso de todo o valor em até 7 dias depois do pagamento. <button type="button" class="linkb" data-orim="reembolso">Saiba como funciona</button></p></div>';
+    el.querySelectorAll('[data-reemb]').forEach(function(b){b.onclick=function(){reembolsoConfirmar(l.filter(function(x){return x.pedido===b.dataset.reemb})[0])}});
+    if(S.mSec==='compras'){S.mSec=null;el.scrollIntoView({behavior:'smooth',block:'start'})}
+  }).catch(function(e){console.warn('compras',e);el.innerHTML=''})}
+function reembolsoConfirmar(p){if(!p)return;var o=document.createElement('div');o.className='vidmodal orimodal';
+  o.innerHTML='<div class="card orisec" role="dialog" aria-modal="true" aria-label="Solicitar reembolso"><button type="button" class="vidx" aria-label="Fechar">×</button><h3>'+ICO.reembolso+'Solicitar reembolso</h3>'+
+    '<p><b>'+esc(p.titulo)+'</b><br>Pedido '+esc(p.pedido)+' · '+brl(p.total)+'</p>'+
+    '<p>Pelo direito de arrependimento (art. 49 do CDC), <b>todo o valor volta para você</b> pelo Mercado Pago, no mesmo meio de pagamento. <b>O acesso a este '+(p.apostila?'material':'plano')+' é encerrado na hora.</b></p>'+
+    '<label class="field" for="rMot">Se quiser, conte o motivo (opcional)<select id="rMot"><option value="">Prefiro não dizer</option><option>Desisti da prova</option><option>Comprei o cargo errado</option><option>Não gostei do formato</option><option>Problema técnico</option><option>Outro motivo</option></select></label>'+
+    '<p class="err" id="rErr" hidden></p><div class="row2"><button type="button" class="btn" id="rOk">Confirmar o reembolso</button><button type="button" class="btn ghost" data-fecha>Desistir</button></div></div>';
+  function fecha(){o.remove()}o.onclick=function(e){if(e.target===o||e.target.closest('.vidx')||e.target.closest('[data-fecha]'))fecha()};document.body.appendChild(o);
+  var ok=o.querySelector('#rOk');ok.onclick=function(){ok.disabled=true;ok.textContent='Pedindo o reembolso...';var er=o.querySelector('#rErr');er.hidden=true;
+    reembolsoChamar({acao:'pedir',pedido:p.pedido,motivo:o.querySelector('#rMot').value}).then(function(r){
+      o.querySelector('.orisec').innerHTML='<h3>'+ICO.reembolso+(r.automatico?'Reembolso feito':'Reembolso solicitado')+'</h3>'+(r.automatico?
+        '<p>Pronto! O Mercado Pago já está devolvendo <b>'+brl(p.total)+'</b>. No Pix e no saldo do Mercado Pago, o valor volta normalmente no mesmo dia; no cartão, aparece na fatura atual ou na seguinte, conforme o banco.</p>':
+        '<p>Recebemos o seu pedido. A Editora devolve <b>'+brl(p.total)+'</b> em até 5 dias úteis e avisa por e-mail.</p>')+
+        '<p>Enviamos a confirmação para <b>'+esc(USER.email)+'</b>. O acesso a este '+(p.apostila?'material':'plano')+' foi encerrado.</p><p><button type="button" class="btn" data-fecha>Fechar</button></p>';
+      sincronizar(USER).then(function(){if(S.view==='minha')renderMinha()})},
+    function(e){ok.disabled=false;ok.textContent='Confirmar o reembolso';er.textContent=e.message+' Se continuar, escreva para '+CONTATO+'.';er.hidden=false})}}
 })();
 </script>

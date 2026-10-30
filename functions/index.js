@@ -15,7 +15,7 @@ const db = admin.firestore();
 
 const PRECO = 39.9;
 const { pacote } = require('./catalogo');
-const { enviarAviso } = require('./aviso');
+const { enviarAviso, enviarReembolso } = require('./aviso');
 const { abrir } = require('./cofre');
 const SITES = ['https://mundoencantadoprof-cmd.github.io', 'https://planodeestudo.net.br', 'https://www.planodeestudo.net.br'];
 const SITE_PADRAO = process.env.SITE_URL || 'https://planodeestudo.net.br/';
@@ -105,6 +105,11 @@ exports.peWebhook = onRequest(async (req, res) => {
         t.set(db.doc('acessos/' + String(pedido.email).toLowerCase()),
           { planos: admin.firestore.FieldValue.arrayUnion(...pedido.itens), atualizadoEm: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
         liberado = pedido;
+      } else if (['refunded', 'charged_back'].includes(pg.status) && ['pago', 'reembolso-pedido'].includes(pedido.situacao)) {
+        /* devolvido pelo Mercado Pago (pelo botão do site ou direto no painel do MP): tira o acesso */
+        t.update(ref, { situacao: 'reembolsado', reembolsadoEm: admin.firestore.FieldValue.serverTimestamp(), mpPagamento: String(pg.id), mpStatus: pg.status });
+        t.set(db.doc('acessos/' + String(pedido.email).toLowerCase()),
+          { planos: admin.firestore.FieldValue.arrayRemove(...pedido.itens), atualizadoEm: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
       } else if (['rejected', 'cancelled', 'refunded', 'charged_back'].includes(pg.status) && pedido.situacao === 'aguardando') {
         t.update(ref, { situacao: 'cancelado', mpPagamento: String(pg.id), mpStatus: pg.status });
       } else {
@@ -119,6 +124,72 @@ exports.peWebhook = onRequest(async (req, res) => {
   } catch (e) {
     console.error('peWebhook', e);
     res.status(500).send('erro');
+  }
+});
+
+/* peReembolso: direito de arrependimento (art. 49 do CDC). Com o login Google, o aluno vê as próprias compras
+   (acao 'listar') e pede o reembolso (acao 'pedir') em até 7 dias depois do pagamento. Pedido pago pelo Mercado Pago:
+   a função pede a devolução total ao Mercado Pago na hora. Pix direto ou falha no Mercado Pago: fica "reembolso-pedido"
+   e a Editora devolve pelo painel. Nos dois casos o acesso sai de acessos/{email}.planos e vai e-mail para o aluno e a Editora. */
+const PRAZO_REEMBOLSO = 7 * 24 * 3600 * 1000;
+const quando = p => { const t = p.pagoEm || p.atualizadoEm || p.criadoEm; return t && t.toDate ? t.toDate() : null; };
+const isoDe = t => (t && t.toDate ? t.toDate().toISOString() : null);
+function resumoCompra(cod, p) {
+  const pg = quando(p), prazo = pg ? new Date(pg.getTime() + PRAZO_REEMBOLSO) : null, pc = pacote(p.itens && p.itens[0]);
+  return { pedido: cod, itens: p.itens || [], titulo: (pc ? pc.titulo : String(p.itens || '')).replace(/^Plano de Estudo · /, ''),
+    apostila: !!(pc && pc.apostila), total: p.total, situacao: p.situacao, pagoEm: pg ? pg.toISOString() : null,
+    prazo: prazo ? prazo.toISOString() : null, pode: p.situacao === 'pago' && !!prazo && Date.now() <= prazo.getTime(),
+    reembolsadoEm: isoDe(p.reembolsadoEm), reembolsoPedidoEm: isoDe(p.reembolsoPedidoEm) };
+}
+exports.peReembolso = onRequest(async (req, res) => {
+  cors(req, res);
+  if (req.method === 'OPTIONS') return res.status(204).send('');
+  if (req.method !== 'POST') return res.status(405).json({ erro: 'Use POST.' });
+  try {
+    const token = String(req.get('authorization') || '').replace(/^Bearer /, '');
+    const quem = await admin.auth().verifyIdToken(token).catch(() => null);
+    if (!quem || !quem.email) return res.status(401).json({ erro: 'Entre com a conta Google de novo.' });
+    const email = quem.email.toLowerCase(), b = req.body || {};
+    if (b.acao === 'listar') {
+      const q = await db.collection('pedidos').where('email', '==', email).get();
+      const itens = q.docs.filter(d => d.get('perfil') === 'plano-de-estudo' && ['pago', 'reembolso-pedido', 'reembolsado'].includes(d.get('situacao')))
+        .map(d => resumoCompra(d.id, d.data())).sort((x, y) => String(y.pagoEm).localeCompare(String(x.pagoEm)));
+      return res.json({ itens });
+    }
+    if (b.acao !== 'pedir') return res.status(400).json({ erro: 'Ação desconhecida.' });
+    const cod = limpa(b.pedido, 12);
+    if (!/^PE[A-Z0-9]{6}$/.test(cod)) return res.status(400).json({ erro: 'Pedido inválido.' });
+    const ref = db.doc('pedidos/' + cod), motivo = limpa(b.motivo, 60);
+    /* marca o pedido numa transação: dois toques no botão não viram dois reembolsos */
+    const pedido = await db.runTransaction(async t => {
+      const s = await t.get(ref);
+      if (!s.exists || String(s.get('email')).toLowerCase() !== email || s.get('perfil') !== 'plano-de-estudo') throw Object.assign(new Error('Pedido não encontrado nesta conta.'), { status: 404 });
+      const p = s.data(), r = resumoCompra(cod, p);
+      if (p.situacao !== 'pago') throw Object.assign(new Error('Este pedido já teve o reembolso pedido.'), { status: 409 });
+      if (!r.pode) throw Object.assign(new Error('O prazo de 7 dias para o reembolso deste pedido terminou.'), { status: 409 });
+      t.update(ref, { situacao: 'reembolso-pedido', reembolsoPedidoEm: admin.firestore.FieldValue.serverTimestamp(), reembolsoMotivo: motivo });
+      t.set(db.doc('acessos/' + email), { planos: admin.firestore.FieldValue.arrayRemove(...p.itens), atualizadoEm: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
+      return p;
+    });
+    let automatico = false;
+    if (pedido.forma === 'mercadopago' && pedido.mpPagamento) {
+      try {
+        const r = await mp('/v1/payments/' + encodeURIComponent(pedido.mpPagamento) + '/refunds', {
+          method: 'POST', headers: { 'X-Idempotency-Key': 'reembolso-' + cod }, body: '{}' });
+        await ref.update({ situacao: 'reembolsado', reembolsadoEm: admin.firestore.FieldValue.serverTimestamp(), mpReembolso: String(r.id || ''), reembolsoErro: admin.firestore.FieldValue.delete() });
+        automatico = true;
+      } catch (e) {
+        console.error('peReembolso MP', cod, e);
+        await ref.update({ reembolsoErro: String(e.message).slice(0, 300) });
+      }
+    }
+    const av = await enviarReembolso(pedido, cod, automatico, motivo).catch(e => ({ ok: false, motivo: e.message }));
+    if (av) await ref.update({ avisoReembolso: av.ok ? 'enviado' : 'falhou: ' + String(av.motivo).slice(0, 200) });
+    res.json({ ok: true, automatico });
+  } catch (e) {
+    if (e.status) return res.status(e.status).json({ erro: e.message });
+    console.error('peReembolso', e);
+    res.status(500).json({ erro: 'Não foi possível pedir o reembolso agora.' });
   }
 });
 
