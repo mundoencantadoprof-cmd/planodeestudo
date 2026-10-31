@@ -6,10 +6,13 @@
   var B = 'img/carrossel/', TM = null;
   function slides(bg1) {
     var em = document.querySelector('[data-sec="ap"] em'), nAp = em ? parseInt(em.textContent, 10) || 0 : 0;
+    /* o banner da FUVEST só aparece quando o cursinho FUVEST estiver publicado (2 ou mais cursos na seção) */
+    var ec = document.querySelector('[data-sec="curso"] em'), fuvest = ec ? (parseInt(ec.textContent, 10) || 0) >= 2 : false;
     return [
       { bg: bg1, ey: 'Concursos públicos e processos seletivos', h: 'Seu plano de estudo <span>pelo edital do seu cargo</span>', p: 'Concurso (efetivação) ou processo seletivo (contratação): o método é o mesmo. Questões inéditas no formato da banca, só com o conteúdo que o edital pede para o seu cargo, em um plano diário até a véspera da prova, com correção na hora e explicação de cada resposta.', ch: ['Questões no formato da banca', 'Plano diário até a prova', '<g>1 dia grátis'], bt: [['Ver concursos', 'cp'], ['o:Ver seletivos', 'ps']] },
       { img: B + 'vest.jpg', ey: 'Vestibulares · Intensivão', h: 'Reta final com questões <span>no estilo da prova</span>', p: 'Intensivão Vestibular Unesp: questões com 5 alternativas no estilo Vunesp, organizadas por fase e por área do conhecimento, com resolução comentada e plano até o dia da prova.', ch: ['5 alternativas, estilo Vunesp', '1ª e 2ª fase', 'Resolução comentada'], bt: [['Ver vestibulares', 'vest']] },
-      { img: B + 'curso.jpg', ey: 'Cursos preparatórios', h: 'Cursinhos Preparatórios <span>Unesp 2027 e FUVEST 2028</span>', p: 'Preparação organizada semana a semana até a prova: questões comentadas no estilo da banca, um “Para memorizar” em cada resolução, redação e simulados. 1ª e 2ª fase em um só pacote.', ch: ['<g>Unesp: 5x de R$ 29,90', '<g>FUVEST: 8x de R$ 29,90', 'Sem juros', '1ª + 2ª fase'], bt: [['Conhecer os cursinhos', 'curso']] },
+      { img: B + 'curso.jpg', ey: 'Cursos preparatórios', h: 'Cursinho Preparatório <span>Unesp 2027</span>', p: 'Preparação organizada semana a semana até a prova: questões comentadas no estilo Vunesp, um “Para memorizar” em cada resolução e figuras explicativas. 1ª e 2ª fase em um só pacote.', ch: ['<g>5x de R$ 29,90 sem juros', 'Semana a semana', '1ª + 2ª fase'], bt: [['Conhecer o cursinho', 'curso']] },
+      fuvest ? { img: B + 'fuvest.jpg', ey: 'Cursos preparatórios · Novo', h: 'Cursinho Preparatório <span>FUVEST 2028</span>', p: 'Um ano de preparação para a USP, de novembro até a prova: aulas com questões comentadas no estilo FUVEST, redação toda semana, simulados completos de 80 questões e revisão final. 1ª e 2ª fase em um só pacote.', ch: ['<g>8x de R$ 29,90 sem juros', 'Redação toda semana', '16 simulados', '1ª + 2ª fase'], bt: [['Conhecer o cursinho', 'curso']] } : null,
       { img: B + 'form.jpg', ey: 'Novo · Formação Continuada de Professores', h: 'Cursos para quem ensina, <span>com certificado</span>', p: 'Cursos livres no seu ritmo: apostila fundamentada em autores da área, atividades interativas e avaliação com correção automática. Certificado com QR Code para validação. Primeiro curso: Neurodiversidade e Aprendizagem, 30 horas.', ch: ['30 horas', 'Certificado com QR Code', '<g>2x de R$ 19,90'], bt: [['Conhecer o curso', 'fc']] },
       { img: B + 'ap.jpg', caps: 1, ey: 'Apostilas em PDF', h: 'Questões comentadas, <span>organizadas pelo edital</span>', p: 'Apostilas para imprimir ou estudar no celular, com questões no formato da prova e resolução comentada, separadas por concurso, seletivo, vestibular e cursinho. Todas têm amostra grátis.', ch: [(nAp ? nAp + ' apostilas' : 'Apostilas por edital'), 'Amostra grátis', '<g>R$ 39,90'], bt: [['Ver apostilas', 'ap']] }
     ];
@@ -22,7 +25,7 @@
   function montar(h) {
     var bg1 = getComputedStyle(h).backgroundImage;
     var G = innerWidth < 760 ? 'linear-gradient(180deg,rgba(9,22,58,.25) 0%,rgba(9,22,58,.85) 42%,rgba(9,22,58,.97) 100%)' : 'linear-gradient(90deg,rgba(9,22,58,.95) 0%,rgba(13,32,80,.86) 38%,rgba(19,48,110,.35) 70%,rgba(19,48,110,.1) 100%)';
-    var S = slides(bg1);
+    var S = slides(bg1).filter(Boolean);
     var html = '<div class="car" role="region" aria-label="Destaques do Plano de Estudo">' + S.map(function (x, i) {
       var b = x.img ? G + ',url(' + x.img + ')' : x.bg;
       return '<div class="sl' + (x.caps ? ' cp' : '') + (i ? '' : ' on') + '" style="background-image:' + b.replace(/"/g, "'") + '">' +
