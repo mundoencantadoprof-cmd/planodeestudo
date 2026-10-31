@@ -24,6 +24,7 @@ header.top .wrap{display:flex;align-items:center;gap:10px;height:56px}
 .btn.sm{padding:8px 12px;min-height:38px;font-size:14.5px;border-radius:10px}
 .btn:disabled{opacity:.45;cursor:default}
 .hero{background:linear-gradient(135deg,#13285E,#1d3a80);color:#fff;padding:34px 0 30px}
+.hero.foto{position:relative;padding:0 0 34px;background:#13285E}.hero.foto .ft{height:clamp(190px,34vw,430px);background:linear-gradient(180deg,rgba(19,40,94,0) 55%,#13285E 100%),url(/img/formacao/neuro30.jpg) center 28%/cover no-repeat}@media(max-width:700px){.hero.foto .ft{background-image:linear-gradient(180deg,rgba(19,40,94,0) 55%,#13285E 100%),url(/img/formacao/neuro30-m.jpg)}}.hero.foto .wrap{margin-top:-28px;position:relative}
 .hero .kick{color:#F5C04A;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
 .hero h1{font-size:clamp(24px,5vw,34px);margin:8px 0 12px}
 .hero p{color:#D9E0F2;margin:0 0 18px}
@@ -1367,7 +1368,7 @@ window.FC_NUVEM = (function () {
 
   /* ---------- vitrine ---------- */
   function vitrine() {
-    var h = '<section class="hero"><div class="wrap"><div class="kick">Curso livre de formação continuada</div><h1>' + esc(C.titulo) + '</h1>' +
+    var h = '<section class="hero' + (PROD ? ' foto"><div class="ft"></div>' : '">') + '<div class="wrap"><div class="kick">Curso livre de formação continuada</div><h1>' + esc(C.titulo) + '</h1>' +
       '<p>' + esc(C.sigla(C.resumo, {})) + '</p><div class="chips"><span class="chip">' + C.horas + ' horas</span><span class="chip">100% on-line</span><span class="chip">Certificado com QR Code</span></div>' +
       '<div class="price">' + (C.parcelas ? C.parcelas + 'x de R$ ' + C.parcela + ' <small style="display:block;margin-top:6px">sem juros no cartão ou R$ ' + C.preco + ' à vista no Pix, pelo Mercado Pago</small>' : 'R$ ' + C.preco + ' <small>à vista, pagamento pelo Mercado Pago</small>') + '</div><div style="margin-top:16px">' +
       (PROD ? botaoProd() : S.mat ? '<button class="btn gold" data-go="sala">Continuar o curso</button>' : '<button class="btn gold" data-a="matricular">Matricular (na prévia, sem pagamento)</button>') +
