@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='e8a3726aadf6';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='0679f2d152c8';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="img/app/icon-192.png">
 <link rel="apple-touch-icon" href="img/app/apple-touch-icon.png">
@@ -468,10 +468,17 @@ header.top .secoes .wrap::-webkit-scrollbar{display:none}
 .sec:hover{background:rgba(255,255,255,.09);color:#fff}
 .sec.on{background:#fff;color:#13285E}.sec.on em{background:#F4B728;color:#13285E;border-color:transparent}
 .sec .ss{display:none}
-@media(max-width:700px){header.top .secoes .wrap{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;padding-block:4px}
+/* Formação Continuada na barra de seções */
+.sec.fc{text-decoration:none;color:#fff;background:linear-gradient(90deg,rgba(242,190,69,.22),rgba(242,190,69,.08));box-shadow:inset 0 0 0 1px rgba(242,190,69,.45)}
+.sec.fc:hover{background:linear-gradient(90deg,rgba(242,190,69,.32),rgba(242,190,69,.14))}
+.sec.fc .novo{font:800 .58rem/1 var(--f-mono);font-style:normal;background:#F2BE45;color:#13285E;border-radius:999px;padding:3px 6px;letter-spacing:.06em}
+@media(min-width:701px){header.top .secoes .wrap{flex-wrap:nowrap!important;gap:0!important}header.top .secoes .sec{padding:9px 6px;gap:6px;font-size:.9rem}}
+
+@media(max-width:700px){header.top .secoes .wrap{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;padding-block:4px}
   .sec{flex-direction:column;gap:4px;padding:8px 2px 7px;font-size:.74rem;border-radius:10px;min-width:0}
   .sec svg{width:21px;height:21px}.sec .sl{display:none}.sec .ss{display:inline}
-  .sec em{position:absolute;top:3px;left:calc(50% + 8px);font-size:.58rem;padding:2px 5px}.sec em.eb{display:none}}
+  .sec em{position:absolute;top:3px;left:calc(50% + 8px);font-size:.58rem;padding:2px 5px}.sec em.eb{display:none}
+  .sec{font-size:.66rem}.sec.fc .novo{position:absolute;top:2px;right:2px;font-size:.45rem;padding:2px 4px}}
 .lhead{display:flex;gap:14px;align-items:center}.lic{width:54px;height:54px;border-radius:16px;background:var(--brand-wash);color:var(--brand);display:grid;place-items:center;flex:none}.lic svg{width:28px;height:28px}
 .lhead h2{font-size:1.6rem;margin:2px 0 0}.lhead h2 span{font:700 .85rem/1 var(--f-mono);background:var(--brand);color:var(--sheet);border-radius:999px;padding:4px 10px;vertical-align:middle}
 .vazio{display:grid;justify-items:center;text-align:center;gap:8px;padding:36px 20px;border:2px dashed var(--line);border-radius:18px;color:var(--soft)}.vazio svg{width:46px;height:46px;color:var(--gold)}
@@ -1029,10 +1036,14 @@ var SECOES=[
   {id:'ap',nome:'Apostilas',titulo:'Apostilas',ic:SVG('<path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6.5A2.5 2.5 0 0 0 4 21.5"/><path d="M9 7h7M9 11h5"/>')}];
 function tipoDe(c){return c.tipo||(/seletivo/i.test(c.edital||'')?'ps':/vestibulinho/i.test(c.edital||'')?'vest':'cp')}
 function provasDe(tp){return CONCURSOS.filter(function(c){return !c.soon&&tipoDe(c)===tp})}
+/* Formação Continuada (cursos para professores, páginas próprias em /formacao/) */
+function fcNav(h){var i=h.indexOf('data-sec="ap"');i=i<0?h.length:h.lastIndexOf('<button',i);
+  var b='<a class="sec fc" href="/formacao/" title="Formação Continuada de Professores">'+SVG('<path d="M3 8.5 12 4l9 4.5-9 4.5z"/><path d="M7 10.6V15c3 2 7 2 10 0v-4.4"/><path d="M12 13v7M9 20h6"/>')+'<span class="sn"><span class="sl">Formação</span><span class="ss">Formação</span></span><i class="novo">NOVO</i></a>';
+  return h.slice(0,i)+b+h.slice(i)}
 function renderSecoes(){var el=document.getElementById('secoesIn');if(!el)return;
   var at=S.view==='lista'?S.lista:S.view==='apostilas'?'ap':S.view==='ori'?'ori':(S.view==='conc'||S.view==='cargo')&&S.conc?tipoDe(S.conc):'';
-  el.innerHTML=SECOES.map(function(s){var n=s.id==='ap'?APOSTILAS.length:provasDe(s.id).length;
-    return '<button type="button" class="sec'+(at===s.id?' on':'')+'" data-sec="'+s.id+'"'+(at===s.id?' aria-current="page"':'')+'>'+s.ic+'<span class="sn"><span class="sl">'+s.nome+'</span><span class="ss">'+(s.curto||s.nome)+'</span></span>'+(s.id==='ori'?'':n?'<em>'+n+'</em>':'<em class="eb">em breve</em>')+'</button>'}).join('');
+  el.innerHTML=fcNav(SECOES.map(function(s){var n=s.id==='ap'?APOSTILAS.length:provasDe(s.id).length;
+    return '<button type="button" class="sec'+(at===s.id?' on':'')+'" data-sec="'+s.id+'"'+(at===s.id?' aria-current="page"':'')+'>'+s.ic+'<span class="sn"><span class="sl">'+s.nome+'</span><span class="ss">'+(s.curto||s.nome)+'</span></span>'+(s.id==='ori'?'':n?'<em>'+n+'</em>':'<em class="eb">em breve</em>')+'</button>'}).join(''));
   el.querySelectorAll('[data-sec]').forEach(function(b){b.onclick=function(){var id=b.dataset.sec;if(id==='ap')go('apostilas');else if(id==='ori')go('ori');else go('lista',{lista:id})}});
   var on=el.querySelector('.on');if(on&&on.scrollIntoView&&el.scrollWidth>el.clientWidth)on.scrollIntoView({block:'nearest',inline:'center'})}
 /* ---------- Busca única no topo: provas, cargos e apostilas ---------- */
