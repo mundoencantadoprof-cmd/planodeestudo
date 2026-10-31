@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='0679f2d152c8';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='9fc510823202';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="img/app/icon-192.png">
 <link rel="apple-touch-icon" href="img/app/apple-touch-icon.png">
@@ -2151,4 +2151,5 @@ function reembolsoConfirmar(p){if(!p)return;var o=document.createElement('div');
       sincronizar(USER).then(function(){if(S.view==='minha')renderMinha()})},
     function(e){ok.disabled=false;ok.textContent='Confirmar o reembolso';er.textContent=e.message+' Se continuar, escreva para '+CONTATO+'.';er.hidden=false})}}
 })();
-</script>
+</script><script src="carrossel.js?v=3" defer></script>
+
