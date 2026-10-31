@@ -65,6 +65,7 @@ const CONCURSOS = {
     ei: 'Professor Substituto de Educação Infantil',
     ef: 'Professor Substituto de Ensino Fundamental' } },
   cursounesp: { nome: 'Cursinho Preparatório Unesp 2027', precos: { c: 149.5, f1: 59.9, f2: 59.9 }, semVenda: ['f1', 'f2'], soApostilas: ['1ling', '1hum', '1nat', '1mat', '2fase'], cargos: { c: 'Curso completo', f1: 'Curso da 1ª fase', f2: 'Curso da 2ª fase', '1ling': 'Volume 1: Linguagens e Códigos', '1hum': 'Volume 2: Ciências Humanas', '1nat': 'Volume 3: Ciências da Natureza', '1mat': 'Volume 4: Matemática', '2fase': '2ª fase: Discursivas e Redação' } },
+  cursofuvest: { nome: 'Cursinho Preparatório FUVEST 2028', precos: { c: 239.2 }, cargos: { c: 'Curso completo' } },
   paraguacu: { nome: 'Paraguaçu Paulista (SP) PS 01/2026', cargos: {
     p1: 'PEB I', art: 'PEB II – Arte', cie: 'PEB II – Ciências', esp: 'PEB II – Educação Especial', lib: 'PEB II – Educação Especial (Libras)', edf: 'PEB II – Educação Física', geo: 'PEB II – Geografia', his: 'PEB II – História', ing: 'PEB II – Inglês', lp: 'PEB II – Português', mt: 'PEB II – Matemática' } },
   formacao: { nome: 'Formação Continuada', precos: { neuro30: 39.8 }, formacao: true, cargos: {
@@ -113,6 +114,6 @@ function pacote(item) {
   return { item, conc: m[2], cargo: m[3], preco: (c.precos && c.precos[m[3]]) || null, formacao: !!c.formacao, titulo: 'Plano de Estudo · ' + c.nome + ' · ' + c.cargos[m[3]] };
 }
 // Máximo de parcelas no cartão por pacote (o 'sem juros' é configurado na conta do Mercado Pago). Sem entrada aqui, vale o padrão do Mercado Pago.
-const PARCELAS = { 'pe-cursounesp-c': 5, 'pe-formacao-neuro30': 2 };
+const PARCELAS = { 'pe-cursounesp-c': 5, 'pe-cursofuvest-c': 8, 'pe-formacao-neuro30': 2 };
 
 module.exports = { CONCURSOS, APOSTILAS, PARCELAS, pacote };
