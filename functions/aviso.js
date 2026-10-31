@@ -18,6 +18,7 @@ async function enviarAviso(pedido, cod) {
   const nomePac = p ? p.titulo.replace('Plano de Estudo · ', '') : String(pedido.itens || '');
   const nome = String(pedido.nome || '').split(' ')[0];
   const ap = !!(p && p.apostila);
+  if (p && p.formacao) return enviarAvisoCurso(t, pedido, cod, nome, nomePac.replace('Formação Continuada · ', ''));
   const linhas = [
     'Olá' + (nome ? ', ' + nome : '') + '!',
     ap ? 'Seu pagamento foi confirmado e a sua apostila em PDF já está liberada.' : 'Seu pagamento foi confirmado e o acesso ao Plano de Estudo já está liberado.',
@@ -33,6 +34,28 @@ async function enviarAviso(pedido, cod) {
     text: linhas.join('\n\n'),
     html: '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#13285E">' + linhas.map((l, i) =>
       i === 3 ? '<p>Como acessar, em qualquer aparelho: entre em <a href="https://planodeestudo.net.br">planodeestudo.net.br</a>, clique em <b>Entrar</b> no alto da página e use a conta Google <b>' + esc(pedido.email) + '</b>. ' + (ap ? 'Em <b>Minha área</b>, toque em <b>Baixar apostila</b> para salvar o PDF.' : 'Em <b>Minha área</b> aparecem os seus pacotes e o botão <b>Continuar estudando</b>.') + '</p>'
+      : '<p>' + esc(l) + '</p>').join('') + '</div>'
+  });
+  return { ok: true };
+}
+/* Curso de Formação Continuada: o acesso fica em planodeestudo.net.br/formacao. */
+async function enviarAvisoCurso(t, pedido, cod, nome, curso) {
+  const linhas = [
+    'Olá' + (nome ? ', ' + nome : '') + '!',
+    'Seu pagamento foi confirmado e a sua matrícula no curso de Formação Continuada já está liberada.',
+    'Curso: ' + curso + (cod ? ' (pedido ' + cod + ')' : ''),
+    'Como acessar, em qualquer aparelho: entre em https://planodeestudo.net.br/formacao, toque em "Entrar" e use a conta Google ' + pedido.email + '. O seu progresso fica guardado nessa conta.',
+    'O certificado é emitido no próprio site, depois que você concluir todos os módulos e a avaliação final, a partir do prazo mínimo do curso contado da matrícula.',
+    'Bons estudos!',
+    'Mundo Encantado · ' + EMAIL_EDITORA
+  ];
+  await t.sendMail({
+    from: '"Plano de Estudo · Mundo Encantado" <' + EMAIL_EDITORA + '>',
+    to: pedido.email, bcc: EMAIL_EDITORA, replyTo: EMAIL_EDITORA,
+    subject: 'Plano de Estudo: sua matrícula na Formação Continuada foi liberada',
+    text: linhas.join('\n\n'),
+    html: '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#13285E">' + linhas.map((l, i) =>
+      i === 3 ? '<p>Como acessar, em qualquer aparelho: entre em <a href="https://planodeestudo.net.br/formacao">planodeestudo.net.br/formacao</a>, toque em <b>Entrar</b> e use a conta Google <b>' + esc(pedido.email) + '</b>. O seu progresso fica guardado nessa conta.</p>'
       : '<p>' + esc(l) + '</p>').join('') + '</div>'
   });
   return { ok: true };

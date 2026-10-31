@@ -52,7 +52,7 @@ exports.pePagamento = onRequest(async (req, res) => {
     if (!quem || !quem.email) return res.status(401).json({ erro: 'Entre com a conta Google de novo.' });
     const email = quem.email.toLowerCase();
     const b = req.body || {}, p = pacote(b.item), d = b.cadastro || {};
-    if (!p) return res.status(400).json({ erro: 'Pacote desconhecido.' });
+    if (!p || (p.apostila && !p.preco)) return res.status(400).json({ erro: 'Pacote desconhecido.' });
     const tel = limpa(d.tel, 15).replace(/\D/g, '');
     if (limpa(d.nome, 120).split(' ').length < 2 || tel.length < 10)
       return res.status(400).json({ erro: 'Confira o cadastro.' });
@@ -241,7 +241,9 @@ exports.peApostila = onRequest({ memory: '1GiB', timeoutSeconds: 120 }, async (r
     if (!p || !p.apostila) return res.status(400).json({ erro: 'Apostila desconhecida.' });
     if (!ADMINS.includes(email)) {
       const ac = await db.doc('acessos/' + email).get();
-      if (!((ac.exists && ac.data().planos) || []).includes(p.item)) return res.status(403).json({ erro: 'Esta apostila ainda não foi liberada para ' + email + '.' });
+      const pl = (ac.exists && ac.data().planos) || [];
+      /* apostila de curso de formação: vem junto com o curso */
+      if (!pl.includes(p.item) && !(!p.preco && pl.includes('pe-' + p.conc + '-' + p.cargo))) return res.status(403).json({ erro: 'Esta apostila ainda não foi liberada para ' + email + '.' });
     }
     if (!chaveApostilas) chaveApostilas = (await db.doc('segredos/apostilas').get()).get('priv');
     const r = await fetch(REPO_APOSTILAS + p.item + '.bin');
@@ -335,5 +337,81 @@ exports.peProgresso = onRequest(async (req, res) => {
   } catch (e) {
     console.error('peProgresso', e);
     res.status(500).json({ erro: 'Não foi possível guardar o progresso agora.' });
+  }
+});
+
+/* peCertificado: certificados dos cursos de Formação Continuada (pe-formacao-<curso>).
+   - estado (com login): diz se o curso está liberado, a data da matrícula (pagamento) e o certificado já emitido.
+   - emitir (com login): confere no servidor o curso comprado, o prazo mínimo (1 dia para cada 8 horas, contado da
+     matrícula) e o progresso guardado pelo peProgresso (todos os módulos e a avaliação final >= 70%); grava
+     certificados/{codigo} com nome completo e RG. Um certificado por aluno e curso.
+   - validar (sem login): consulta pública pelo código do QR Code. */
+const CURSOS_FC = { neuro30: { titulo: 'Neurodiversidade e Aprendizagem: Desafios da Escola Contemporânea', horas: 30, mods: ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'], min: 70 } };
+function codigoCert() {
+  const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', b = require('crypto').randomBytes(8);
+  let s = 'FC'; for (let i = 0; i < 8; i++) { if (i === 4) s += '-'; s += c[b[i] % c.length]; } return s;
+}
+function rgMascara(rg) { const d = String(rg || ''); return d.replace(/[0-9A-Za-z](?=(?:[^0-9A-Za-z]*[0-9A-Za-z]){3})/g, (x, i) => (i < 2 ? x : '*')); }
+async function matriculaFc(email, item) {
+  const q = await db.collection('pedidos').where('email', '==', email).get();
+  let t = null;
+  q.forEach(d => { const p = d.data(); if (p.situacao === 'pago' && (p.itens || []).includes(item)) { const x = quando(p); if (x && (!t || x < t)) t = x; } });
+  const ref = db.doc('matriculas/' + email + '__' + item), s = await ref.get();
+  if (!t) { if (s.exists) t = s.get('em').toDate(); else { t = new Date(); await ref.set({ email, item, em: admin.firestore.Timestamp.fromDate(t), origem: 'primeiro acesso' }); } }
+  else if (!s.exists) await ref.set({ email, item, em: admin.firestore.Timestamp.fromDate(t), origem: 'pagamento' });
+  return t;
+}
+function certPublico(cod, c) {
+  return { codigo: cod, nome: c.nome, rg: rgMascara(c.rg) + (c.orgao ? ' ' + c.orgao : ''), curso: c.titulo, horas: c.horas,
+    inicio: c.inicio, fim: c.fim, nota: c.nota, emitido: isoDe(c.emitidoEm) };
+}
+exports.peCertificado = onRequest(async (req, res) => {
+  cors(req, res);
+  if (req.method === 'OPTIONS') return res.status(204).send('');
+  if (req.method !== 'POST') return res.status(405).json({ erro: 'Use POST.' });
+  try {
+    const b = req.body || {};
+    if (b.acao === 'validar') {
+      const cod = String(b.codigo || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (!/^FC[A-Z0-9]{8}$/.test(cod)) return res.json({ ok: true, achou: false });
+      const id = cod.slice(0, 6) + '-' + cod.slice(6), s = await db.doc('certificados/' + id).get();
+      if (!s.exists || s.get('cancelado')) return res.json({ ok: true, achou: false });
+      return res.json({ ok: true, achou: true, cert: certPublico(id, s.data()) });
+    }
+    const token = String(req.get('authorization') || '').replace(/^Bearer /, '');
+    const quem = await admin.auth().verifyIdToken(token).catch(() => null);
+    if (!quem || !quem.email) return res.status(401).json({ erro: 'Entre com a conta Google de novo.' });
+    const email = quem.email.toLowerCase(), curso = String(b.curso || ''), C = CURSOS_FC[curso];
+    if (!C) return res.status(400).json({ erro: 'Curso desconhecido.' });
+    const item = 'pe-formacao-' + curso, adm = ADMINS.includes(email);
+    const ac = await db.doc('acessos/' + email).get();
+    if (!adm && !((ac.exists && ac.data().planos) || []).includes(item)) return res.json({ ok: true, liberado: false });
+    const mat = await matriculaFc(email, item);
+    const dias = Math.ceil(C.horas / 8), libera = new Date(mat.getTime() + dias * 864e5);
+    const ja = await db.collection('certificados').where('email', '==', email).get();
+    let cert = null; ja.forEach(d => { if (d.get('curso') === curso && !d.get('cancelado')) cert = Object.assign(certPublico(d.id, d.data()), { rgCompleto: d.get('rg'), orgao: d.get('orgao') || '' }); });
+    if (b.acao === 'estado') return res.json({ ok: true, liberado: true, matricula: mat.getTime(), liberaEm: libera.getTime(), cert });
+    if (b.acao !== 'emitir') return res.status(400).json({ erro: 'Ação inválida.' });
+    if (cert) return res.json({ ok: true, cert });
+    if (!adm && Date.now() < libera.getTime()) return res.status(403).json({ erro: 'O certificado fica disponível a partir de ' + libera.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + '.' });
+    const nome = limpa(b.nome, 120).replace(/\s+/g, ' '), rg = limpa(b.rg, 20), orgao = limpa(b.orgao, 20).toUpperCase();
+    if (nome.split(' ').length < 2 || rg.replace(/[^0-9A-Za-z]/g, '').length < 5) return res.status(400).json({ erro: 'Confira o nome completo e o RG.' });
+    const pg = await db.doc('progresso/' + email + '__formacao__' + curso).get();
+    const cu = pg.exists && pg.get('cuj') ? JSON.parse(pg.get('cuj')) : {};
+    const falta = C.mods.filter(m => !(cu['cu-' + m] && cu['cu-' + m].fim));
+    const fin = cu['cu-fin'] || {}, nota = Math.round(+fin.nota || 0);
+    if (falta.length || !fin.fim || nota < C.min) return res.status(403).json({ erro: 'Conclua todos os módulos e a avaliação final (mínimo de ' + C.min + '%) para emitir o certificado.' });
+    const fimMs = Math.max(+fin.fim || 0, libera.getTime());
+    const iso = t => new Date(t).toLocaleDateString('sv-SE', { timeZone: 'America/Sao_Paulo' });
+    const dado = { email, curso, titulo: C.titulo, horas: C.horas, nome, rg, orgao, nota, inicio: iso(mat.getTime()), fim: iso(Math.min(fimMs, Date.now())),
+      emitidoEm: admin.firestore.FieldValue.serverTimestamp(), ...(adm ? { conferencia: true } : {}) };
+    let cod = codigoCert();
+    for (let i = 0; i < 5 && (await db.doc('certificados/' + cod).get()).exists; i++) cod = codigoCert();
+    await db.doc('certificados/' + cod).set(dado);
+    const s = await db.doc('certificados/' + cod).get();
+    res.json({ ok: true, cert: Object.assign(certPublico(cod, s.data()), { rgCompleto: rg, orgao }) });
+  } catch (e) {
+    console.error('peCertificado', e);
+    res.status(500).json({ erro: 'Não foi possível consultar o certificado agora.' });
   }
 });
