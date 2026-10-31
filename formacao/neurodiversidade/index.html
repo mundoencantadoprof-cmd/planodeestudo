@@ -41,7 +41,7 @@ header.top .wrap{display:flex;align-items:center;gap:10px;height:56px}
 ul.ok{padding-left:20px;margin:0}ul.ok li{margin:4px 0}
 .note{font-size:14px;color:var(--soft)}
 .grid2{display:grid;gap:12px}@media(min-width:640px){.grid2{grid-template-columns:1fr 1fr}}
-.feat{display:flex;gap:10px;align-items:flex-start}.feat .ic{font-size:22px;line-height:1}
+.feat{display:flex;gap:14px;align-items:flex-start;background:#F7F9FD;border:1px solid #E3E9F5;border-radius:14px;padding:14px}.feat .ic{flex:0 0 60px;width:60px;height:60px;border-radius:14px;background:linear-gradient(145deg,#FFFFFF,#E8EEFA);box-shadow:0 6px 14px -8px rgba(19,40,94,.45),inset 0 0 0 1px #DCE4F4;display:flex;align-items:center;justify-content:center}.feat .ic svg{width:46px;height:46px;display:block}.feat b{display:block;margin:2px 0 3px}
 /* sala */
 .prog{background:var(--sheet);border-bottom:1px solid var(--line);padding:10px 0}
 .bar{height:10px;border-radius:99px;background:var(--brand-wash);overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),#3558b0);border-radius:99px;transition:width .4s}
@@ -893,6 +893,42 @@ CURSO.mais.m6.push([
   { e: 'Segundo a LDB (arts. 12 a 14), é no projeto político-pedagógico que a escola:', o: ['define o diagnóstico dos alunos.', 'organiza o AEE, os tempos de planejamento coletivo, a formação continuada e a parceria com as famílias.', 'escolhe quais alunos pode recusar.', 'define o salário dos professores.'], a: 1, r: 'A proposta pedagógica é elaborada com participação dos profissionais, pelo princípio da gestão democrática.' },
   { e: 'Segundo o texto, a inclusão de estudantes neurodivergentes se sustenta quando:', o: ['depende da boa vontade de um professor.', 'a escola inteira assume o compromisso: gestão, professores, funcionários, famílias e estudantes.', 'os alunos são atendidos fora da sala.', 'apenas a família se responsabiliza.'], a: 1, r: 'A gestão garante tempo e recursos, os professores planejam juntos, os funcionários são formados, as famílias são ouvidas e os estudantes aprendem a conviver.' }
 ]);
+/* Ícones desenhados do "Como funciona" (SVG, elaboração própria). */
+var FC_ICON = {
+  apostila: '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="fi-a1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2F57B5"/><stop offset="1" stop-color="#13285E"/></linearGradient><linearGradient id="fi-a2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF8"/></linearGradient><linearGradient id="fi-a3" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF8"/></linearGradient></defs>' +
+    '<ellipse cx="32" cy="55" rx="23" ry="3.2" fill="#13285E" opacity=".14"/>' +
+    '<path d="M6 16c9-3 18-2 26 3 8-5 17-6 26-3v35c-9-3-18-2-26 3-8-5-17-6-26-3z" fill="url(#fi-a1)"/>' +
+    '<path d="M9 14c8-2 16-1 22 4v32c-6-4-14-5-22-3z" fill="url(#fi-a2)"/><path d="M55 14c-8-2-16-1-22 4v32c6-4 14-5 22-3z" fill="url(#fi-a3)"/>' +
+    '<path d="M32 18v32" stroke="#C9D3EA" stroke-width="1.4"/>' +
+    '<g stroke="#9DB0D8" stroke-width="1.6" stroke-linecap="round"><path d="M13 21c5-1 10-.5 14 1.6M13 26c5-1 10-.5 14 1.6M13 31c5-1 10-.5 14 1.6M13 36c4-.8 8-.4 11 1"/><path d="M37 22.6c4-2.1 9-2.6 14-1.6M37 27.6c4-2.1 9-2.6 14-1.6"/></g>' +
+    '<rect x="37" y="31" width="13" height="9" rx="1.5" fill="#F2BE45" opacity=".9"/><path d="M39.5 35.5l2.4 2.2 4.6-4.6" stroke="#13285E" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M44 8h7v17l-3.5-3-3.5 3z" fill="#E0592A"/><path d="M44 8h7v3h-7z" fill="#B8441D"/></svg>',
+  cartoes: '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="fi-c1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD979"/><stop offset="1" stop-color="#E9A91C"/></linearGradient><linearGradient id="fi-c2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EEF2FA"/></linearGradient></defs>' +
+    '<ellipse cx="32" cy="56" rx="22" ry="3" fill="#13285E" opacity=".14"/>' +
+    '<rect x="6" y="14" width="34" height="24" rx="4" transform="rotate(-14 23 26)" fill="#7FA2E8"/>' +
+    '<rect x="12" y="17" width="34" height="24" rx="4" transform="rotate(-5 29 29)" fill="#2F57B5"/>' +
+    '<g transform="rotate(6 38 36)"><rect x="19" y="22" width="38" height="28" rx="4.5" fill="url(#fi-c2)" stroke="#C9D3EA" stroke-width="1.2"/>' +
+    '<rect x="19" y="22" width="38" height="7" rx="4.5" fill="#13285E"/><rect x="19" y="26" width="38" height="3" fill="#13285E"/>' +
+    '<path d="M25 35h17M25 40h22M25 45h12" stroke="#9DB0D8" stroke-width="1.8" stroke-linecap="round"/></g>' +
+    '<circle cx="50" cy="15" r="9" fill="url(#fi-c1)"/><path d="M46.5 13.5a3.5 3.5 0 1 1 5.6 2.8c-.8.6-1.1 1.2-1.1 2.2h-2c0-1.6.5-2.5 1.7-3.4a1.5 1.5 0 1 0-2.2-1.6z" fill="#13285E"/><circle cx="50" cy="21" r="1.1" fill="#13285E"/>' +
+    '<path d="M50 3v2.4M60 15h-2.4M57.3 7.7l-1.7 1.7M42.7 7.7l1.7 1.7" stroke="#E9A91C" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  atividades: '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="fi-p1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5FD08F"/><stop offset="1" stop-color="#1F9257"/></linearGradient><linearGradient id="fi-p2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6E93E6"/><stop offset="1" stop-color="#2346A0"/></linearGradient><linearGradient id="fi-p3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD36B"/><stop offset="1" stop-color="#E39A12"/></linearGradient><linearGradient id="fi-p4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9C7A"/><stop offset="1" stop-color="#D9502B"/></linearGradient></defs>' +
+    '<ellipse cx="32" cy="57" rx="22" ry="3" fill="#13285E" opacity=".14"/>' +
+    '<rect x="7" y="7" width="23" height="23" rx="3.5" fill="url(#fi-p1)"/><rect x="32" y="7" width="23" height="23" rx="3.5" fill="url(#fi-p2)"/><rect x="7" y="32" width="23" height="23" rx="3.5" fill="url(#fi-p3)"/>' +
+    '<circle cx="31" cy="18.5" r="4.6" fill="#3DB673"/><circle cx="43.5" cy="31" r="4.6" fill="#3A62C4"/><circle cx="18.5" cy="31" r="4.6" fill="#F2B23A"/>' +
+    '<g transform="rotate(12 46 46) translate(4 4)"><rect x="32" y="32" width="23" height="23" rx="3.5" fill="url(#fi-p4)"/><circle cx="31.5" cy="43.5" r="4.6" fill="#F07A55"/><path d="M36 36h6" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/></g>' +
+    '<path d="M11 11h6M36 11h5M11 36h5" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/></svg>',
+  certificado: '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="fi-k1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F3EBD6"/></linearGradient><radialGradient id="fi-k2" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFE39A"/><stop offset="1" stop-color="#D99812"/></radialGradient><linearGradient id="fi-k3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2F57B5"/><stop offset="1" stop-color="#13285E"/></linearGradient></defs>' +
+    '<ellipse cx="32" cy="57" rx="23" ry="3" fill="#13285E" opacity=".14"/>' +
+    '<rect x="5" y="12" width="46" height="34" rx="3" fill="url(#fi-k1)" stroke="#D9C79B" stroke-width="1.2"/>' +
+    '<rect x="8.5" y="15.5" width="39" height="27" rx="1.5" fill="none" stroke="#C9A64A" stroke-width="1" stroke-dasharray="2 1.5"/>' +
+    '<path d="M14 22h22M14 27h28M14 32h18" stroke="#9DB0D8" stroke-width="1.8" stroke-linecap="round"/>' +
+    '<g fill="#13285E"><rect x="13" y="36" width="2" height="2"/><rect x="16" y="36" width="2" height="2"/><rect x="13" y="39" width="2" height="2"/><rect x="18" y="39" width="2" height="2"/><rect x="16" y="38" width="1" height="1"/></g>' +
+    '<path d="M44 44l-4 13 5-3 3 5 3-13z" fill="#E0592A"/><path d="M50 44l4 13-5-3-3 5-3-13z" fill="#B8441D"/>' +
+    '<circle cx="47" cy="40" r="9.5" fill="url(#fi-k2)" stroke="#B8800F" stroke-width="1"/><circle cx="47" cy="40" r="6.5" fill="none" stroke="#fff" stroke-width="1" opacity=".7"/>' +
+    '<path d="M43.6 40.2l2.3 2.3 4.6-4.8" stroke="#13285E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M22 4l15 5.5-15 5.5-15-5.5z" fill="url(#fi-k3)"/><path d="M14 11.5v4c0 1.8 3.6 3.2 8 3.2s8-1.4 8-3.2v-4l-8 3z" fill="#13285E"/><path d="M35 10v7" stroke="#F2BE45" stroke-width="1.4"/><circle cx="35" cy="17.6" r="1.6" fill="#F2BE45"/></svg>'
+};
 /* Siglas: na primeira vez que aparecem em cada capítulo/módulo, vêm por extenso. */
 CURSO.siglas = [
   ['DSM-5-TR', 'Manual Diagnóstico e Estatístico de Transtornos Mentais, 5ª edição, texto revisado'],
@@ -1542,10 +1578,10 @@ window.FC_NUVEM = (function () {
     h += '<li><span class="num">✓</span><div><b>Avaliação final</b><div class="note">' + C.finalN + ' questões sorteadas, nota mínima ' + Math.round(C.finalMin * 100) + '%, até ' + C.finalTent + ' tentativas.</div></div><span class="h">' + C.finalH + 'h</span></li></ul></div>';
     h += '<div class="card"><h2>Objetivos</h2><ul class="ok">' + C.objetivos.map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('') + '</ul></div>';
     h += '<div class="card"><h2>Como funciona</h2><div class="grid2">' +
-      '<div class="feat"><span class="ic">📖</span><div><b>Apostila de estudo</b><div class="note">Texto fundamentado em autores da área, com citações e referências (ABNT). Ao fim de cada parte, pelo menos quatro perguntas com correção automática liberam a próxima.</div></div></div>' +
-      '<div class="feat"><span class="ic">🃏</span><div><b>Cartões de revisão</b><div class="note">Os pontos principais em cartões curtos, com a frase para memorizar.</div></div></div>' +
-      '<div class="feat"><span class="ic">🧩</span><div><b>Atividades interativas</b><div class="note">Questões comentadas, associação, ordenação, estudo de caso e prática.</div></div></div>' +
-      '<div class="feat"><span class="ic">🎓</span><div><b>Certificado</b><div class="note">Após aprovação na avaliação final e cumprido o prazo mínimo de ' + DIAS_MIN + ' dias desde a matrícula (8 horas por dia).</div></div></div>' +
+      '<div class="feat"><span class="ic">' + FC_ICON.apostila + '</span><div><b>Apostila de estudo</b><div class="note">Texto fundamentado em autores da área, com citações e referências (ABNT). Ao fim de cada parte, pelo menos quatro perguntas com correção automática liberam a próxima.</div></div></div>' +
+      '<div class="feat"><span class="ic">' + FC_ICON.cartoes + '</span><div><b>Cartões de revisão</b><div class="note">Os pontos principais em cartões curtos, com a frase para memorizar.</div></div></div>' +
+      '<div class="feat"><span class="ic">' + FC_ICON.atividades + '</span><div><b>Atividades interativas</b><div class="note">Questões comentadas, associação, ordenação, estudo de caso e prática.</div></div></div>' +
+      '<div class="feat"><span class="ic">' + FC_ICON.certificado + '</span><div><b>Certificado</b><div class="note">Após aprovação na avaliação final e cumprido o prazo mínimo de ' + DIAS_MIN + ' dias desde a matrícula (8 horas por dia).</div></div></div>' +
       '</div></div>';
     h += '<div class="card"><h2>Para quem é</h2><p style="margin:0">' + esc(C.publico) + '</p></div>';
     h += '<div class="card"><h2>Coordenação</h2><p style="margin:0"><b>' + esc(C.coord.nome) + '</b><br>' + esc(C.coord.cargo) + ' · ' + esc(C.coord.area) + '</p></div>';
