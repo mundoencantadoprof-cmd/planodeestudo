@@ -1,4 +1,4 @@
-# Diagnóstico só de leitura (rodado 17:11): para onde o domínio aponta e se HTTPS e o app respondem.
+# Diagnóstico só de leitura (rodado 31/10 13:03): para onde o domínio aponta e se HTTPS e o app respondem.
 name: Diagnóstico do domínio
 on:
   push:
