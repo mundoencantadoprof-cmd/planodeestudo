@@ -24,6 +24,7 @@ header.top .wrap{display:flex;align-items:center;gap:10px;height:56px}
 .btn.sm{padding:8px 12px;min-height:38px;font-size:14.5px;border-radius:10px}
 .btn:disabled{opacity:.45;cursor:default}
 .hero{background:linear-gradient(135deg,#13285E,#1d3a80);color:#fff;padding:34px 0 30px}
+.hero.foto{position:relative;padding:0 0 34px;background:#13285E}.hero.foto .ft{height:clamp(190px,34vw,430px);background:linear-gradient(180deg,rgba(19,40,94,0) 55%,#13285E 100%),url(/img/formacao/neuro30.jpg) center 28%/cover no-repeat}@media(max-width:700px){.hero.foto .ft{background-image:linear-gradient(180deg,rgba(19,40,94,0) 55%,#13285E 100%),url(/img/formacao/neuro30-m.jpg)}}.hero.foto .wrap{margin-top:-28px;position:relative}
 .hero .kick{color:#F5C04A;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
 .hero h1{font-size:clamp(24px,5vw,34px);margin:8px 0 12px}
 .hero p{color:#D9E0F2;margin:0 0 18px}
@@ -728,6 +729,170 @@ CURSO.ap.m6 = {
     'ZABALZA, Miguel A. <b>Diários de aula</b>: um instrumento de pesquisa e desenvolvimento profissional. Porto Alegre: Artmed, 2004.'
   ]
 };
+/* Perguntas extras para avançar (mínimo 4 por trecho). Módulos 1 e 2. */
+CURSO.mais = CURSO.mais || {};
+CURSO.mais.m1 = [
+  [
+    { e: 'Quem difundiu o termo neurodiversidade, no final da década de 1990?', o: ['O psicólogo Thomas Armstrong.', 'A socióloga australiana Judy Singer.', 'O psicólogo bielo-russo Lev Vigotski.', 'A pesquisadora Adele Diamond.'], a: 1, r: 'O termo foi difundido por Judy Singer, socióloga australiana, em trabalho de conclusão de curso e em capítulo de coletânea (Singer, 1999).' },
+    { e: 'Para explicar a ideia de neurodiversidade, Singer (1999) fez uma comparação com:', o: ['a biodiversidade nos ecossistemas.', 'a evolução das espécies por seleção natural.', 'o funcionamento de um computador.', 'as fases do desenvolvimento infantil.'], a: 0, r: 'Singer propôs compreender as diferenças neurológicas como parte da diversidade humana, à semelhança da biodiversidade nos ecossistemas.' },
+    { e: 'O "nicho positivo" proposto por Armstrong (2012) é:', o: ['uma sala separada para alunos neurodivergentes.', 'um laudo que descreve as dificuldades do aluno.', 'um conjunto de ajustes no ambiente, nas estratégias e nas relações, construído a partir das potencialidades do aluno.', 'um programa de recompensas para corrigir comportamentos.'], a: 2, r: 'Armstrong (2012) defende uma pedagogia baseada em forças: o professor parte das potencialidades do aluno e organiza ajustes que lhe permitem participar e aprender.' }
+  ],
+  [
+    { e: 'No modelo médico da deficiência, o "problema" está localizado:', o: ['nas barreiras da sociedade.', 'no corpo do indivíduo, que deve ser diagnosticado, tratado e corrigido.', 'nas leis que regulam a escola.', 'na formação dos professores.'], a: 1, r: 'O modelo médico localiza a deficiência no corpo da pessoa; na escola, isso produziu classes especiais e a expectativa de que o aluno se "normalizasse".' },
+    { e: 'Segundo a LBI (Brasil, 2015, art. 3º), são tipos de barreira:', o: ['apenas as arquitetônicas e as de transporte.', 'somente as barreiras ligadas à saúde da pessoa.', 'urbanísticas, arquitetônicas, nos transportes, nas comunicações e na informação, atitudinais e tecnológicas.', 'apenas as barreiras atitudinais.'], a: 2, r: 'A lei lista barreiras urbanísticas, arquitetônicas, nos transportes, nas comunicações e na informação, atitudinais e tecnológicas (Brasil, 2015, art. 3º, IV).' },
+    { e: 'Para Vigotski (1997), o desenvolvimento da criança com deficiência depende sobretudo:', o: ['do grau do comprometimento biológico.', 'das condições sociais que lhe são oferecidas e dos caminhos alternativos criados pela educação.', 'da idade em que o diagnóstico foi feito.', 'do uso de medicamentos adequados.'], a: 1, r: 'Vigotski afirmava que as consequências sociais do "defeito" pesam mais do que o próprio defeito, e que a educação deve criar caminhos alternativos de desenvolvimento.' }
+  ],
+  [
+    { e: 'Na fase de segregação descrita por Sassaki (1997), as pessoas com deficiência:', o: ['eram atendidas em instituições e classes separadas.', 'frequentavam a escola comum com apoio.', 'eram totalmente mantidas fora de qualquer escola.', 'tinham a escola reorganizada para recebê-las.'], a: 0, r: 'Sassaki (1997) descreve as fases: exclusão (fora da escola), segregação (instituições e classes separadas), integração (adaptar-se à escola) e inclusão (a escola se modifica).' },
+    { e: 'Para Mantoan (2003), a inclusão é:', o: ['a soma de adaptações feitas para alguns alunos.', 'a criação de turmas homogêneas por nível.', 'a reorganização da escola como um todo, que questiona currículos rígidos e avaliações classificatórias.', 'o encaminhamento dos alunos para a sala de recursos.'], a: 2, r: 'Mantoan (2003) afirma que a inclusão não é soma de adaptações, mas reorganização da escola, que reconhece e valoriza as diferenças.' },
+    { e: 'Segundo Mittler (2003), a inclusão diz respeito:', o: ['apenas aos alunos com laudo médico.', 'a todos os estudantes em risco de exclusão, por razões sociais, culturais ou de aprendizagem.', 'somente aos alunos com deficiência física.', 'apenas às escolas especiais.'], a: 1, r: 'Mittler (2003) entende a inclusão como reforma do sistema, das práticas e das atitudes, voltada a todos os estudantes que correm risco de exclusão.' }
+  ],
+  [
+    { e: 'A Constituição Federal (Brasil, 1988, art. 208, III) garante o atendimento educacional especializado:', o: ['exclusivamente em escolas especiais.', 'preferencialmente na rede regular de ensino.', 'somente a partir do ensino médio.', 'apenas mediante pagamento.'], a: 1, r: 'O art. 208, III, garante o atendimento educacional especializado aos educandos com deficiência, preferencialmente na rede regular de ensino.' },
+    { e: 'A Convenção sobre os Direitos das Pessoas com Deficiência tem, no Brasil, equivalência de:', o: ['lei municipal.', 'resolução do Conselho Nacional de Educação.', 'emenda constitucional, por ter sido aprovada pelo rito do art. 5º, § 3º.', 'simples recomendação internacional.'], a: 2, r: 'Aprovada pelo rito do art. 5º, § 3º, da Constituição, a Convenção tem equivalência de emenda constitucional e foi promulgada pelo Decreto nº 6.949/2009.' },
+    { e: 'O Decreto nº 12.686/2025 (Política Nacional de Educação Especial Inclusiva) reafirma que a matrícula no atendimento educacional especializado:', o: ['substitui a frequência à classe comum.', 'só pode ocorrer em escola especial.', 'não substitui a frequência à classe comum.', 'depende de autorização judicial.'], a: 2, r: 'O decreto reafirma que o AEE não substitui a classe comum e nomeia o público como estudantes com deficiência, com TEA e com altas habilidades ou superdotação (Brasil, 2025).' }
+  ]
+];
+CURSO.mais.m2 = [
+  [
+    { e: 'Segundo Cosenza e Guerra (2011), no plano biológico a aprendizagem corresponde:', o: ['ao aumento do número de neurônios na idade adulta.', 'à formação e à consolidação de ligações entre neurônios.', 'ao crescimento do tamanho do cérebro.', 'à memorização de respostas prontas.'], a: 1, r: 'A aprendizagem corresponde à formação e consolidação de conexões entre neurônios, possibilitada pela plasticidade (Cosenza; Guerra, 2011).' },
+    { e: 'A plasticidade cerebral:', o: ['existe apenas nos primeiros anos de vida.', 'é intensa na infância, mas persiste ao longo de toda a vida.', 'só ocorre em pessoas neurotípicas.', 'não sofre influência das experiências escolares.'], a: 1, r: 'A plasticidade é a capacidade do sistema nervoso de se modificar com a experiência; é mais intensa na infância, mas continua por toda a vida.' },
+    { e: 'Por que a atenção é chamada de "porta de entrada" da aprendizagem?', o: ['Porque o cérebro registra igualmente todos os estímulos.', 'Porque aquilo que não recebe atenção dificilmente será registrado.', 'Porque só alunos com TDAH precisam de atenção.', 'Porque a atenção substitui a memória.'], a: 1, r: 'O cérebro seleciona apenas parte dos estímulos; o que não recebe atenção dificilmente é registrado. Ambientes ruidosos e instruções longas prejudicam toda a turma (Cosenza; Guerra, 2011).' }
+  ],
+  [
+    { e: 'A função executiva que permite resistir a impulsos e distrações chama-se:', o: ['flexibilidade cognitiva.', 'memória de longo prazo.', 'controle inibitório.', 'percepção visual.'], a: 2, r: 'Diamond (2013) descreve o controle inibitório como a capacidade de resistir a impulsos e distrações.' },
+    { e: 'Barkley (2008) relaciona as dificuldades do TDAH principalmente a:', o: ['falta de vontade e preguiça do aluno.', 'prejuízo na autorregulação e no controle inibitório.', 'baixa inteligência.', 'problemas de visão.'], a: 1, r: 'Para Barkley (2008), o TDAH envolve prejuízo na autorregulação e no controle inibitório; não se trata de falta de vontade.' },
+    { e: 'Qual prática apoia externamente as funções executivas?', o: ['Dar instruções longas apenas oralmente.', 'Dividir tarefas em etapas, deixar instruções visíveis e oferecer listas de verificação.', 'Retirar todos os materiais visuais da sala.', 'Aumentar o número de passos por tarefa.'], a: 1, r: 'Como a memória de trabalho é limitada, dividir tarefas, deixar instruções visíveis e usar listas de verificação apoiam as funções executivas (Diamond, 2013).' }
+  ],
+  [
+    { e: 'Segundo Cosenza e Guerra (2011), o estresse intenso e prolongado:', o: ['melhora a memória de longo prazo.', 'prejudica a atenção e a memória.', 'não interfere na aprendizagem.', 'aumenta o engajamento dos alunos.'], a: 1, r: 'Emoção e cognição funcionam juntas: situações significativas são mais lembradas, mas o estresse intenso e prolongado prejudica atenção e memória.' },
+    { e: 'De acordo com Dunlosky et al. (2013), reler e grifar o texto são técnicas de:', o: ['alta utilidade.', 'utilidade moderada, superior à testagem.', 'baixa utilidade.', 'uso exclusivo para alunos neurodivergentes.'], a: 2, r: 'Reler e grifar, embora populares, mostraram baixa utilidade; testagem e prática distribuída foram as de alta utilidade.' },
+    { e: 'Qual prática de sala de aula está de acordo com as evidências apresentadas no texto?', o: ['Retomar conteúdos anteriores com perguntas rápidas, sem caráter punitivo.', 'Corrigir o erro do aluno em voz alta diante da turma.', 'Evitar qualquer retomada de conteúdo já trabalhado.', 'Pedir ao aluno apenas para copiar o resumo do quadro.'], a: 0, r: 'Perguntas rápidas de retomada, sem punição, combinam prática de testagem e prática distribuída, num ambiente seguro para errar.' }
+  ],
+  [
+    { e: 'Howard-Jones (2014) chama de neuromitos:', o: ['as descobertas mais recentes da neurociência.', 'as crenças equivocadas sobre o cérebro que circulam na educação.', 'os diagnósticos de transtornos do neurodesenvolvimento.', 'as técnicas de estudo de alta utilidade.'], a: 1, r: 'Neuromitos são crenças equivocadas sobre o cérebro difundidas na educação (Howard-Jones, 2014).' },
+    { e: 'Qual das afirmações abaixo é um neuromito citado no texto?', o: ['O cérebro se modifica com a experiência.', 'A atenção influencia o que é registrado.', 'Usamos apenas 10% do cérebro.', 'O retorno sobre o erro ajuda a aprender.'], a: 2, r: 'A ideia de que usamos só 10% do cérebro é um dos neuromitos mais difundidos, ao lado dos "hemisférios" e dos estilos de aprendizagem.' },
+    { e: 'Por que apresentar o conteúdo por texto, imagem, objeto e fala é benéfico?', o: ['Porque cada aluno tem um estilo fixo que precisa ser atendido.', 'Porque oferece mais caminhos de acesso para todos os alunos.', 'Porque substitui a explicação do professor.', 'Porque é exigido pelos estilos de aprendizagem.'], a: 1, r: 'Variar as linguagens ajuda todos por oferecer mais caminhos de acesso, e não porque cada aluno tenha um estilo fixo (Pashler et al., 2008).' }
+  ]
+];
+/* Perguntas extras para avançar. Módulos 3 e 4. */
+CURSO.mais = CURSO.mais || {};
+CURSO.mais.m3 = [
+  [
+    { e: 'Em 1943, Leo Kanner descreveu crianças que apresentavam, desde muito cedo:', o: ['dificuldade de contato afetivo, apego intenso à rotina e uso peculiar da linguagem.', 'atraso motor grave e deficiência visual.', 'dificuldades exclusivas de leitura e escrita.', 'desatenção e hiperatividade.'], a: 0, r: 'Kanner (1943) descreveu onze crianças com dificuldade de contato afetivo, apego à rotina e uso peculiar da linguagem.' },
+    { e: 'O DSM-5-TR descreve, para o TEA, três níveis de:', o: ['inteligência.', 'gravidade da deficiência física.', 'suporte: exigindo apoio, apoio substancial e apoio muito substancial.', 'escolaridade.'], a: 2, r: 'Os níveis 1, 2 e 3 referem-se ao suporte necessário: "exigindo apoio", "apoio substancial" e "apoio muito substancial" (APA, 2023).' },
+    { e: 'Grandin e Panek (2015) chamam atenção para:', o: ['a homogeneidade das pessoas autistas.', 'a enorme variação dentro do espectro e as diferentes formas de pensar, como por imagens, padrões ou palavras.', 'a necessidade de eliminar os interesses intensos.', 'o caráter raro do autismo.'], a: 1, r: 'Temple Grandin, mulher autista e pesquisadora, destaca a variação no espectro e as formas de pensar, em vez de enxergar apenas déficits.' }
+  ],
+  [
+    { e: 'Segundo a Lei nº 12.764/2012 (Lei Berenice Piana), a pessoa com TEA:', o: ['não tem direito ao atendimento educacional especializado.', 'é considerada pessoa com deficiência, para todos os efeitos legais.', 'deve estudar em escola especial.', 'só tem direitos após receber a CIPTEA.'], a: 1, r: 'O art. 1º, § 2º, da lei considera a pessoa com TEA pessoa com deficiência para todos os efeitos legais, o que inclui o AEE.' },
+    { e: 'O gestor escolar que recusar a matrícula de aluno com TEA está sujeito a:', o: ['advertência verbal apenas.', 'multa de 3 a 20 salários-mínimos.', 'nenhuma penalidade.', 'transferência automática do aluno.'], a: 1, r: 'A Lei nº 12.764/2012, art. 7º, prevê multa de 3 a 20 salários-mínimos para quem recusar a matrícula.' },
+    { e: 'Sobre a CIPTEA, criada pela Lei Romeo Mion (Brasil, 2020), é correto afirmar:', o: ['é requisito obrigatório para a matrícula.', 'é necessária para o aluno receber apoio pedagógico.', 'garante atenção integral e prioridade nos serviços, mas não é requisito para matrícula nem para apoio pedagógico.', 'substitui o laudo médico em qualquer situação.'], a: 2, r: 'A carteira garante atenção integral, pronto atendimento e prioridade, mas não pode ser exigida para matrícula ou apoio pedagógico.' }
+  ],
+  [
+    { e: 'Como tornar uma instrução mais acessível para um aluno autista que compreende a linguagem de forma literal?', o: ['Usar ironias para descontrair.', 'Usar instruções diretas, curtas e com apoio visual.', 'Dar várias instruções ao mesmo tempo, oralmente.', 'Usar metáforas para estimular a imaginação.'], a: 1, r: 'Instruções diretas, curtas e com apoio visual reduzem a ambiguidade para quem compreende a linguagem de forma literal.' },
+    { e: 'A Comunicação Aumentativa e Alternativa (CAA) inclui:', o: ['apenas a língua de sinais.', 'pranchas com figuras, cartões, aplicativos e gestos.', 'somente a escrita no caderno.', 'exercícios de fala repetida.'], a: 1, r: 'Pranchas, cartões, aplicativos e gestos ampliam a expressão de estudantes que não falam ou falam pouco e reduzem a frustração.' },
+    { e: 'Durante uma crise por sobrecarga sensorial, a prioridade do professor deve ser:', o: ['conversar longamente com o aluno sobre o comportamento.', 'aplicar uma punição imediata.', 'garantir a segurança, reduzir estímulos e esperar a regulação.', 'chamar a turma para observar.'], a: 2, r: 'Na crise, a prioridade é segurança, redução de estímulos e espera pela regulação; a conversa fica para depois.' }
+  ],
+  [
+    { e: 'Um aluno autista tem interesse intenso por trens. Segundo Orrú (2016), o professor pode:', o: ['proibir o assunto em sala para não atrapalhar.', 'usar o tema para leitura, problemas com horários e distâncias e estudo de história e geografia.', 'falar sobre trens apenas no recreio.', 'encaminhar o aluno para atendimento clínico.'], a: 1, r: 'Na aprendizagem por eixos de interesse, o interesse vira ponto de partida para o currículo (Orrú, 2016).' },
+    { e: 'A proposta de Orrú (2016) se opõe a:', o: ['práticas excludentes e centradas no treino de comportamentos.', 'o reconhecimento do aluno como sujeito.', 'a construção de vínculos com os colegas.', 'o uso de interesses no currículo.'], a: 0, r: 'A autora se opõe a práticas excludentes e de treino de comportamentos e defende uma educação que reconhece o aluno como sujeito.' },
+    { e: 'Segundo o texto, qual é o primeiro passo para planejar o apoio, em convergência com Armstrong (2012)?', o: ['Listar todas as dificuldades do aluno.', 'Aguardar o laudo médico.', 'Identificar o que o aluno faz bem e de que gosta.', 'Reduzir os conteúdos do currículo.'], a: 2, r: 'Identificar forças e interesses é o primeiro passo, em linha com a pedagogia baseada em forças (Armstrong, 2012).' }
+  ]
+];
+CURSO.mais.m4 = [
+  [
+    { e: 'O DSM-5-TR descreve três apresentações do TDAH:', o: ['leve, moderada e grave.', 'predominantemente desatenta, predominantemente hiperativa-impulsiva e combinada.', 'infantil, adolescente e adulta.', 'verbal, motora e sensorial.'], a: 1, r: 'As três apresentações são: predominantemente desatenta, predominantemente hiperativa-impulsiva e combinada (APA, 2023).' },
+    { e: 'Segundo Rohde e Mattos (2003), o papel do professor na avaliação do TDAH é:', o: ['fazer o diagnóstico em sala de aula.', 'relatar comportamentos concretos observados, o que é valioso, mas não substitui o diagnóstico clínico.', 'indicar a medicação adequada.', 'não participar do processo.'], a: 1, r: 'O diagnóstico é clínico e usa diferentes fontes; o relato do professor é valioso, mas não substitui os profissionais de saúde.' },
+    { e: 'Considerando Barkley (2008), qual estratégia tende a ser mais eficaz com alunos com TDAH?', o: ['Advertências frequentes e castigos.', 'Tornar o tempo e as etapas visíveis, dar retorno imediato e dividir tarefas longas.', 'Dar tarefas longas para treinar a paciência.', 'Retirar o aluno da sala sempre que se agitar.'], a: 1, r: 'Como o TDAH envolve dificuldade de autorregulação, apoios visíveis, retorno imediato e tarefas fracionadas funcionam melhor que castigos.' }
+  ],
+  [
+    { e: 'Segundo o DSM-5-TR, o transtorno específico da aprendizagem NÃO se explica por:', o: ['dificuldade persistente na leitura.', 'deficiência intelectual, problemas sensoriais não corrigidos ou instrução inadequada.', 'prejuízos na matemática.', 'dificuldades na expressão escrita.'], a: 1, r: 'O transtorno não se explica por deficiência intelectual, problemas sensoriais não corrigidos, adversidade psicossocial, falta de proficiência na língua ou instrução inadequada.' },
+    { e: 'Shaywitz (2006) caracteriza a dislexia como:', o: ['falta de inteligência para ler.', 'uma dificuldade inesperada de leitura em pessoas com inteligência, motivação e escolarização compatíveis com leitura fluente.', 'um problema de visão.', 'preguiça para estudar.'], a: 1, r: 'A dislexia é uma dificuldade inesperada de leitura; a pessoa pode ter ótimo raciocínio, vocabulário e compreensão oral.' },
+    { e: 'Dificuldades persistentes no senso numérico, na memorização de fatos aritméticos e no cálculo caracterizam:', o: ['a disgrafia.', 'a dislexia.', 'a discalculia.', 'o TDAH.'], a: 2, r: 'Discalculia: senso numérico, fatos aritméticos e cálculo. Disgrafia: traçado e organização da escrita.' }
+  ],
+  [
+    { e: 'Segundo o texto, quando a escola deve começar a intervenção pedagógica?', o: ['Somente após o laudo.', 'Assim que a dificuldade é percebida, sem esperar o laudo.', 'No ano seguinte ao da dificuldade.', 'Apenas se a família solicitar.'], a: 1, r: 'A escola não precisa e não deve esperar o laudo: a intervenção começa assim que a dificuldade é percebida.' },
+    { e: 'Por que é importante registrar a intervenção (o que foi feito, por quanto tempo e com que resultado)?', o: ['Para punir o aluno que não melhorou.', 'Porque os registros qualificam o encaminhamento e a avaliação multiprofissional.', 'Porque substituem o diagnóstico.', 'Para dispensar a família do acompanhamento.'], a: 1, r: 'Os registros mostram a resposta à intervenção e qualificam o encaminhamento e a avaliação (Fletcher et al., 2009).' },
+    { e: 'A Lei nº 14.254/2021 determina, para educandos com dislexia, TDAH ou outro transtorno de aprendizagem:', o: ['matrícula apenas em escolas especiais.', 'acompanhamento específico e precoce, com identificação, encaminhamento, apoio educacional e terapêutico.', 'dispensa das avaliações.', 'atendimento exclusivo na rede de saúde.'], a: 1, r: 'A lei prevê identificação precoce, encaminhamento, apoio educacional e terapêutico e formação continuada de professores (Brasil, 2021).' }
+  ],
+  [
+    { e: 'Segundo a Política Nacional de 2008, o atendimento educacional especializado para alunos com altas habilidades/superdotação tem caráter:', o: ['substitutivo.', 'suplementar.', 'punitivo.', 'facultativo apenas para escolas privadas.'], a: 1, r: 'Para altas habilidades/superdotação, o AEE é suplementar (Brasil, 2008).' },
+    { e: 'Qual é um mito sobre alunos com altas habilidades apontado por Alencar e Fleith (2001)?', o: ['Que podem perder o interesse sem desafio.', 'Que sempre tiram boas notas e se desenvolvem bem sozinhos.', 'Que precisam de atendimento.', 'Que podem ter baixo rendimento.'], a: 1, r: 'Achar que sempre tiram boas notas e não precisam de ajuda é mito; a falta de desafio pode gerar desinteresse e baixo rendimento.' },
+    { e: 'Na dupla excepcionalidade:', o: ['o aluno tem altas habilidades associadas a outra condição, como TEA, TDAH ou dislexia.', 'o aluno tem duas deficiências físicas.', 'o aluno frequenta duas escolas.', 'o aluno é superdotado em duas disciplinas.'], a: 0, r: 'Na dupla excepcionalidade, a dificuldade pode encobrir o potencial e vice-versa, o que exige observação cuidadosa.' }
+  ]
+];
+/* Perguntas extras para avançar. Módulos 5 e 6. */
+CURSO.mais = CURSO.mais || {};
+CURSO.mais.m5 = [
+  [
+    { e: 'O DUA se inspira no desenho universal da arquitetura. O exemplo da rampa mostra que:', o: ['adaptações devem ser feitas só depois que surge a necessidade.', 'o que é planejado desde o início para a diversidade beneficia muitas pessoas e reduz adaptações posteriores.', 'a rampa serve apenas para cadeirantes.', 'cada aluno precisa de um currículo totalmente diferente.'], a: 1, r: 'A rampa planejada no projeto beneficia cadeirantes, pessoas com carrinho de bebê e idosos; o currículo planejado para a variabilidade reduz adaptações (Meyer; Rose; Gordon, 2014).' },
+    { e: 'O princípio de múltiplos meios de engajamento está relacionado ao:', o: ['"como" da aprendizagem.', '"o quê" da aprendizagem.', '"porquê" da aprendizagem: interesse, esforço, persistência e autorregulação.', '"onde" da aprendizagem.'], a: 2, r: 'Engajamento = porquê; representação = o quê; ação e expressão = como (CAST, 2024).' },
+    { e: 'Para Meyer, Rose e Gordon (2014), em uma turma:', o: ['existe um "aluno médio" para quem a aula deve ser desenhada.', 'a variabilidade é a regra, e não a exceção.', 'os objetivos devem ser diferentes para cada aluno.', 'os caminhos para aprender devem ser únicos e fixos.'], a: 1, r: 'Não existe "aluno médio": o objetivo pode ser o mesmo para todos, com caminhos flexíveis.' }
+  ],
+  [
+    { e: 'O PEI é um instrumento que:', o: ['substitui o currículo comum.', 'registra características, potencialidades e necessidades e define objetivos, estratégias, recursos, responsáveis e avaliação.', 'é elaborado apenas pelo médico.', 'lista somente as dificuldades do aluno.'], a: 1, r: 'O PEI registra o perfil do estudante e define objetivos, estratégias, recursos, responsáveis e formas de avaliação.' },
+    { e: 'Segundo Tannús-Valadão e Mendes (2018), o plano individualizado cumpre melhor sua função quando:', o: ['é uma lista genérica de dificuldades.', 'está desvinculado do currículo comum.', 'está articulado ao currículo comum e tem objetivos claros e avaliáveis.', 'é revisto apenas no final do ano.'], a: 2, r: 'As autoras destacam a articulação com o currículo comum e objetivos claros e avaliáveis.' },
+    { e: 'Qual destes é um objetivo bem formulado para um PEI?', o: ['"Melhorar na leitura."', '"Até o final do bimestre, ler palavras de duas sílabas simples com apoio de imagens."', '"Ser mais participativo."', '"Prestar mais atenção."'], a: 1, r: 'Um bom objetivo tem comportamento observável, condições e apoio e prazo; "melhorar na leitura" é vago.' }
+  ],
+  [
+    { e: 'Segundo a Resolução CNE/CEB nº 4/2009, o AEE deve ser realizado prioritariamente:', o: ['no mesmo horário da aula, fora da sala comum.', 'na sala de recursos multifuncionais, no turno inverso ao da escolarização.', 'em clínicas de saúde.', 'na casa do aluno.'], a: 1, r: 'O AEE é complementar ou suplementar, prioritariamente na sala de recursos multifuncionais, no contraturno, e não substitui a classe comum.' },
+    { e: 'Segundo a Política Nacional de Educação Especial Inclusiva (Brasil, 2025, art. 11, § 7º), a oferta do AEE:', o: ['depende de laudo médico.', 'depende de relatório psicológico.', 'não será condicionada à exigência de diagnóstico, laudo ou relatório.', 'só ocorre após decisão judicial.'], a: 2, r: 'A política confirmou a Nota Técnica nº 04/2014: o AEE não pode ser condicionado a diagnóstico, laudo ou relatório.' },
+    { e: 'Sobre o profissional de apoio escolar, é correto afirmar:', o: ['substitui o professor da turma no ensino.', 'atua em alimentação, higiene, locomoção, interação e comunicação, sem substituir o professor.', 'precisa de laudo do aluno para ser oferecido.', 'não precisa de nenhuma formação.'], a: 1, r: 'O Decreto nº 12.686/2025 detalhou a função, exigiu ensino médio e 180 h de formação e determinou que a oferta independe de laudo; o ensino continua com o docente.' }
+  ],
+  [
+    { e: 'No ensino colaborativo, o professor do ensino comum contribui principalmente com:', o: ['o domínio do currículo e o conhecimento do grupo.', 'o diagnóstico dos alunos.', 'o atendimento isolado do aluno com deficiência.', 'a avaliação clínica.'], a: 0, r: 'O professor da turma domina o currículo e conhece o grupo; o especialista contribui com estratégias e recursos de acessibilidade.' },
+    { e: 'Segundo Mendes, Vilaronga e Zerbato (2014), o ensino colaborativo exige:', o: ['hierarquia entre os professores.', 'tempo para planejamento conjunto, apoio da gestão e relação de parceria.', 'que o especialista atenda o aluno sempre fora da sala.', 'turmas homogêneas.'], a: 1, r: 'O modelo depende de tempo de planejamento conjunto, apoio da gestão e parceria, não hierarquia.' },
+    { e: 'Como DUA, PEI e ensino colaborativo se complementam?', o: ['O DUA substitui o PEI.', 'O DUA orienta o planejamento da turma, o PEI considera necessidades específicas e o ensino colaborativo organiza o trabalho conjunto.', 'O PEI orienta toda a turma e o DUA é individual.', 'Eles não têm relação entre si.'], a: 1, r: 'DUA = planejamento para a turma; PEI = necessidades de cada estudante; ensino colaborativo = trabalho conjunto dos professores.' }
+  ]
+];
+CURSO.mais.m6 = [
+  [
+    { e: 'Polonia e Dessen (2005) observam que a relação entre escola e família costuma ser marcada por:', o: ['parceria constante.', 'queixas mútuas, com a escola chamando a família apenas quando há problemas.', 'total ausência de contato.', 'decisões tomadas só pela família.'], a: 1, r: 'As autoras apontam queixas mútuas e o hábito de chamar a família só diante de problemas.' },
+    { e: 'Segundo Paro (2000), a participação dos pais contribui para a qualidade do ensino quando a escola:', o: ['os vê apenas como destinatários de cobranças.', 'os envolve no projeto educativo, com diálogo e informação clara.', 'evita informar sobre a aprendizagem.', 'transfere a eles a responsabilidade pelo ensino.'], a: 1, r: 'Paro (2000) defende envolver os pais no projeto educativo por meio de diálogo e informação clara.' },
+    { e: 'Uma comunicação respeitosa com a família de um aluno neurodivergente:', o: ['começa pelas dificuldades e pelo diagnóstico provável.', 'começa pelas potencialidades, apresenta observações concretas e escuta antes de propor.', 'é feita apenas por bilhete.', 'evita ouvir a família.'], a: 1, r: 'Começar pelas potencialidades, trazer observações concretas e escutar antes de propor é condição para a parceria.' }
+  ],
+  [
+    { e: 'Qual destas frases é a forma mais adequada de o professor registrar uma observação?', o: ['"Acho que ele tem TDAH."', '"Nas últimas duas semanas, não concluiu seis de dez atividades."', '"Ele é preguiçoso."', '"Com certeza é autista."'], a: 1, r: 'Descrever o comportamento é mais útil e mais ético do que nomear um diagnóstico, que cabe aos profissionais de saúde.' },
+    { e: 'Para Zabalza (2004), os diários de aula e outros registros do professor são:', o: ['documentos burocráticos sem utilidade pedagógica.', 'instrumentos de reflexão sobre a prática e de acompanhamento dos alunos.', 'substitutos do diagnóstico.', 'documentos de uso exclusivo da direção.'], a: 1, r: 'Registros com data, situação, intervenção e resultado orientam o planejamento, fundamentam o PEI e dão continuidade ao trabalho.' },
+    { e: 'Os CAPSi, que fazem parte da Rede de Atenção Psicossocial (Portaria nº 3.088/2011), são voltados a:', o: ['adultos com deficiência física.', 'crianças e adolescentes em sofrimento psíquico intenso.', 'professores em formação.', 'alunos com altas habilidades.'], a: 1, r: 'Os Centros de Atenção Psicossocial Infantojuvenis atendem crianças e adolescentes em sofrimento psíquico intenso (Brasil, 2011).' }
+  ],
+  [
+    { e: 'A Lei nº 13.185/2015 estabelece que é dever do estabelecimento de ensino:', o: ['apenas punir os agressores.', 'assegurar medidas de conscientização, prevenção, diagnose e combate à violência.', 'transferir a vítima de escola.', 'ignorar casos fora da sala de aula.'], a: 1, r: 'A lei instituiu o Programa de Combate à Intimidação Sistemática e atribuiu à escola medidas de conscientização, prevenção, diagnose e combate.' },
+    { e: 'Em 2024, a Lei nº 14.811:', o: ['revogou a lei de combate ao bullying.', 'incluiu a intimidação sistemática no Código Penal.', 'criou a CIPTEA.', 'instituiu o AEE.'], a: 1, r: 'A Lei nº 14.811/2024 incluiu a intimidação sistemática (bullying) no Código Penal.' },
+    { e: 'Diante de bullying contra um aluno neurodivergente, a escola deve:', o: ['explicar o diagnóstico do aluno para toda a turma.', 'interromper a situação, acolher a vítima, envolver gestão e famílias, registrar e trabalhar continuamente o respeito às diferenças.', 'esperar que os alunos resolvam sozinhos.', 'retirar a vítima da turma.'], a: 1, r: 'A resposta inclui interromper, acolher, envolver gestão e famílias, registrar e trabalhar o respeito, sem expor o diagnóstico de nenhum aluno.' }
+  ]
+];
+/* Perguntas extras para avançar: seções de aprofundamento (ext.js). */
+CURSO.mais.m1.push([
+  { e: 'Quais são os dois equívocos opostos de uma leitura apressada da neurodiversidade?', o: ['Tratar toda diferença como problema a corrigir e romantizar a diferença negando necessidades reais de apoio.', 'Valorizar as forças e oferecer apoio.', 'Usar recursos visuais e comunicação alternativa.', 'Planejar com a família e com o AEE.'], a: 0, r: 'O primeiro equívoco reproduz o modelo médico; o segundo deixa sem resposta quem mais precisa da escola. Armstrong (2012) propõe reconhecer forças e construir apoios.' },
+  { e: 'Para Vigotski (1997), a educação de crianças com deficiência deve:', o: ['esperar que a criança se adapte sozinha.', 'dispensar a criança das aprendizagens difíceis.', 'criar caminhos alternativos de acesso ao conhecimento, como sinais, recursos visuais ou comunicação alternativa.', 'focar apenas no tratamento clínico.'], a: 2, r: 'Não se trata de esperar a adaptação nem de dispensar das aprendizagens, mas de criar outras vias de acesso ao conhecimento.' },
+  { e: 'Qual destas perguntas faz parte do planejamento proposto no texto?', o: ['Qual é o diagnóstico exato do aluno?', 'Que barreiras do ambiente, da tarefa ou das relações atrapalham a participação do aluno?', 'Quando o aluno será transferido para a sala de recursos?', 'Como reduzir o conteúdo para esse aluno?'], a: 1, r: 'As três perguntas: o que ele faz bem e de que gosta; que barreiras atrapalham; que apoio, e de quem, permite aprender o mesmo conteúdo por outro caminho.' }
+]);
+CURSO.mais.m2.push([
+  { e: 'Segundo Sweller (1988), a carga cognitiva estranha é:', o: ['o esforço necessário para aprender o conteúdo.', 'o esforço desnecessário causado pela forma de apresentação, como instruções confusas e excesso de estímulos.', 'a memória de longo prazo.', 'a motivação do aluno.'], a: 1, r: 'A carga estranha vem da apresentação (instruções confusas, informações espalhadas, excesso de estímulos) e o bom planejamento procura reduzi-la.' },
+  { e: 'A teoria da dupla codificação de Paivio (1986) afirma que a mente processa informações por:', o: ['um único sistema verbal.', 'dois sistemas relacionados, um verbal e outro de imagens.', 'cinco sentidos independentes.', 'estilos de aprendizagem fixos.'], a: 1, r: 'Palavra junto com imagem oferece duas vias de registro e recuperação, o que explica a eficácia de agendas visuais e esquemas.' },
+  { e: 'Qual sequência de aula é coerente com os princípios do texto?', o: ['Explicar tudo de uma vez e aplicar prova no final.', 'Retomar com perguntas, apresentar em partes curtas com palavra e imagem, prática guiada e tarefa de recuperação.', 'Começar pela tarefa sem explicação.', 'Ler um texto longo em voz alta e copiar o resumo.'], a: 1, r: 'Retomar, apresentar em partes, praticar com apoio e terminar com recuperação: estrutura previsível que reduz a ansiedade.' }
+]);
+CURSO.mais.m3.push([
+  { e: 'Segundo a LBI (Brasil, 2015, art. 3º, III), tecnologia assistiva inclui:', o: ['apenas equipamentos eletrônicos caros.', 'produtos, recursos, metodologias, estratégias, práticas e serviços que promovem funcionalidade, participação e autonomia.', 'somente aplicativos de celular.', 'apenas cadeiras de rodas.'], a: 1, r: 'O conceito é amplo: de um aplicativo em tablet a um cartão com figuras, um engrossador de lápis ou um fone abafador.' },
+  { e: 'Para que a comunicação alternativa funcione, ela deve:', o: ['ser usada apenas na sala de recursos.', 'estar disponível o tempo todo e ser usada também por adultos e colegas, com o mesmo vocabulário em todos os ambientes.', 'ser usada só quando o aluno estiver em crise.', 'ser diferente em casa e na escola.'], a: 1, r: 'Disponível sempre, usada pelos adultos e colegas, com vocabulário de símbolos combinado entre sala comum, AEE e família.' },
+  { e: 'Por que muitas meninas autistas são identificadas mais tarde?', o: ['Porque o autismo não ocorre em meninas.', 'Porque desenvolvem estratégias de camuflagem social, imitando os colegas.', 'Porque sempre têm bom rendimento.', 'Porque não têm interesses intensos.'], a: 1, r: 'A camuflagem atrasa a identificação e gera desgaste; sinais como isolamento no recreio, exaustão e interesses intensos merecem atenção.' }
+]);
+CURSO.mais.m4.push([
+  { e: 'Para Shaywitz (2006), o ensino para estudantes com dislexia deve incluir:', o: ['apenas leitura silenciosa.', 'ensino sistemático e explícito das relações entre letras e sons, com prática frequente de leitura.', 'cópia de textos longos.', 'dispensa total da leitura.'], a: 1, r: 'Ensino explícito letra-som e prática de leitura para fluência, junto com acomodações.' },
+  { e: 'Qual destas é uma acomodação defendida por Shaywitz (2006) para alunos com dislexia?', o: ['Leitura em voz alta obrigatória diante da turma.', 'Tempo adicional em provas, leitura de enunciados e textos em áudio.', 'Redução da nota pela ortografia.', 'Proibir o uso de recursos visuais.'], a: 1, r: 'As acomodações são uma ponte para o aluno demonstrar o que sabe enquanto a leitura ainda é lenta.' },
+  { e: 'Qual prática preserva a autoestima de alunos com dislexia e TDAH?', o: ['Punir a movimentação em sala.', 'Exigir leitura em voz alta diante da turma.', 'Instruções curtas e numeradas, apoio visual, tempo flexível e um clima em que errar faz parte.', 'Avaliar apenas por prova escrita.'], a: 2, r: 'Essas práticas beneficiam toda a turma; evitar leitura obrigatória em voz alta e punição pela movimentação preserva o vínculo.' }
+]);
+CURSO.mais.m5.push([
+  { e: 'Luckesi (1995) diferencia examinar de avaliar. Avaliar significa:', o: ['classificar e selecionar os alunos.', 'diagnosticar a situação da aprendizagem para tomar decisões sobre o ensino.', 'aplicar provas no fim do bimestre.', 'comparar alunos entre si.'], a: 1, r: 'Examinar classifica e seleciona; avaliar diagnostica para orientar o ensino.' },
+  { e: 'Qual destes é um ajuste de avaliação que pode estar previsto no PEI?', o: ['Retirar o aluno da avaliação.', 'Tempo adicional, ledor, escriba, enunciados adaptados ou ambiente com menos estímulos.', 'Prova mais longa que a dos colegas.', 'Nota fixa independentemente do desempenho.'], a: 1, r: 'Avaliar de forma inclusiva envolve formas variadas de demonstrar a aprendizagem e os ajustes previstos no PEI.' },
+  { e: 'Em uma prova de Ciências, um aluno com dislexia comete muitos erros de ortografia. Segundo o texto:', o: ['a ortografia deve ser o fator decisivo da nota.', 'a ortografia não deve ser decisiva, porque o objetivo é verificar o conhecimento de Ciências.', 'a prova deve ser anulada.', 'o aluno deve refazer tudo copiando.'], a: 1, r: 'Os critérios devem considerar o objetivo da avaliação.' }
+]);
+CURSO.mais.m6.push([
+  { e: 'Para Booth e Ainscow (2002), a inclusão é:', o: ['um estado que a escola alcança de uma vez.', 'um processo contínuo.', 'uma responsabilidade apenas do professor do AEE.', 'um programa com prazo para terminar.'], a: 1, r: 'Os autores entendem a inclusão como processo contínuo, que envolve culturas, políticas e práticas.' },
+  { e: 'Segundo a LDB (arts. 12 a 14), é no projeto político-pedagógico que a escola:', o: ['define o diagnóstico dos alunos.', 'organiza o AEE, os tempos de planejamento coletivo, a formação continuada e a parceria com as famílias.', 'escolhe quais alunos pode recusar.', 'define o salário dos professores.'], a: 1, r: 'A proposta pedagógica é elaborada com participação dos profissionais, pelo princípio da gestão democrática.' },
+  { e: 'Segundo o texto, a inclusão de estudantes neurodivergentes se sustenta quando:', o: ['depende da boa vontade de um professor.', 'a escola inteira assume o compromisso: gestão, professores, funcionários, famílias e estudantes.', 'os alunos são atendidos fora da sala.', 'apenas a família se responsabiliza.'], a: 1, r: 'A gestão garante tempo e recursos, os professores planejam juntos, os funcionários são formados, as famílias são ouvidas e os estudantes aprendem a conviver.' }
+]);
 /* Siglas: na primeira vez que aparecem em cada capítulo/módulo, vêm por extenso. */
 CURSO.siglas = [
   ['DSM-5-TR', 'Manual Diagnóstico e Estatístico de Transtornos Mentais, 5ª edição, texto revisado'],
@@ -1367,7 +1532,7 @@ window.FC_NUVEM = (function () {
 
   /* ---------- vitrine ---------- */
   function vitrine() {
-    var h = '<section class="hero"><div class="wrap"><div class="kick">Curso livre de formação continuada</div><h1>' + esc(C.titulo) + '</h1>' +
+    var h = '<section class="hero' + (PROD ? ' foto"><div class="ft"></div>' : '">') + '<div class="wrap"><div class="kick">Curso livre de formação continuada</div><h1>' + esc(C.titulo) + '</h1>' +
       '<p>' + esc(C.sigla(C.resumo, {})) + '</p><div class="chips"><span class="chip">' + C.horas + ' horas</span><span class="chip">100% on-line</span><span class="chip">Certificado com QR Code</span></div>' +
       '<div class="price">' + (C.parcelas ? C.parcelas + 'x de R$ ' + C.parcela + ' <small style="display:block;margin-top:6px">sem juros no cartão ou R$ ' + C.preco + ' à vista no Pix, pelo Mercado Pago</small>' : 'R$ ' + C.preco + ' <small>à vista, pagamento pelo Mercado Pago</small>') + '</div><div style="margin-top:16px">' +
       (PROD ? botaoProd() : S.mat ? '<button class="btn gold" data-go="sala">Continuar o curso</button>' : '<button class="btn gold" data-a="matricular">Matricular (na prévia, sem pagamento)</button>') +
@@ -1377,7 +1542,7 @@ window.FC_NUVEM = (function () {
     h += '<li><span class="num">✓</span><div><b>Avaliação final</b><div class="note">' + C.finalN + ' questões sorteadas, nota mínima ' + Math.round(C.finalMin * 100) + '%, até ' + C.finalTent + ' tentativas.</div></div><span class="h">' + C.finalH + 'h</span></li></ul></div>';
     h += '<div class="card"><h2>Objetivos</h2><ul class="ok">' + C.objetivos.map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('') + '</ul></div>';
     h += '<div class="card"><h2>Como funciona</h2><div class="grid2">' +
-      '<div class="feat"><span class="ic">📖</span><div><b>Apostila de estudo</b><div class="note">Texto fundamentado em autores da área, com citações e referências (ABNT). Ao fim de cada parte, uma pergunta com correção automática libera a próxima.</div></div></div>' +
+      '<div class="feat"><span class="ic">📖</span><div><b>Apostila de estudo</b><div class="note">Texto fundamentado em autores da área, com citações e referências (ABNT). Ao fim de cada parte, pelo menos quatro perguntas com correção automática liberam a próxima.</div></div></div>' +
       '<div class="feat"><span class="ic">🃏</span><div><b>Cartões de revisão</b><div class="note">Os pontos principais em cartões curtos, com a frase para memorizar.</div></div></div>' +
       '<div class="feat"><span class="ic">🧩</span><div><b>Atividades interativas</b><div class="note">Questões comentadas, associação, ordenação, estudo de caso e prática.</div></div></div>' +
       '<div class="feat"><span class="ic">🎓</span><div><b>Certificado</b><div class="note">Após aprovação na avaliação final e cumprido o prazo mínimo de ' + DIAS_MIN + ' dias desde a matrícula (8 horas por dia).</div></div></div>' +
@@ -1457,24 +1622,29 @@ window.FC_NUVEM = (function () {
       (i < m.cartoes.length - 1 ? '<button class="btn sm" data-card="' + (i + 1) + '">Próximo →</button>' : '<button class="btn sm gold" data-passo="a">Ir para as atividades →</button>') + '</div>';
     return h;
   }
+  function avs(id, i) { var sc = C.ap[id].secoes[i]; return [sc.av].concat((C.mais && C.mais[id] && C.mais[id][i]) || []); }
   var AV = {}; /* respostas erradas recentes nas perguntas para avançar */
   function estudo(m) {
-    var ap = C.ap[m.id], s = M(m.id), VS = {}, h = '<p class="note">Leia cada parte do texto. Ao final de cada parte há uma pergunta: acerte para liberar a próxima.</p>';
+    var ap = C.ap[m.id], s = M(m.id), VS = {}, h = '<p class="note">Leia cada parte do texto. Ao final de cada parte há quatro perguntas. Acerte todas para liberar a próxima parte.</p>';
     h += '<div class="apost"><p class="ai">' + esc(C.sigla(ap.intro, VS)) + '</p>';
     for (var i = 0; i < ap.secoes.length; i++) {
       var sc = ap.secoes[i], ok = s.e.indexOf(i) >= 0;
       h += '<h3>' + esc(sc.t) + '</h3>' + sc.p.map(function (p) { return p.slice(0, 2) === '>>' ? '<p class="cit">' + esc(p.slice(2)) + '</p>' : '<p>' + esc(C.sigla(p, VS)) + '</p>'; }).join('');
       if (sc.fig && C.figs[sc.fig]) h += '<figure class="fg"><figcaption><b>Figura</b> – ' + esc(C.figs[sc.fig].t) + '</figcaption>' + C.figs[sc.fig].svg + '<div class="fonte">Fonte: elaboração própria (2026)' + (C.figs[sc.fig].svg.indexOf('data-ud') >= 0 ? ', com ilustrações adaptadas de unDraw (undraw.co)' : '') + '.</div></figure>';
-      var key = m.id + 'av' + i, o = ordem(key, sc.av.o.length), w = AV[m.id + i];
-      h += '<div class="act av' + (ok ? ' done' : '') + '" id="av' + i + '"><div class="tp">Pergunta para avançar' + (ok ? ' · ✓ acertou' : '') + '</div><div class="en">' + esc(sc.av.e) + '</div>';
-      o.forEach(function (oi, j) {
-        var cls = ok ? (oi === sc.av.a ? ' right' : '') : (w && w.indexOf(oi) >= 0 ? ' wrong' : '');
-        h += '<button class="opt' + cls + '" data-av="' + i + ':' + oi + '"' + (ok || (w && w.indexOf(oi) >= 0) ? ' disabled' : '') + '><span class="l">' + LET[j] + '</span><span>' + esc(sc.av.o[oi]) + '</span></button>';
-      });
-      if (ok) h += '<div class="res okk"><b class="t">✓ Correto!</b>' + esc(sc.av.r) + '</div>';
-      else if (w) h += '<div class="res nok"><b class="t">✗ Ainda não. Releia a parte ' + esc(sc.t.split(' ')[0]) + ' acima e tente outra alternativa.</b></div>';
-      h += '</div>';
-      if (!ok) { h += '<p class="note lock">🔒 As próximas partes do texto aparecem quando você acertar esta pergunta.</p>'; break; }
+      var QS = avs(m.id, i), ev = s.ev || {}, para = false;
+      for (var j = 0; j < QS.length; j++) {
+        var q = QS[j], qok = ok || ev[i + '.' + j], key = m.id + 'av' + i + '.' + j, o = ordem(key, q.o.length), w = AV[m.id + i + '.' + j];
+        h += '<div class="act av' + (qok ? ' done' : '') + '" id="av' + i + '_' + j + '"><div class="tp">Pergunta ' + (j + 1) + ' de ' + QS.length + ' para avançar' + (qok ? ' · ✓ acertou' : '') + '</div><div class="en">' + esc(q.e) + '</div>';
+        o.forEach(function (oi, z) {
+          var cls = qok ? (oi === q.a ? ' right' : '') : (w && w.indexOf(oi) >= 0 ? ' wrong' : '');
+          h += '<button class="opt' + cls + '" data-av="' + i + '.' + j + ':' + oi + '"' + (qok || (w && w.indexOf(oi) >= 0) ? ' disabled' : '') + '><span class="l">' + LET[z] + '</span><span>' + esc(q.o[oi]) + '</span></button>';
+        });
+        if (qok) h += '<div class="res okk"><b class="t">✓ Correto!</b>' + esc(q.r) + '</div>';
+        else if (w) h += '<div class="res nok"><b class="t">✗ Ainda não. Releia a parte ' + esc(sc.t.split(' ')[0]) + ' acima e tente outra alternativa.</b></div>';
+        h += '</div>';
+        if (!qok) { para = true; break; }
+      }
+      if (!ok) { h += '<p class="note lock">🔒 ' + (para && j < QS.length - 1 ? 'A próxima pergunta aparece quando você acertar esta. ' : '') + 'As próximas partes do texto aparecem quando você acertar as ' + QS.length + ' perguntas.</p>'; break; }
     }
     if (etapas(m).e) {
       h += '<h3>' + esc(m.leitura.titulo) + ' (caso para refletir)</h3>' + m.leitura.partes.map(function (p) { return '<p><b>' + esc(p.p) + '</b> ' + esc(p.x) + '</p>'; }).join('');
@@ -1762,10 +1932,14 @@ window.FC_NUVEM = (function () {
     if (d.passo) { V.passo = d.passo; V.card = 0; V.quiz = null; render(); return window.scrollTo(0, 0); }
     if (d.card !== undefined) { V.card = +d.card; return render(); }
     if (d.av) {
-      var va = d.av.split(':'), vi = +va[0], sc = C.ap[m.id].secoes[vi], key0 = m.id + vi;
-      if (+va[1] === sc.av.a) { var s9 = M(m.id); if (s9.e.indexOf(vi) < 0) s9.e.push(vi); delete AV[key0]; save(); checaFim(m); }
-      else (AV[key0] = AV[key0] || []).push(+va[1]);
-      return reAv(vi);
+      var va = d.av.split(':'), pq = va[0].split('.'), vi = +pq[0], vj = +pq[1], QS = avs(m.id, vi), key0 = m.id + va[0];
+      if (+va[1] === QS[vj].a) {
+        var s9 = M(m.id); s9.ev = s9.ev || {}; s9.ev[va[0]] = 1; delete AV[key0];
+        var tudo = true; for (var z = 0; z < QS.length; z++) if (!s9.ev[vi + '.' + z]) tudo = false;
+        if (tudo && s9.e.indexOf(vi) < 0) s9.e.push(vi);
+        save(); checaFim(m);
+      } else (AV[key0] = AV[key0] || []).push(+va[1]);
+      return reAv(vi + '_' + vj);
     }
     if (d.op) { var p = d.op.split(':'), ai = +p[0]; M(m.id).a[ai] = { esc: +p[1], em: Date.now() }; save(); checaFim(m); return reAtv(m, ai); }
     if (d.as) {
