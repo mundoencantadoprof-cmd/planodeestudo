@@ -142,6 +142,13 @@ function resumoCompra(cod, p) {
     prazo: prazo ? prazo.toISOString() : null, pode: p.situacao === 'pago' && !!prazo && Date.now() <= prazo.getTime(),
     reembolsadoEm: isoDe(p.reembolsadoEm), reembolsoPedidoEm: isoDe(p.reembolsoPedidoEm) };
 }
+/* Formação Continuada: depois que o aluno emite o certificado, o curso foi usado por completo e o reembolso de 7 dias deixa de valer (regra da Editora, 01/11/2026). */
+async function certificadoEmitido(email, itens) {
+  const cursos = (itens || []).map(i => (/^pe-formacao-([a-z0-9]+)$/.exec(i) || [])[1]).filter(Boolean);
+  if (!cursos.length) return false;
+  const q = await db.collection('certificados').where('email', '==', email).get();
+  return q.docs.some(d => cursos.includes(d.get('curso')));
+}
 exports.peReembolso = onRequest(async (req, res) => {
   cors(req, res);
   if (req.method === 'OPTIONS') return res.status(204).send('');
@@ -155,12 +162,16 @@ exports.peReembolso = onRequest(async (req, res) => {
       const q = await db.collection('pedidos').where('email', '==', email).get();
       const itens = q.docs.filter(d => d.get('perfil') === 'plano-de-estudo' && ['pago', 'reembolso-pedido', 'reembolsado'].includes(d.get('situacao')))
         .map(d => resumoCompra(d.id, d.data())).sort((x, y) => String(y.pagoEm).localeCompare(String(x.pagoEm)));
+      for (const it of itens) if (it.pode && await certificadoEmitido(email, it.itens)) { it.pode = false; it.certificado = true; }
       return res.json({ itens });
     }
     if (b.acao !== 'pedir') return res.status(400).json({ erro: 'Ação desconhecida.' });
     const cod = limpa(b.pedido, 12);
     if (!/^PE[A-Z0-9]{6}$/.test(cod)) return res.status(400).json({ erro: 'Pedido inválido.' });
     const ref = db.doc('pedidos/' + cod), motivo = limpa(b.motivo, 60);
+    { const s0 = await db.doc('pedidos/' + cod).get();
+      if (s0.exists && String(s0.get('email')).toLowerCase() === email && await certificadoEmitido(email, s0.get('itens')))
+        return res.status(409).json({ erro: 'O certificado deste curso já foi emitido: o curso foi concluído e o reembolso de 7 dias não se aplica mais.' }); }
     /* marca o pedido numa transação: dois toques no botão não viram dois reembolsos */
     const pedido = await db.runTransaction(async t => {
       const s = await t.get(ref);
@@ -382,6 +393,15 @@ exports.peCertificado = onRequest(async (req, res) => {
     const quem = await admin.auth().verifyIdToken(token).catch(() => null);
     if (!quem || !quem.email) return res.status(401).json({ erro: 'Entre com a conta Google de novo.' });
     const email = quem.email.toLowerCase(), curso = String(b.curso || ''), C = CURSOS_FC[curso];
+    if (b.acao === 'admin') {
+      /* registro de todos os certificados emitidos, para a Editora conferir e exportar */
+      if (!ADMINS.includes(email)) return res.status(403).json({ erro: 'Só a equipe Mundo Encantado vê os certificados.' });
+      const q = await db.collection('certificados').get();
+      const certs = q.docs.map(d => { const v = d.data(); return { codigo: d.id, email: v.email, curso: v.curso, titulo: v.titulo, horas: v.horas, nome: v.nome, rg: v.rg, orgao: v.orgao || '', nota: v.nota,
+        inicio: v.inicio, fim: v.fim, emitido: isoDe(v.emitidoEm), conferencia: !!v.conferencia, cancelado: !!v.cancelado }; })
+        .sort((x, y) => String(y.emitido).localeCompare(String(x.emitido)));
+      return res.json({ ok: true, certs });
+    }
     if (!C) return res.status(400).json({ erro: 'Curso desconhecido.' });
     const item = 'pe-formacao-' + curso, adm = ADMINS.includes(email);
     const ac = await db.doc('acessos/' + email).get();

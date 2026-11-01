@@ -67,6 +67,13 @@ window.PE_CONFIG = {
   <p class="msg" id="pVazio" hidden>Nenhum progresso registrado ainda.</p>
  </div>
  <div class="card" style="margin-top:16px">
+  <h2 style="margin:0 0 4px;font-size:1.1rem">Certificados emitidos (Formação Continuada) <span id="cQtd" style="font-weight:400;color:#5b6478"></span></h2>
+  <p class="msg" style="margin:0 0 8px">Registro permanente de todos os certificados: código, nome, RG, curso, carga horária, nota e período. É este registro que a página de validação consulta pelo QR Code (planodeestudo.net.br/formacao/validar). Os marcados "conferência" foram emitidos pela conta da Editora para teste.</p>
+  <div class="tools"><input id="cBusca" type="search" placeholder="Buscar nome, código, RG ou e-mail" aria-label="Buscar certificados"><button class="g" id="cAtual">Atualizar</button><button class="g" id="cCsv">Baixar planilha dos certificados</button></div>
+  <table><thead><tr><th>Código</th><th>Aluno</th><th>RG</th><th>Curso</th><th>Nota</th><th>Período</th><th>Emitido em</th></tr></thead><tbody id="cLinhas"></tbody></table>
+  <p class="msg" id="cVazio" hidden>Nenhum certificado emitido ainda.</p>
+ </div>
+ <div class="card" style="margin-top:16px">
   <h2 style="margin:0 0 4px;font-size:1.1rem">Teste grátis: cadastros <span id="tQtd" style="font-weight:400;color:#5b6478"></span></h2>
   <p class="msg" style="margin:0 0 8px">Quem preencheu o cadastro para usar o teste de 1 dia. Cada e-mail ou celular faz o teste uma vez em cada cargo.</p>
   <div class="tools"><input id="tBusca" type="search" placeholder="Buscar nome, e-mail ou celular" aria-label="Buscar nos testes"><label style="display:flex;gap:6px;align-items:center;font-size:.9rem"><input type="checkbox" id="tSoNao"> Só quem ainda não comprou</label><button class="g" id="tCsv">Baixar planilha dos testes</button></div>
@@ -100,7 +107,7 @@ $('libPac').innerHTML=Object.entries(PACOTES).map(([k,v])=>'<option value="'+k+'
 async function carregar(){
   const q=F.query(F.collection(db,'pedidos'),F.where('perfil','==','plano-de-estudo'));
   pedidos=(await F.getDocs(q)).docs.map(d=>{const v=d.data();return Object.assign({},v,{codigo:d.id,data:v.criadoEm?v.criadoEm.toDate():null,pagoEm:v.pagoEm?v.pagoEm.toDate():null,itens:v.itens||[]})}).sort((a,b)=>(b.data||0)-(a.data||0));
-  resumo();tabela();carregarTestes();carregarProgresso();
+  resumo();tabela();carregarTestes();carregarProgresso();carregarCerts();
 }
 let testes=[];
 async function carregarTestes(){
@@ -129,6 +136,22 @@ $('pBusca').oninput=tabelaProgresso;$('pAtual').onclick=carregarProgresso;
 $('pCsv').onclick=()=>{const L=[['Aluno','E-mail','Concurso e cargo','Dias concluídos','Dias feitos','Questões respondidas','Acertos (%)','Última atividade']].concat(progFiltrado().map(a=>[a.nome,a.email,nomePac('pe-'+a.conc+'-'+a.cargo),a.feitos,a.dias.map(d=>(d.d+1)+(d.fim?'':' (parcial)')).join(', '),a.resp,a.pct==null?'':a.pct,dataBR(a.quando?new Date(a.quando):null)]));
   const csv='\ufeff'+L.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(';')).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='progresso-alunos-plano-de-estudo.csv';a.click()};
+
+/* Certificados da Formação Continuada (função peCertificado, ação admin) */
+let certs=[];
+const dBR=x=>x?String(x).slice(0,10).split('-').reverse().join('/'):'';
+async function carregarCerts(){$('cVazio').hidden=false;$('cVazio').textContent='Carregando...';
+  try{const tk=await auth.currentUser.getIdToken();const r=await fetch(FUNCOES+'/peCertificado',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},body:JSON.stringify({acao:'admin'})});
+    const j=await r.json();if(!r.ok)throw new Error(j.erro||r.status);certs=j.certs||[];$('cVazio').textContent='Nenhum certificado emitido ainda.'}
+  catch(e){certs=[];$('cVazio').textContent='Não foi possível carregar os certificados: '+e.message}
+  tabelaCerts()}
+function certsFiltrados(){const q=$('cBusca').value.trim().toLowerCase();return certs.filter(c=>!q||[c.codigo,c.nome,c.rg,c.email,c.titulo].join(' ').toLowerCase().includes(q))}
+function tabelaCerts(){const l=certsFiltrados();$('cQtd').textContent='('+certs.length+')';if(certs.length)$('cVazio').hidden=!!l.length;
+  $('cLinhas').innerHTML=l.map(c=>'<tr><td><a href="https://planodeestudo.net.br/formacao/validar/?c='+encodeURIComponent(c.codigo)+'" target="_blank" rel="noopener">'+esc(c.codigo)+'</a>'+(c.conferencia?'<small>conferência</small>':'')+(c.cancelado?'<small>cancelado</small>':'')+'</td><td>'+esc(c.nome)+'<small>'+esc(c.email)+'</small></td><td>'+esc(c.rg+' '+c.orgao)+'</td><td>'+esc(c.titulo)+'<small>'+c.horas+' horas</small></td><td>'+(c.nota!=null?c.nota+'%':'')+'</td><td>'+dBR(c.inicio)+' a '+dBR(c.fim)+'</td><td>'+(c.emitido?new Date(c.emitido).toLocaleString('pt-BR'):'')+'</td></tr>').join('')}
+$('cBusca').oninput=tabelaCerts;$('cAtual').onclick=carregarCerts;
+$('cCsv').onclick=()=>{const L=[['Código','Nome','RG','Órgão/UF','E-mail','Curso','Horas','Nota (%)','Início','Fim','Emitido em','Conferência']].concat(certsFiltrados().map(c=>[c.codigo,c.nome,c.rg,c.orgao,c.email,c.titulo,c.horas,c.nota,dBR(c.inicio),dBR(c.fim),c.emitido?new Date(c.emitido).toLocaleString('pt-BR'):'',c.conferencia?'sim':'']));
+  const csv='\ufeff'+L.map(r=>r.map(x=>'"'+String(x==null?'':x).replace(/"/g,'""')+'"').join(';')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='certificados-formacao-continuada.csv';a.click()};
 function comprou(t){return pedidos.some(p=>p.situacao==='pago'&&String(p.email).toLowerCase()===t.email&&p.itens.some(i=>String(i).indexOf('pe-'+t.conc+'-')===0))}
 function testesFiltrados(){const q=$('tBusca').value.trim().toLowerCase(),so=$('tSoNao').checked;
   return testes.filter(t=>(!so||!comprou(t))&&(!q||[t.nome,t.email,t.tel].join(' ').toLowerCase().includes(q)))}
