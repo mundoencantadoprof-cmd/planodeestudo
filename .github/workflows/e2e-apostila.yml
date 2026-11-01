@@ -16,7 +16,6 @@ jobs:
       - uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-      - run: ITEM=ap-paraguacu-p1 node tools/e2e-apostila.js
-      - run: ITEM=ap-paraguacu-art node tools/e2e-apostila.js
-      - run: ITEM=ap-paraguacu-cie node tools/e2e-apostila.js
-      - run: ITEM=ap-paraguacu-esp node tools/e2e-apostila.js
+      - name: Espera a publicação das funções (roda junto com funcoes.yml)
+        run: sleep 420
+      - run: ITEM=ap-formacao-neuro30 node tools/e2e-apostila.js
