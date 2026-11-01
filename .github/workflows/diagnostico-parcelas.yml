@@ -1,0 +1,17 @@
+# Diagnóstico (só leitura) das parcelas sem juros no Mercado Pago.
+name: Diagnostico de parcelas
+on:
+  push:
+    branches: [main, claude/project-thread-t2ez8z]
+    paths: ['.github/workflows/diagnostico-parcelas.yml', 'tools/diagnostico-parcelas.js']
+  workflow_dispatch:
+jobs:
+  diagnostico:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - run: node tools/diagnostico-parcelas.js
+        env:
+          MP_ACCESS_TOKEN: ${{ secrets.MP_ACCESS_TOKEN }}

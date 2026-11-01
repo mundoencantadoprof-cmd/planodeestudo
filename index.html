@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='a826f05b7079';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='1f23e15691e0';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="img/app/icon-192.png">
 <link rel="apple-touch-icon" href="img/app/apple-touch-icon.png">
@@ -675,7 +675,7 @@ header.top .busca{flex:1 1 0;max-width:none}
 .cub-preco em{font-style:normal;font-size:.8rem;color:#DDE6FA;white-space:nowrap}
 .cuban .btn{background:#F5C04A;color:#13285E;pointer-events:none}
 @media(max-width:700px){.ccard.cuban{grid-template-columns:1fr;padding:22px 18px}.cub-l{grid-template-columns:1fr}.cub-lado{grid-template-columns:auto 1fr;justify-items:start;align-items:center;min-width:0}.cub-bras{width:72px;height:72px}.cub-bras img{width:56px;height:56px}.cub-preco{justify-items:start;text-align:left}.cuban .btn{grid-column:1/-1;justify-self:stretch;text-align:center}}
-</style>
+.certbtn svg{width:18px;height:18px}.certf{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px}.certf input{flex:1;min-width:170px;padding:12px 14px;border-radius:12px;border:2px solid var(--line);font:700 1.05rem/1 var(--f-mono,monospace);letter-spacing:.06em;text-transform:uppercase;background:var(--sheet);color:var(--ink)}.certf input:focus{outline:none;border-color:#13285E}.certok{border:2px solid #2E7D4F;border-radius:14px;padding:14px 16px;background:#F1FAF4}.certst{color:#2E7D4F;font-size:1.05rem}.certok dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:10px 0 6px}.certok dt{color:var(--muted,#5A6478);font-size:.88rem}.certok dd{margin:0;font-weight:600}.certno{border-left:4px solid #C0392B;padding:8px 12px;background:#FDF2F0;border-radius:8px}@media(min-width:701px){.oribtn{font-size:.84rem;padding:6px 12px}}@media(min-width:701px){.certbtn .cvs{display:none}}@media(max-width:700px){.certbtn .cvl{display:none}.certbtn .cvs{display:inline}.oribtn{padding:0 9px;font-size:.8rem;gap:4px}.oribtn svg{width:16px;height:16px}}</style>
 <script>
 /* Configuração do Plano de Estudo no site publicado.
    firebase: o mesmo projeto do site Mundo Encantado (não é senha; pode ficar no site).
@@ -1914,7 +1914,7 @@ function renderFormacao(){var sc=SECOES.filter(function(x){return x.id==='fc'})[
       return '<a class="ccard cuban fcban" href="'+f.url+'"><span class="cub-txt"><span class="eyebrow">Curso livre · '+f.horas+' horas · com certificado</span><b class="cub-tit">'+esc(f.titulo)+'</b><span class="cub-per">'+esc(f.resumo)+'</span>'+
        '<span class="cub-l"><span>'+f.mods+' módulos com aulas curtas e figuras</span><span>Questões comentadas e lembretes para memorizar</span><span>Apostila em PDF desde o primeiro dia</span><span>Certificado com nome, RG e QR Code</span></span></span>'+
        '<span class="cub-lado"><span class="fcfoto" style="background-image:url('+f.img+')"></span>'+(tem?'<span class="cub-preco"><small>Seu curso</small><b>'+fe+' de '+f.mods+' módulos</b><em>concluídos</em></span><span class="btn">Continuar curso</span>':'<span class="cub-preco"><small>Curso completo</small><b>'+f.parcelas+'x de R$ '+f.parcela+'</b><em>sem juros · ou R$ '+f.total+' no Pix</em></span><span class="btn">Conhecer o curso</span>')+'</span></a>'}).join('')+
-    '</div><div class="card"><h3 style="margin-top:0">Como funciona</h3><ol class="passos"><li>Escolha o curso e faça a compra pelo Mercado Pago, com a sua conta Google.</li><li>O curso aparece em <b>Minha área</b>, com o seu progresso e o botão <b>Continuar curso</b>.</li><li>Estude no seu ritmo, no celular ou no computador. A apostila em PDF já fica liberada.</li><li>Faça a avaliação final e emita o seu certificado.</li></ol><p class="note small" style="margin-bottom:0"><button type="button" class="linkb" data-orim="formacao">Saiba mais sobre os cursos e o certificado</button> · <a href="/formacao/validar/">Validar um certificado</a></p></div></div></section>';
+    '</div><div class="card"><h3 style="margin-top:0">Como funciona</h3><ol class="passos"><li>Escolha o curso e faça a compra pelo Mercado Pago, com a sua conta Google.</li><li>O curso aparece em <b>Minha área</b>, com o seu progresso e o botão <b>Continuar curso</b>.</li><li>Estude no seu ritmo, no celular ou no computador. A apostila em PDF já fica liberada.</li><li>Faça a avaliação final e emita o seu certificado.</li></ol><p class="note small" style="margin-bottom:0"><button type="button" class="linkb" data-orim="formacao">Saiba mais sobre os cursos e o certificado</button> · <button type="button" class="linkb" data-certv>Validar um certificado</button></p></div></div></section>';
 }
 function renderMinha(){
   if(!USER){go('home');return}
@@ -2035,6 +2035,7 @@ var CONTATO='mundo.encantado.prof@gmail.com';
   b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M12 11v6M12 7.6v.2"/></svg><span>Orientações</span>';
   b.onclick=function(){oriAbrir()};lb.parentNode.insertBefore(b,lb);
   var v=document.createElement('button');v.type='button';v.id='comoBtn';v.className='oribtn comobtn';v.setAttribute('data-tutorial','');v.title='Vídeo de 2 minutos: como acessar e usar';v.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><span>Como acessar</span>';lb.parentNode.insertBefore(v,lb);
+  var cv=document.createElement('button');cv.type='button';cv.id='certBtn';cv.className='oribtn certbtn';cv.title='Validar um certificado da Formação Continuada';cv.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8 4.5 6v5.6c0 4.6 3.2 8.3 7.5 9.6 4.3-1.3 7.5-5 7.5-9.6V6z"/><path d="m8.6 12.2 2.4 2.4 4.5-4.6"/></svg><span class="cvl">Validar certificado</span><span class="cvs">Validar</span>';cv.onclick=function(){certModal()};lb.parentNode.insertBefore(cv,lb);
   var bi=document.getElementById('busca');if(bi&&window.matchMedia&&window.matchMedia('(max-width:700px)').matches)bi.placeholder='Buscar prova ou cargo'})();
 function maisUmMes(d){var p=d.split('-').map(Number),y=p[0],m=p[1]+1;if(m>12){m=1;y++}var ult=new Date(y,m,0).getDate();return y+'-'+String(m).padStart(2,'0')+'-'+String(Math.min(p[2],ult)).padStart(2,'0')}
 /* última prova do plano: a do concurso; no Intensivão Unesp 1ª + 2ª fase, a 2ª fase (14/12/2026) */
@@ -2071,6 +2072,7 @@ var ICO={
   video:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10 9.2v5.6l4.8-2.8z"/></svg>',
   missao:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9.2 12 4.5l10 4.7-10 4.7z"/><path d="M6.2 11.3v4.6c3.3 2.3 8.3 2.3 11.6 0v-4.6"/></svg>',
   formacao:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 12 4l9 4.5-9 4.5z"/><path d="M7 10.6V15c3 2 7 2 10 0v-4.4"/><path d="M12 13v7M9 20h6"/></svg>',
+  certificado:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8 4.5 6v5.6c0 4.6 3.2 8.3 7.5 9.6 4.3-1.3 7.5-5 7.5-9.6V6z"/><path d="m8.6 12.2 2.4 2.4 4.5-4.6"/></svg>',
   contato:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>'};
 var ORI_SEC=[['missao','Nossa missão'],['formacao','Cursos de Formação'],['app','Instale o app no celular'],['prazo','Prazo de acesso'],['reembolso','Reembolso em até 7 dias'],['termos','Termos de uso'],['contato','Fale conosco']];
 var SHARE_IOS='<svg class="inl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="ícone Compartilhar"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>';
@@ -2127,12 +2129,27 @@ function renderOri(){var ob=document.getElementById('oriBtn');if(ob)ob.classList
   if(S.oriSec){var alvo=S.oriSec;S.oriSec=null;setTimeout(function(){var e=document.getElementById('ori-'+alvo);if(e)e.scrollIntoView({block:'start'})},40)}}
 function oriAbrir(sec){go('ori',{oriSec:sec||null})}
 /* janela por cima da página (na compra, para ler os termos sem perder o que já foi preenchido) */
+/* Validar certificado (Formação Continuada): o código fica guardado no servidor, mesmo que o curso deixe de ser oferecido */
+function certModal(cod){var o=document.createElement('div');o.className='vidmodal orimodal certmodal';
+  o.innerHTML='<div class="card orisec" role="dialog" aria-modal="true" aria-label="Validar certificado"><button type="button" class="vidx" aria-label="Fechar">×</button><h3>'+ICO.certificado+'Validar certificado</h3><p>Digite o código impresso no certificado (começa com <b>FC</b>) ou leia o QR Code com a câmera do celular.</p><form class="certf"><input id="certCod" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="FC0000-0000" maxlength="14" aria-label="Código do certificado"><button type="submit" class="btn">Validar</button></form><div id="certRes" aria-live="polite"></div></div>';
+  function fecha(){o.remove();document.removeEventListener('keydown',k)}function k(e){if(e.key==='Escape')fecha()}
+  o.onclick=function(e){if(e.target===o||e.target.closest('.vidx'))fecha()};document.addEventListener('keydown',k);document.body.appendChild(o);
+  var inp=o.querySelector('#certCod'),res=o.querySelector('#certRes');if(cod)inp.value=cod;setTimeout(function(){inp.focus()},30);
+  function dt(x){var d=new Date(x);return isNaN(d)?'':d.toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'})}
+  o.querySelector('form').onsubmit=function(e){e.preventDefault();var c=inp.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(!/^FC[A-Z0-9]{8}$/.test(c)){res.innerHTML='<p class="certno">O código tem 10 caracteres, por exemplo <b>FC7K2M-9QPA</b>. Confira e tente de novo.</p>';return}
+    res.innerHTML='<p class="note">Consultando…</p>';
+    fetch(((PE&&PE.funcoes)||'https://southamerica-east1-mundo-encantado-77c43.cloudfunctions.net')+'/peCertificado',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({acao:'validar',codigo:c})}).then(function(r){return r.json()}).then(function(j){
+      if(!j.achou){res.innerHTML='<p class="certno"><b>Certificado não encontrado.</b> Confira o código. Se ele estiver certo, escreva para '+esc(CONTATO)+'.</p>';return}
+      var x=j.cert;res.innerHTML='<div class="certok"><b class="certst">✓ Certificado válido</b><dl><dt>Código</dt><dd>'+esc(x.codigo)+'</dd><dt>Nome</dt><dd>'+esc(x.nome)+'</dd><dt>RG</dt><dd>'+esc(x.rg)+'</dd><dt>Curso</dt><dd>'+esc(x.curso)+'</dd><dt>Carga horária</dt><dd>'+x.horas+' horas</dd><dt>Período</dt><dd>'+dt(x.inicio)+' a '+dt(x.fim)+'</dd><dt>Emitido em</dt><dd>'+dt(x.emitido)+'</dd></dl><p class="note small">Curso livre de formação continuada · Plano de Estudo · Mundo Encantado</p></div>'
+    }).catch(function(){res.innerHTML='<p class="certno">Não foi possível consultar agora. Verifique a internet e tente de novo.</p>'})}}
 function oriModal(sec){var s=ORI_SEC.filter(function(x){return x[0]===sec})[0]||ORI_SEC[2],o=document.createElement('div');o.className='vidmodal orimodal';
   o.innerHTML='<div class="card orisec" role="dialog" aria-modal="true" aria-label="'+s[1]+'"><button type="button" class="vidx" aria-label="Fechar">×</button><h3>'+ICO[s[0]]+s[1]+'</h3>'+oriSecHTML(s[0])+(sec!=='termos'?'<h3>'+ICO.termos+'Termos de uso</h3>'+oriSecHTML('termos'):'')+'<p><button type="button" class="btn" data-fecha>Entendi</button></p></div>';
   function fecha(){o.remove();document.removeEventListener('keydown',k)}function k(e){if(e.key==='Escape')fecha()}
   o.onclick=function(e){if(e.target===o||e.target.closest('.vidx')||e.target.closest('[data-fecha]'))fecha()};document.addEventListener('keydown',k);document.body.appendChild(o);var bi=o.querySelector('[data-irminha]');if(bi)bi.remove()}
 document.addEventListener('click',function(e){var t;
   if((t=e.target.closest('[data-orim]'))){e.preventDefault();oriModal(t.dataset.orim);return}
+  if((t=e.target.closest('[data-certv]'))){e.preventDefault();certModal();return}
   if((t=e.target.closest('[data-ori]'))){e.preventDefault();oriAbrir(t.dataset.ori);return}
   if((t=e.target.closest('[data-instalar]'))){appInstalar(t);return}
   if(e.target.closest('[data-gohome]')){go('home');return}
@@ -2141,6 +2158,7 @@ document.addEventListener('click',function(e){var t;
 (function(){var h=(location.hash||'').replace('#','').toLowerCase(),m={orientacoes:null,app:'app',instalar:'app',prazo:'prazo',reembolso:'reembolso',termos:'termos',contato:'contato'};if(h==='video'||h==='tutorial'){verTutorial();return}if(h in m){oriAbrir(m[h]);return}
   var sx=/^sec=([a-z]+)$/.exec(h);if(sx){var sid=sx[1];if(sid==='ap')go('apostilas');else if(sid==='fc'||sid==='formacao')go('formacao');else if(SECOES.some(function(x){return x.id===sid}))go('lista',{lista:sid});history.replaceState(null,'',location.pathname+location.search);return}
   if(h==='formacao'){go('formacao');return}
+  if(h==='validar'||h==='certificado'){history.replaceState(null,'',location.pathname+location.search);setTimeout(function(){certModal()},300);return}
   if(h==='minha'){history.replaceState(null,'',location.pathname+location.search);var t0=Date.now();(function esp(){if(USER){go('minha');return}if(Date.now()-t0<8000)setTimeout(esp,250)})()}})();
 
 /* ---------- Minhas compras e reembolso (função peReembolso no servidor; o Mercado Pago devolve o valor) ---------- */
