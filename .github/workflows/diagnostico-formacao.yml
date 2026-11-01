@@ -1,0 +1,19 @@
+# Diagnóstico (só leitura, só contagens) da Formação Continuada: pedidos, acessos e certificados.
+name: Diagnostico da Formacao
+on:
+  push:
+    branches: [main, claude/project-thread-t2ez8z]
+    paths: ['.github/workflows/diagnostico-formacao.yml', 'tools/diagnostico-formacao.js']
+  workflow_dispatch:
+jobs:
+  diagnostico:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - run: npm install --prefix functions --omit=dev
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - run: node tools/diagnostico-formacao.js
