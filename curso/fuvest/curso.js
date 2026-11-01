@@ -148,7 +148,7 @@ function vResultado(a,p){var n=a.questoes.length,c=0,f=0;a.questoes.forEach(func
   return '<p class="score">'+c+' / '+n+'</p><p>'+(f<n?'Você respondeu '+f+' de '+n+' questões.':c>=n*0.8?'Excelente! Este assunto está dominado.':c>=n*0.6?'Bom resultado. As que você errou voltam na revisão dos próximos dias.':'Refaça este bloco amanhã: as que você errou também voltam na revisão.')+'</p>'+
     '<div class="bar lt"><i style="width:'+Math.round(100*c/n)+'%"></i></div>'+
     (erradas.length?'<p class="small">'+erradas.length+' questão(ões) foram para a sua <b>revisão dos erros</b>.</p>':'')+
-    ilus(a.id,'fim')+'<h4>Cartões para memorizar</h4><p class="small">Releia antes de dormir e de novo amanhã cedo. É assim que fixa.</p><div class="flash">'+a.questoes.map(function(q){return q.mem?'<div>'+inl(memo(q))+'</div>':''}).join('')+'</div>'+
+    ilus(a.id,'fim')+'<h4>Cartões para memorizar</h4><p class="small">Toque em um cartão para virar. Releia antes de dormir e de novo amanhã cedo. É assim que fixa.</p><div class="fc-grade">'+a.questoes.map(function(q,i){return q.mem?fcHtml(a,i,false):''}).join('')+'</div><p><button type="button" class="btn gold" data-deck="'+esc(a.id)+'">▶ Treinar estes cartões (já sei / revisar)</button></p>'+
     '<div class="row" style="margin-top:14px"><button type="button" class="btn" data-fimaula>'+(p.fim?'Bloco concluído ✓':'Concluir o bloco')+'</button><button type="button" class="btn ghost" data-refaz>Refazer as questões</button></div>'}
 /* revisão: questões erradas em blocos anteriores voltam até você acertar */
 function errosPendentes(){var l=[],vis={},ok=get('cu-rev',{});
@@ -160,10 +160,30 @@ function errosPendentes(){var l=[],vis={},ok=get('cu-rev',{});
 function vRev(){var h='<button class="back" data-home>‹ Cronograma</button><div class="card"><span class="eyebrow">Revisão dos erros</span><h2>Questões que você errou</h2>';
   var l=S.revLista||[];if(!l.length)return h+'<p>Nenhuma questão pendente. Cada questão que você errar volta aqui até você acertar.</p></div>';
   return h+'<p class="small">Acertou agora? Ela sai da revisão. Errou de novo? Continua aqui para outro dia.</p>'+vQuestao(l,S.qi||0,S.revResp||{},'rev')+'</div>'}
+/* ---------- cartões (flashcards): frente = termo-chave, verso = o fato; marca "já sei" / "revisar" ---------- */
+function cartao(q){var m=memo(q),r=/(: | = | → | ⇒ | – | — |; )/.exec(m);if(r&&r.index>=3&&r.index<=85)return {f:m.slice(0,r.index),b:m.slice(r.index+r[0].length),s:r[1].trim()};var w=m.split(' ');return {f:w.slice(0,6).join(' ')+' …',b:m,s:''}}
+function marcas(){return get('cu-cart',{})}
+function fcHtml(a,i,grande){var q=a.questoes[i],c=cartao(q),img='',mk=marcas()[q.id];
+  if(grande){var l=ilusDe(a.id).filter(function(x){return x.q===i&&(x.svg||x.src)});if(l.length){var x=l[0];img='<span class="fc-img">'+(x.svg?svgLimpo(x.svg):'<img src="'+esc((D.imgBase||'')+x.src)+'" alt="'+esc(x.alt||x.t||'')+'">')+'</span>'}}
+  return '<div class="fc '+esc(a.area||'')+(grande?' big':'')+'" data-flip role="button" tabindex="0" aria-label="Virar o cartão"><span class="fc-in"><span class="fc-f"><span class="fc-tag"><i class="mt '+esc(a.area||'')+'">'+esc(sigla(a))+'</i>'+esc(a.materia)+(mk===1?' <em class="fc-ok">✓ já sei</em>':mk===2?' <em class="fc-rv">revisar</em>':'')+'</span><b class="fc-termo">'+inl(cap(c.f))+'</b><span class="fc-dica">Toque para virar ↻</span></span>'+
+    '<span class="fc-b"><span class="fc-tag">'+inl(cap(c.f))+'</span>'+(c.s==='='||c.s==='→'||c.s==='⇒'?'<span class="fc-sep">'+esc(c.s)+'</span>':'')+'<span class="fc-t">'+inl(cap(c.b))+'</span>'+img+'</span></span></div>'}
+function cartoesDe(id){var a=D.aulas[id];if(!a)return [];var l=[];a.questoes.forEach(function(q,i){if(q.mem)l.push([id,i])});return l}
+function cartoesTreino(){var mk=marcas(),rv=[],nv=[];D.cur.aulas.forEach(function(m){if(!D.aulas[m.id]||!get('cu-a-'+m.id,null))return;cartoesDe(m.id).forEach(function(c){var k=mk[D.aulas[c[0]].questoes[c[1]].id];if(k===2)rv.push(c);else if(k!==1)nv.push(c)})});return rv.concat(nv).slice(0,20)}
+function vDeck(){var l=S.deckIds||[],i=S.ci||0,mk=marcas(),sei=l.filter(function(c){return mk[D.aulas[c[0]].questoes[c[1]].id]===1}).length;
+  var tit=S.deck==='treino'?'Treino do dia':D.aulas[S.deck]?D.aulas[S.deck].titulo:'';
+  var h='<button class="back" data-cart>‹ Cartões para memorizar</button><div class="card deck"><span class="eyebrow">'+(S.deck==='treino'?'Cartões que faltam fixar':'Cartões do bloco')+'</span><h2>'+esc(tit)+'</h2>';
+  if(!l.length)return h+'<p>Nenhum cartão pendente agora. Conclua mais blocos de questões ou volte amanhã para revisar.</p></div>';
+  if(i>=l.length){var rv=l.filter(function(c){return mk[D.aulas[c[0]].questoes[c[1]].id]===2}).length;
+    return h+'<p class="score">'+sei+' / '+l.length+'</p><p>'+(rv?'Você marcou <b>'+rv+'</b> cartão(ões) para revisar. Eles voltam primeiro no próximo treino.':'Você já sabe todos os cartões deste grupo. Excelente!')+'</p><div class="row"><button type="button" class="btn" data-ci="0">Ver de novo</button>'+(rv?'<button type="button" class="btn ghost" data-sorev>Treinar só os que faltam</button>':'')+'</div></div>'}
+  var c=l[i];
+  return h+'<div class="deck-top"><span>Cartão '+(i+1)+' de '+l.length+'</span><span>'+sei+' já sei</span></div><div class="bar lt"><i style="width:'+Math.round(100*i/l.length)+'%"></i></div>'+fcHtml(D.aulas[c[0]],c[1],true)+
+    '<p class="small" style="text-align:center">Tente lembrar antes de virar. Depois diga se já sabia.</p><div class="duo deck-bt"><button type="button" class="btn rv" data-marca="2">↺ Revisar de novo</button><button type="button" class="btn ok" data-marca="1">✓ Já sei</button></div>'+
+    '<div class="row deck-nav"><button type="button" class="btn ghost small" data-ci="'+Math.max(0,i-1)+'"'+(i?'':' disabled')+'>‹ Anterior</button><button type="button" class="btn ghost small" data-ci="'+(i+1)+'">Pular ›</button></div></div>'}
 function vCartoes(){var h='<button class="back" data-home>‹ Cronograma</button><div class="card"><span class="eyebrow">Cartões para memorizar</span><h2>Tudo o que você já estudou</h2><p class="small">Os pontos-chave de cada bloco que você concluiu, por matéria.</p>',por={};
   D.cur.aulas.forEach(function(m){var a=D.aulas[m.id];if(!a||!aulaFeita(m.id))return;(por[a.materia]=por[a.materia]||[]).push(a)});
   var ks=Object.keys(por);if(!ks.length)return h+'<p>Conclua um bloco de questões para os cartões aparecerem aqui.</p></div>';
-  ks.forEach(function(k){h+='<h4>'+esc(k)+'</h4>'+por[k].map(function(a){return '<details class="box blue"><summary><b>'+esc(a.titulo)+'</b></summary><div class="flash" style="margin-top:8px">'+a.questoes.map(function(q){return q.mem?'<div>'+inl(memo(q))+'</div>':''}).join('')+'</div></details>'}).join('')});
+  var tr=cartoesTreino(),mk=marcas();h+='<button type="button" class="btn gold treino" data-deck="treino">▶ Treino do dia'+(tr.length?' · '+tr.length+' cartões':'')+'</button><p class="small">Mistura os cartões que você marcou para revisar com os que ainda não viu.</p>';
+  ks.forEach(function(k){h+='<h4>'+esc(k)+'</h4>'+por[k].map(function(a){var cs=cartoesDe(a.id),s=cs.filter(function(c){return mk[a.questoes[c[1]].id]===1}).length;return '<button type="button" class="item card baralho'+(s===cs.length?' ok':'')+'" data-deck="'+esc(a.id)+'"><span class="mt '+esc(a.area||'')+'">'+esc(sigla(a))+'</span><span class="tt"><b>'+esc(a.titulo)+'</b><br><span class="small">'+cs.length+' cartões · '+s+' já sei</span><span class="bar lt mini"><i style="width:'+(cs.length?Math.round(100*s/cs.length):0)+'%"></i></span></span><span class="ck">'+(s===cs.length?'✓':'›')+'</span></button>'}).join('')});
   return h+'</div>'}
 /* ---------- 2ª fase: lista da semana e discursiva guiada ---------- */
 function vF2(){var w=D.cur.semanas[S.sem2-1],ids=aulasDaSemana(w).filter(function(id){return D.aulas[id]});
@@ -255,7 +275,7 @@ function render(){OUV=[];clearInterval(RELOGIO);
   var fv=faseDaView();if(fv&&!temFase(fv)){EL.innerHTML='<div class="cu">'+vTravaFase(fv)+'</div>';bind();setTimeout(function(){try{EL.scrollIntoView({block:'start'})}catch(e){}},0);return}
   if(viewTravada()){EL.innerHTML='<div class="cu">'+vTrava()+'</div>';bind();setTimeout(function(){try{EL.scrollIntoView({block:'start'});if(EL.getBoundingClientRect().top<0||EL.getBoundingClientRect().top>innerHeight)scrollTo(0,EL.getBoundingClientRect().top+scrollY-8)}catch(e){}},0);return}
   var falta=D.carregar?precisa():[];if(falta.length){falta.forEach(function(id){TENTOU[id]=1});EL.innerHTML='<div class="cu"><div class="card"><p>Carregando...</p></div></div>';D.carregar(falta,function(){render()});return}
-  EL.innerHTML='<div class="cu">'+(S.v==='aula'?vAula():S.v==='f2'?vF2():S.v==='disc'?vDisc():S.v==='red'?vRed():S.v==='sim'?vSim():S.v==='met'?vMet():S.v==='rev'?vRev():S.v==='cart'?vCartoes():S.v==='tipo'?vTipo():vHome())+'</div>';
+  EL.innerHTML='<div class="cu">'+(S.v==='aula'?vAula():S.v==='f2'?vF2():S.v==='disc'?vDisc():S.v==='red'?vRed():S.v==='sim'?vSim():S.v==='met'?vMet():S.v==='rev'?vRev():S.v==='cart'?(S.deck?vDeck():vCartoes()):S.v==='tipo'?vTipo():vHome())+'</div>';
   bind()}
 function vMet(){var m=D.metodo,i=S.mi;
   if(i==null)return '<button class="back" data-home>‹ Cronograma</button><div class="card"><span class="eyebrow">Comece aqui</span><h2>'+esc(m.titulo)+'</h2>'+m.partes.map(function(x,k){return '<button type="button" class="item" data-met="'+k+'"><span class="ck">'+(k+1)+'</span><span class="tt">'+esc(x.t)+'</span></button>'}).join('')+'</div>';
@@ -307,7 +327,12 @@ function bind(){
     if(S.v==='rev'){var q=S.revLista[S.qi||0];S.revResp=S.revResp||{};S.revResp[q.id]=k;if(k===q.a){var ok=get('cu-rev',{});ok[q.id]=1;set('cu-rev',ok)}render();return}
     var a=D.aulas[S.id],p=get('cu-a-'+S.id,{q:{}});p.q=p.q||{};p.q[a.questoes[S.qi||0].id]=k;set('cu-a-'+S.id,p);render()});
   on('[data-rev]',function(){go({v:'rev',qi:0,revLista:errosPendentes(),revResp:{}})});
-  on('[data-cart]',function(){go({v:'cart'})});
+  on('[data-cart]',function(){go({v:'cart',deck:null})});
+  on('[data-deck]',function(b){var id=b.dataset.deck;go({v:'cart',deck:id,ci:0,deckIds:id==='treino'?cartoesTreino():cartoesDe(id)})});
+  on('[data-ci]',function(b){go({ci:+b.dataset.ci})});
+  on('[data-sorev]',function(){var mk=marcas();go({ci:0,deckIds:(S.deckIds||[]).filter(function(c){return mk[D.aulas[c[0]].questoes[c[1]].id]!==1})})});
+  on('[data-marca]',function(b){var c=(S.deckIds||[])[S.ci||0];if(!c)return;var mk=marcas();mk[D.aulas[c[0]].questoes[c[1]].id]=+b.dataset.marca;set('cu-cart',mk);go({ci:(S.ci||0)+1})});
+  EL.querySelectorAll('[data-flip]').forEach(function(f){function t(){f.classList.toggle('on')}f.addEventListener('click',t);f.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}})});
   on('[data-vtipo]',function(){go({v:'tipo'})});
   on('[data-tipo]',function(b){set('cu-tipo',+b.dataset.tipo);go({v:'home'})});
   on('[data-fimaula]',function(){var p=get('cu-a-'+S.id,{q:{}});p.fim=1;set('cu-a-'+S.id,p);go({v:'home'})});
