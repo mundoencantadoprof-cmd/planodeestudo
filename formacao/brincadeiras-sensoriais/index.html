@@ -1173,6 +1173,165 @@ CURSO.figs = (function () {
   function pill(x, y, w, h, fill, txt, o) { o = o || {}; return R(x - w / 2, y - h / 2, w, h, fill, { r: h / 2 }) + T(x, y + (o.s || 15) * 0.35, txt, { b: 1, s: o.s || 15, c: o.c || '#fff', sora: o.sora }); }
   var f = {};
 
+  /* ===== Personagens detalhados, com proporções da idade =====
+     Todos desenhados em unidades locais (pés no ponto 0,0) e escalados pela altura real em px.
+     Criança de 3–4 anos: cabeça ≈ 1/4 da altura. Bebê sentado: cabeça ≈ 1/3. Adulta: cabeça ≈ 1/7,5. */
+  var PUID = 0;
+  function escurece(hex, f) { var n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; f = f || .78; return '#' + [r, g, b].map(function (v) { return ('0' + Math.round(v * f).toString(16)).slice(-2); }).join(''); }
+  function membro(d, cor, w) { return '<path d="' + d + '" stroke="' + cor + '" stroke-width="' + w + '" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'; }
+  function manga(d, cor, w, f) { var a = d.replace(/[MQ]/g, '').trim().split(/\s+/).map(Number); f = f || .38; var x = a[0] + (a[2] - a[0]) * f * 1.6, y = a[1] + (a[3] - a[1]) * f * 1.6; return membro('M' + a[0] + ' ' + a[1] + ' L' + x.toFixed(1) + ' ' + y.toFixed(1), cor, w); }
+  function rosto(cx, cy, r, o) {
+    o = o || {}; var p = o.p, g = '';
+    g += '<circle cx="' + (cx - r * .98) + '" cy="' + (cy + r * .08) + '" r="' + (r * .2) + '" fill="' + p + '"/><circle cx="' + (cx + r * .98) + '" cy="' + (cy + r * .08) + '" r="' + (r * .2) + '" fill="' + p + '"/>';
+    g += '<circle cx="' + (cx - r * .98) + '" cy="' + (cy + r * .08) + '" r="' + (r * .1) + '" fill="' + escurece(p, .82) + '"/><circle cx="' + (cx + r * .98) + '" cy="' + (cy + r * .08) + '" r="' + (r * .1) + '" fill="' + escurece(p, .82) + '"/>';
+    g += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + p + '"/>';
+    g += '<ellipse cx="' + (cx - r * .3) + '" cy="' + (cy - r * .35) + '" rx="' + (r * .45) + '" ry="' + (r * .3) + '" fill="#fff" opacity=".18"/>';
+    var ey = cy + r * .05, ex = r * .36, er = r * .13;
+    if (o.olhos === 'fechados') g += membro('M' + (cx - ex - er) + ' ' + ey + ' q' + er + ' ' + (er * .9) + ' ' + (2 * er) + ' 0', '#2b2b2b', r * .07) + membro('M' + (cx + ex - er) + ' ' + ey + ' q' + er + ' ' + (er * .9) + ' ' + (2 * er) + ' 0', '#2b2b2b', r * .07);
+    else g += '<ellipse cx="' + (cx - ex) + '" cy="' + ey + '" rx="' + er + '" ry="' + (er * 1.2) + '" fill="#2b2b2b"/><ellipse cx="' + (cx + ex) + '" cy="' + ey + '" rx="' + er + '" ry="' + (er * 1.2) + '" fill="#2b2b2b"/><circle cx="' + (cx - ex + er * .35) + '" cy="' + (ey - er * .45) + '" r="' + (er * .38) + '" fill="#fff"/><circle cx="' + (cx + ex + er * .35) + '" cy="' + (ey - er * .45) + '" r="' + (er * .38) + '" fill="#fff"/>';
+    var bc = o.sobr || escurece(o.h || '#3B2A20', .9);
+    g += membro('M' + (cx - ex - er * 1.3) + ' ' + (ey - er * 2.4) + ' q' + (er * 1.3) + ' ' + (-er * .8) + ' ' + (er * 2.6) + ' 0', bc, r * .06) + membro('M' + (cx + ex - er * 1.3) + ' ' + (ey - er * 2.4) + ' q' + (er * 1.3) + ' ' + (-er * .8) + ' ' + (er * 2.6) + ' 0', bc, r * .06);
+    g += membro('M' + (cx - r * .06) + ' ' + (cy + r * .28) + ' q' + (r * .08) + ' ' + (r * .08) + ' ' + (r * .14) + ' 0', escurece(p, .7), r * .055);
+    if (o.boca === 'o') g += '<ellipse cx="' + cx + '" cy="' + (cy + r * .55) + '" rx="' + (r * .13) + '" ry="' + (r * .17) + '" fill="#8A2E3B"/>';
+    else if (o.boca === 'riso') g += '<path d="M' + (cx - r * .3) + ' ' + (cy + r * .45) + ' Q' + cx + ' ' + (cy + r * .85) + ' ' + (cx + r * .3) + ' ' + (cy + r * .45) + ' Z" fill="#8A2E3B"/><path d="M' + (cx - r * .2) + ' ' + (cy + r * .47) + ' L' + (cx + r * .2) + ' ' + (cy + r * .47) + '" stroke="#fff" stroke-width="' + (r * .08) + '"/>';
+    else g += membro('M' + (cx - r * .26) + ' ' + (cy + r * .48) + ' Q' + cx + ' ' + (cy + r * .7) + ' ' + (cx + r * .26) + ' ' + (cy + r * .48), '#7A2B36', r * .07);
+    g += '<circle cx="' + (cx - r * .62) + '" cy="' + (cy + r * .38) + '" r="' + (r * .17) + '" fill="#F28B8B" opacity=".38"/><circle cx="' + (cx + r * .62) + '" cy="' + (cy + r * .38) + '" r="' + (r * .17) + '" fill="#F28B8B" opacity=".38"/>';
+    return g;
+  }
+  function cabelo(cx, cy, r, tipo, h, fundo) {
+    var d = escurece(h, .8);
+    if (fundo) {
+      if (tipo === 'longo') return '<path d="M' + (cx - r * 1.08) + ' ' + (cy - r * .1) + ' Q' + (cx - r * 1.25) + ' ' + (cy + r * 1.6) + ' ' + (cx - r * .7) + ' ' + (cy + r * 1.9) + ' L' + (cx + r * .7) + ' ' + (cy + r * 1.9) + ' Q' + (cx + r * 1.25) + ' ' + (cy + r * 1.6) + ' ' + (cx + r * 1.08) + ' ' + (cy - r * .1) + ' Z" fill="' + d + '"/>';
+      if (tipo === 'coque') return '<circle cx="' + cx + '" cy="' + (cy - r * 1.15) + '" r="' + (r * .48) + '" fill="' + h + '"/>';
+      if (tipo === 'chiquinhas') return '<circle cx="' + (cx - r * 1.12) + '" cy="' + (cy - r * .55) + '" r="' + (r * .42) + '" fill="' + h + '"/><circle cx="' + (cx + r * 1.12) + '" cy="' + (cy - r * .55) + '" r="' + (r * .42) + '" fill="' + h + '"/>';
+      if (tipo === 'black') { var s = ''; for (var k = 0; k < 14; k++) { var a = Math.PI + k * Math.PI / 13; s += '<circle cx="' + (cx + Math.cos(a) * r * 1.05).toFixed(2) + '" cy="' + (cy - r * .1 + Math.sin(a) * r * 1.05).toFixed(2) + '" r="' + (r * .34) + '" fill="' + h + '"/>'; } return s + '<ellipse cx="' + cx + '" cy="' + (cy - r * .25) + '" rx="' + (r * 1.15) + '" ry="' + (r * 1.05) + '" fill="' + h + '"/>'; }
+      return '';
+    }
+    if (tipo === 'black') return '<path d="M' + (cx - r * 1.02) + ' ' + (cy - r * .05) + ' Q' + (cx - r * .9) + ' ' + (cy - r * .7) + ' ' + cx + ' ' + (cy - r * .62) + ' Q' + (cx + r * .9) + ' ' + (cy - r * .7) + ' ' + (cx + r * 1.02) + ' ' + (cy - r * .05) + ' L' + (cx + r * 1.08) + ' ' + (cy - r * .9) + ' L' + (cx - r * 1.08) + ' ' + (cy - r * .9) + ' Z" fill="' + h + '"/>';
+    var franja = '<path d="M' + (cx - r * 1.04) + ' ' + (cy + r * .05) + ' Q' + (cx - r * 1.1) + ' ' + (cy - r * 1.18) + ' ' + cx + ' ' + (cy - r * 1.12) + ' Q' + (cx + r * 1.1) + ' ' + (cy - r * 1.18) + ' ' + (cx + r * 1.04) + ' ' + (cy + r * .05) + ' Q' + (cx + r * .9) + ' ' + (cy - r * .5) + ' ' + (cx + r * .2) + ' ' + (cy - r * .58) + ' Q' + (cx - r * .3) + ' ' + (cy - r * .3) + ' ' + (cx - r * .75) + ' ' + (cy - r * .45) + ' Q' + (cx - r * .95) + ' ' + (cy - r * .2) + ' ' + (cx - r * 1.04) + ' ' + (cy + r * .05) + ' Z" fill="' + h + '"/>';
+    var brilho = '<path d="M' + (cx - r * .55) + ' ' + (cy - r * .82) + ' Q' + (cx - r * .1) + ' ' + (cy - r * 1.02) + ' ' + (cx + r * .35) + ' ' + (cy - r * .9) + '" stroke="#fff" stroke-width="' + (r * .09) + '" fill="none" opacity=".25" stroke-linecap="round"/>';
+    if (tipo === 'cacheado') { var c = ''; [[-.85, -.5], [-.5, -.95], [0, -1.1], [.5, -.95], [.85, -.5], [-1.0, -.05], [1.0, -.05]].forEach(function (q) { c += '<circle cx="' + (cx + q[0] * r) + '" cy="' + (cy + q[1] * r) + '" r="' + (r * .36) + '" fill="' + h + '"/>'; }); return c + '<circle cx="' + (cx - r * .35) + '" cy="' + (cy - r * 1.05) + '" r="' + (r * .1) + '" fill="#fff" opacity=".2"/>'; }
+    return franja + brilho;
+  }
+  function laco(cx, cy, r, cor) { return '<g transform="translate(' + cx + ' ' + cy + ')"><path d="M0 0 L' + (-r * .55) + ' ' + (-r * .32) + ' L' + (-r * .55) + ' ' + (r * .32) + ' Z M0 0 L' + (r * .55) + ' ' + (-r * .32) + ' L' + (r * .55) + ' ' + (r * .32) + ' Z" fill="' + cor + '"/><circle r="' + (r * .14) + '" fill="' + escurece(cor, .8) + '"/></g>'; }
+
+  /* criança em pé: h = altura em px. o: p (pele), c (camiseta), k (bermuda/calça), h (cabelo), cab, braco ('baixo','frente','acena','cima','segura'), avental, saia, boca, laco */
+  function crianca2(x, y, h, o) {
+    o = o || {}; var p = o.p || PELES[1], c = o.c || BLUE, k = o.k || NAVY, hc = o.h || CAB[0], cab = o.cab || 'curto', s = h / 100, g = '';
+    g += '<g transform="translate(' + x + ' ' + y + ') scale(' + s.toFixed(4) + ')">';
+    g += '<ellipse cx="0" cy="0" rx="17" ry="2.6" fill="#13285E" opacity=".12"/>';
+    g += cabelo(0, -79, 12.5, cab, hc, true);
+    /* pernas */
+    var perna = o.calca ? k : p;
+    g += membro('M-5 -34 L-6 -5', perna, 7.4) + membro('M5 -34 L6 -5', perna, 7.4);
+    if (!o.calca) g += membro('M-5 -36 L-5.5 -27', k, 8.6) + membro('M5 -36 L5.5 -27', k, 8.6);
+    g += '<path d="M-12 -2.5 Q-12 -7.5 -6 -7.5 L-2 -7.5 Q-0.5 -7.5 -0.8 -3.5 L-1 0 L-11 0 Q-12.5 0 -12 -2.5 Z" fill="' + (o.sapato || '#E8686A') + '"/><path d="M12 -2.5 Q12 -7.5 6 -7.5 L2 -7.5 Q0.5 -7.5 0.8 -3.5 L1 0 L11 0 Q12.5 0 12 -2.5 Z" fill="' + (o.sapato || '#E8686A') + '"/>';
+    g += '<path d="M-12.5 -0.6 L-0.9 -0.6 M0.9 -0.6 L12.5 -0.6" stroke="#fff" stroke-width="1.6" opacity=".9"/>';
+    /* bermuda/saia */
+    if (o.saia) g += '<path d="M-11 -42 L11 -42 L15 -26 Q0 -23 -15 -26 Z" fill="' + k + '"/>';
+    else g += '<path d="M-11.5 -42 L11.5 -42 L11.5 ' + (o.calca ? -33 : -28) + ' L1.2 ' + (o.calca ? -33 : -28) + ' L0 -36 L-1.2 ' + (o.calca ? -33 : -28) + ' L-11.5 ' + (o.calca ? -33 : -28) + ' Z" fill="' + k + '"/>';
+    /* tronco */
+    g += '<path d="M-12.5 -40 L-12 -58 Q-12 -65 -5 -66 L5 -66 Q12 -65 12 -58 L12.5 -40 Q0 -38 -12.5 -40 Z" fill="' + c + '"/>';
+    g += '<path d="M4 -66 Q12 -65 12 -58 L12.5 -40 Q8 -39 5 -39 Q7 -52 4 -66 Z" fill="#000" opacity=".1"/>';
+    g += '<path d="M-4.5 -66 Q0 -61.5 4.5 -66" stroke="' + escurece(c, .75) + '" stroke-width="1.6" fill="none"/>';
+    if (o.avental) g += '<path d="M-9 -58 L9 -58 L10.5 -34 Q0 -32 -10.5 -34 Z" fill="' + o.avental + '"/><path d="M-9 -58 L-5 -66 M9 -58 L5 -66" stroke="' + o.avental + '" stroke-width="1.8"/><rect x="-5" y="-48" width="10" height="6" rx="1.5" fill="' + escurece(o.avental, .85) + '"/>';
+    /* braços */
+    var bracos = {
+      baixo: ['M-11.5 -61 Q-17 -50 -16.5 -40', 'M11.5 -61 Q17 -50 16.5 -40'],
+      frente: ['M-11.5 -61 Q-17 -52 -10 -44', 'M11.5 -61 Q22 -55 27 -50'],
+      acena: ['M-11.5 -61 Q-17 -50 -16.5 -40', 'M11.5 -61 Q20 -70 21 -82'],
+      cima: ['M-11.5 -61 Q-20 -70 -20 -82', 'M11.5 -61 Q20 -70 20 -82'],
+      segura: ['M-11.5 -61 Q-14 -50 -6 -46', 'M11.5 -61 Q14 -50 6 -46'],
+      lupa: ['M-11.5 -61 Q-17 -50 -16.5 -40', 'M11.5 -61 Q22 -58 26 -64'],
+      ouvidos: ['M-11.5 -61 Q-21 -68 -13.5 -79', 'M11.5 -61 Q21 -68 13.5 -79'],
+      empurra: ['M-11.5 -61 Q-2 -55 21 -52', 'M11.5 -61 Q20 -57 27 -54'],
+      regador: ['M-11.5 -61 Q-17 -50 -16.5 -40', 'M11.5 -61 Q20 -52 25 -47']
+    }[o.braco || 'baixo'];
+    bracos.forEach(function (d) { g += membro(d, p, 6.2); });
+    bracos.forEach(function (d) { g += manga(d, c, 8.8); });
+    bracos.forEach(function (d) { var e = d.split(' ').slice(-2); g += '<circle cx="' + e[0] + '" cy="' + e[1] + '" r="3.6" fill="' + p + '"/>'; });
+    /* cabeça */
+    g += '<rect x="-3" y="-68" width="6" height="5" fill="' + escurece(p, .9) + '"/>';
+    g += rosto(0, -79, 12.5, { p: p, h: hc, boca: o.boca, olhos: o.olhos });
+    g += cabelo(0, -79, 12.5, cab, hc, false);
+    if (o.laco) g += laco(cab === 'chiquinhas' ? -13 : 8, cab === 'chiquinhas' ? -88 : -91, 9, o.laco);
+    return g + '</g>';
+  }
+
+  /* criança sentada no chão (pernas para a frente). h = altura da criança em pé (para manter a escala) */
+  function criancaSentada(x, y, h, o) {
+    o = o || {}; var p = o.p || PELES[1], c = o.c || BLUE, k = o.k || NAVY, hc = o.h || CAB[0], cab = o.cab || 'curto', s = h / 100, g = '';
+    g += '<g transform="translate(' + x + ' ' + y + ') scale(' + s.toFixed(4) + ')">';
+    g += '<ellipse cx="0" cy="0" rx="28" ry="3" fill="#13285E" opacity=".12"/>';
+    g += cabelo(0, -52, 12.5, cab, hc, true);
+    g += membro('M-6 -6 L-24 -3', o.calca ? k : p, 7.4) + membro('M6 -6 L24 -3', o.calca ? k : p, 7.4);
+    g += '<path d="M-12 -12 Q0 -16 12 -12 L16 -3 Q0 1 -16 -3 Z" fill="' + k + '"/>';
+    g += '<ellipse cx="-28" cy="-3" rx="5" ry="4" fill="' + (o.sapato || '#E8686A') + '"/><ellipse cx="28" cy="-3" rx="5" ry="4" fill="' + (o.sapato || '#E8686A') + '"/>';
+    g += '<path d="M-12 -10 L-11.5 -30 Q-11 -38 -5 -39 L5 -39 Q11 -38 11.5 -30 L12 -10 Q0 -8 -12 -10 Z" fill="' + c + '"/>';
+    g += '<path d="M4 -39 Q11 -38 11.5 -30 L12 -10 Q8 -9 5 -9 Q7 -24 4 -39 Z" fill="#000" opacity=".1"/>';
+    g += '<path d="M-4.5 -39 Q0 -34.5 4.5 -39" stroke="' + escurece(c, .75) + '" stroke-width="1.6" fill="none"/>';
+    if (o.avental) g += '<path d="M-8.5 -31 L8.5 -31 L10 -11 Q0 -9 -10 -11 Z" fill="' + o.avental + '"/>';
+    var B = { baixo: ['M-11 -34 Q-17 -24 -14 -14', 'M11 -34 Q17 -24 14 -14'], frente: ['M-11 -34 Q-16 -22 -6 -16', 'M11 -34 Q20 -26 26 -20'], dois: ['M-11 -34 Q-18 -24 -16 -16', 'M11 -34 Q18 -24 16 -16'], acima: ['M-11 -34 Q-16 -24 -9 -22', 'M11 -34 Q20 -40 24 -46'] }[o.braco || 'baixo'];
+    B.forEach(function (d) { g += membro(d, p, 6.2); var e = d.split(' ').slice(-2); g += '<circle cx="' + e[0] + '" cy="' + e[1] + '" r="3.6" fill="' + p + '"/>'; });
+    B.forEach(function (d) { g += manga(d, c, 8.8); });
+    g += '<rect x="-3" y="-41" width="6" height="5" fill="' + escurece(p, .9) + '"/>';
+    g += rosto(0, -52, 12.5, { p: p, h: hc, boca: o.boca, olhos: o.olhos }) + cabelo(0, -52, 12.5, cab, hc, false);
+    if (o.laco) g += laco(8, -64, 9, o.laco);
+    return g + '</g>';
+  }
+
+  /* bebê sentado (6–12 meses). h = altura sentado em px */
+  function bebe(x, y, h, o) {
+    o = o || {}; var p = o.p || PELES[1], c = o.c || '#F6B6C8', hc = o.h || CAB[0], s = h / 50, g = '';
+    g += '<g transform="translate(' + x + ' ' + y + ') scale(' + s.toFixed(4) + ')">';
+    g += '<ellipse cx="0" cy="0" rx="22" ry="2.4" fill="#13285E" opacity=".12"/>';
+    g += '<path d="M-8 -5 Q-16 -2 -19 -3" stroke="' + p + '" stroke-width="7.5" fill="none" stroke-linecap="round"/><path d="M8 -5 Q16 -2 19 -3" stroke="' + p + '" stroke-width="7.5" fill="none" stroke-linecap="round"/>';
+    g += '<ellipse cx="-20" cy="-3.2" rx="3.6" ry="3.2" fill="' + p + '"/><ellipse cx="20" cy="-3.2" rx="3.6" ry="3.2" fill="' + p + '"/>';
+    g += '<path d="M-12 -2 Q-14 -18 -9 -24 Q0 -28 9 -24 Q14 -18 12 -2 Q0 1 -12 -2 Z" fill="' + c + '"/>';
+    g += '<path d="M3 -26 Q12 -22 12 -10 L12 -2 Q8 -1 5 -1 Q8 -14 3 -26 Z" fill="#000" opacity=".08"/>';
+    g += '<path d="M-10 -8 Q0 -4 10 -8 L10 -2 Q0 1 -10 -2 Z" fill="' + escurece(c, .9) + '"/>';
+    var B = o.braco === 'frente' ? ['M-9 -21 Q-14 -14 -8 -10', 'M9 -21 Q17 -18 20 -13'] : o.braco === 'cima' ? ['M-9 -21 Q-16 -26 -16 -33', 'M9 -21 Q16 -26 16 -33'] : ['M-9 -21 Q-15 -14 -12 -8', 'M9 -21 Q15 -14 12 -8'];
+    B.forEach(function (d) { g += membro(d, p, 5.6); var e = d.split(' ').slice(-2); g += '<circle cx="' + e[0] + '" cy="' + e[1] + '" r="3.2" fill="' + p + '"/>'; });
+    g += rosto(0, -36, 11.5, { p: p, h: hc, boca: o.boca || 'o' });
+    g += '<path d="M-4 -46.5 Q-2 -51 2 -49 Q0 -46 3 -45" stroke="' + hc + '" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+    g += '<path d="M-10 -40 Q-9 -47.5 0 -47.8 Q9 -47.5 10 -40 Q5 -45 0 -44.8 Q-5 -45 -10 -40 Z" fill="' + hc + '" opacity=".75"/>';
+    return g + '</g>';
+  }
+
+  /* adulta em pé (h = altura) ou sentada no chão de pernas cruzadas (o.sentada; mantém a escala da adulta em pé) */
+  function adulta(x, y, h, o) {
+    o = o || {}; var p = o.p || PELES[2], c = o.c || TEAL, k = o.k || NAVY, hc = o.h || CAB[1], cab = o.cab || 'longo', s = h / 100, g = '';
+    g += '<g transform="translate(' + x + ' ' + y + ') scale(' + s.toFixed(4) + ')">';
+    var R = 6.7, hy;
+    if (o.sentada) {
+      hy = -55;
+      g += '<ellipse cx="0" cy="0" rx="30" ry="2.4" fill="#13285E" opacity=".12"/>';
+      g += cabelo(0, hy, R, cab, hc, true);
+      g += '<path d="M-26 -2 Q-24 -12 -10 -13 L10 -13 Q24 -12 26 -2 Q14 2 0 -3 Q-14 2 -26 -2 Z" fill="' + k + '"/><path d="M-22 -4 Q-6 -8 6 -2" stroke="' + escurece(k, .7) + '" stroke-width="1.2" fill="none"/>';
+      g += '<ellipse cx="-14" cy="-1.6" rx="6" ry="2.6" fill="#3B3B4F"/><ellipse cx="14" cy="-1.6" rx="6" ry="2.6" fill="#3B3B4F"/>';
+      g += '<path d="M-11 -12 L-11.5 -38 Q-11 -46 -4 -47 L4 -47 Q11 -46 11.5 -38 L11 -12 Z" fill="' + c + '"/><path d="M4 -47 Q11 -46 11.5 -38 L11 -12 L6 -12 Q8 -30 4 -47 Z" fill="#000" opacity=".1"/>';
+      var BS = o.braco === 'aponta' ? ['M-10 -43 Q-17 -30 -12 -20', 'M10 -43 Q20 -34 30 -30'] : o.braco === 'colo' ? ['M-10 -43 Q-16 -30 -6 -22', 'M10 -43 Q16 -30 6 -22'] : ['M-10 -43 Q-17 -28 -16 -16', 'M10 -43 Q17 -28 16 -16'];
+      BS.forEach(function (d) { g += membro(d, p, 4.2); var e = d.split(' ').slice(-2); g += '<circle cx="' + e[0] + '" cy="' + e[1] + '" r="2.6" fill="' + p + '"/>'; });
+      BS.forEach(function (d) { g += manga(d, c, 6.4); });
+      g += '<rect x="-2" y="' + (hy + R - .5) + '" width="4" height="3.5" fill="' + escurece(p, .9) + '"/>';
+    } else {
+      hy = -92;
+      g += '<ellipse cx="0" cy="0" rx="16" ry="2.2" fill="#13285E" opacity=".12"/>';
+      g += cabelo(0, hy, R, cab, hc, true);
+      g += membro('M-4 -48 L-4.5 -4', k, 7.6) + membro('M4 -48 L4.5 -4', k, 7.6) + '<path d="M-1 -46 L-1 -6" stroke="' + escurece(k, .75) + '" stroke-width=".8"/>';
+      g += '<path d="M-10 -1 Q-10 -5 -5 -5 L-1.5 -5 L-1 0 L-9 0 Z" fill="#3B3B4F"/><path d="M10 -1 Q10 -5 5 -5 L1.5 -5 L1 0 L9 0 Z" fill="#3B3B4F"/>';
+      g += '<path d="M-9.5 -47 Q-7.5 -58 -8 -64 Q-10.5 -70 -10.5 -77 Q-10 -83 -4 -84 L4 -84 Q10 -83 10.5 -77 Q10.5 -70 8 -64 Q7.5 -58 9.5 -47 Z" fill="' + c + '"/><path d="M4 -84 Q10 -83 10 -76 L8.5 -48 L4 -48 Q7 -66 4 -84 Z" fill="#000" opacity=".1"/>';
+      var BA = o.braco === 'aponta' ? ['M-9 -80 Q-13 -66 -12 -54', 'M9 -80 Q18 -76 26 -84'] : o.braco === 'acena' ? ['M-9 -80 Q-13 -66 -12 -54', 'M9 -80 Q17 -88 18 -100'] : o.braco === 'mao' ? ['M-9 -80 Q-13 -66 -12 -54', 'M9 -80 Q16 -68 22 -62'] : ['M-9 -80 Q-13 -66 -12 -54', 'M9 -80 Q13 -66 12 -54'];
+      BA.forEach(function (d) { g += membro(d, p, 4.2); var e = d.split(' ').slice(-2); g += '<circle cx="' + e[0] + '" cy="' + e[1] + '" r="2.5" fill="' + p + '"/>'; });
+      BA.forEach(function (d) { g += manga(d, c, 6.4); });
+      g += '<rect x="-2" y="' + (hy + R - .5) + '" width="4" height="4" fill="' + escurece(p, .9) + '"/>';
+    }
+    g += '<path d="M-3 ' + (hy + R + 2.5) + ' Q0 ' + (hy + R + 5) + ' 3 ' + (hy + R + 2.5) + '" stroke="' + escurece(c, .75) + '" stroke-width="1" fill="none"/>';
+    g += rosto(0, hy, R, { p: p, h: hc, boca: o.boca }) + cabelo(0, hy, R, cab, hc, false);
+    if (o.oculos) g += '<circle cx="-2.4" cy="' + (hy + .4) + '" r="1.9" fill="none" stroke="#2b2b2b" stroke-width=".55"/><circle cx="2.4" cy="' + (hy + .4) + '" r="1.9" fill="none" stroke="#2b2b2b" stroke-width=".55"/><path d="M-.5 ' + (hy + .4) + ' L.5 ' + (hy + .4) + '" stroke="#2b2b2b" stroke-width=".55"/>';
+    return g + '</g>';
+  }
+
   /* ===== ícones extras do curso de brincadeiras sensoriais ===== */
   I.nariz = function (c) { c = c || CORAL; return '<path d="M-2 -20 Q-4 -2 -14 8 Q-16 14 -8 15 Q-4 18 0 14 Q4 18 8 15 Q16 14 14 8 Q4 -2 2 -20 Z" fill="' + c + '"/><circle cx="-6" cy="10" r="2.6" fill="#fff" opacity=".8"/><circle cx="6" cy="10" r="2.6" fill="#fff" opacity=".8"/>'; };
   I.boca = function (c) { c = c || CORAL; return '<path d="M-20 -2 Q0 -14 20 -2 Q0 22 -20 -2 Z" fill="' + c + '"/><path d="M-14 0 Q0 6 14 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M-6 6 Q0 13 6 6" fill="#F7A6A0"/>'; };
@@ -1237,7 +1396,7 @@ CURSO.figs = (function () {
     b += R(20, 20, 330, 360, '#fff', { f: 'sh' + id, r: 20 });
     b += C(185, 190, 120, '#FFF4DA') + UD('toy-car', 50, 70, 270, 230);
     b += T(185, 330, 'Explorar, repetir, descobrir', { b: 1, s: 17, sora: 1, c: NAVY });
-    b += T(185, 354, 'o bebê pensa agindo', { s: 14, c: SOFT });
+    b += T(185, 354, 'a criança pensa agindo', { s: 14, c: SOFT });
     var P = [['Ação sobre os objetos', 'Piaget: no período sensório-motor', 'a inteligência nasce da ação.', 'mao', BLUE], ['Emoção e movimento', 'Wallon: gesto e tônus são a', 'primeira linguagem do bebê.', 'coracao', CORAL], ['Interação e cultura', 'Vigotski: o adulto empresta', 'palavras e sentidos à sensação.', 'fala', TEAL]];
     P.forEach(function (p, i) {
       var y = 26 + i * 120;
@@ -1251,7 +1410,7 @@ CURSO.figs = (function () {
   f.sentidos = { t: 'Muito além de cinco: os sentidos na teoria da integração sensorial', svg: (function () {
     var id = 's2', b = '', cx = 400, cy = 205;
     b += C(cx, cy, 92, '#fff', { f: 'sh' + id }) + C(cx, cy, 80, '#EEF4FF');
-    b += crianca(cx, cy + 62, 1.05, { c: CORAL, p: PELES[1], h: CAB[1], cab: 'cacheado', braco: 'acena' });
+    b += '<ellipse cx="400" cy="276" rx="26" ry="4" fill="#13285E" opacity=".12"/>' + crianca2(cx, cy + 70, 140, { c: CORAL, p: PELES[1], h: CAB[1], cab: 'cacheado', braco: 'acena', boca: 'riso', k: NAVY, saia: 1 });
     var S = [['Tato', 'textura, forma, temperatura', 'mao', CORAL], ['Audição', 'sons, vozes, ritmo', 'ouvido', PURP], ['Visão', 'luz, cor, forma, movimento', 'olho', BLUE], ['Olfato', 'cheiros, memória e afeto', 'nariz', GOLD2], ['Paladar', 'sabores e alimentação', 'boca', '#C2477A'], ['Vestibular', 'equilíbrio e giro da cabeça', 'espiral', TEAL2], ['Proprioceptivo', 'posição e força do corpo', 'musculo', NAVY]];
     S.forEach(function (s, i) {
       var a = -Math.PI / 2 + i * 2 * Math.PI / 7, x = cx + Math.cos(a) * 285, y = cy + Math.sin(a) * 150;
@@ -1263,7 +1422,7 @@ CURSO.figs = (function () {
       b += T(x - 36, y - 3, s[0], { b: 1, s: 15, sora: 1, c: s[3], a: 'start' }) + T(x - 36, y + 15, s[1], { s: 10.5, c: SOFT, a: 'start' });
     });
     b += pill(400, 386, 330, 24, NAVY, '+ interocepção: fome, sede, frio, cansaço', { s: 12.5 });
-    b += R(600, 360, 190, 22, '#FFF8E6', { r: 11, st: GOLD, sw: 1.5 }) + T(695, 375, 'contorno dourado: destaque de Ayres', { s: 11, c: GOLD2, b: 1 });
+    b += R(6, 372, 214, 22, '#FFF8E6', { r: 11, st: GOLD, sw: 1.5 }) + T(113, 387, 'contorno dourado: destaque de Ayres', { s: 10.5, c: GOLD2, b: 1 });
     return svg(800, 400, b, id);
   })() };
 
@@ -1368,12 +1527,12 @@ CURSO.figs = (function () {
     b += '<path d="M190 205 L610 205 L578 288 L222 288 Z" fill="#F1D9A6"/>';
     for (var i = 0; i < 90; i++) b += C(200 + (i * 47) % 400, 212 + (i * 29) % 72, 1.6, i % 2 ? '#D8B676' : '#FBEBC7');
     /* ferramentas */
-    b += '<g transform="translate(270 230) rotate(-20)"><rect x="-5" y="-46" width="10" height="40" rx="4" fill="' + CORAL + '"/><path d="M-16 -8 L16 -8 L12 18 Q0 26 -12 18 Z" fill="' + CORAL + '"/></g>';
-    b += '<g transform="translate(360 236)"><path d="M-26 -28 L26 -28 L6 0 L6 18 L-6 18 L-6 0 Z" fill="' + GOLD + '"/></g>';
-    b += '<g transform="translate(450 244)"><circle r="26" fill="none" stroke="' + TEAL + '" stroke-width="5"/><circle r="22" fill="#fff" opacity=".5"/>' + [-14, -7, 0, 7, 14].map(function (x) { return '<line x1="' + x + '" y1="-20" x2="' + x + '" y2="20" stroke="' + TEAL + '" stroke-width="1.5"/><line x1="-20" y1="' + x + '" x2="20" y2="' + x + '" stroke="' + TEAL + '" stroke-width="1.5"/>'; }).join('') + '<rect x="24" y="-4" width="34" height="8" rx="4" fill="' + TEAL + '"/></g>';
-    b += '<g transform="translate(540 248)"><path d="M-20 -22 L20 -22 L16 16 L-16 16 Z" fill="' + PURP + '"/><ellipse cx="0" cy="-22" rx="20" ry="5" fill="#9C84C4"/></g>';
-    var A = [[170, 120, 'Base', 'areia, água, terra, folhas,', 'papel picado, retalhos', 260, 220, BLUE], [400, 92, 'Ferramentas', 'pás, funis, peneiras,', 'potes, colheres, pincéis', 400, 200, CORAL], [630, 120, 'Poucas crianças', '2 a 4 por vez,', 'com o adulto por perto', 560, 214, TEAL2]];
-    A.forEach(function (a) { b += R(a[0] - 112, a[1] - 64, 224, 76, '#F7F9FE', { r: 14, st: a[7], sw: 2 }) + T(a[0], a[1] - 38, a[2], { b: 1, s: 16, sora: 1, c: a[7] }) + TL(a[0], a[1] - 18, [a[3], a[4]], { s: 12.5, c: INK, lh: 16 }) + seta(a[0], a[1] + 14, a[5], a[6], id, a[7], 2.5); });
+    b += '<g transform="translate(272 236) rotate(-20) scale(1.3)"><rect x="-5" y="-46" width="10" height="40" rx="4" fill="' + CORAL + '"/><path d="M-16 -8 L16 -8 L12 18 Q0 26 -12 18 Z" fill="' + CORAL + '"/></g>';
+    b += '<g transform="translate(362 238) scale(1.3)"><path d="M-26 -28 L26 -28 L6 0 L6 18 L-6 18 L-6 0 Z" fill="' + GOLD + '"/></g>';
+    b += '<g transform="translate(462 248) scale(1.2)"><circle r="26" fill="none" stroke="' + TEAL + '" stroke-width="5"/><circle r="22" fill="#fff" opacity=".5"/>' + [-14, -7, 0, 7, 14].map(function (x) { return '<line x1="' + x + '" y1="-20" x2="' + x + '" y2="20" stroke="' + TEAL + '" stroke-width="1.5"/><line x1="-20" y1="' + x + '" x2="20" y2="' + x + '" stroke="' + TEAL + '" stroke-width="1.5"/>'; }).join('') + '<rect x="24" y="-4" width="34" height="8" rx="4" fill="' + TEAL + '"/></g>';
+    b += '<g transform="translate(548 252) scale(1.3)"><path d="M-20 -22 L20 -22 L16 16 L-16 16 Z" fill="' + PURP + '"/><ellipse cx="0" cy="-22" rx="20" ry="5" fill="#9C84C4"/></g>';
+    var A = [[170, 120, 'Base', 'areia, água, terra, folhas,', 'papel picado, retalhos', 238, 272, BLUE], [400, 92, 'Ferramentas', 'pás, funis, peneiras,', 'potes, colheres, pincéis', 400, 200, CORAL], [630, 120, 'Poucas crianças', '2 a 4 por vez,', 'com o adulto por perto', 0, 0, TEAL2]];
+    A.forEach(function (a) { b += R(a[0] - 112, a[1] - 64, 224, 76, '#F7F9FE', { r: 14, st: a[7], sw: 2 }) + T(a[0], a[1] - 38, a[2], { b: 1, s: 16, sora: 1, c: a[7] }) + TL(a[0], a[1] - 18, [a[3], a[4]], { s: 12.5, c: INK, lh: 16 }) + (a[5] ? seta(a[0], a[1] + 14, a[5], a[6], id, a[7], 2.5) : ''); });
     b += R(60, 320, 330, 46, '#FFF8E6', { r: 14 }) + ic('check', 86, 343, .6, TEAL) + TL(108, 338, ['Combinados simples: o material fica na', 'bandeja; avental; no fim, lavar as mãos.'], { s: 12.5, c: INK, a: 'start', lh: 16 });
     b += R(410, 320, 330, 46, '#EAF2FF', { r: 14 }) + ic('repete', 436, 343, .8, BLUE) + TL(458, 338, ['Retome em outros dias, trocando ou', 'acrescentando uma ferramenta.'], { s: 12.5, c: INK, a: 'start', lh: 16 });
     return svg(800, 400, b, id);
@@ -1384,7 +1543,7 @@ CURSO.figs = (function () {
     var id = 's8', b = '';
     b += R(20, 20, 370, 300, '#fff', { f: 'sh' + id, r: 20 }) + R(20, 20, 370, 50, '#FCE4E1', { r: 20 }) + R(20, 50, 370, 20, '#FCE4E1', { r: 0 }) + T(205, 52, 'Não oferecer a menores de 3 anos', { b: 1, s: 16, sora: 1, c: '#A63A50' });
     b += R(410, 20, 370, 300, '#fff', { f: 'sh' + id, r: 20 }) + R(410, 20, 370, 50, '#DDF3E6', { r: 20 }) + R(410, 50, 370, 20, '#DDF3E6', { r: 0 }) + T(595, 52, 'Pode, com supervisão', { b: 1, s: 16, sora: 1, c: TEAL2 });
-    function item(x, y, desenho, nome, mal) { return R(x - 52, y - 46, 104, 110, mal ? '#FFF6F5' : '#F4FBF7', { r: 14 }) + desenho + T(x, y + 50, nome, { s: 12.5, b: 1, c: mal ? '#A63A50' : TEAL2 }); }
+    function item(x, y, desenho, nome, mal) { return R(x - 52, y - 46, 104, 110, mal ? '#FFF6F5' : '#F4FBF7', { r: 14 }) + desenho + T(x, y + 50, nome, { s: nome.length > 15 ? 11 : 12.5, b: 1, c: mal ? '#A63A50' : TEAL2 }); }
     var g1 = '';
     [[0, 0], [10, 6], [-8, 8], [4, -8], [-12, -4], [14, -4]].forEach(function (p) { g1 += '<ellipse cx="' + (85 + p[0]) + '" cy="' + (120 + p[1]) + '" rx="6" ry="4" fill="#8B4A2B" transform="rotate(' + p[0] * 3 + ' ' + (85 + p[0]) + ' ' + (120 + p[1]) + ')"/>'; });
     b += item(85, 120, g1, 'grãos soltos', 1);
@@ -1617,6 +1776,252 @@ CURSO.figs = (function () {
     P.forEach(function (p, i) { var y = 74 + i * 43; b += R(446, y, 318, 38, i % 2 ? '#F7F9FE' : '#EEF3FC', { r: 10 }) + T(460, y + 17, p[0], { b: 1, s: 13.5, c: BLUE, a: 'start' }) + T(460, y + 32, p[1], { s: 11.5, c: INK, a: 'start' }); });
     return svg(800, 400, b, id);
   })() };
+
+  /* ===== versões detalhadas das cenas com pessoas (escala: adulta H, criança de 3–4 anos ≈ 0,55H, bebê sentado ≈ 0,27H) ===== */
+  function chao(x, y, w, h, cor, id) { return R(x, y, w, h, cor || '#F3E6D2', { r: 0 }) + '<path d="M' + x + ' ' + y + ' L' + (x + w) + ' ' + y + '" stroke="#E2CFB2" stroke-width="2"/>'; }
+  function tapete(cx, cy, rx, ry, cor) { return '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '" fill="' + cor + '"/><ellipse cx="' + cx + '" cy="' + cy + '" rx="' + (rx - 8) + '" ry="' + (ry - 4) + '" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="6 5" opacity=".7"/>'; }
+  function estante(x, y, w, h) {
+    var b = R(x, y, w, h, '#E9D3B0', { r: 4 }) + R(x + 4, y + 4, w - 8, h / 2 - 6, '#F6E9D3', { r: 2 }) + R(x + 4, y + h / 2 + 2, w - 8, h / 2 - 6, '#F6E9D3', { r: 2 });
+    var cores = [CORAL, BLUE, GOLD, TEAL, PURP, '#F49BC1'];
+    for (var i = 0; i < 6; i++) b += R(x + 8 + i * (w - 16) / 6, y + 10 + (i % 2) * 3, (w - 16) / 6 - 3, h / 2 - 16 - (i % 2) * 3, cores[i], { r: 1 });
+    b += '<path d="M' + (x + 10) + ' ' + (y + h - 6) + ' Q' + (x + w / 4) + ' ' + (y + h / 2 + 8) + ' ' + (x + w / 2 - 6) + ' ' + (y + h - 6) + ' Z" fill="#C9944F"/>' + C(x + w * .72, y + h - 14, 8, '#7FC37A') + R(x + w * .72 - 6, y + h - 10, 12, 8, '#B5652E', { r: 1 });
+    return b;
+  }
+  function bacia(cx, cy, w, h, fundo, conteudo) {
+    var b = '<path d="M' + (cx - w / 2) + ' ' + cy + ' L' + (cx + w / 2) + ' ' + cy + ' L' + (cx + w / 2 - w * .08) + ' ' + (cy + h) + ' L' + (cx - w / 2 + w * .08) + ' ' + (cy + h) + ' Z" fill="#DCEEFB" opacity=".9" stroke="#A9CFEA" stroke-width="2"/>';
+    b += '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + (w / 2) + '" ry="' + (h * .22) + '" fill="' + fundo + '" stroke="#A9CFEA" stroke-width="2"/>';
+    return b + (conteudo || '');
+  }
+  function graos(cx, cy, rx, ry, cores, n) { var b = ''; for (var i = 0; i < n; i++) { var a = i * 2.39996, r = Math.sqrt(i / n); b += C((cx + Math.cos(a) * r * rx).toFixed(1), (cy + Math.sin(a) * r * ry).toFixed(1), 1.8, cores[i % cores.length]); } return b; }
+
+  /* 1. corpo */
+  f.corpo = { t: 'A criança pequena aprende com o corpo inteiro: ação, emoção e interação', svg: (function () {
+    var id = 's1', b = '';
+    b += R(20, 20, 340, 360, '#fff', { f: 'sh' + id, r: 20 });
+    b += '<clipPath id="cl' + id + '"><rect x="20" y="20" width="340" height="360" rx="20"/></clipPath><g clip-path="url(#cl' + id + ')">';
+    b += R(20, 20, 340, 250, '#F4F7FD', { r: 0 }) + estante(36, 120, 120, 92) + R(250, 52, 80, 60, '#fff', { r: 6, st: '#D9E2F2' }) + ic('sol', 290, 82, .9, GOLD) + chao(20, 270, 340, 110);
+    b += tapete(190, 318, 150, 30, '#CFE7F7');
+    b += adulta(282, 318, 300, { sentada: 1, c: TEAL, p: PELES[0], h: CAB[2], cab: 'coque', braco: 'colo', boca: 'riso' });
+    b += criancaSentada(158, 322, 168, { c: GOLD, p: PELES[3], h: CAB[1], cab: 'black', braco: 'frente', boca: 'o' });
+    b += bacia(208, 300, 86, 26, '#9FD8FF', graos(208, 300, 34, 4, ['#fff'], 0) + '<path d="M176 300 q8 -4 16 0 t16 0 t16 0" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/>' + '<g transform="translate(222 296)"><path d="M-8 0 Q-8 -8 0 -8 Q6 -8 6 -3 L10 -4 L8 1 Q4 4 -4 3 Z" fill="' + GOLD + '"/><circle cx="1" cy="-5" r="1" fill="#2b2b2b"/></g>');
+    b += '</g>';
+    b += R(36, 26, 308, 34, 'rgba(255,255,255,.85)', { r: 12 }) + T(190, 49, 'Explorar, repetir, descobrir: a criança pensa agindo', { b: 1, s: 13.5, c: NAVY });
+    var P = [['Ação sobre os objetos', 'Piaget: no período sensório-motor', 'a inteligência nasce da ação.', 'mao', BLUE], ['Emoção e movimento', 'Wallon: gesto e tônus são a', 'primeira linguagem do bebê.', 'coracao', CORAL], ['Interação e cultura', 'Vigotski: o adulto empresta', 'palavras e sentidos à sensação.', 'fala', TEAL]];
+    P.forEach(function (p, i) {
+      var y = 26 + i * 120;
+      b += R(380, y, 400, 104, '#fff', { f: 'sh' + id, r: 16 }) + selo(432, y + 52, 32, p[3], p[4], id, '#fff');
+      b += T(480, y + 36, p[0], { b: 1, s: 17, sora: 1, c: p[4], a: 'start' }) + TL(480, y + 62, [p[1], p[2]], { s: 14, c: INK, a: 'start', lh: 19 });
+    });
+    return svg(800, 400, b, id);
+  })() };
+
+  /* 6. cesto */
+  f.cesto = { t: 'O cesto dos tesouros (Goldschmied; Jackson, 2006)', svg: (function () {
+    var id = 's6', b = '';
+    b += R(20, 20, 470, 360, '#fff', { f: 'sh' + id, r: 20 });
+    b += '<clipPath id="cl' + id + '"><rect x="20" y="20" width="470" height="360" rx="20"/></clipPath><g clip-path="url(#cl' + id + ')">';
+    b += R(20, 20, 470, 270, '#F4F7FD', { r: 0 }) + estante(300, 150, 150, 96) + chao(20, 290, 470, 90);
+    b += tapete(220, 334, 190, 34, '#F6DCC4');
+    /* cesto em escala: diâmetro ≈ 35 cm, altura ≈ 12 cm; bebê sentado ≈ 45 cm */
+    b += cestoV(70, 300, 128, 36);
+    /* objetos reais em escala */
+    b += '<g transform="translate(92 292) rotate(-28)"><rect x="-2.6" y="-26" width="5.2" height="28" rx="2.6" fill="#B98552"/><ellipse cx="0" cy="-29" rx="6" ry="8.5" fill="#C99460"/><ellipse cx="-1.6" cy="-31" rx="2" ry="3" fill="#fff" opacity=".3"/></g>';
+    b += '<g transform="translate(118 290)"><circle r="10" fill="#E8EDF5" stroke="#8D9BB3" stroke-width="2.6"/><circle r="5" fill="none" stroke="#8D9BB3" stroke-width="2"/><circle cx="-3" cy="-4" r="2" fill="#fff"/></g>';
+    b += '<g transform="translate(144 290)"><ellipse rx="8.5" ry="12" fill="#8A5A2B"/>' + [-8, -3, 2, 7].map(function (y) { return '<path d="M-8 ' + y + ' Q0 ' + (y + 4) + ' 8 ' + y + '" stroke="#5E3B19" stroke-width="1.6" fill="none"/>'; }).join('') + '</g>';
+    b += '<g transform="translate(170 292)"><circle r="9.5" fill="#E8686A"/><path d="M-8 -4 Q0 2 8 -4 M-9 2 Q0 8 9 2" stroke="#fff" stroke-width="1.4" fill="none" opacity=".7"/></g>';
+    b += '<g transform="translate(186 300) rotate(14)"><rect x="-10" y="-6" width="20" height="12" rx="4" fill="#F6D86B"/>' + [-6, -2, 2, 6].map(function (x) { return '<circle cx="' + x + '" cy="0" r="1.4" fill="#E1B93C"/>'; }).join('') + '</g>';
+    b += '<g transform="translate(60 346)"><path d="M-10 4 Q-11 -9 0 -10 Q11 -9 10 4 Z" fill="#F4E1C1" stroke="#D9B98A" stroke-width="1.4"/>' + [-6, -1, 4].map(function (x) { return '<line x1="' + x + '" y1="-8" x2="' + (x * 1.3) + '" y2="3" stroke="#D9B98A" stroke-width="1.1"/>'; }).join('') + '</g>';
+    /* bebê explorando, segurando uma colher */
+    b += bebe(238, 346, 112, { p: PELES[2], h: CAB[1], c: '#BFE3F8', braco: 'frente', boca: 'o' });
+    b += '<g transform="translate(278 318) rotate(-40)"><rect x="-2.4" y="-22" width="4.8" height="24" rx="2.4" fill="#B98552"/><ellipse cx="0" cy="-24" rx="5" ry="7" fill="#C99460"/></g>';
+    /* adulta sentada, atenta e disponível */
+    b += adulta(410, 348, 410, { sentada: 1, c: CORAL, p: PELES[0], h: CAB[0], cab: 'longo', braco: 'colo' });
+    b += '</g>';
+    b += R(36, 34, 210, 50, '#E6F7F3', { r: 12 }) + TL(141, 54, ['adulta perto, atenta e', 'disponível, sem dirigir'], { s: 12.5, c: TEAL2, b: 1, lh: 16 });
+    b += '<path d="M246 64 Q330 70 380 138" stroke="' + TEAL2 + '" stroke-width="2" fill="none" stroke-dasharray="4 5" marker-end="url(#ar' + id + ')"/>';
+    var L = [['Para quem', 'bebês que já se sentam e ainda', 'não andam (cerca de 6 a 12 meses)'], ['O que vai no cesto', '50 a 100 objetos de madeira, metal,', 'tecido, couro, elementos naturais'], ['Pouco plástico', 'peso, textura e temperatura', 'variados enriquecem a exploração'], ['Cuidado contínuo', 'conferir, higienizar, retirar o que', 'quebrou e renovar os objetos']];
+    L.forEach(function (l, i) {
+      var y = 24 + i * 89;
+      b += R(506, y, 274, 80, '#fff', { f: 'sh' + id, r: 14 }) + C(530, y + 24, 12, [CORAL, GOLD2, BLUE, TEAL][i]) + T(530, y + 29, String(i + 1), { b: 1, s: 13, c: '#fff', sora: 1 });
+      b += T(550, y + 29, l[0], { b: 1, s: 15, sora: 1, c: NAVY, a: 'start' }) + TL(522, y + 52, [l[1], l[2]], { s: 12.5, c: INK, a: 'start', lh: 16 });
+    });
+    return svg(800, 400, b, id);
+  })() };
+
+  /* 9. paisagem */
+  f.paisagem = { t: 'Caminhada sonora: escutar a paisagem sonora da escola (inspirado em Schafer, 1991)', svg: (function () {
+    var id = 's9', b = '';
+    b += '<clipPath id="cl' + id + '"><rect x="20" y="20" width="760" height="270" rx="20"/></clipPath><g clip-path="url(#cl' + id + ')">';
+    b += R(20, 20, 760, 270, '#E3F2FF', { r: 0 }) + C(700, 60, 22, '#FFE7A3') + '<path d="M120 70 q14 -14 28 0 q14 -10 22 4 l-56 0 z" fill="#fff"/><path d="M560 56 q12 -12 24 0 q12 -8 20 4 l-48 0 z" fill="#fff"/>';
+    b += '<path d="M20 200 Q200 186 400 196 T780 190 L780 290 L20 290 Z" fill="#CDE9C0"/>';
+    /* escola em escala (prédio ≈ 2× a altura da adulta), ao fundo */
+    b += '<g transform="translate(130 196)"><path d="M-92 -116 L0 -170 L92 -116 Z" fill="' + CORAL + '"/><path d="M-92 -116 L0 -170 L0 -164 L-84 -116 Z" fill="#000" opacity=".08"/><rect x="-84" y="-116" width="168" height="116" fill="#FFF8EC" stroke="#D9C9A8" stroke-width="2"/>';
+    b += [[-66, -98], [-30, -98], [30, -98], [66, -98], [-66, -58], [66, -58]].map(function (q) { return R(q[0] - 12, q[1], 24, 22, '#BFE3F8', { r: 2, st: '#fff', sw: 3 }); }).join('');
+    b += R(-16, -48, 32, 48, '#2F7FD1', { r: 3 }) + C(9, -24, 2, GOLD) + ic('relogio', 0, -138, .55) + R(-46, -34, 22, 6, '#8A5A2B', { r: 1 }) + '</g>';
+    /* árvore em escala (≈ 1,6× a adulta) */
+    b += '<rect x="380" y="98" width="18" height="104" rx="5" fill="#8A5A2B"/><path d="M386 140 q8 8 2 20" stroke="#6B421C" stroke-width="2" fill="none"/>' + C(389, 88, 54, '#5FAE5A') + C(352, 108, 34, '#6DBA66') + C(428, 106, 36, '#6DBA66') + C(392, 52, 32, '#77C46F') + C(370, 78, 6, '#fff', { op: .15 });
+    b += '<g transform="translate(424 70)"><ellipse rx="8" ry="5.5" fill="' + GOLD2 + '"/><circle cx="7" cy="-3" r="3.6" fill="' + GOLD2 + '"/><path d="M10 -3 l4 1 l-4 1 z" fill="#F59E3B"/><circle cx="8" cy="-4" r=".9" fill="#2b2b2b"/><path d="M-6 -2 L-13 -6 L-10 1 Z" fill="' + escurece(GOLD2, .8) + '"/></g>';
+    /* carro distante (menor pela distância) */
+    b += '<g transform="translate(640 192) scale(.72)"><rect x="-56" y="-26" width="112" height="28" rx="10" fill="' + GOLD + '"/><path d="M-32 -26 L-20 -48 L22 -48 L36 -26 Z" fill="' + GOLD + '"/><path d="M-26 -28 L-17 -44 L-2 -44 L-2 -28 Z M3 -28 L3 -44 L19 -44 L29 -28 Z" fill="#DDF1FF"/>' + C(-30, 3, 11, '#333') + C(30, 3, 11, '#333') + C(-30, 3, 4, '#aaa') + C(30, 3, 4, '#aaa') + R(48, -20, 8, 6, '#fff', { r: 2 }) + '</g>';
+    b += '<path d="M20 268 Q300 246 520 258 T780 250 L780 290 L20 290 Z" fill="#E9D9B5"/>';
+    function ondas(x, y, cor) { var g = ''; for (var k = 1; k <= 3; k++) g += '<path d="M' + x + ' ' + (y - k * 8) + ' q' + (k * 7) + ' ' + (k * 8) + ' 0 ' + (k * 16) + '" stroke="' + cor + '" stroke-width="3" fill="none" stroke-linecap="round" opacity="' + (1 - k * .22) + '"/>'; return g; }
+    b += ondas(170, 64, CORAL) + T(206, 48, 'sinal', { s: 12.5, b: 1, c: CORAL }) + ondas(442, 64, PURP) + T(482, 48, 'pássaro', { s: 12.5, b: 1, c: PURP }) + ondas(690, 160, GOLD2) + T(720, 136, 'carro', { s: 12.5, b: 1, c: GOLD2 }) + ondas(222, 150, BLUE) + T(262, 134, 'cozinha', { s: 12.5, b: 1, c: BLUE });
+    /* grupo em fila: adulta (H = 150) e crianças (≈ 0,55H) */
+    b += adulta(300, 276, 150, { c: TEAL2, p: PELES[1], h: CAB[1], cab: 'longo', braco: 'mao' });
+    [[352, PELES[0], BLUE, CAB[3], 'chiquinhas', '#F49BC1'], [398, PELES[3], CORAL, CAB[1], 'black', null], [444, PELES[2], GOLD, CAB[0], 'curto', null], [490, PELES[1], PURP, CAB[1], 'cacheado', null]].forEach(function (c, i) {
+      b += crianca2(c[0], 278 - i, 84, { p: c[1], c: c[2], h: c[3], cab: c[4], laco: c[5], braco: i === 1 ? 'ouvidos' : 'baixo', boca: i === 1 ? 'o' : null, k: i % 2 ? NAVY : '#3E5C99' });
+    });
+    b += C(398, 186, 12, '#fff', { f: 'sh' + id }) + ic('ouvido', 398, 186, .42);
+    b += '</g>';
+    var E = [['1', 'Caminhar em silêncio', NAVY], ['2', 'Escutar e contar os sons', BLUE], ['3', 'Imitar com voz e corpo', PURP], ['4', 'Conversar e desenhar', TEAL2]];
+    E.forEach(function (e, i) { var x = 30 + i * 190; b += R(x, 304, 178, 78, '#fff', { f: 'sh' + id, r: 14 }) + C(x + 30, 343, 18, e[2]) + T(x + 30, 349, e[0], { b: 1, s: 17, c: '#fff', sora: 1 }) + TL(x + 58, 338, e[1].split(' ').length > 2 ? [e[1].split(' ').slice(0, 2).join(' '), e[1].split(' ').slice(2).join(' ')] : [e[1]], { b: 1, s: 13.5, c: NAVY, a: 'start', lh: 17 }); });
+    return svg(800, 400, b, id);
+  })() };
+
+  /* 11. visao */
+  f.visao = { t: 'Como o bebê começa a ver: perto, com contraste e com rostos', svg: (function () {
+    var id = 's11', b = '';
+    b += R(20, 20, 400, 360, '#fff', { f: 'sh' + id, r: 20 });
+    b += '<clipPath id="cl' + id + '"><rect x="20" y="20" width="400" height="360" rx="20"/></clipPath><g clip-path="url(#cl' + id + ')">';
+    b += R(20, 20, 400, 360, '#FFF7EC', { r: 0 }) + C(360, 70, 70, '#FFE7C2', { op: .6 });
+    /* adulta em busto: cabeça ≈ 23 cm; rosto do bebê a 20–30 cm (≈ uma cabeça de distância) */
+    var P = PELES[1], H = CAB[1];
+    b += cabelo(118, 150, 44, 'longo', H, true);
+    b += '<path d="M10 400 Q14 262 118 246 Q222 262 226 400 Z" fill="' + TEAL + '"/><path d="M160 254 Q222 266 226 400 L190 400 Q196 300 160 254 Z" fill="#000" opacity=".08"/>';
+    b += '<rect x="104" y="186" width="28" height="30" fill="' + escurece(P, .9) + '"/><path d="M96 246 Q118 264 140 246" stroke="' + escurece(TEAL, .75) + '" stroke-width="3" fill="none"/>';
+    b += rosto(118, 150, 44, { p: P, h: H, boca: 'riso' }) + cabelo(118, 150, 44, 'longo', H, false);
+    /* bebê no colo, deitado no braço */
+    b += '<path d="M150 330 Q230 340 286 300" stroke="' + P + '" stroke-width="22" fill="none" stroke-linecap="round"/>';
+    b += '<path d="M120 318 Q170 262 262 250 Q300 252 300 282 Q282 318 200 330 Q150 338 120 318 Z" fill="#F6B6C8"/><path d="M150 320 Q200 300 260 290" stroke="#fff" stroke-width="2" fill="none" opacity=".6"/>';
+    b += '<path d="M120 318 Q104 312 108 300" stroke="' + PELES[0] + '" stroke-width="12" fill="none" stroke-linecap="round"/>';
+    b += rosto(300, 244, 24, { p: PELES[0], h: CAB[3], boca: 'o' }) + '<path d="M290 220 Q296 214 304 220" stroke="' + CAB[3] + '" stroke-width="2.5" fill="none"/>';
+    b += '<path d="M232 300 Q250 280 262 262" stroke="' + PELES[0] + '" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="262" cy="260" r="6" fill="' + PELES[0] + '"/>';
+    b += '<path d="M290 120 Q340 300 420 300 L420 380 L250 380 Z" fill="' + TEAL + '" opacity="0"/>';
+    b += '<path d="M164 150 Q232 168 276 226" stroke="' + GOLD2 + '" stroke-width="3" stroke-dasharray="6 6" fill="none" marker-end="url(#ar' + id + ')"/><path d="M276 226 Q230 172 164 154" stroke="' + GOLD2 + '" stroke-width="3" stroke-dasharray="6 6" fill="none" marker-end="url(#ar' + id + ')" opacity="0"/>';
+    b += '</g>';
+    b += R(196, 132, 120, 30, GOLD, { r: 15 }) + T(256, 152, '20 a 30 cm', { b: 1, s: 15, c: NAVY, sora: 1 });
+    b += T(236, 52, 'a distância do rosto', { b: 1, s: 15, c: NAVY, a: 'start' }) + T(236, 72, 'de quem segura no colo', { s: 14, c: SOFT, a: 'start' });
+    b += R(316, 318, 90, 52, '#fff', { r: 6, st: '#222', sw: 2 }) + R(326, 326, 26, 36, '#111', { r: 0 }) + C(380, 344, 13, '#111') + '<path d="M326 362 L352 326" stroke="#fff" stroke-width="2" opacity="0"/>';
+    b += T(361, 312, 'contraste forte', { s: 12, c: INK, b: 1 });
+    var E = [['Recém-nascido', 'vê melhor de perto; prefere', 'contrastes fortes e rostos', BLUE], ['Primeiros meses', 'acompanha objetos; os olhos', 'trabalham juntos; cores se ampliam', TEAL], ['Segundo semestre', 'percebe profundidade; coordena', 'ver e pegar com mais precisão', PURP]];
+    E.forEach(function (e, i) { var y = 24 + i * 100; b += R(440, y, 340, 88, '#fff', { f: 'sh' + id, r: 16 }) + R(440, y, 8, 88, e[3], { r: 4 }) + ic('olho', 480, y + 44, .8, e[3]) + T(515, y + 30, e[0], { b: 1, s: 16, sora: 1, c: e[3], a: 'start' }) + TL(515, y + 52, [e[1], e[2]], { s: 12.5, c: INK, a: 'start', lh: 16 }); });
+    b += R(440, 326, 340, 54, NAVY, { r: 14 }) + TL(610, 348, ['Espelho inquebrável, móbile ao lado,', 'luz suave e nada de telas antes dos 2 anos'], { s: 13, c: '#fff', lh: 18, b: 1 });
+    return svg(800, 400, b, id);
+  })() };
+
+  /* 14. natureza */
+  f.natureza = { t: 'O pátio como laboratório sensorial (Tiriba, 2010)', svg: (function () {
+    var id = 's14', b = '';
+    b += '<clipPath id="cl' + id + '"><rect x="20" y="20" width="760" height="360" rx="20"/></clipPath><g clip-path="url(#cl' + id + ')">';
+    b += R(20, 20, 760, 360, '#DFF1FF', { r: 0 }) + '<path d="M20 270 Q220 236 400 258 T780 246 L780 380 L20 380 Z" fill="#9CD48C"/>' + '<path d="M20 300 Q260 280 420 300 T780 296 L780 380 L20 380 Z" fill="#86C377"/>';
+    for (var i = 0; i < 40; i++) { var gx = 30 + (i * 53) % 740, gy = 300 + (i * 37) % 70; b += '<path d="M' + gx + ' ' + gy + ' l-3 -8 M' + gx + ' ' + gy + ' l0 -10 M' + gx + ' ' + gy + ' l3 -8" stroke="#6AAE5E" stroke-width="1.6"/>'; }
+    b += ic('sol', 90, 76, 1.6, '#F5B93B');
+    /* árvore (≈ 3× a criança) */
+    b += '<path d="M374 340 Q380 250 376 150 L398 150 Q394 250 404 340 Z" fill="#8A5A2B"/><path d="M382 200 q8 10 2 24 M392 260 q-8 10 0 24" stroke="#6B421C" stroke-width="2.5" fill="none"/><path d="M380 182 Q350 160 340 140 M396 176 Q420 158 432 136" stroke="#8A5A2B" stroke-width="8" fill="none" stroke-linecap="round"/>';
+    b += C(386, 100, 72, '#5FAE5A') + C(330, 130, 46, '#6DBA66') + C(444, 126, 48, '#6DBA66') + C(388, 50, 44, '#77C46F') + C(360, 84, 10, '#fff', { op: .12 }) + C(420, 70, 7, '#fff', { op: .12 });
+    [[300, 330], [250, 344], [540, 318], [600, 340]].forEach(function (q, k) { b += '<path d="M' + q[0] + ' ' + q[1] + ' L' + q[0] + ' ' + (q[1] - 20) + '" stroke="#3E8E41" stroke-width="2.5"/><path d="M' + q[0] + ' ' + (q[1] - 8) + ' q-8 -4 -10 -10 q8 0 10 8" fill="#4E9F4A"/>' + [0, 72, 144, 216, 288].map(function (a) { return C((q[0] + Math.cos(a * Math.PI / 180) * 5.5).toFixed(1), (q[1] - 24 + Math.sin(a * Math.PI / 180) * 5.5).toFixed(1), 4.6, [CORAL, GOLD, '#F49BC1', '#fff'][k]); }).join('') + C(q[0], q[1] - 24, 3, GOLD2); });
+    /* criança (≈ 1 m) com lupa, observando uma joaninha na folha */
+    b += crianca2(470, 352, 112, { c: GOLD, p: PELES[2], h: CAB[1], cab: 'cacheado', braco: 'lupa', boca: 'o', k: TEAL2 });
+    var hx = 470 + 26 * 1.12, hy = 352 - 64 * 1.12;
+    b += '<g transform="translate(' + (hx + 6).toFixed(0) + ' ' + (hy - 8).toFixed(0) + ') rotate(-30)"><rect x="-2" y="2" width="4" height="14" rx="2" fill="#8A5A2B"/><circle r="9" fill="#E8F2FF" fill-opacity=".7" stroke="' + NAVY + '" stroke-width="3"/></g>';
+    b += '<g transform="translate(518 300)"><path d="M-14 6 Q-16 -8 0 -12 Q16 -8 14 6 Q0 12 -14 6 Z" fill="#6DBA66"/><path d="M-12 4 L10 -8" stroke="#4E9F4A" stroke-width="1.5"/><circle cx="2" cy="-2" r="4" fill="' + CORAL + '"/><circle cx="1" cy="-3" r="1" fill="#2b2b2b"/><circle cx="3.5" cy="-.5" r="1" fill="#2b2b2b"/></g>';
+    b += '<path d="M540 318 L546 322" stroke="#2b2b2b" stroke-width="0"/>';
+    b += '</g>';
+    var L = [[150, 210, 'Tato', 'casca, grama, areia, pedra', 'mao', CORAL, 372, 220], [640, 110, 'Audição', 'pássaros, vento, folhas', 'ouvido', PURP, 470, 110], [650, 220, 'Olfato', 'terra molhada, flores', 'nariz', GOLD2, 600, 300], [150, 110, 'Visão', 'cores das estações, luz e sombra', 'olho', BLUE, 320, 120], [650, 330, 'Movimento', 'subir, descer, equilibrar-se', 'espiral', TEAL2, 500, 340]];
+    L.forEach(function (l) {
+      b += '<path d="M' + l[0] + ' ' + l[1] + ' L' + l[6] + ' ' + l[7] + '" stroke="#fff" stroke-width="2.5" stroke-dasharray="5 5"/>';
+      b += R(l[0] - 108, l[1] - 26, 236, 52, '#fff', { f: 'sh' + id, r: 26 }) + C(l[0] - 82, l[1], 19, l[5]) + ic(l[4], l[0] - 82, l[1], .55, '#fff');
+      b += T(l[0] - 56, l[1] - 3, l[2], { b: 1, s: 14.5, sora: 1, c: l[5], a: 'start' }) + T(l[0] - 56, l[1] + 14, l[3], { s: 11, c: SOFT, a: 'start' });
+    });
+    return svg(800, 400, b, id);
+  })() };
+
+  /* 15. horta */
+  f.horta = { t: 'Da horta ao prato: uma experiência com todos os sentidos', svg: (function () {
+    var id = 's15', b = '', cx = 400, cy = 200;
+    b += C(cx, cy, 118, '#fff', { f: 'sh' + id });
+    b += '<clipPath id="cl' + id + '"><circle cx="' + cx + '" cy="' + cy + '" r="112"/></clipPath><g clip-path="url(#cl' + id + ')">';
+    b += R(280, 80, 240, 240, '#E3F2FF', { r: 0 }) + '<path d="M280 232 Q400 220 520 232 L520 320 L280 320 Z" fill="#B9DFA8"/>';
+    /* canteiro em escala: altura ≈ 30 cm, alfaces ≈ 15 cm */
+    b += R(310, 250, 120, 30, '#B5652E', { r: 4 }) + R(310, 246, 120, 8, '#8A5A2B', { r: 3 });
+    [328, 352, 376, 400, 422].forEach(function (x, k) { b += k % 2 ? '<g transform="translate(' + x + ' 246)">' + [[-6, -4], [6, -4], [0, -9], [-3, -2], [3, -2]].map(function (q) { return '<ellipse cx="' + q[0] + '" cy="' + q[1] + '" rx="6" ry="5" fill="' + (k === 1 ? '#7FC37A' : '#9ED38F') + '"/>'; }).join('') + '</g>' : '<path d="M' + x + ' 246 l0 -14 M' + x + ' 236 q-7 -2 -8 -8 q7 0 8 6 M' + x + ' 234 q7 -2 8 -8 q-7 0 -8 6" stroke="#3E8E41" stroke-width="2" fill="#5FAE5A"/>'; });
+    var kx = 462, ky = 294, kh = 112, u = kh / 100;
+    b += '<ellipse cx="' + kx + '" cy="' + (ky + 1) + '" rx="18" ry="3.5" fill="#13285E" opacity=".12"/>';
+    b += '<g transform="translate(' + (2 * kx) + ' 0) scale(-1 1)">' + crianca2(kx, ky, kh, { c: CORAL, p: PELES[0], h: CAB[3], cab: 'chiquinhas', laco: GOLD, braco: 'regador', saia: 1, k: BLUE, boca: 'riso' }) + '</g>';
+    var hx = kx - 25 * u, hy = ky - 47 * u;
+    /* regador ≈ 25 cm: corpo, alça e bico apontado para o canteiro */
+    b += '<g transform="translate(' + hx.toFixed(1) + ' ' + (hy + 6).toFixed(1) + ')"><path d="M-9 -8 L9 -8 L11 12 L-11 12 Z" fill="' + BLUE + '"/><path d="M-9 -8 L9 -8" stroke="#2A6BB3" stroke-width="2"/><path d="M-8 -6 Q0 -20 8 -6" stroke="#2A6BB3" stroke-width="3" fill="none"/><path d="M-9 4 L-30 -8 L-29 -11 L-8 -2 Z" fill="' + BLUE + '"/><ellipse cx="-31" cy="-10" rx="2.5" ry="4" transform="rotate(30 -31 -10)" fill="#2A6BB3"/></g>';
+    var tx = hx - 33, ty = hy - 2;
+    for (var i = 0; i < 6; i++) b += '<path d="M' + (tx - 4 - i * 4).toFixed(0) + ' ' + (ty + 6 + i * 6).toFixed(0) + ' l-1.5 5" stroke="#5AAEF0" stroke-width="2" stroke-linecap="round"/>';
+    b += '</g>';
+    var E = [['Plantar', 'mãos na terra', 'mao', '#8A5A2B'], ['Regar', 'água e cuidado', 'gota', BLUE], ['Observar', 'crescer dia a dia', 'lupa', TEAL2], ['Colher', 'tirar com cuidado', 'folha', '#3E8E41'], ['Cheirar', 'manjericão, hortelã', 'nariz', GOLD2], ['Provar', 'respeitando alergias', 'boca', CORAL]];
+    E.forEach(function (e, i) {
+      var a = -Math.PI / 2 + i * Math.PI / 3, x = cx + Math.cos(a) * 280, y = cy + Math.sin(a) * 148;
+      var a2 = a + Math.PI / 3, x2 = cx + Math.cos(a2) * 280, y2 = cy + Math.sin(a2) * 148;
+      b += '<path d="M' + (x + (x2 - x) * .3).toFixed(0) + ' ' + (y + (y2 - y) * .3).toFixed(0) + ' Q' + (cx + Math.cos(a + Math.PI / 6) * 250).toFixed(0) + ' ' + (cy + Math.sin(a + Math.PI / 6) * 130).toFixed(0) + ' ' + (x + (x2 - x) * .7).toFixed(0) + ' ' + (y + (y2 - y) * .7).toFixed(0) + '" stroke="' + GOLD2 + '" stroke-width="2.5" fill="none" marker-end="url(#ar' + id + ')" opacity=".7"/>';
+      b += R(x - 92, y - 28, 184, 56, '#fff', { f: 'sh' + id, r: 28 }) + C(x - 64, y, 21, e[3]) + ic(e[2], x - 64, y, .6, '#fff');
+      b += T(x - 36, y - 3, e[0], { b: 1, s: 15, sora: 1, c: e[3], a: 'start' }) + T(x - 36, y + 15, e[1], { s: 11, c: SOFT, a: 'start' });
+    });
+    return svg(800, 400, b, id);
+  })() };
+
+  /* 16. movimento */
+  f.movimento = { t: 'Os sentidos do movimento na prática: vestibular e proprioceptivo', svg: (function () {
+    var id = 's16', b = '';
+    var Col = [[20, 'Vestibular', 'equilíbrio, giro e balanço', TEAL2, [['Balançar', 'balanço, rede, lençol'], ['Girar', 'devagar, com pausa'], ['Rolar', 'grama, rampa de colchonete'], ['Escorregar', 'escorregador baixo']]], [410, 'Proprioceptivo', 'força e posição do corpo', NAVY, [['Empurrar', 'carrinho, caixa com blocos'], ['Puxar', 'corda grossa, cabo de guerra'], ['Carregar', 'almofadas, baldes leves'], ['Pular', 'colchonete, bambolês']]]];
+    Col.forEach(function (c, ci) {
+      var x = c[0];
+      b += R(x, 20, 370, 360, '#fff', { f: 'sh' + id, r: 20 }) + R(x, 20, 370, 62, c[3], { r: 20 }) + R(x, 60, 370, 22, c[3], { r: 0 });
+      b += T(x + 22, 50, c[1], { b: 1, s: 19, sora: 1, c: '#fff', a: 'start' }) + T(x + 22, 72, c[2], { s: 13, c: '#fff', a: 'start' });
+      c[4].forEach(function (l, i) { var y = 104 + i * 58; b += C(x + 36, y + 14, 14, c[3]) + T(x + 36, y + 19, String(i + 1), { b: 1, s: 13, c: '#fff', sora: 1 }) + T(x + 58, y + 12, l[0], { b: 1, s: 15, c: c[3], a: 'start', sora: 1 }) + T(x + 58, y + 30, l[1], { s: 12, c: INK, a: 'start' }); });
+      b += R(x + 20, 334, 330, 34, ci ? '#EAF0FB' : '#E6F7F3', { r: 12 });
+    });
+    /* balanço: criança ≈ 1 m, assento a ≈ 35 cm do chão, estrutura ≈ 2 m */
+    var bx = 20, gy = 318;
+    b += R(bx + 220, gy - 4, 140, 8, '#CDE9C0', { r: 4 });
+    b += '<path d="M' + (bx + 236) + ' ' + gy + ' L' + (bx + 262) + ' ' + (gy - 206) + ' L' + (bx + 288) + ' ' + gy + ' M' + (bx + 312) + ' ' + gy + ' L' + (bx + 338) + ' ' + (gy - 206) + ' L' + (bx + 364) + ' ' + gy + '" stroke="' + CORAL + '" stroke-width="6" fill="none" stroke-linejoin="round"/>';
+    b += R(bx + 256, gy - 212, 88, 10, CORAL, { r: 4 });
+    var sx = bx + 316, sy = gy - 58;
+    b += '<path d="M' + (bx + 286) + ' ' + (gy - 202) + ' L' + (sx - 24) + ' ' + sy + ' M' + (bx + 314) + ' ' + (gy - 202) + ' L' + (sx + 18) + ' ' + sy + '" stroke="#8D9BB3" stroke-width="2.4"/>';
+    b += criancaSentada(sx - 3, sy, 104, { c: GOLD, p: PELES[1], h: CAB[0], cab: 'curto', braco: 'acima', boca: 'riso' });
+    b += R(sx - 30, sy - 2, 54, 7, '#8A5A2B', { r: 3 });
+    b += '<path d="M' + (sx - 46) + ' ' + (sy - 30) + ' q-10 10 0 22" stroke="' + TEAL + '" stroke-width="2.5" fill="none" opacity=".7"/><path d="M' + (sx - 54) + ' ' + (sy - 36) + ' q-14 16 0 34" stroke="' + TEAL + '" stroke-width="2.5" fill="none" opacity=".45"/>';
+    /* empurrar: criança ≈ 1 m, caixa ≈ 40 cm */
+    var px = 410 + 262, pg = 318;
+    b += R(410 + 200, pg - 4, 160, 8, '#E3E8F3', { r: 4 });
+    b += crianca2(px, pg, 108, { c: TEAL, p: PELES[3], h: CAB[1], cab: 'black', braco: 'empurra', boca: 'riso', calca: 1, k: NAVY });
+    b += R(px + 26, pg - 48, 56, 44, '#E9C48A', { r: 3 }) + '<path d="M' + (px + 26) + ' ' + (pg - 48) + ' L' + (px + 36) + ' ' + (pg - 58) + ' L' + (px + 92) + ' ' + (pg - 58) + ' L' + (px + 82) + ' ' + (pg - 48) + ' Z" fill="#F2D6A8"/><path d="M' + (px + 82) + ' ' + (pg - 48) + ' L' + (px + 92) + ' ' + (pg - 58) + ' L' + (px + 92) + ' ' + (pg - 14) + ' L' + (px + 82) + ' ' + (pg - 4) + ' Z" fill="#C99A5E"/>';
+    b += [[px + 40, pg - 66, CORAL], [px + 56, pg - 64, BLUE], [px + 72, pg - 66, GOLD]].map(function (q) { return R(q[0] - 7, q[1] - 7, 14, 14, q[2], { r: 2 }); }).join('');
+    b += C(px + 36, pg - 2, 4, '#555') + C(px + 72, pg - 2, 4, '#555');
+    b += '<path d="M' + (px - 30) + ' ' + (pg - 70) + ' l-12 0 M' + (px - 32) + ' ' + (pg - 58) + ' l-16 0 M' + (px - 30) + ' ' + (pg - 46) + ' l-12 0" stroke="' + NAVY + '" stroke-width="2.5" stroke-linecap="round" opacity=".5"/>';
+    b += T(205, 356, 'Quem evita: devagar, pés apoiados, pode parar', { s: 12, c: TEAL2, b: 1 }) + T(595, 356, '"Trabalho pesado" costuma acalmar e organizar', { s: 12, c: NAVY, b: 1 });
+    return svg(800, 400, b, id);
+  })() };
+
+  /* 17. dunn: com uma criança em cada quadrante */
+  f.dunn = { t: 'Quatro padrões de processamento sensorial (com base em Dunn, 1997)', svg: (function () {
+    var id = 's17', b = '';
+    var Q = [[140, 34, 'Baixo registro', 'parece não perceber o que', 'acontece; demora a reagir', 'ofereça estímulos mais intensos', 'e convites claros', GOLD2, '#FFF6DF', { braco: 'baixo', olhos: 'fechados', c: GOLD, p: PELES[0], h: CAB[3], cab: 'curto' }],
+      [470, 34, 'Busca sensorial', 'pula, gira, toca em tudo,', 'procura sons e movimentos', 'mais oportunidades seguras de', 'movimento e "trabalho pesado"', CORAL, '#FDEBEA', { braco: 'cima', boca: 'riso', c: CORAL, p: PELES[2], h: CAB[1], cab: 'cacheado', pulo: 1 }],
+      [140, 214, 'Sensibilidade', 'percebe tudo, distrai-se e', 'se incomoda com facilidade', 'reduza ruído e excesso visual;', 'antecipe; pequenos grupos', BLUE, '#EAF2FF', { braco: 'ouvidos', boca: 'o', c: BLUE, p: PELES[1], h: CAB[0], cab: 'chiquinhas', laco: '#F49BC1', saia: 1, k: PURP }],
+      [470, 214, 'Evitação', 'afasta-se, foge, cria rotinas', 'para evitar estímulos', 'convite, alternativas, canto', 'calmo; nunca forçar', PURP, '#F1ECF8', { braco: 'segura', c: PURP, p: PELES[3], h: CAB[1], cab: 'black' }]];
+    Q.forEach(function (q) {
+      b += R(q[0], q[1], 310, 166, q[8], { r: 18, st: q[7], sw: 2 });
+      b += T(q[0] + 20, q[1] + 32, q[2], { b: 1, s: 18, sora: 1, c: q[7], a: 'start' });
+      b += TL(q[0] + 20, q[1] + 58, [q[3], q[4]], { s: 13, c: INK, a: 'start', lh: 17 });
+      var o = q[9], kx = q[0] + 270, ky = q[1] + 94 - (o.pulo ? 10 : 0);
+      b += '<ellipse cx="' + kx + '" cy="' + (q[1] + 95) + '" rx="16" ry="3" fill="#13285E" opacity=".1"/>' + crianca2(kx, ky, 78, o);
+      if (o.pulo) b += '<path d="M' + (kx - 22) + ' ' + (q[1] + 70) + ' q-6 -10 0 -20 M' + (kx + 22) + ' ' + (q[1] + 70) + ' q6 -10 0 -20" stroke="' + CORAL + '" stroke-width="2" fill="none"/>';
+      if (o.braco === 'ouvidos') b += '<path d="M' + (kx + 20) + ' ' + (q[1] + 22) + ' l8 -4 M' + (kx + 22) + ' ' + (q[1] + 30) + ' l9 0 M' + (kx + 20) + ' ' + (q[1] + 38) + ' l8 4" stroke="' + BLUE + '" stroke-width="2" stroke-linecap="round"/>';
+      if (q[2] === 'Baixo registro') b += T(kx + 18, q[1] + 22, 'z', { b: 1, s: 12, c: GOLD2 }) + T(kx + 26, q[1] + 14, 'z', { b: 1, s: 9, c: GOLD2 });
+      b += R(q[0] + 14, q[1] + 104, 282, 54, '#fff', { r: 12 }) + T(q[0] + 28, q[1] + 123, 'Como ajudar:', { b: 1, s: 12, c: q[7], a: 'start' }) + TL(q[0] + 28, q[1] + 140, [q[5], q[6]], { s: 12, c: INK, a: 'start', lh: 15 });
+    });
+    b += '<text x="60" y="210" ' + F + ' font-size="14" font-weight="700" fill="' + NAVY + '" text-anchor="middle" transform="rotate(-90 60 210)">LIMIAR NEUROLÓGICO</text>';
+    b += T(104, 120, 'alto', { b: 1, s: 13, c: SOFT }) + T(104, 300, 'baixo', { b: 1, s: 13, c: SOFT }) + '<path d="M84 40 L84 370" stroke="#C9D4EA" stroke-width="3"/>';
+    b += T(295, 396, 'resposta passiva', { b: 1, s: 13, c: SOFT }) + T(625, 396, 'resposta ativa', { b: 1, s: 13, c: SOFT });
+    return svg(800, 405, b, id);
+  })() };
+
 
   return f;
 })();
@@ -2228,4 +2633,4 @@ window.FC_NUVEM = (function () {
   if (PROD && NV) NV.iniciar();
 })();
 </script>
-<script>window.FC_V="4490194ff5";(function(){try{fetch("v.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j.v&&j.v!==window.FC_V&&!/[?&]v=/.test(location.search+"")){location.replace(location.pathname+(location.search?location.search+"&":"?")+"v="+j.v+location.hash)}}).catch(function(){})}catch(e){}})();</script></body></html>
+<script>window.FC_V="8bade27b76";(function(){try{fetch("v.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j.v&&j.v!==window.FC_V&&!/[?&]v=/.test(location.search+"")){location.replace(location.pathname+(location.search?location.search+"&":"?")+"v="+j.v+location.hash)}}).catch(function(){})}catch(e){}})();</script></body></html>
