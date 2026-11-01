@@ -358,7 +358,8 @@ exports.peProgresso = onRequest(async (req, res) => {
      matrícula) e o progresso guardado pelo peProgresso (todos os módulos e a avaliação final >= 70%); grava
      certificados/{codigo} com nome completo e RG. Um certificado por aluno e curso.
    - validar (sem login): consulta pública pelo código do QR Code. */
-const CURSOS_FC = { neuro30: { titulo: 'Neurodiversidade e Aprendizagem: Desafios da Escola Contemporânea', horas: 30, mods: ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'], min: 70 } };
+const CURSOS_FC = { neuro30: { titulo: 'Neurodiversidade e Aprendizagem: Desafios da Escola Contemporânea', horas: 30, mods: ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'], min: 70 },
+  jogos30: { titulo: 'Jogos e Brincadeiras para Desenvolver o Pensamento Matemático na Educação Infantil', horas: 30, mods: ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'], min: 70 } };
 function codigoCert() {
   const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', b = require('crypto').randomBytes(8);
   let s = 'FC'; for (let i = 0; i < 8; i++) { if (i === 4) s += '-'; s += c[b[i] % c.length]; } return s;
