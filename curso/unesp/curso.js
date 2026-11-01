@@ -5,7 +5,11 @@ var CursoApp=(function(){
 var D,S={v:'home'},EL,ST;
 var MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'],SEMANA=['dom','seg','ter','qua','qui','sex','sáb'];
 function cap(s){s=String(s||'');return s.charAt(0).toUpperCase()+s.slice(1)}
-function svgLimpo(x){x=String(x||'');if(!/^\s*<svg[\s>]/i.test(x))return '';return x.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*')/gi,'').replace(/(href)\s*=\s*("(?!#)[^"]*"|'(?!#)[^']*')/gi,'')}
+var SVGN=0;function svgLimpo(x){x=String(x||'');if(!/^\s*<svg[\s>]/i.test(x))return '';var u='g'+(++SVGN)+'-';x=x.replace(/\bid="([^"]+)"/g,'id="'+u+'$1"').replace(/url\(#([^)]+)\)/g,'url(#'+u+'$1)').replace(/href="#([^"]+)"/g,'href="#'+u+'$1"');return x.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*')/gi,'').replace(/(href)\s*=\s*("(?!#|data:image\/(?:jpeg|png|webp);base64,)[^"]*"|'(?!#|data:image\/(?:jpeg|png|webp);base64,)[^']*')/gi,'')}
+function ilusDe(id){return (D.ilus&&D.ilus[id])||(D.aulas&&D.aulas[id]&&D.aulas[id].ilus)||[]}
+function ilusQ(q){var m=/^([A-Z]{3}\d+)-q(\d+)$/.exec(q.id||'');if(!m)return '';var n=+m[2]-1,l=ilusDe(m[1]).filter(function(x){return x.q===n});return l.length?ilusHtml(l,'q'):''}
+function ilus(id,onde){return ilusHtml(ilusDe(id),onde)}
+function ilusHtml(l,onde){if(!l.length)return '';return '<div class="ilus">'+(onde==='fim'||onde==='q'?'<h4>Imagem para memorizar</h4>':'<span class="eyebrow">Imagem para memorizar</span>')+l.map(function(x){var fig=x.svg?svgLimpo(x.svg):x.src?'<img src="'+esc((D.imgBase||'')+x.src)+'" alt="'+esc(x.alt||x.t)+'" loading="lazy">':'';return '<figure class="ilus-f"><div class="ilus-img'+(x.tipo==='linha'?' linha':x.tipo==='memo'?' memo':x.svg?' mapa':'')+'">'+fig+'</div><figcaption><b>'+inl(x.t)+'</b>'+(x.leg?'<span class="ilus-leg">'+inl(x.leg)+'</span>':'')+'<span class="ilus-fonte">'+esc(x.fonte||'')+'</span></figcaption></figure>'}).join('')+'</div>'}
 function memo(q){return String(q.mem||'').replace(/^\s*para memorizar\s*:\s*/i,'')}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function inl(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')}
@@ -116,7 +120,7 @@ function vAula(){var a=D.aulas[S.id],meta=D.cur.aulas.filter(function(y){return 
   var h='<button class="back" data-home>‹ Cronograma</button><div class="card"><span class="eyebrow">'+esc(a.materia)+' · '+areaDe(a.area)+'</span><h2>'+esc(a.titulo)+'</h2>';
   if(S.step===1)return h+vResultado(a,p)+'</div>';
   var n=a.questoes.length,f=a.questoes.filter(function(q){return p.q[q.id]!=null}).length;
-  h+='<div class="bar lt"><i style="width:'+Math.round(100*f/n)+'%"></i></div><p class="small">'+f+' de '+n+' questões · da mais fácil para a mais difícil. Depois de responder, leia a resolução e guarde o "Para memorizar".</p>';
+  h+='<div class="bar lt"><i style="width:'+Math.round(100*f/n)+'%"></i></div><p class="small">'+f+' de '+n+' questões · da mais fácil para a mais difícil. Depois de responder, leia a resolução e guarde o "Para memorizar".</p>';if(!(S.qi||0)&&f===0)h+=ilus(a.id,'ini');
   return h+vQuestao(a.questoes,S.qi||0,p.q,'aula')+'</div>'}
 function vQuestao(lista,i,resp,modo){var q=lista[i],r=resp[q.id],h='';
   h+='<div class="row between" style="margin-top:12px"><span class="tag">Questão '+(i+1)+' de '+lista.length+' · '+esc(q.as)+'</span><span class="row" style="gap:6px">'+ouvir(falaQ(q))+(q.nivel?'<span class="nivel">'+esc({facil:'fácil',medio:'média',dificil:'difícil'}[q.nivel]||q.nivel)+'</span>':'')+'</span></div><div class="stem">'+inl(q.s)+'</div>'+(q.fig?'<div class="fig">'+svgLimpo(q.fig)+'</div>':'');
@@ -126,7 +130,7 @@ function vQuestao(lista,i,resp,modo){var q=lista[i],r=resp[q.id],h='';
   if(r!=null&&!prova){h+='<div class="row end">'+ouvir(falaR(q,r)).replace('🔊 Ouvir','🔊 Ouvir a explicação')+'</div><div class="box '+(r===q.a?'ok':'bad')+'"><b>'+(r===q.a?'Você acertou!':'Resposta certa: '+L(q.a)+'.')+'</b> '+inl(q.e)+(r!==q.a&&q.w[r]?'<p class="small"><b>Sua escolha ('+L(r)+'):</b> '+inl(q.w[r])+'</p>':'')+'</div>';
     if(q.res&&q.res.length)h+='<h4>Resolução comentada</h4><ol class="lst res">'+q.res.map(function(x){return '<li>'+inl(x)+'</li>'}).join('')+'</ol>';
     if(q.peg)h+='<div class="box blue"><b>Pegadinha:</b> '+inl(q.peg)+'</div>';
-    if(q.mem)h+='<div class="mem"><span class="eyebrow">Para memorizar</span><p>'+inl(memo(q))+'</p></div>';
+    if(q.mem)h+='<div class="mem"><span class="eyebrow">Para memorizar</span><p>'+inl(memo(q))+'</p></div>';if(modo!=='sim')h+=ilusQ(q);
     h+='<details><summary class="small">Por que as outras alternativas estão erradas</summary>'+q.w.map(function(w,k){return w?'<p class="small"><b>'+L(k)+')</b> '+inl(w)+'</p>':''}).join('')+'</details>'}
   var ult=i>=lista.length-1;
   h+='<div class="row between" style="margin-top:12px"><button type="button" class="btn ghost small" data-qi="'+(i-1)+'"'+(i?'':' disabled')+'>Anterior</button>'+
@@ -137,7 +141,7 @@ function vResultado(a,p){var n=a.questoes.length,c=0,f=0;a.questoes.forEach(func
   return '<p class="score">'+c+' / '+n+'</p><p>'+(f<n?'Você respondeu '+f+' de '+n+' questões.':c>=n*0.8?'Excelente! Este assunto está dominado.':c>=n*0.6?'Bom resultado. As que você errou voltam na revisão dos próximos dias.':'Refaça este bloco amanhã: as que você errou também voltam na revisão.')+'</p>'+
     '<div class="bar lt"><i style="width:'+Math.round(100*c/n)+'%"></i></div>'+
     (erradas.length?'<p class="small">'+erradas.length+' questão(ões) foram para a sua <b>revisão dos erros</b>.</p>':'')+
-    vCartBloco(a)+
+    ilus(a.id,'fim')+vCartBloco(a)+
     '<div class="row" style="margin-top:14px"><button type="button" class="btn" data-fimaula>'+(p.fim?'Bloco concluído ✓':'Concluir o bloco')+'</button><button type="button" class="btn ghost" data-refaz>Refazer as questões</button></div>'}
 /* revisão: questões erradas em blocos anteriores voltam até você acertar */
 function errosPendentes(){var l=[],vis={},ok=get('cu-rev',{});
@@ -157,10 +161,11 @@ function memFmt(t){t=String(t||'').trim();var k=fora(t,':')[0],h='',b=t,ps=[],u=
   if(k>0&&k<80&&!/[.;]/.test(t.slice(0,k).replace(/\([^)]*\)/g,''))){h=t.slice(0,k);b=t.slice(k+2)}
   fora(b,';').forEach(function(i){ps.push(b.slice(u,i).trim());u=i+1});ps.push(b.slice(u).trim());ps=ps.filter(Boolean);
   return (h?'<p class="fc-h">'+inl(h)+'</p>':'')+(ps.length>1&&ps.length<7?'<ul>'+ps.map(function(x,n){return '<li>'+inl(cap(x.replace(/[.;]$/,'')))+'</li>'}).join('')+'</ul>':'<p>'+inl(cap(b))+'</p>')}
-function cartao(c,n,tot){var q=c.q,a=c.a,ok=sabe()[q.id];
+function cartao(c,n,tot,grande){var q=c.q,a=c.a,ok=sabe()[q.id],img='';
+  if(grande){var ix=a.questoes.indexOf(q),li=ilusDe(a.id).filter(function(x){return x.q===ix&&(x.svg||x.src)});if(li.length){var x=li[0];img='<span class="fc-img">'+(x.svg?svgLimpo(x.svg):'<img src="'+esc((D.imgBase||'')+x.src)+'" alt="'+esc(x.alt||x.t||'')+'">')+'</span>'}}
   return '<div class="fc '+a.area+(ok?' sei':'')+'" data-flip role="button" tabindex="0" aria-label="Cartão: '+esc(q.as||a.titulo)+'. Toque para virar."><div class="fc-in">'+
     '<div class="fc-f"><div class="fc-top"><span>'+esc(a.materia)+'</span><span>'+(tot?n+' / '+tot:'')+'</span></div><p class="fc-as">'+esc(cap(q.as||a.titulo))+'</p><p class="fc-dica">Tente lembrar o ponto-chave.<br><b>Toque para virar</b></p></div>'+
-    '<div class="fc-b"><div class="fc-top"><span>Para memorizar</span><span>'+esc(cap(q.as||''))+'</span></div><div class="fc-tx">'+memFmt(memo(q))+'</div></div></div></div>'}
+    '<div class="fc-b"><div class="fc-top"><span>Para memorizar</span><span>'+esc(cap(q.as||''))+'</span></div><div class="fc-tx">'+memFmt(memo(q))+'</div>'+img+'</div></div></div>'}
 function listaCart(l){var ok=sabe();return '<div class="fcl">'+l.map(function(c){return '<div class="'+c.a.area+(ok[c.q.id]?' sei':'')+'"><span class="fcl-as">'+esc(cap(c.q.as||''))+(ok[c.q.id]?' <i>✓ já sei</i>':'')+'</span>'+memFmt(memo(c.q))+'</div>'}).join('')+'</div>'}
 function contaSei(l){var ok=sabe();return l.filter(function(c){return ok[c.q.id]}).length}
 function vCartBloco(a){var l=cartoesDe(a);if(!l.length)return '';var k=contaSei(l);
@@ -175,7 +180,7 @@ function vDeck(){var d=S.deck,i=S.di||0,volta='<button class="back" data-voltade
       '<div class="bar lt"><i style="width:'+Math.round(100*k/d.length)+'%"></i></div><div class="row" style="margin-top:14px">'+(f?'<button type="button" class="btn gold" data-deckfalta>Rever os '+f+' que faltam</button>':'')+'<button type="button" class="btn ghost" data-deckde>Embaralhar e recomeçar</button><button type="button" class="btn ghost" data-voltadeck>Terminar</button></div></div>'}
   var c=d[i];
   return volta+'<div class="card deck"><div class="row between"><span class="tag">Cartão '+(i+1)+' de '+d.length+'</span>'+ouvir((c.q.as?cap(c.q.as)+'. ':'')+memo(c.q))+'</div><div class="bar lt"><i style="width:'+Math.round(100*i/d.length)+'%"></i></div>'+
-    cartao(c)+
+    cartao(c,0,0,true)+
     '<div class="duo fcbt"><button type="button" class="btn ghost nao" data-marca="0">Ainda não sei</button><button type="button" class="btn sim" data-marca="1">Já sei ✓</button></div>'+
     '<div class="row between" style="margin-top:6px"><button type="button" class="btn ghost small" data-di="'+(i-1)+'"'+(i?'':' disabled')+'>Anterior</button><span class="small">Vire, confira e marque.</span></div></div>'}
 function misturar(l){l=l.slice();for(var i=l.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=l[i];l[i]=l[j];l[j]=t}return l}
