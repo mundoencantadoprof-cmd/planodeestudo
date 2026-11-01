@@ -5,7 +5,7 @@ var CursoAppFuvest=(function(){
 var D,S={v:'home'},EL,ST;
 var MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'],SEMANA=['dom','seg','ter','qua','qui','sex','sáb'];
 function cap(s){s=String(s||'');return s.charAt(0).toUpperCase()+s.slice(1)}
-var SVGN=0;function svgLimpo(x){x=String(x||'');if(!/^\s*<svg[\s>]/i.test(x))return '';var u='g'+(++SVGN)+'-';x=x.replace(/\bid="([^"]+)"/g,'id="'+u+'$1"').replace(/url\(#([^)]+)\)/g,'url(#'+u+'$1)').replace(/href="#([^"]+)"/g,'href="#'+u+'$1"');return x.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*')/gi,'').replace(/(href)\s*=\s*("(?!#)[^"]*"|'(?!#)[^']*')/gi,'')}
+var SVGN=0;function svgLimpo(x){x=String(x||'');if(!/^\s*<svg[\s>]/i.test(x))return '';var u='g'+(++SVGN)+'-';x=x.replace(/\bid="([^"]+)"/g,'id="'+u+'$1"').replace(/url\(#([^)]+)\)/g,'url(#'+u+'$1)').replace(/href="#([^"]+)"/g,'href="#'+u+'$1"');return x.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*')/gi,'').replace(/(href)\s*=\s*("(?!#|data:image\/(?:jpeg|png|webp);base64,)[^"]*"|'(?!#|data:image\/(?:jpeg|png|webp);base64,)[^']*')/gi,'')}
 function ilusDe(id){return (D.ilus&&D.ilus[id])||(D.aulas&&D.aulas[id]&&D.aulas[id].ilus)||[]}
 function ilusQ(q){var m=/^([A-Z]{3}\d+)-q(\d+)$/.exec(q.id||'');if(!m)return '';var n=+m[2]-1,l=ilusDe(m[1]).filter(function(x){return x.q===n});return l.length?ilusHtml(l,'q'):''}
 function ilus(id,onde){return ilusHtml(ilusDe(id),onde)}
