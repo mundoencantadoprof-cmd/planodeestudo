@@ -75,7 +75,8 @@ exports.pePagamento = onRequest(async (req, res) => {
       notification_url: 'https://southamerica-east1-' + process.env.GCLOUD_PROJECT + '.cloudfunctions.net/peWebhook',
       back_urls: { success: volta('aprovado'), pending: volta('pendente'), failure: volta('falha') },
       auto_return: 'approved',
-      ...(PARCELAS[p.item] ? { payment_methods: { installments: PARCELAS[p.item], default_installments: PARCELAS[p.item] } } : {})
+      /* parcelas só nos cursos (PARCELAS); planos e apostilas ficam à vista, porque o parcelamento sem juros da conta vale para tudo */
+      payment_methods: PARCELAS[p.item] ? { installments: PARCELAS[p.item], default_installments: PARCELAS[p.item] } : { installments: 1 }
     }) });
     await db.doc('pedidos/' + cod).update({ mpPreferencia: pref.id });
     res.json({ url: pref.init_point, pedido: cod });
