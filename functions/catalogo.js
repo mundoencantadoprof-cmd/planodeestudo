@@ -97,7 +97,7 @@ const CONCURSOS = {
     nat: 'Professor III – Educação Física: Natação' } }
 };
 /* Apostilas em PDF à venda (item ap-<concurso>-<cargo>); o arquivo cifrado fica em apostilas/<item>.bin. */
-const APOSTILAS = { 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
+const APOSTILAS = { 'ap-formacao-neuro30': 0, /* vem junto com o curso */ 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
   'ap-arcoiris-assist': 39.9, 'ap-arcoiris-esp': 39.9, 'ap-arcoiris-ef': 39.9, 'ap-arcoiris-mus': 39.9,
   'ap-cursounesp-1ling': 39.9, 'ap-cursounesp-1hum': 39.9, 'ap-cursounesp-1nat': 39.9, 'ap-cursounesp-1mat': 39.9, 'ap-cursounesp-2fase': 39.9,
   'ap-paraguacu-p1': 39.9, 'ap-paraguacu-art': 39.9, 'ap-paraguacu-cie': 39.9, 'ap-paraguacu-esp': 39.9, 'ap-paraguacu-lib': 39.9, 'ap-paraguacu-edf': 39.9, 'ap-paraguacu-geo': 39.9, 'ap-paraguacu-his': 39.9, 'ap-paraguacu-ing': 39.9, 'ap-paraguacu-lp': 39.9, 'ap-paraguacu-mt': 39.9,
