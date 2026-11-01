@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#13285E">
-<script>(function(){var V='7bc76a4f22ee';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
+<script>(function(){var V='8245f91a7030';if(!window.fetch)return;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&j.v&&j.v!==V){try{if(sessionStorage.getItem('pe-recarregou')===j.v)return;sessionStorage.setItem('pe-recarregou',j.v)}catch(e){return}var u=new URL(location.href);u.searchParams.set('v',j.v);location.replace(u.toString())}}).catch(function(){})})()</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="img/app/icon-192.png">
 <link rel="apple-touch-icon" href="img/app/apple-touch-icon.png">
@@ -1029,6 +1029,7 @@ function fmtPts(x){return Math.abs(x-Math.round(x))<0.05?String(Math.round(x)):x
    (o tipo do concurso, c.tipo, liga cada prova à sua seção). */
 var SVG=function(d){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>'};
 var FORMACAO_CURSOS=[{id:'neuro30',item:'pe-formacao-neuro30',titulo:'Neurodiversidade e Aprendizagem: Desafios da Escola Contemporânea',horas:30,mods:6,url:'/formacao/neurodiversidade/',img:'img/formacao/neuro30.jpg',parcelas:2,parcela:'19,90',total:'39,80',resumo:'Autismo, TDAH, dislexia, altas habilidades e outras formas de neurodivergência, com práticas inclusivas para a sala de aula.'}];
+FORMACAO_CURSOS.push({id:'conta60',item:'pe-formacao-conta60',titulo:'Contação de Histórias, Imaginação e Linguagem na Educação Infantil',horas:60,mods:6,url:'/formacao/contacao-de-historias/',img:'img/formacao/conta60.jpg',parcelas:3,parcela:'19,90',total:'59,70',resumo:'Literatura infantil, dramatização, fantoches, narrativas interativas, oralidade e desenvolvimento da imaginação na educação infantil.'});
 var SECOES=[
   {id:'cp',nome:'Concursos',titulo:'Concursos públicos',texto:'Concursos públicos abertos com plano de estudo pronto. Escolha o município e depois o cargo.',ic:SVG('<path d="M3 21h18M4.5 9.5h15M12 3 4 8h16z"/><path d="M6.5 10v8M10 10v8M14 10v8M17.5 10v8"/>')},
   {id:'ps',nome:'Seletivos',titulo:'Processos seletivos',texto:'Processos seletivos abertos com plano de estudo pronto. Escolha o município e depois o cargo.',ic:SVG('<rect x="5" y="4" width="14" height="17" rx="2.2"/><path d="M9 4V2.8h6V4M8.8 12.6l2.3 2.3 4.2-4.4"/>')},

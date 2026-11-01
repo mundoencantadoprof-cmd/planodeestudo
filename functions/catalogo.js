@@ -96,6 +96,9 @@ const CONCURSOS = {
     gin: 'Professor III – Educação Física: Ginástica Geral',
     nat: 'Professor III – Educação Física: Natação' } }
 };
+/* Formação: Contação de Histórias, Imaginação e Linguagem na Educação Infantil (30 h) */
+CONCURSOS.formacao.precos.conta60 = 59.7;
+CONCURSOS.formacao.cargos.conta60 = 'Contação de Histórias, Imaginação e Linguagem na Educação Infantil (60 h)';
 /* Apostilas em PDF à venda (item ap-<concurso>-<cargo>); o arquivo cifrado fica em apostilas/<item>.bin. */
 const APOSTILAS = { 'ap-formacao-neuro30': 0, /* vem junto com o curso */ 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
   'ap-arcoiris-assist': 39.9, 'ap-arcoiris-esp': 39.9, 'ap-arcoiris-ef': 39.9, 'ap-arcoiris-mus': 39.9,
@@ -104,6 +107,7 @@ const APOSTILAS = { 'ap-formacao-neuro30': 0, /* vem junto com o curso */ 'ap-ar
   'ap-paraguacu-p1': 39.9, 'ap-paraguacu-art': 39.9, 'ap-paraguacu-cie': 39.9, 'ap-paraguacu-esp': 39.9, 'ap-paraguacu-lib': 39.9, 'ap-paraguacu-edf': 39.9, 'ap-paraguacu-geo': 39.9, 'ap-paraguacu-his': 39.9, 'ap-paraguacu-ing': 39.9, 'ap-paraguacu-lp': 39.9, 'ap-paraguacu-mt': 39.9,
   'ap-piraju-p1': 39.9, 'ap-piraju-art': 39.9, 'ap-piraju-edf': 39.9, 'ap-piraju-ing': 39.9,
   'ap-matao-ei': 39.9, 'ap-matao-ef': 39.9, 'ap-matao-da': 39.9, 'ap-matao-di': 39.9, 'ap-matao-dv': 39.9, 'ap-matao-lp': 39.9, 'ap-matao-mt': 39.9, 'ap-matao-geo': 39.9, 'ap-matao-cie': 39.9, 'ap-matao-ing': 39.9, 'ap-matao-fil': 39.9, 'ap-matao-art': 39.9, 'ap-matao-his': 39.9, 'ap-matao-qui': 39.9, 'ap-matao-bio': 39.9, 'ap-matao-fis': 39.9, 'ap-matao-soc': 39.9, 'ap-matao-mus': 39.9, 'ap-matao-cen': 39.9, 'ap-matao-edf': 39.9, 'ap-matao-dan': 39.9, 'ap-matao-gin': 39.9, 'ap-matao-nat': 39.9 };
+APOSTILAS['ap-formacao-conta60'] = 0; /* vem junto com o curso Contação de Histórias */
 function pacote(item) {
   item = String(item || '');
   const m = /^(pe|ap)-([a-z0-9]+)-([a-z0-9]+)$/.exec(item);
@@ -117,4 +121,5 @@ function pacote(item) {
 // Máximo de parcelas no cartão por pacote (o 'sem juros' é configurado na conta do Mercado Pago). Sem entrada aqui, vale o padrão do Mercado Pago.
 const PARCELAS = { 'pe-cursounesp-c': 5, 'pe-cursofuvest-c': 8, 'pe-formacao-neuro30': 2 };
 
+PARCELAS['pe-formacao-conta60'] = 3;
 module.exports = { CONCURSOS, APOSTILAS, PARCELAS, pacote };
