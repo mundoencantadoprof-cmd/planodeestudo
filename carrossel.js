@@ -47,7 +47,7 @@
     c.addEventListener('touchend', function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) { ir(k + (dx < 0 ? 1 : -1)); tempo(); } x0 = null; }, { passive: true });
     if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) tempo();
   }
-  function checar() { var h = document.querySelector('.hero'); if (h && !(h.previousElementSibling && h.previousElementSibling.classList.contains('car'))) montar(h); }
+  function checar() { var t = document.querySelector('.hero > .hero-txt'), h = t && t.parentNode; /* só o topo da página inicial (os cursinhos também usam .hero) */ if (h && !(h.previousElementSibling && h.previousElementSibling.classList.contains('car'))) montar(h); }
   new MutationObserver(checar).observe(document.documentElement, { childList: true, subtree: true });
   checar();
 })();
