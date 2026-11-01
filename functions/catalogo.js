@@ -68,8 +68,9 @@ const CONCURSOS = {
   cursofuvest: { nome: 'Cursinho Preparatório FUVEST 2028', precos: { c: 239.2 }, cargos: { c: 'Curso completo' } },
   paraguacu: { nome: 'Paraguaçu Paulista (SP) PS 01/2026', cargos: {
     p1: 'PEB I', art: 'PEB II – Arte', cie: 'PEB II – Ciências', esp: 'PEB II – Educação Especial', lib: 'PEB II – Educação Especial (Libras)', edf: 'PEB II – Educação Física', geo: 'PEB II – Geografia', his: 'PEB II – História', ing: 'PEB II – Inglês', lp: 'PEB II – Português', mt: 'PEB II – Matemática' } },
-  formacao: { nome: 'Formação Continuada', precos: { neuro30: 39.8 }, formacao: true, cargos: {
-    neuro30: 'Neurodiversidade e Aprendizagem: Desafios da Escola Contemporânea (30 h)' } },
+  formacao: { nome: 'Formação Continuada', precos: { neuro30: 39.8, sens30: 39.8 }, formacao: true, cargos: {
+    neuro30: 'Neurodiversidade e Aprendizagem: Desafios da Escola Contemporânea (30 h)',
+    sens30: 'Brincadeiras Sensoriais na Primeira Infância: experiências táteis, sonoras e visuais para o desenvolvimento infantil (30 h)' } },
   piraju: { nome: 'Piraju (SP) PS 01/2026', cargos: { p1: 'Professor I', art: 'Professor II – Arte', edf: 'Professor II – Educação Física', ing: 'Professor II – Inglês' } },
   matao: { nome: 'Matão (SP) PS 01/2026', cargos: {
     ei: 'Professor I – Educação Infantil (0 a 6 anos)',
@@ -97,7 +98,7 @@ const CONCURSOS = {
     nat: 'Professor III – Educação Física: Natação' } }
 };
 /* Apostilas em PDF à venda (item ap-<concurso>-<cargo>); o arquivo cifrado fica em apostilas/<item>.bin. */
-const APOSTILAS = { 'ap-formacao-neuro30': 0, /* vem junto com o curso */ 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
+const APOSTILAS = { 'ap-formacao-neuro30': 0, /* vem junto com o curso */ 'ap-formacao-sens30': 0, 'ap-arcoiris-ei': 39.9, 'ap-arcoiris-peb1': 39.9, 'ap-piracicaba-ei': 39.9, 'ap-piracicaba-ef': 39.9,
   'ap-arcoiris-assist': 39.9, 'ap-arcoiris-esp': 39.9, 'ap-arcoiris-ef': 39.9, 'ap-arcoiris-mus': 39.9,
   'ap-cursounesp-1ling': 39.9, 'ap-cursounesp-1hum': 39.9, 'ap-cursounesp-1nat': 39.9, 'ap-cursounesp-1mat': 39.9, 'ap-cursounesp-2fase': 39.9,
   'ap-paraguacu-p1': 39.9, 'ap-paraguacu-art': 39.9, 'ap-paraguacu-cie': 39.9, 'ap-paraguacu-esp': 39.9, 'ap-paraguacu-lib': 39.9, 'ap-paraguacu-edf': 39.9, 'ap-paraguacu-geo': 39.9, 'ap-paraguacu-his': 39.9, 'ap-paraguacu-ing': 39.9, 'ap-paraguacu-lp': 39.9, 'ap-paraguacu-mt': 39.9,
@@ -114,6 +115,6 @@ function pacote(item) {
   return { item, conc: m[2], cargo: m[3], preco: (c.precos && c.precos[m[3]]) || null, formacao: !!c.formacao, titulo: 'Plano de Estudo · ' + c.nome + ' · ' + c.cargos[m[3]] };
 }
 // Máximo de parcelas no cartão por pacote (o 'sem juros' é configurado na conta do Mercado Pago). Sem entrada aqui, vale o padrão do Mercado Pago.
-const PARCELAS = { 'pe-cursounesp-c': 5, 'pe-cursofuvest-c': 8, 'pe-formacao-neuro30': 2 };
+const PARCELAS = { 'pe-cursounesp-c': 5, 'pe-cursofuvest-c': 8, 'pe-formacao-neuro30': 2, 'pe-formacao-sens30': 2 };
 
 module.exports = { CONCURSOS, APOSTILAS, PARCELAS, pacote };
