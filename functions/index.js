@@ -53,6 +53,7 @@ exports.pePagamento = onRequest(async (req, res) => {
     const email = quem.email.toLowerCase();
     const b = req.body || {}, p = pacote(b.item), d = b.cadastro || {};
     if (!p || (p.apostila && !p.preco)) return res.status(400).json({ erro: 'Pacote desconhecido.' });
+    if (p.formacao) return res.status(400).json({ erro: 'Este curso não está mais à venda.' }); /* Formação Continuada retirada do site em 01/11/2026 */
     const tel = limpa(d.tel, 15).replace(/\D/g, '');
     if (limpa(d.nome, 120).split(' ').length < 2 || tel.length < 10)
       return res.status(400).json({ erro: 'Confira o cadastro.' });
