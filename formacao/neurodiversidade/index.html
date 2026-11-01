@@ -24,7 +24,7 @@ header.top .wrap{display:flex;align-items:center;gap:10px;height:56px}
 .btn.sm{padding:8px 12px;min-height:38px;font-size:14.5px;border-radius:10px}
 .btn:disabled{opacity:.45;cursor:default}
 .hero{background:linear-gradient(135deg,#13285E,#1d3a80);color:#fff;padding:34px 0 30px}
-.hero.foto{position:relative;padding:0 0 34px;background:#13285E}.hero.foto .ft{height:clamp(190px,34vw,430px);background:linear-gradient(180deg,rgba(19,40,94,0) 55%,#13285E 100%),url(/img/formacao/neuro30.jpg) center 28%/cover no-repeat}@media(max-width:700px){.hero.foto .ft{background-image:linear-gradient(180deg,rgba(19,40,94,0) 55%,#13285E 100%),url(/img/formacao/neuro30-m.jpg)}}.hero.foto .wrap{margin-top:-28px;position:relative}
+.hero.foto{position:relative;padding:0 0 34px;background:#13285E}.hero.foto .ft{height:clamp(190px,34vw,430px);background:linear-gradient(180deg,rgba(19,40,94,0) 55%,#13285E 100%),var(--foto) center 28%/cover no-repeat}.hero.foto .wrap{margin-top:-28px;position:relative}
 .hero .kick{color:#F5C04A;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
 .hero h1{font-size:clamp(24px,5vw,34px);margin:8px 0 12px}
 .hero p{color:#D9E0F2;margin:0 0 18px}
@@ -220,6 +220,88 @@ footer.f button{background:none;border:1px dashed var(--soft);border-radius:8px;
   body.imprimindo header.top{display:none}
 }
 @media (max-width:480px){header.top .tag{display:none}.ent{margin-left:auto}}
+
+/* Topo igual ao do site: logo, Minha área e barra azul de seções */
+header.top.site{position:sticky;top:0;z-index:6;background:#fff;border-bottom:0;box-shadow:0 2px 10px -6px rgba(19,40,94,.4)}
+header.top.site .wrap{height:auto;padding-block:8px}
+header.top.site .rainbow{height:5px;background:linear-gradient(90deg,#13285E 0%,#1F55A0 45%,#F2BE45 100%)}
+header.top.site .tag{margin-left:auto}
+.loginbtn{display:inline-flex;align-items:center;gap:7px;font:700 .92rem/1 Sora,sans-serif;border:2px solid #13285E;background:#13285E;color:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.loginbtn.on{background:transparent;color:#13285E}
+.secoes{background:#13285E}
+.secoes .wrap{display:flex!important;height:auto!important;gap:2px;padding-block:5px;justify-content:space-between}
+.secoes .sec{display:inline-flex;align-items:center;gap:7px;color:#DCE4F7;font:600 .9rem/1.1 Sora,sans-serif;padding:9px 8px;border-radius:12px;text-decoration:none;white-space:nowrap}
+.secoes .sec svg{width:19px;height:19px;flex:none}
+.secoes .sec:hover{background:rgba(255,255,255,.09);color:#fff}
+.secoes .sec.on{background:#fff;color:#13285E}
+.secoes .sec .ss{display:none}
+@media(max-width:700px){.secoes .wrap{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))}.secoes .sec{flex-direction:column;gap:4px;padding:8px 1px 7px;font-size:10.5px;letter-spacing:-.01em;border-radius:10px;min-width:0}.secoes .sec svg{width:21px;height:21px}.secoes .sec .sl{display:none}.secoes .sec .ss{display:inline}header.top.site .tag{display:none}.loginbtn{margin-left:auto;padding:8px 11px}.loginbtn span{display:none}}
+
+header.top.site{background:#F7F5EF}
+header.top.site .r1{padding-block:12px 6px}
+header.top.site .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+header.top.site .logo img{width:48px;height:48px}
+header.top.site .wm{display:grid;line-height:1;border-left:2px solid #13285E;padding-left:10px}
+header.top.site .wm b{color:#13285E;font:800 1.05rem/1 Sora,sans-serif}
+header.top.site .wm i{color:#E0A100;font:800 1.3rem/1.05 Sora,sans-serif;font-style:normal}
+header.top.site .loginbtn{margin-left:auto}
+header.top.site .vozb{width:34px;height:34px;border-radius:50%;border:1px solid #E2DED2;background:#fff;display:flex;align-items:center;justify-content:center;color:#13285E;margin-left:8px}
+header.top.site .r2{display:flex;gap:8px;align-items:center;padding-block:4px 12px;height:auto}
+header.top.site .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #E2DED2;background:#fff;border-radius:999px;padding:8px 13px;font:700 .86rem/1 Sora,sans-serif;color:#13285E;text-decoration:none;white-space:nowrap}
+header.top.site .busca{flex:1;display:flex;align-items:center;gap:8px;border:1px solid #E2DED2;background:#fff;border-radius:999px;padding:9px 14px;color:#6B7390;text-decoration:none;font-size:.9rem;min-width:0}
+header.top.site .busca span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.secoes .sec.on{background:rgba(242,190,69,.18);color:#fff;box-shadow:inset 0 0 0 1px rgba(242,190,69,.6)}
+@media(max-width:700px){header.top.site .logo img{width:40px;height:40px}header.top.site .r2 .pill{padding:8px 10px;font-size:.8rem}header.top.site .busca span{font-size:.82rem}}
+@media(max-width:420px){header.top.site .busca span{display:none}header.top.site .busca{flex:0 0 auto}}
+/* ---------- plano de estudo (versão 2) ---------- */
+.eyebrow{display:block;font:700 .72rem/1.3 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#9A6B00}
+.plano-top{border-top:5px solid #F2BE45;margin-top:16px}
+.plano-top .mtitle{margin:6px 0 12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
+.stats div{background:#F4F6FB;border-radius:14px;padding:12px;text-align:center}
+.stats b{display:block;font:800 1.6rem/1 Sora,sans-serif;color:#13285E}
+.stats b small{font-size:.9rem;color:#6B7390;font-weight:700}
+.stats span{font-size:.82rem;color:#4A5470}
+.btn.big{width:100%;padding:16px 18px;font-size:1.02rem;text-align:left;white-space:normal;line-height:1.3}
+details.mcardp{background:#fff;border:1px solid #E2DED2;border-radius:16px;margin-top:12px;overflow:hidden}
+details.mcardp.done{border-color:#BFE3CC}
+details.mcardp summary{list-style:none;display:flex;gap:12px;align-items:center;padding:14px 16px;cursor:pointer}
+details.mcardp summary::-webkit-details-marker{display:none}
+details.mcardp summary .num{flex:0 0 38px;height:38px;border-radius:50%;background:#13285E;color:#fff;display:flex;align-items:center;justify-content:center;font:800 1rem Sora,sans-serif}
+details.mcardp.done summary .num{background:#0B7A45}
+details.mcardp .mt{flex:1;display:grid;gap:3px}
+details.mcardp .mt b{color:#13285E;font-size:1rem;line-height:1.3}
+.mbar{display:block;height:6px;background:#EEF1F7;border-radius:99px;overflow:hidden;margin-top:4px}.mbar i{display:block;height:100%;background:linear-gradient(90deg,#1F55A0,#F2BE45)}
+details.mcardp summary:after{content:'⌄';font-size:1.3rem;color:#6B7390;transition:transform .2s}
+details.mcardp[open] summary:after{transform:rotate(180deg)}
+.aulas{border-top:1px solid #EEF1F7;padding:6px 10px 10px}
+button.aula{width:100%;display:flex;align-items:center;gap:12px;background:none;border:0;border-radius:12px;padding:10px 8px;text-align:left;cursor:pointer;font:inherit;color:inherit}
+button.aula:hover{background:#F4F6FB}
+button.aula .ai{flex:0 0 42px;height:32px;border-radius:10px;background:#E6EAF5;color:#13285E;display:flex;align-items:center;justify-content:center;font:700 .85rem Sora,sans-serif}
+button.aula.done .ai{background:#DDF3E6;color:#0B7A45}
+button.aula .at{flex:1;display:grid;font-weight:600;color:#0F1B3D;line-height:1.3}
+button.aula .at small{font-weight:400;color:#4A5470;font-size:.82rem}
+button.aula .ab{font:700 .82rem Sora,sans-serif;color:#13285E;border:1.5px solid #13285E;border-radius:999px;padding:6px 12px;white-space:nowrap}
+button.aula.done .ab{border-color:#BFE3CC;color:#0B7A45}
+button.aula.rev .ai{background:#FBF1D9;color:#9A6B00}
+button.aula.lock{opacity:.55;cursor:default}button.aula.lock .ab{border-color:#ccc;color:#888}
+.fases{display:flex;gap:6px;margin:4px 0 16px;flex-wrap:wrap}
+.fases span{font:700 .8rem Sora,sans-serif;padding:7px 12px;border-radius:999px;background:#EEF1F7;color:#6B7390}
+.fases span.on{background:#13285E;color:#fff}.fases span.ok{background:#DDF3E6;color:#0B7A45}
+.memo{background:linear-gradient(135deg,#FFF7E0,#FBEFCF);border:1px solid #F2D58A;border-left:6px solid #F2BE45;border-radius:16px;padding:16px 18px;margin:14px 0}
+.memo p{margin:6px 0 0;font:700 1.08rem/1.45 Sora,sans-serif;color:#13285E}
+.fimaula{text-align:center}.fimaula .big{width:64px;height:64px;margin:0 auto 6px;border-radius:50%;background:#DDF3E6;color:#0B7A45;font:800 2rem/64px Sora,sans-serif}
+.fimaula h3{margin:0 0 4px;color:#13285E}
+p.row{display:flex;gap:10px;flex-wrap:wrap}
+details.resumo summary{cursor:pointer}
+.resumo .cards{display:grid;gap:10px;margin-top:12px}@media(min-width:640px){.resumo .cards{grid-template-columns:1fr 1fr}}
+.resumo .rc{background:#F7F9FD;border:1px solid #E3E9F5;border-radius:12px;padding:12px}
+.resumo .rc p{margin:6px 0;font-size:.92rem}.resumo .rc .m{font-weight:700;color:#9A6B00;font-size:.9rem}
+.aulasp{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.aulasp span{font-size:.78rem;background:#F4F6FB;border-radius:8px;padding:4px 8px;color:#4A5470}
+header.top.site{position:relative!important}
+
+.apbox{display:flex;align-items:center;gap:12px;background:#F7F9FD;border:1px solid #E3E9F5;border-radius:14px;padding:12px;margin-top:12px}
+.apbox .ic{flex:0 0 46px}.apbox .ic svg{width:46px;height:46px}.apbox div{flex:1;display:grid}.apbox small{color:#4A5470}
 </style></head><body><div id="app"></div>
 <script>var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,(function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1}))},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(t,r){var e=n("友");if(2!=e.length||38726!=(e[0]<<8|e[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}((function(){return qrcode}));
 </script>
@@ -238,7 +320,7 @@ var CURSO = {
     'Construir parceria com famílias e rede de apoio e prevenir o bullying.'
   ],
   coord: { nome: 'Profa. Dra. Sandra Medina Benini', cargo: 'Coordenação Acadêmica e Científica', area: 'Formação Continuada de Professores' },
-  finalH: 2, finalN: 15, finalMin: 0.7, finalTent: 3, quizMin: 0.6,
+  finalH: 2, finalN: 10, finalMin: 0.7, finalTent: 3, quizMin: 0.6,
   modulos: [],
   final: [
     { e: 'Uma escola organiza as salas de aula para que alunos autistas fiquem todos juntos, em turma separada, "para receberem atenção especial". Essa organização corresponde a:', o: ['inclusão.', 'segregação.', 'ensino colaborativo.', 'Desenho Universal.'], a: 1 },
@@ -893,6 +975,38 @@ CURSO.mais.m6.push([
   { e: 'Segundo a LDB (arts. 12 a 14), é no projeto político-pedagógico que a escola:', o: ['define o diagnóstico dos alunos.', 'organiza o AEE, os tempos de planejamento coletivo, a formação continuada e a parceria com as famílias.', 'escolhe quais alunos pode recusar.', 'define o salário dos professores.'], a: 1, r: 'A proposta pedagógica é elaborada com participação dos profissionais, pelo princípio da gestão democrática.' },
   { e: 'Segundo o texto, a inclusão de estudantes neurodivergentes se sustenta quando:', o: ['depende da boa vontade de um professor.', 'a escola inteira assume o compromisso: gestão, professores, funcionários, famílias e estudantes.', 'os alunos são atendidos fora da sala.', 'apenas a família se responsabiliza.'], a: 1, r: 'A gestão garante tempo e recursos, os professores planejam juntos, os funcionários são formados, as famílias são ouvidas e os estudantes aprendem a conviver.' }
 ]);
+/* "Para memorizar": uma frase por aula (trecho da apostila). */
+CURSO.mem = {
+  m1: ['Turma é neurodiversa; aluno é neurodivergente. Neurodiversidade não é diagnóstico (Singer, 1999).',
+       'Modelo médico: o problema está no aluno. Modelo social (LBI): deficiência = impedimento + barreiras.',
+       'Integração: o aluno se adapta à escola. Inclusão: a escola se reorganiza para todos.',
+       'CF/1988 → Salamanca/1994 → PNEEPEI/2008 → Lei 12.764/2012 → LBI/2015 → Lei 14.254/2021 → Decreto 12.686/2025.',
+       'Nem corrigir toda diferença, nem negar o apoio: forças do aluno + apoios necessários.'],
+  m2: ['Aprender é criar e fortalecer conexões entre neurônios; a atenção é a porta de entrada.',
+       'Funções executivas: memória de trabalho, controle inibitório e flexibilidade cognitiva (Diamond, 2013).',
+       'Testar-se e espaçar os estudos funciona; reler e grifar, pouco (Dunlosky et al., 2013).',
+       'Estilos de aprendizagem são neuromito; variar linguagens ajuda todos.',
+       'Partes curtas + palavra e imagem = menos carga estranha e registro duplo (Sweller; Paivio).'],
+  m3: ['TEA: comunicação e interação social + padrões restritos e repetitivos; níveis 1, 2 e 3 de suporte.',
+       'Lei 12.764/2012: pessoa com TEA é pessoa com deficiência; acompanhante quando comprovada a necessidade.',
+       'Instrução curta e visual, CAA, previsibilidade; na crise: segurança, menos estímulos, esperar.',
+       'Interesse intenso é ponte para o currículo, não obstáculo (Orrú, 2016).',
+       'Tecnologia assistiva vai do cartão com figura ao aplicativo; CAA em todos os ambientes.'],
+  m4: ['TDAH: sintomas antes dos 12 anos, em dois ou mais ambientes; diagnóstico é clínico.',
+       'Dislexia: dificuldade inesperada de leitura, com núcleo no processamento fonológico.',
+       'Não espere o laudo: intervenha, registre e acompanhe a resposta (Fletcher et al., 2009).',
+       'Altas habilidades: habilidade acima da média + envolvimento com a tarefa + criatividade (Renzulli).',
+       'TDAH: apoio no ponto de desempenho. Dislexia: ensino explícito + acomodações.'],
+  m5: ['DUA: engajamento (porquê), representação (o quê), ação e expressão (como).',
+       'PEI: nasce do estudo de caso, é coletivo, tem objetivos claros e é atualizado sempre.',
+       'AEE: complementar ou suplementar, no contraturno, sem exigir laudo; não substitui a classe comum.',
+       'Ensino colaborativo: professor da turma + especialista planejam, ensinam e avaliam juntos.',
+       'Avaliar é diagnosticar para ensinar, com formas variadas e os ajustes do PEI (Luckesi, 1995).'],
+  m6: ['Escola e família: parceria com papéis diferentes; comece pelas potencialidades.',
+       'O professor observa, descreve e registra; quem diagnostica é o profissional de saúde.',
+       'Bullying: ações negativas repetidas com desequilíbrio de poder; nunca exponha diagnósticos.',
+       'Inclusão é projeto da escola inteira: culturas, políticas e práticas (Booth; Ainscow, 2002).']
+};
 /* Ícones desenhados do "Como funciona" (SVG, elaboração própria). */
 var FC_ICON = {
   apostila: '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="fi-a1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2F57B5"/><stop offset="1" stop-color="#13285E"/></linearGradient><linearGradient id="fi-a2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF8"/></linearGradient><linearGradient id="fi-a3" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF8"/></linearGradient></defs>' +
@@ -1535,31 +1649,34 @@ window.FC_NUVEM = (function () {
   /* progresso de um módulo, em etapas */
   function etapas(m) {
     var s = M(m.id);
-    return {
-      e: s.e.length >= C.ap[m.id].secoes.length,
-      c: s.c.length >= m.cartoes.length,
-      a: m.atividades.every(function (x, i) { return s.a[i]; }),
-      q: !!(s.q && s.q.ok)
-    };
+    return { e: s.e.length >= C.ap[m.id].secoes.length, q: !!(s.q && s.q.ok) };
   }
   function checaFim(m) {
     var e = etapas(m), s = M(m.id);
-    if (e.e && e.c && e.a && e.q && !s.fim) { s.fim = Date.now(); save(); return true; }
+    if (e.e && e.q && !s.fim) { s.fim = Date.now(); save(); return true; }
     return false;
   }
+  function nAulas() { var n = 0; C.modulos.forEach(function (m) { n += C.ap[m.id].secoes.length; }); return n; }
+  function nFeitas() { var n = 0; C.modulos.forEach(function (m) { n += M(m.id).e.length; }); return n; }
+  function acertos() { var a = 0, t = 0; C.modulos.forEach(function (m) { var qa = M(m.id).qa || {}; Object.keys(qa).forEach(function (k) { (qa[k] || []).forEach(function (x) { t++; if (x) a++; }); }); }); return { a: a, t: t }; }
+  function proxima() { for (var i = 0; i < C.modulos.length; i++) { var m = C.modulos[i], s = M(m.id), n = C.ap[m.id].secoes.length; for (var k = 0; k < n; k++) if (s.e.indexOf(k) < 0) return { mod: i, sec: k }; if (!(s.q && s.q.ok)) return { mod: i, rev: true }; } return null; }
 
   /* ---------- rotas ---------- */
   var V = { tela: 'vitrine', mod: null, passo: 'c', card: 0, quiz: null, prova: null };
   function go(tela, extra) { V.tela = tela; for (var k in extra) V[k] = extra[k]; render(); window.scrollTo(0, 0); }
 
+  var NAVSITE = '<nav class="secoes"><div class="wrap"><a class="sec" href="/#sec=cp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M4.5 9.5h15M12 3 4 8h16z"/><path d="M6.5 10v8M10 10v8M14 10v8M17.5 10v8"/></svg><span class="sl">Concursos</span><span class="ss">Concursos</span></a><a class="sec" href="/#sec=ps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2.2"/><path d="M9 4V2.8h6V4M8.8 12.6l2.3 2.3 4.2-4.4"/></svg><span class="sl">Seletivos</span><span class="ss">Seletivos</span></a><a class="sec" href="/#sec=vest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9.2 12 4.5l10 4.7-10 4.7z"/><path d="M6.2 11.3v4.6c3.3 2.3 8.3 2.3 11.6 0v-4.6M21.8 9.4v5.4"/></svg><span class="sl">Vestibulares</span><span class="ss">Vestibulares</span></a><a class="sec" href="/#sec=curso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8.5 20.5 12 16l3.5 4.5M10 8.2v4.6l4-2.3z"/></svg><span class="sl">Cursos preparatórios</span><span class="ss">Cursos</span></a><a class="sec on" href="/#sec=fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 12 4l9 4.5-9 4.5z"/><path d="M7 10.6V15c3 2 7 2 10 0v-4.4"/><path d="M12 13v7M9 20h6"/></svg><span class="sl">Formação</span><span class="ss">Formação</span></a><a class="sec" href="/#sec=ap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6.5A2.5 2.5 0 0 0 4 21.5"/><path d="M9 7h7M9 11h5"/></svg><span class="sl">Apostilas</span><span class="ss">Apostilas</span></a></div></nav>';
   function topo() {
-    if (PROD) return '<header class="top"><div class="wrap"><a class="logo" href="/"><img src="' + IMG.pe + '" alt=""><b>Plano de<i>Estudo</i></b></a>' +
-      '<span class="tag" data-go="vitrine" style="cursor:pointer">Formação Continuada</span>' +
-      (USER ? '<button class="ent" data-a="sair" title="Sair">' + esc(USER.email) + '</button>' : '<button class="ent" data-a="entrar">Entrar</button>') + '</div></header>';
-    return '<div class="previa">PRÉVIA para conferência · nada aqui está à venda ainda · o progresso fica salvo só neste aparelho</div>' +
-      '<header class="top"><div class="wrap"><a class="logo" data-go="vitrine"><img src="' + IMG.pe + '" alt=""><b>Plano de<i>Estudo</i></b></a>' +
-      '<span class="tag">Formação Continuada</span></div></header>';
+    var ent = PROD ? (USER ? '<a class="loginbtn on" href="/#minha" title="' + esc(USER.email) + '">' + ICU + '<span>Minha área</span></a>' : '<button class="loginbtn" data-a="entrar">' + ICU + '<span>Entrar</span></button>') : '<span class="loginbtn on">' + ICU + '<span>Minha área</span></span>';
+    var lnk = function (h) { return PROD ? h : '#'; };
+    return (PROD ? '' : '<div class="previa">PRÉVIA para conferência · nada aqui está à venda ainda · o progresso fica salvo só neste aparelho</div>') +
+      '<header class="top site"><div class="rainbow"></div><div class="wrap r1"><a class="logo" href="' + lnk('/') + '"><img src="' + IMG.pe + '" alt=""><span class="wm"><b>Plano de</b><i>Estudo</i></span></a>' + ent + '<span class="vozb" title="Voz">' + ICV + '</span></div>' +
+      '<div class="wrap r2"><a class="pill" href="' + lnk('/#orientacoes') + '">' + ICI + ' Orientações</a><a class="pill" href="' + lnk('/#app') + '">▶ Como acessar</a><a class="busca" href="' + lnk('/') + '">' + ICL + '<span>Buscar cidade, cargo ou apostila</span></a></div>' + NAVSITE + '</header>';
   }
+  var ICI = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5" stroke-linecap="round"/></svg>';
+  var ICL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>';
+  var ICV = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/></svg>';
+  var ICU = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
   function rodape() {
     if (PROD) return '<footer class="f wrap">Plano de Estudo · Formação Continuada · Mundo Encantado<br>Curso livre de formação continuada.<br><a href="/">planodeestudo.net.br</a> · <a data-go="validar" style="cursor:pointer;text-decoration:underline">Validar certificado</a> · mundo.encantado.prof@gmail.com</footer>';
     return '<footer class="f wrap">Plano de Estudo · Formação Continuada · Mundo Encantado<br>Curso livre de formação continuada.<br><br>' +
@@ -1568,20 +1685,20 @@ window.FC_NUVEM = (function () {
 
   /* ---------- vitrine ---------- */
   function vitrine() {
-    var h = '<section class="hero' + (PROD ? ' foto"><div class="ft"></div>' : '">') + '<div class="wrap"><div class="kick">Curso livre de formação continuada</div><h1>' + esc(C.titulo) + '</h1>' +
+    var h = '<section class="hero foto"><div class="ft" style="--foto:url(' + (PROD ? '/img/formacao/neuro30.jpg' : IMG.hero) + ')"></div><div class="wrap"><div class="kick">Curso livre de formação continuada</div><h1>' + esc(C.titulo) + '</h1>' +
       '<p>' + esc(C.sigla(C.resumo, {})) + '</p><div class="chips"><span class="chip">' + C.horas + ' horas</span><span class="chip">100% on-line</span><span class="chip">Certificado com QR Code</span></div>' +
       '<div class="price">' + (C.parcelas ? C.parcelas + 'x de R$ ' + C.parcela + ' <small style="display:block;margin-top:6px">sem juros no cartão ou R$ ' + C.preco + ' à vista no Pix, pelo Mercado Pago</small>' : 'R$ ' + C.preco + ' <small>à vista, pagamento pelo Mercado Pago</small>') + '</div><div style="margin-top:16px">' +
       (PROD ? botaoProd() : S.mat ? '<button class="btn gold" data-go="sala">Continuar o curso</button>' : '<button class="btn gold" data-a="matricular">Matricular (na prévia, sem pagamento)</button>') +
       '</div></div></section><div class="wrap">';
     h += '<div class="card"><h2>Conteúdo programático</h2><ul class="mods">';
-    C.modulos.forEach(function (m, i) { h += '<li><span class="num">' + (i + 1) + '</span><div><b>' + esc(m.titulo) + '</b><div class="note">' + esc(m.objetivo) + '</div></div><span class="h">' + m.h + 'h</span></li>'; });
+    C.modulos.forEach(function (m, i) { h += '<li><span class="num">' + (i + 1) + '</span><div><b>' + esc(m.titulo) + '</b><div class="note">' + esc(m.objetivo) + '</div><div class="aulasp">' + C.ap[m.id].secoes.map(function (sc) { return '<span>' + esc(sc.t) + '</span>'; }).join('') + '</div></div><span class="h">' + m.h + 'h</span></li>'; });
     h += '<li><span class="num">✓</span><div><b>Avaliação final</b><div class="note">' + C.finalN + ' questões sorteadas, nota mínima ' + Math.round(C.finalMin * 100) + '%, até ' + C.finalTent + ' tentativas.</div></div><span class="h">' + C.finalH + 'h</span></li></ul></div>';
     h += '<div class="card"><h2>Objetivos</h2><ul class="ok">' + C.objetivos.map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('') + '</ul></div>';
     h += '<div class="card"><h2>Como funciona</h2><div class="grid2">' +
-      '<div class="feat"><span class="ic">' + FC_ICON.apostila + '</span><div><b>Apostila de estudo</b><div class="note">Texto fundamentado em autores da área, com citações e referências (ABNT). Ao fim de cada parte, pelo menos quatro perguntas com correção automática liberam a próxima.</div></div></div>' +
-      '<div class="feat"><span class="ic">' + FC_ICON.cartoes + '</span><div><b>Cartões de revisão</b><div class="note">Os pontos principais em cartões curtos, com a frase para memorizar.</div></div></div>' +
-      '<div class="feat"><span class="ic">' + FC_ICON.atividades + '</span><div><b>Atividades interativas</b><div class="note">Questões comentadas, associação, ordenação, estudo de caso e prática.</div></div></div>' +
-      '<div class="feat"><span class="ic">' + FC_ICON.certificado + '</span><div><b>Certificado</b><div class="note">Após aprovação na avaliação final e cumprido o prazo mínimo de ' + DIAS_MIN + ' dias desde a matrícula (8 horas por dia).</div></div></div>' +
+      '<div class="feat"><span class="ic">' + FC_ICON.apostila + '</span><div><b>Aulas curtas, no seu ritmo</b><div class="note">' + nAulas() + ' aulas com texto fundamentado em autores da área (ABNT) e figuras explicativas. Você estuda pelo plano, uma aula de cada vez.</div></div></div>' +
+      '<div class="feat"><span class="ic">' + FC_ICON.cartoes + '</span><div><b>Uma pergunta de leitura</b><div class="note">No fim do texto, uma pergunta simples confirma a leitura e libera as questões da aula.</div></div></div>' +
+      '<div class="feat"><span class="ic">' + FC_ICON.atividades + '</span><div><b>Questões comentadas</b><div class="note">Três questões por aula, com correção na hora, explicação da resposta e a frase "Para memorizar".</div></div></div>' +
+      '<div class="feat"><span class="ic">' + FC_ICON.certificado + '</span><div><b>Certificado</b><div class="note">Após a avaliação final e cumprido o prazo mínimo de ' + DIAS_MIN + ' dias desde a matrícula (8 horas por dia), com QR Code de validação.</div></div></div>' +
       '</div></div>';
     h += '<div class="card"><h2>Para quem é</h2><p style="margin:0">' + esc(C.publico) + '</p></div>';
     h += '<div class="card"><h2>Coordenação</h2><p style="margin:0"><b>' + esc(C.coord.nome) + '</b><br>' + esc(C.coord.cargo) + ' · ' + esc(C.coord.area) + '</p></div>';
@@ -1612,19 +1729,26 @@ window.FC_NUVEM = (function () {
     return '<div class="prog"><div class="wrap"><div class="lbl"><span>Carga horária cumprida</span><span>' + f + ' de ' + C.horas + 'h</span></div><div class="bar"><i style="width:' + (f / C.horas * 100) + '%"></i></div></div></div>';
   }
   function sala() {
-    var h = barra() + '<div class="wrap"><h1 class="mtitle" style="margin-top:16px">' + esc(C.titulo) + '</h1><p class="note">Matrícula em ' + dataC(S.mat) + '. A carga horária só conta quando o módulo inteiro é concluído: estudo do texto (com as perguntas para avançar), cartões de revisão, atividades e questionário com pelo menos ' + Math.round(C.quizMin * 100) + '% de acertos.</p><div class="mlist">';
+    var nf = nFeitas(), na = nAulas(), ac = acertos(), px = proxima();
+    var h = barra() + '<div class="wrap"><div class="card plano-top"><span class="eyebrow">Meu plano de estudo</span><h1 class="mtitle">' + esc(C.titulo) + '</h1>' +
+      '<div class="stats"><div><b>' + nf + '<small>/' + na + '</small></b><span>aulas</span></div><div><b>' + (ac.t ? Math.round(ac.a / ac.t * 100) : 0) + '%</b><span>acertos</span></div><div><b>' + hFeitas() + '<small>/' + C.horas + 'h</small></b><span>carga horária</span></div></div>' +
+      (px ? '<button class="btn gold big" data-' + (px.rev ? 'rev="' + px.mod + '"' : 'aula="' + px.mod + '.' + px.sec + '"') + '>' + (nf ? 'Continuar: ' : 'Começar: ') + esc(px.rev ? 'Revisão do módulo ' + (px.mod + 1) : C.ap[C.modulos[px.mod].id].secoes[px.sec].t) + ' →</button>' : (S.fin.ok ? '<button class="btn gold big" data-go="cert">Ver o certificado →</button>' : '<button class="btn gold big" data-go="final">Fazer a avaliação final →</button>')) +
+      '<div class="apbox"><span class="ic">' + FC_ICON.apostila + '</span><div><b>Sua apostila em PDF já está liberada</b><small>Todo o conteúdo do curso, com figuras e referências, para guardar, ler e imprimir.</small></div>' + (PROD ? '<button class="btn ghost sm" data-a="apostila">Baixar</button><span class="note" id="aperr"></span>' : '<span class="btn ghost sm">Baixar</span>') + '</div>' +
+      '<p class="note" style="margin:10px 0 0">Matrícula em ' + dataC(S.mat) + '. As horas de cada módulo contam quando você conclui as aulas e a revisão do módulo (pelo menos ' + Math.round(C.quizMin * 100) + '% de acertos).</p></div>';
     C.modulos.forEach(function (m, i) {
-      var s = M(m.id), e = etapas(m), n = [e.e, e.c, e.a, e.q].filter(Boolean).length;
-      var st = s.fim ? '<span class="st done">✓ ' + m.h + 'h</span>' : n ? '<span class="st go">' + n + ' de 4 etapas</span>' : '<span class="st">' + m.h + 'h</span>';
-      h += '<button class="mi' + (s.fim ? ' done' : '') + '" data-mod="' + i + '"><span class="num">' + (s.fim ? '✓' : i + 1) + '</span><span><b>' + esc(m.titulo) + '</b></span>' + st + '</button>';
+      var s = M(m.id), secs = C.ap[m.id].secoes, feitas = s.e.length, aberto = !s.fim && px && px.mod === i;
+      h += '<details class="mcardp' + (s.fim ? ' done' : '') + '"' + (aberto ? ' open' : '') + '><summary><span class="num">' + (s.fim ? '✓' : i + 1) + '</span><span class="mt"><b>' + esc(m.titulo) + '</b><span class="note">' + feitas + ' de ' + secs.length + ' aulas · ' + m.h + ' horas' + (s.fim ? ' · concluído' : '') + '</span><span class="mbar"><i style="width:' + (feitas / secs.length * 100) + '%"></i></span></span></summary><div class="aulas">';
+      secs.forEach(function (sc, k) {
+        var ok = s.e.indexOf(k) >= 0, qa = (s.qa || {})[k] || [], n = qa.filter(Boolean).length;
+        h += '<button class="aula' + (ok ? ' done' : '') + '" data-aula="' + i + '.' + k + '"><span class="ai">' + (ok ? '✓' : (i + 1) + '.' + (k + 1)) + '</span><span class="at">' + esc(sc.t.replace(/^\d+\.\d+\s*/, '')) + (ok ? '<small>' + n + ' de ' + qa.length + ' questões certas</small>' : '') + '</span><span class="ab">' + (ok ? 'Rever' : 'Estudar') + '</span></button>';
+      });
+      var podeRev = feitas >= secs.length;
+      h += '<button class="aula rev' + (s.q && s.q.ok ? ' done' : podeRev ? '' : ' lock') + '" data-rev="' + (podeRev ? i : '') + '"><span class="ai">★</span><span class="at">Revisão do módulo' + '<small>' + (s.q && s.q.ok ? 'Aprovada com ' + s.q.best + '%' : podeRev ? m.quiz.length + ' questões · mínimo ' + Math.round(C.quizMin * 100) + '%' : 'Libera depois das aulas do módulo') + '</small></span><span class="ab">' + (s.q && s.q.ok ? 'Refazer' : podeRev ? 'Fazer' : '🔒') + '</span></button></div></details>';
     });
     var ok = modsOk();
-    h += '<button class="mi' + (S.fin.ok ? ' done' : ok ? '' : ' lock') + '" data-go="' + (ok ? 'final' : '') + '"><span class="num">' + (S.fin.ok ? '✓' : '★') + '</span><span><b>Avaliação final</b><div class="note">' + (ok ? 'Liberada' : 'Libera quando os 6 módulos estiverem concluídos') + '</div></span><span class="st' + (S.fin.ok ? ' done' : '') + '">' + (S.fin.ok ? '✓ ' + C.finalH + 'h' : C.finalH + 'h') + '</span></button>';
-    h += '<button class="mi' + (S.fin.ok ? '' : ' lock') + '" data-go="' + (S.fin.ok ? 'cert' : '') + '"><span class="num">🎓</span><span><b>Certificado</b><div class="note">' + certStatus() + '</div></span></button>';
-    h += '</div>';
-    if (PROD) h += '<div class="card" style="margin-top:16px"><b>Apostila do curso em PDF</b><p class="note">O texto completo de estudo, com figuras e referências, para ler ou imprimir.</p><button class="btn ghost sm" data-a="apostila">Baixar a apostila</button> <span class="note" id="aperr"></span></div>';
-    h += '</div>';
-    return h;
+    h += '<div class="mlist" style="margin-top:12px"><button class="mi' + (S.fin.ok ? ' done' : ok ? '' : ' lock') + '" data-go="' + (ok ? 'final' : '') + '"><span class="num">' + (S.fin.ok ? '✓' : '★') + '</span><span><b>Avaliação final</b><div class="note">' + (ok ? 'Liberada' : 'Libera quando os ' + C.modulos.length + ' módulos estiverem concluídos') + '</div></span><span class="st' + (S.fin.ok ? ' done' : '') + '">' + C.finalH + 'h</span></button>';
+    h += '<button class="mi' + (S.fin.ok ? '' : ' lock') + '" data-go="' + (S.fin.ok ? 'cert' : '') + '"><span class="num">🎓</span><span><b>Certificado</b><div class="note">' + certStatus() + '</div></span></button></div>';
+    return h + '</div>';
   }
   function certStatus() {
     if (S.cert) return 'Emitido · código ' + S.cert.cod;
@@ -1636,152 +1760,61 @@ window.FC_NUVEM = (function () {
   }
 
   /* ---------- módulo ---------- */
-  var PASSOS = [['e', 'Estudo'], ['c', 'Cartões de revisão'], ['a', 'Atividades'], ['q', 'Questionário']];
-  function modulo() {
-    var m = C.modulos[V.mod], e = etapas(m), s = M(m.id);
-    var h = barra() + '<div class="wrap"><button class="back" data-go="sala">← Módulos</button><div class="note"><b>Módulo ' + (V.mod + 1) + ' · ' + m.h + ' horas</b></div><h2 class="mtitle">' + esc(m.titulo) + '</h2>';
-    if (V.passo === 'e') h += '<p class="note"><b>Objetivo:</b> ' + esc(m.objetivo) + '</p>';
+  var AV = {};
+  function aulaTela() {
+    var m = C.modulos[V.mod], s = M(m.id), secs = C.ap[m.id].secoes, sc = secs[V.sec], VS = {}, QS = (C.mais[m.id] || [])[V.sec] || [];
+    var fases = [['ler', 'Leitura'], ['q', 'Questões'], ['fim', 'Para memorizar']], fi = V.fase === 'ler' ? 0 : V.fase === 'q' ? 1 : 2;
+    var h = barra() + '<div class="wrap"><button class="back" data-go="sala">← Meu plano</button><div class="eyebrow">Módulo ' + (V.mod + 1) + ' · Aula ' + (V.sec + 1) + ' de ' + secs.length + '</div><h2 class="mtitle">' + esc(sc.t.replace(/^\d+\.\d+\s*/, '')) + '</h2>' +
+      '<div class="fases">' + fases.map(function (f, k) { return '<span class="' + (k === fi ? 'on' : k < fi ? 'ok' : '') + '">' + (k < fi ? '✓' : k + 1) + ' ' + f[1] + '</span>'; }).join('') + '</div>';
+    if (V.fase === 'ler') {
+      h += '<div class="apost">' + sc.p.map(function (p) { return p.slice(0, 2) === '>>' ? '<p class="cit">' + esc(p.slice(2)) + '</p>' : '<p>' + esc(C.sigla(p, VS)) + '</p>'; }).join('');
+      if (sc.fig && C.figs[sc.fig]) h += '<figure class="fg"><figcaption><b>Figura</b> – ' + esc(C.figs[sc.fig].t) + '</figcaption>' + C.figs[sc.fig].svg + '<div class="fonte">Fonte: elaboração própria (2026)' + (C.figs[sc.fig].svg.indexOf('data-ud') >= 0 ? ', com ilustrações adaptadas de unDraw (undraw.co)' : '') + '.</div></figure>';
+      h += '</div>';
+      var q = sc.av, o = ordem(m.id + 'av' + V.sec, q.o.length), w = AV[m.id + V.sec], ok = s.e.indexOf(V.sec) >= 0 || V.lido;
+      h += '<div class="act av' + (ok ? ' done' : '') + '" id="avq"><div class="tp">Pergunta de leitura</div><div class="en">' + esc(q.e) + '</div>';
+      o.forEach(function (oi, z) { var cls = ok ? (oi === q.a ? ' right' : '') : (w && w.indexOf(oi) >= 0 ? ' wrong' : ''); h += '<button class="opt' + cls + '" data-av="' + oi + '"' + (ok || (w && w.indexOf(oi) >= 0) ? ' disabled' : '') + '><span class="l">' + LET[z] + '</span><span>' + esc(q.o[oi]) + '</span></button>'; });
+      if (ok) h += '<div class="res okk"><b class="t">✓ Isso mesmo!</b>' + esc(q.r) + '</div><p><button class="btn gold" data-fase="q">Ir para as questões comentadas →</button></p>';
+      else if (w) h += '<div class="res nok"><b class="t">Quase! Dê uma olhada no texto acima e tente outra alternativa.</b></div>';
+      return h + '</div></div>';
+    }
+    if (V.fase === 'q') {
+      var x = QS[V.qi], key = m.id + 'q' + V.sec + '.' + V.qi, oo = ordem(key, x.o.length), r = V.resp[V.qi];
+      h += '<div class="act"><div class="tp">Questão ' + (V.qi + 1) + ' de ' + QS.length + '</div><div class="en">' + esc(x.e) + '</div>';
+      oo.forEach(function (oi, z) { var cls = r == null ? '' : oi === x.a ? ' right' : oi === r ? ' wrong' : ''; h += '<button class="opt' + cls + '" data-qc="' + oi + '"' + (r != null ? ' disabled' : '') + '><span class="l">' + LET[z] + '</span><span>' + esc(x.o[oi]) + '</span></button>'; });
+      if (r != null) {
+        h += '<div class="res ' + (r === x.a ? 'okk' : 'nok') + '"><b class="t">' + (r === x.a ? '✓ Correto!' : '✗ Não foi dessa vez. A resposta certa está em verde.') + '</b><b>Resolução:</b> ' + esc(x.r) + '</div>';
+        h += '<p><button class="btn gold" data-' + (V.qi < QS.length - 1 ? 'qn="1">Próxima questão →' : 'fase="fim">Ver o resumo da aula →') + '</button></p>';
+      }
+      return h + '</div></div>';
+    }
+    var qa = (s.qa || {})[V.sec] || [], n = qa.filter(Boolean).length, mem = (C.mem[m.id] || [])[V.sec];
+    h += '<div class="card fimaula"><div class="big">✓</div><h3>Aula concluída!</h3><p>Você acertou <b>' + n + ' de ' + qa.length + '</b> questões.</p></div>';
+    if (mem) h += '<div class="memo"><span class="eyebrow">Para memorizar</span><p>' + esc(mem) + '</p></div>';
+    var prox = V.sec < secs.length - 1 ? '<button class="btn gold" data-aula="' + V.mod + '.' + (V.sec + 1) + '">Próxima aula →</button>' : '<button class="btn gold" data-rev="' + V.mod + '">Fazer a revisão do módulo →</button>';
+    return h + '<p class="row">' + prox + ' <button class="btn ghost" data-go="sala">Voltar ao plano</button></p></div>';
+  }
+  function revTela() {
+    var m = C.modulos[V.mod], s = M(m.id);
+    var h = barra() + '<div class="wrap"><button class="back" data-go="sala">← Meu plano</button><div class="eyebrow">Módulo ' + (V.mod + 1) + ' · ' + m.h + ' horas</div><h2 class="mtitle">Revisão do módulo: ' + esc(m.titulo) + '</h2>';
     if (s.fim) h += '<div class="banner ok">✓ Módulo concluído em ' + dataC(s.fim) + '. ' + m.h + ' horas creditadas.</div>';
-    h += '<div class="steps">' + PASSOS.map(function (p, i) { return '<button class="' + (V.passo === p[0] ? 'on ' : '') + (e[p[0]] ? 'ok' : '') + '" data-passo="' + p[0] + '">' + (e[p[0]] ? '✓ ' : (i + 1) + '. ') + p[1] + '</button>'; }).join('') + '</div>';
-    if (V.passo === 'c') h += cartoes(m);
-    if (V.passo === 'e') h += estudo(m);
-    if (V.passo === 'a') h += atividades(m);
-    if (V.passo === 'q') h += quiz(m);
+    h += '<details class="card resumo"><summary><b>Resumo do módulo para revisar antes</b> <span class="note">(' + m.cartoes.length + ' pontos)</span></summary><div class="cards">' + m.cartoes.map(function (c) { return '<div class="rc"><b>' + esc(c.t) + '</b><p>' + esc(C.sigla(c.x, {})) + '</p><div class="m">' + esc(c.m) + '</div></div>'; }).join('') + '</div></details>';
+    h += quiz(m);
     return h + '</div>';
   }
-  function cartoes(m) {
-    var s = M(m.id), i = V.card, c = m.cartoes[i];
-    if (s.c.indexOf(i) < 0) { s.c.push(i); save(); checaFim(m); }
-    var h = '<div class="dots">' + m.cartoes.map(function (_, j) { return '<i class="' + (s.c.indexOf(j) >= 0 ? 'v' : '') + '"></i>'; }).join('') + '</div>';
-    h += '<div class="flash"><span class="k">Cartão ' + (i + 1) + ' de ' + m.cartoes.length + '</span><h3>' + esc(c.t) + '</h3><p>' + esc(c.x) + '</p><div class="mem">' + esc(c.m) + '</div></div>';
-    h += '<div class="nav"><button class="btn ghost sm" data-card="' + (i - 1) + '"' + (i ? '' : ' disabled') + '>← Anterior</button>' +
-      (i < m.cartoes.length - 1 ? '<button class="btn sm" data-card="' + (i + 1) + '">Próximo →</button>' : '<button class="btn sm gold" data-passo="a">Ir para as atividades →</button>') + '</div>';
-    return h;
-  }
-  function avs(id, i) { var sc = C.ap[id].secoes[i]; return [sc.av].concat((C.mais && C.mais[id] && C.mais[id][i]) || []); }
-  var AV = {}; /* respostas erradas recentes nas perguntas para avançar */
-  function estudo(m) {
-    var ap = C.ap[m.id], s = M(m.id), VS = {}, h = '<p class="note">Leia cada parte do texto. Ao final de cada parte há quatro perguntas. Acerte todas para liberar a próxima parte.</p>';
-    h += '<div class="apost"><p class="ai">' + esc(C.sigla(ap.intro, VS)) + '</p>';
-    for (var i = 0; i < ap.secoes.length; i++) {
-      var sc = ap.secoes[i], ok = s.e.indexOf(i) >= 0;
-      h += '<h3>' + esc(sc.t) + '</h3>' + sc.p.map(function (p) { return p.slice(0, 2) === '>>' ? '<p class="cit">' + esc(p.slice(2)) + '</p>' : '<p>' + esc(C.sigla(p, VS)) + '</p>'; }).join('');
-      if (sc.fig && C.figs[sc.fig]) h += '<figure class="fg"><figcaption><b>Figura</b> – ' + esc(C.figs[sc.fig].t) + '</figcaption>' + C.figs[sc.fig].svg + '<div class="fonte">Fonte: elaboração própria (2026)' + (C.figs[sc.fig].svg.indexOf('data-ud') >= 0 ? ', com ilustrações adaptadas de unDraw (undraw.co)' : '') + '.</div></figure>';
-      var QS = avs(m.id, i), ev = s.ev || {}, para = false;
-      for (var j = 0; j < QS.length; j++) {
-        var q = QS[j], qok = ok || ev[i + '.' + j], key = m.id + 'av' + i + '.' + j, o = ordem(key, q.o.length), w = AV[m.id + i + '.' + j];
-        h += '<div class="act av' + (qok ? ' done' : '') + '" id="av' + i + '_' + j + '"><div class="tp">Pergunta ' + (j + 1) + ' de ' + QS.length + ' para avançar' + (qok ? ' · ✓ acertou' : '') + '</div><div class="en">' + esc(q.e) + '</div>';
-        o.forEach(function (oi, z) {
-          var cls = qok ? (oi === q.a ? ' right' : '') : (w && w.indexOf(oi) >= 0 ? ' wrong' : '');
-          h += '<button class="opt' + cls + '" data-av="' + i + '.' + j + ':' + oi + '"' + (qok || (w && w.indexOf(oi) >= 0) ? ' disabled' : '') + '><span class="l">' + LET[z] + '</span><span>' + esc(q.o[oi]) + '</span></button>';
-        });
-        if (qok) h += '<div class="res okk"><b class="t">✓ Correto!</b>' + esc(q.r) + '</div>';
-        else if (w) h += '<div class="res nok"><b class="t">✗ Ainda não. Releia a parte ' + esc(sc.t.split(' ')[0]) + ' acima e tente outra alternativa.</b></div>';
-        h += '</div>';
-        if (!qok) { para = true; break; }
-      }
-      if (!ok) { h += '<p class="note lock">🔒 ' + (para && j < QS.length - 1 ? 'A próxima pergunta aparece quando você acertar esta. ' : '') + 'As próximas partes do texto aparecem quando você acertar as ' + QS.length + ' perguntas.</p>'; break; }
-    }
-    if (etapas(m).e) {
-      h += '<h3>' + esc(m.leitura.titulo) + ' (caso para refletir)</h3>' + m.leitura.partes.map(function (p) { return '<p><b>' + esc(p.p) + '</b> ' + esc(p.x) + '</p>'; }).join('');
-      h += '<h3>Referências</h3><div class="refs">' + ap.refs.map(function (r) { return '<p>' + r + '</p>'; }).join('') + '</div>';
-    }
-    h += '</div>';
-    if (etapas(m).e) h += '<div class="nav"><span></span><button class="btn sm gold" data-passo="c">Ir para os cartões de revisão →</button></div>';
-    return h;
-  }
-  function leitura(m) {
-    var s = M(m.id), h = '<p class="note">Abra cada parte e leia com atenção. As perguntas guiam a leitura.</p><h3 style="color:var(--brand);margin:8px 0">' + esc(m.leitura.titulo) + '</h3>';
-    m.leitura.partes.forEach(function (p, i) {
-      var v = s.l.indexOf(i) >= 0;
-      h += '<details class="acc" data-ler="' + i + '"><summary>' + esc(p.p) + (v ? ' <span class="seen">✓ lida</span>' : '') + '</summary><div class="in">' + esc(p.x) + '</div></details>';
-    });
-    h += '<div class="nav"><span></span><button class="btn sm' + (etapas(m).l ? ' gold' : '') + '" data-passo="a"' + (etapas(m).l ? '' : ' disabled') + '>Ir para as atividades →</button></div>';
-    if (!etapas(m).l) h += '<p class="note" style="text-align:right">Abra todas as partes para liberar.</p>';
-    return h;
-  }
-
-  /* ---------- atividades ---------- */
-  var T = {}; /* estado temporário das atividades de associação e ordenação */
-  var NOMES = { q: 'Questão comentada', assoc: 'Associação de conceitos', ordem: 'Ordenação', caso: 'Estudo de caso', pratica: 'Prática' };
-  function atividades(m) {
-    var h = '';
-    m.atividades.forEach(function (a, i) { h += '<div class="act' + (M(m.id).a[i] ? ' done' : '') + '" id="at' + i + '"><div class="tp">' + NOMES[a.tipo] + (M(m.id).a[i] ? ' · ✓ feita' : '') + '</div>' + ativ(m, a, i) + '</div>'; });
-    var ok = etapas(m).a;
-    h += '<div class="nav"><span></span><button class="btn sm' + (ok ? ' gold' : '') + '" data-passo="q"' + (ok ? '' : ' disabled') + '>Ir para o questionário →</button></div>';
-    if (!ok) h += '<p class="note" style="text-align:right">Conclua as ' + m.atividades.length + ' atividades para liberar.</p>';
-    return h;
-  }
-  function ativ(m, a, i) {
-    var s = M(m.id), key = m.id + '-' + i, feito = s.a[i];
-    if (a.tipo === 'q' || a.tipo === 'caso') {
-      var o = ordem(key, a.o.length), h = '<div class="en">' + esc(a.e) + '</div>';
-      o.forEach(function (oi, j) {
-        var cls = '';
-        if (feito) { if (oi === a.a) cls = ' right'; else if (oi === feito.esc) cls = ' wrong'; }
-        h += '<button class="opt' + cls + '" data-op="' + i + ':' + oi + '"' + (feito ? ' disabled' : '') + '><span class="l">' + LET[j] + '</span><span>' + esc(a.o[oi]) + '</span></button>';
-      });
-      if (feito) {
-        var certo = feito.esc === a.a;
-        h += '<div class="res ' + (certo ? 'okk' : 'nok') + '"><b class="t">' + (certo ? '✓ Correto!' : '✗ Não é essa. A resposta é a alternativa destacada em verde.') + '</b>' +
-          (a.fb ? esc(a.fb[feito.esc]) + (certo ? '' : '<br><br><b>Por que a correta é a melhor:</b> ' + esc(a.fb[a.a])) : esc(a.r)) + '<div class="mem">' + esc(a.m) + '</div></div>';
-      }
-      return h;
-    }
-    if (a.tipo === 'assoc') {
-      var t = T[key] || (T[key] = { dir: shuf(a.pares.map(function (_, j) { return j; })), sel: null, ok: feito ? a.pares.map(function (_, j) { return j; }) : [], x: null });
-      var h2 = '<div class="en">' + esc(a.e) + '</div><p class="note">Toque em um termo e depois na descrição que combina com ele.</p><div class="assoc"><div class="col">';
-      a.pares.forEach(function (p, j) { var mm = t.ok.indexOf(j) >= 0; h2 += '<button class="tile' + (mm ? ' m' : '') + (t.sel === j ? ' sel' : '') + '" data-as="' + i + ':L:' + j + '"' + (mm || feito ? ' disabled' : '') + '><span class="pn">' + (mm ? '✓' : '') + '</span>' + esc(p[0]) + '</button>'; });
-      h2 += '</div><div class="col">';
-      t.dir.forEach(function (j) { var mm = t.ok.indexOf(j) >= 0; h2 += '<button class="tile' + (mm ? ' m' : '') + (t.x === j ? ' x' : '') + '" data-as="' + i + ':R:' + j + '"' + (mm || feito ? ' disabled' : '') + '>' + (mm ? '<span class="pn">' + esc(a.pares[j][0]) + ':</span>' : '') + esc(a.pares[j][1]) + '</button>'; });
-      h2 += '</div></div>';
-      if (feito) h2 += '<div class="res okk"><b class="t">✓ Todas as associações corretas!</b>' + esc(a.r) + '<div class="mem">' + esc(a.m) + '</div></div>';
-      return h2;
-    }
-    if (a.tipo === 'ordem') {
-      var n = a.itens.length, t3 = T[key];
-      if (!t3) { var base = []; for (var b = 0; b < n; b++) base.push(b); var sh; do { sh = shuf(base); } while (sh.join() === base.join()); t3 = T[key] = { o: feito ? base : sh, chk: !!feito, tent: 0 }; }
-      var h3 = '<div class="en">' + esc(a.e) + '</div><p class="note">Use as setas para mover os itens e toque em "Conferir".</p><ol class="ord">';
-      t3.o.forEach(function (it, j) {
-        var cls = t3.chk ? (it === j ? ' g' : ' r') : '';
-        h3 += '<li class="' + cls + '"><span>' + esc(a.itens[it]) + (t3.chk && it === j && a.anos ? ' <span class="yr">' + a.anos[it] + '</span>' : '') + '</span>' +
-          (feito ? '' : '<span class="mv"><button data-mv="' + i + ':' + j + ':-1"' + (j ? '' : ' disabled') + '>↑</button><button data-mv="' + i + ':' + j + ':1"' + (j < n - 1 ? '' : ' disabled') + '>↓</button></span>') + '</li>';
-      });
-      h3 += '</ol>';
-      if (feito) h3 += '<div class="res okk"><b class="t">✓ Ordem correta!</b>' + esc(a.r) + '<div class="mem">' + esc(a.m) + '</div></div>';
-      else {
-        h3 += '<div class="nav"><span class="note">' + (t3.chk ? 'Os itens em vermelho estão fora do lugar.' : '') + '</span><span><button class="btn sm" data-conf="' + i + '">Conferir</button>' + (t3.tent >= 2 ? ' <button class="btn sm ghost" data-ver="' + i + '">Ver a ordem correta</button>' : '') + '</span></div>';
-      }
-      return h3;
-    }
-    if (a.tipo === 'pratica') {
-      var d = s.a[i] || T[key] || (T[key] = { ck: [], tx: '' });
-      var h4 = '<div class="en">' + esc(a.e) + '</div><p style="margin-top:0">' + esc(a.x) + '</p><div class="chk">';
-      a.check.forEach(function (c, j) { h4 += '<label><input type="checkbox" data-ck="' + i + ':' + j + '"' + (d.ck.indexOf(j) >= 0 ? ' checked' : '') + (feito ? ' disabled' : '') + '> ' + esc(c) + '</label>'; });
-      h4 += '</div><textarea data-tx="' + i + '" placeholder="Escreva aqui (mínimo de ' + a.min + ' caracteres)"' + (feito ? ' readonly' : '') + '>' + esc(d.tx) + '</textarea><div class="cnt" id="cnt' + i + '">' + d.tx.length + ' / ' + a.min + ' caracteres</div>';
-      h4 += '<details><summary class="note" style="cursor:pointer">Ver um exemplo</summary><div class="dica">' + esc(a.dica) + '</div></details>';
-      if (feito) h4 += '<div class="res okk"><b class="t">✓ Prática registrada em ' + dataC(feito.em) + '.</b>Ela fica guardada no seu histórico do curso.</div>';
-      else h4 += '<div class="nav"><span></span><button class="btn sm" data-pr="' + i + '">Registrar prática</button></div><div class="err" id="perr' + i + '"></div>';
-      return h4;
-    }
-    return '';
-  }
-
-  /* ---------- questionário do módulo e avaliação final ---------- */
   function quiz(m) {
     var s = M(m.id), h = '';
     if (s.q && s.q.ok && !V.quiz) {
-      h += '<div class="banner ok">✓ Questionário aprovado com ' + s.q.best + '%.</div>';
+      h += '<div class="banner ok">✓ Revisão aprovada com ' + s.q.best + '%.</div>';
       if (s.fim) h += next(m);
       h += '<p><button class="btn ghost sm" data-a="refazq">Refazer para treinar</button></p>';
       return h;
     }
     if (!V.quiz) V.quiz = { qs: m.quiz.map(function (q, i) { return { q: q, k: m.id + 'q' + i + '-' + Date.now() }; }), r: {}, fim: false };
-    return prova(V.quiz, 'Questionário do módulo', 'Responda as ' + m.quiz.length + ' questões. Para aprovar: pelo menos ' + Math.round(C.quizMin * 100) + '% de acertos. Pode refazer quantas vezes precisar.', C.quizMin, true);
+    return prova(V.quiz, 'Questões de revisão', 'Responda as ' + m.quiz.length + ' questões. Para concluir o módulo: pelo menos ' + Math.round(C.quizMin * 100) + '% de acertos. Pode refazer quantas vezes precisar.', C.quizMin, true);
   }
   function next(m) {
     var i = C.modulos.indexOf(m);
-    if (i < C.modulos.length - 1) return '<p><button class="btn gold" data-mod="' + (i + 1) + '">Próximo módulo →</button></p>';
+    if (i < C.modulos.length - 1) return '<p><button class="btn gold" data-aula="' + (i + 1) + '.0">Começar o módulo ' + (i + 2) + ' →</button></p>';
     return '<p><button class="btn gold" data-go="final">Ir para a avaliação final →</button></p>';
   }
   function prova(P, titulo, intro, min, comRes) {
@@ -1808,7 +1841,7 @@ window.FC_NUVEM = (function () {
     return h;
   }
   function finalTela() {
-    var h = barra() + '<div class="wrap"><button class="back" data-go="sala">← Módulos</button><h2 class="mtitle">Avaliação final</h2>';
+    var h = barra() + '<div class="wrap"><button class="back" data-go="sala">← Meu plano</button><h2 class="mtitle">Avaliação final</h2>';
     if (!modsOk()) return h + '<div class="banner warn">A avaliação final é liberada quando os 6 módulos estiverem concluídos.</div></div>';
     var t = S.fin.tent;
     if (t.length) h += '<div class="card"><b>Histórico de tentativas</b>' + t.map(function (x, i) { return '<div class="note">' + (i + 1) + 'ª tentativa · ' + dataC(x.em) + ' · ' + x.nota + '%' + (x.nota >= C.finalMin * 100 ? ' · aprovado' : '') + '</div>'; }).join('') + '</div>';
@@ -1838,7 +1871,7 @@ window.FC_NUVEM = (function () {
   function iniPer() { return S.cert && S.cert.ini ? S.cert.ini : S.mat; }
   function notaC() { return S.cert && S.cert.nota ? S.cert.nota : S.fin.nota; }
   function certTela() {
-    var h = '<div class="wrap"><button class="back" data-go="sala">← Módulos</button><h2 class="mtitle">Certificado</h2>';
+    var h = '<div class="wrap"><button class="back" data-go="sala">← Meu plano</button><h2 class="mtitle">Certificado</h2>';
     if (!S.fin.ok) return h + '<div class="banner warn">O certificado é liberado após a aprovação na avaliação final.</div></div>';
     var lib = liberaEm();
     if (PROD) lib = EST.liberaEm || lib;
@@ -1850,6 +1883,7 @@ window.FC_NUVEM = (function () {
       return h + '<div class="card"><p style="margin-top:0">Confira seus dados. O nome sai no certificado exatamente como você escrever.</p>' +
         '<label class="f">Nome completo</label><input class="f" id="cn" autocomplete="name" placeholder="Ex.: Maria Aparecida da Silva">' +
         '<label class="f">RG</label><input class="f" id="cc" placeholder="Ex.: 12.345.678-9"><label class="f">Órgão emissor / UF</label><input class="f" id="co" placeholder="Ex.: SSP/SP" style="text-transform:uppercase"><div class="err" id="cerr"></div>' +
+        '<div class="banner warn" style="margin:12px 0"><b>Atenção:</b> ao emitir o certificado, você confirma que concluiu o curso. A partir daí, o pedido de reembolso de 7 dias deixa de valer, porque o curso foi usado por completo.</div>' +
         '<button class="btn gold" data-a="emitir">Emitir certificado</button>' + (PROD ? '<p class="note" style="margin-bottom:0">Depois de emitido, o nome não pode ser alterado por aqui. Se houver erro, escreva para mundo.encantado.prof@gmail.com.</p>' : '') + '</div></div>';
     }
     return h + '<div class="banner ok">Certificado emitido em ' + dataC(S.cert.emit) + '. Código de autenticidade: <b>' + S.cert.cod + '</b></div>' +
@@ -1947,7 +1981,8 @@ window.FC_NUVEM = (function () {
     else if (V.tela !== 'vitrine' && V.tela !== 'validar' && !S.mat) V.tela = 'vitrine';
     if (V.tela === 'vitrine') b = vitrine();
     else if (V.tela === 'sala') b = sala();
-    else if (V.tela === 'mod') b = modulo();
+    else if (V.tela === 'aula') b = aulaTela();
+    else if (V.tela === 'rev') b = revTela();
     else if (V.tela === 'final') b = finalTela();
     else if (V.tela === 'cert') b = certTela();
     else if (V.tela === 'validar') b = validar();
@@ -1960,42 +1995,24 @@ window.FC_NUVEM = (function () {
 
   /* ---------- eventos ---------- */
   app.addEventListener('click', function (ev) {
-    var t = ev.target.closest('[data-go],[data-a],[data-mod],[data-passo],[data-card],[data-op],[data-as],[data-mv],[data-conf],[data-ver],[data-pr],[data-pq],[data-av]');
+    var t = ev.target.closest('[data-go],[data-a],[data-aula],[data-rev],[data-fase],[data-av],[data-qc],[data-qn],[data-pq]');
     if (!t || t.disabled) return;
     var d = t.dataset, m = V.mod != null ? C.modulos[V.mod] : null;
     if (d.go !== undefined) { if (!d.go) return; V.quiz = null; if (d.go !== 'final') V.prova = null; V.vres = null; return go(d.go); }
-    if (d.mod !== undefined) { var mi = +d.mod, s0 = M(C.modulos[mi].id), e0 = etapas(C.modulos[mi]); return go('mod', { mod: mi, passo: s0.fim ? 'e' : !e0.e ? 'e' : !e0.c ? 'c' : !e0.a ? 'a' : 'q', card: 0, quiz: null }); }
-    if (d.passo) { V.passo = d.passo; V.card = 0; V.quiz = null; render(); return window.scrollTo(0, 0); }
-    if (d.card !== undefined) { V.card = +d.card; return render(); }
-    if (d.av) {
-      var va = d.av.split(':'), pq = va[0].split('.'), vi = +pq[0], vj = +pq[1], QS = avs(m.id, vi), key0 = m.id + va[0];
-      if (+va[1] === QS[vj].a) {
-        var s9 = M(m.id); s9.ev = s9.ev || {}; s9.ev[va[0]] = 1; delete AV[key0];
-        var tudo = true; for (var z = 0; z < QS.length; z++) if (!s9.ev[vi + '.' + z]) tudo = false;
-        if (tudo && s9.e.indexOf(vi) < 0) s9.e.push(vi);
-        save(); checaFim(m);
-      } else (AV[key0] = AV[key0] || []).push(+va[1]);
-      return reAv(vi + '_' + vj);
+    if (d.aula !== undefined) { var pa = d.aula.split('.'); return go('aula', { mod: +pa[0], sec: +pa[1], fase: 'ler', qi: 0, resp: [], lido: false, quiz: null }); }
+    if (d.rev !== undefined) { if (d.rev === '') return; return go('rev', { mod: +d.rev, quiz: null }); }
+    if (d.fase) {
+      if (d.fase === 'q') { V.qi = 0; V.resp = []; }
+      if (d.fase === 'fim') { var s8 = M(m.id); s8.qa = s8.qa || {}; s8.qa[V.sec] = V.resp.map(function (r, k) { return r === C.mais[m.id][V.sec][k].a; }); if (s8.e.indexOf(V.sec) < 0) s8.e.push(V.sec); save(); checaFim(m); }
+      V.fase = d.fase; render(); return window.scrollTo(0, 0);
     }
-    if (d.op) { var p = d.op.split(':'), ai = +p[0]; M(m.id).a[ai] = { esc: +p[1], em: Date.now() }; save(); checaFim(m); return reAtv(m, ai); }
-    if (d.as) {
-      var q = d.as.split(':'), i2 = +q[0], key = m.id + '-' + i2, st = T[key], j = +q[2];
-      if (q[1] === 'L') { st.sel = j; st.x = null; }
-      else if (st.sel == null) { st.x = null; }
-      else if (st.sel === j) { st.ok.push(j); st.sel = null; st.x = null; if (st.ok.length === m.atividades[i2].pares.length) { M(m.id).a[i2] = { em: Date.now() }; save(); checaFim(m); } }
-      else { st.x = j; }
-      return reAtv(m, i2);
+    if (d.av !== undefined) {
+      var sc9 = C.ap[m.id].secoes[V.sec], key0 = m.id + V.sec;
+      if (+d.av === sc9.av.a) { V.lido = true; delete AV[key0]; } else (AV[key0] = AV[key0] || []).push(+d.av);
+      var y9 = document.getElementById('avq').getBoundingClientRect().top; render(); var n9 = document.getElementById('avq'); if (n9) window.scrollBy(0, n9.getBoundingClientRect().top - y9); return;
     }
-    if (d.mv) { var r = d.mv.split(':'), k3 = T[m.id + '-' + r[0]], a1 = +r[1], b1 = a1 + (+r[2]), tmp = k3.o[a1]; k3.o[a1] = k3.o[b1]; k3.o[b1] = tmp; k3.chk = false; return reAtv(m, +r[0]); }
-    if (d.conf) { var k4 = T[m.id + '-' + d.conf]; k4.chk = true; k4.tent++; if (k4.o.every(function (v, z) { return v === z; })) { M(m.id).a[+d.conf] = { em: Date.now() }; save(); checaFim(m); } return reAtv(m, +d.conf); }
-    if (d.ver) { var k5 = T[m.id + '-' + d.ver]; k5.o = k5.o.map(function (_, z) { return z; }).sort(function (x, y) { return x - y; }); k5.chk = true; M(m.id).a[+d.ver] = { em: Date.now(), viu: true }; save(); checaFim(m); return reAtv(m, +d.ver); }
-    if (d.pr) {
-      var i6 = +d.pr, a6 = m.atividades[i6], k6 = T[m.id + '-' + i6] || { ck: [], tx: '' };
-      var er = document.getElementById('perr' + i6);
-      if (k6.ck.length < Math.min(3, a6.check.length)) { er.textContent = 'Marque pelo menos 3 itens da lista.'; return; }
-      if (k6.tx.trim().length < a6.min) { er.textContent = 'Escreva pelo menos ' + a6.min + ' caracteres (agora: ' + k6.tx.trim().length + ').'; return; }
-      M(m.id).a[i6] = { ck: k6.ck, tx: k6.tx, em: Date.now() }; save(); checaFim(m); return reAtv(m, i6);
-    }
+    if (d.qc !== undefined) { V.resp[V.qi] = +d.qc; return render(); }
+    if (d.qn) { V.qi++; render(); return window.scrollTo(0, 0); }
     if (d.pq) { var pq = d.pq.split(':'), P = V.tela === 'final' ? V.prova : V.quiz; P.r[P.qs[+pq[0]].k] = +pq[1]; var y0 = t.getBoundingClientRect().top; render(); var nb = document.querySelector('[data-pq="' + d.pq + '"]'); if (nb) window.scrollBy(0, nb.getBoundingClientRect().top - y0); return; }
     var a = d.a;
     if (a === 'matricular') { S.mat = Date.now(); save(); return go('sala'); }
@@ -2013,7 +2030,7 @@ window.FC_NUVEM = (function () {
       if (!s1.q || pct > (s1.q.best || 0)) s1.q = { best: pct, ok: pct >= C.quizMin * 100 || (s1.q && s1.q.ok) };
       save(); var fez = checaFim(m); render(); window.scrollTo(0, 0);
       if (fez) { var bn = document.querySelector('.score'); if (bn) bn.insertAdjacentHTML('afterend', '<div class="banner ok">✓ Módulo concluído! ' + m.h + ' horas creditadas.</div>' + next(m)); }
-      else if (Q.fim && pct >= C.quizMin * 100) { var bn2 = document.querySelector('.score'); if (bn2) bn2.insertAdjacentHTML('afterend', '<div class="banner info">Questionário aprovado. Complete as outras etapas do módulo para receber as horas.</div>'); }
+      else if (Q.fim && pct >= C.quizMin * 100) { var bn2 = document.querySelector('.score'); if (bn2) bn2.insertAdjacentHTML('afterend', '<div class="banner info">Revisão aprovada. Conclua as aulas do módulo para receber as horas.</div>'); }
       else { var bn3 = document.querySelector('.score'); if (bn3) bn3.insertAdjacentHTML('afterend', '<p><button class="btn" data-a="refazq">Tentar de novo</button></p>'); }
       return;
     }
@@ -2036,7 +2053,7 @@ window.FC_NUVEM = (function () {
       if (nm2.split(' ').length < 2 || nm2.length < 6) { ce2.textContent = 'Escreva o nome completo.'; return; }
       if (rg2.replace(/[^0-9Xx]/g, '').length < 5) { ce2.textContent = 'Confira o número do RG.'; return; }
       if (og2.length < 4) { ce2.textContent = 'Informe o órgão emissor e o estado (ex.: SSP/SP).'; return; }
-      if (!confirm('Confira: o certificado sairá em nome de\n\n' + nm2 + '\nRG ' + rg2 + ' ' + og2 + '\n\nEstá correto?')) return;
+      if (!confirm('Confira: o certificado sairá em nome de\n\n' + nm2 + '\nRG ' + rg2 + ' ' + og2 + '\n\nEstá correto? Depois de emitir, o reembolso de 7 dias deixa de valer.')) return;
       t.disabled = true; t.textContent = 'Emitindo…';
       NV.sincronizar().then(function () { return NV.emitir({ nome: nm2, rg: rg2, orgao: og2 }); }).then(function () { render(); window.scrollTo(0, 0); }).catch(function (e) { ce2.textContent = e.message; t.disabled = false; t.textContent = 'Emitir certificado'; });
       return;
@@ -2054,7 +2071,7 @@ window.FC_NUVEM = (function () {
     if (a === 'pular') { S.pulo += DIAS_MIN; save(); return render(); }
     if (a === 'concluir') {
       if (!S.mat) S.mat = Date.now();
-      C.modulos.forEach(function (mm) { var s = M(mm.id); s.c = mm.cartoes.map(function (_, i) { return i; }); s.l = mm.leitura.partes.map(function (_, i) { return i; }); s.e = C.ap[mm.id].secoes.map(function (_, i) { return i; }); mm.atividades.forEach(function (_, i) { s.a[i] = s.a[i] || { em: Date.now(), atalho: true }; }); s.q = s.q && s.q.ok ? s.q : { best: 100, ok: true }; s.fim = s.fim || Date.now(); });
+      C.modulos.forEach(function (mm) { var s = M(mm.id); s.e = C.ap[mm.id].secoes.map(function (_, i) { return i; }); s.qa = s.qa || {}; s.e.forEach(function (k) { s.qa[k] = s.qa[k] || [true, true, false]; }); s.q = s.q && s.q.ok ? s.q : { best: 100, ok: true }; s.fim = s.fim || Date.now(); });
       save(); return go('sala');
     }
     if (a === 'zerar') { S = novo(); save(); T = {}; ORD = {}; return go('vitrine'); }
@@ -2082,4 +2099,4 @@ window.FC_NUVEM = (function () {
   if (PROD && NV) NV.iniciar();
 })();
 </script>
-<script>window.FC_V="23c2a6cfd9";(function(){try{fetch("v.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j.v&&j.v!==window.FC_V&&!/[?&]v=/.test(location.search+"")){location.replace(location.pathname+(location.search?location.search+"&":"?")+"v="+j.v+location.hash)}}).catch(function(){})}catch(e){}})();</script></body></html>
+<script>window.FC_V="24a60196a4";(function(){try{fetch("v.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j.v&&j.v!==window.FC_V&&!/[?&]v=/.test(location.search+"")){location.replace(location.pathname+(location.search?location.search+"&":"?")+"v="+j.v+location.hash)}}).catch(function(){})}catch(e){}})();</script></body></html>
