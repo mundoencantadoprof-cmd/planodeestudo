@@ -1,0 +1,22 @@
+# Confere se o site continua leve: as questões ficam em dados/q/ (não dentro do index.html)
+# e todos os arquivos que a página usa existem. Se falhar, rode na raiz: python3 tools/leve.py
+name: Site leve
+on:
+  pull_request:
+    paths: ['index.html', 'dados/**', 'img/b/**', 'tools/leve.py']
+  push:
+    branches: [main]
+    paths: ['index.html', 'dados/**', 'img/b/**', 'tools/leve.py']
+jobs:
+  conferir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/leve.py
+      - name: Nada pode mudar
+        run: |
+          if ! git diff --quiet || [ -n "$(git status --porcelain)" ]; then
+            git status --short | head -20
+            echo "::error::O index.html não está leve ou falta arquivo em dados/q. Rode: python3 tools/leve.py e publique o resultado."
+            exit 1
+          fi

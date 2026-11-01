@@ -44,7 +44,7 @@ function falaR(q,r){var t=(r===q.a?'Você acertou! ':'Resposta certa: letra '+L(
   if(r!==q.a&&q.w[r])t+=' Sua escolha, letra '+L(r)+': '+q.w[r];
   if(q.res&&q.res.length)t+=' Resolução comentada. '+q.res.map(function(x,k){return 'Passo '+(k+1)+': '+x}).join(' ');
   if(q.peg)t+=' Pegadinha: '+q.peg;if(q.mem)t+=' Para memorizar: '+memo(q);return t}
-function simDe(iso){var n=0,id=null;D.cur.semanas.forEach(function(w){w.dias.forEach(function(d){if(d.sabado==='simulado'||d.simulado){n++;if(d.data===iso)id='SIM'+n}})});return id}
+function simDe(iso){var n=0,id=null;D.cur.semanas.forEach(function(w){w.dias.forEach(function(d){if(d.sabado==='simulado'||d.simulado){n++;if(d.data===iso)id='SIM'+(n<10?'0':'')+n}})});return id}
 function temSim(id){return !!(D.sims&&D.sims[id])}
 /* carregamento sob demanda: o site passa D.carregar(ids,cb), que preenche D.aulas/D.sims e chama cb */
 var TENTOU={};
